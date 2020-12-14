@@ -4,7 +4,6 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -14,17 +13,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
 public class CodeGeneratorService {
 
     private final Logger log = LoggerFactory.getLogger(CodeGeneratorService.class);
-
-    private Map<String, Template> templateCache = new HashMap<>();
-
     private final TemplateListService templateListService;
+    private final Map<String, Template> templateCache = new HashMap<>();
 
     public CodeGeneratorService(TemplateListService templateListService) throws IOException {
         this.templateListService = templateListService;
