@@ -20,9 +20,12 @@ class CodeGeneratorServiceTest {
 
     private final CodeGeneratorService codeGeneratorService;
 
+    private final TemplateListService templateListService;
+
     @Autowired
-    public CodeGeneratorServiceTest(CodeGeneratorService codeGeneratorService) {
+    public CodeGeneratorServiceTest(CodeGeneratorService codeGeneratorService, TemplateListService templateListService) {
         this.codeGeneratorService = codeGeneratorService;
+        this.templateListService = templateListService;
     }
 
     private static CodeGeneratorProperties properties = new CodeGeneratorProperties();
@@ -37,7 +40,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateAzureConfiguration() {
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
-        assertEquals(3, configuration.size());
+        assertEquals(this.templateListService.listAzureTemplates().size(), configuration.size());
     }
 
     @Test
