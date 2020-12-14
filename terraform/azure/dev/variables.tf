@@ -4,8 +4,8 @@ variable "resource_group" {
 }
 
 variable "application_name" {
-  description = "The name of your JHipster application"
-  default     = "sampleNubesApplication"
+  description = "The name of your application"
+  default = "sampleNubesApplication"
 }
 
 variable "location" {
