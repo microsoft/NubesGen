@@ -1,4 +1,4 @@
-package io.github.nubesgen.rest;
+package io.github.nubesgen.web;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
