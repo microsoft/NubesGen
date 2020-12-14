@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 
-import javax.annotation.Generated;
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,7 +26,7 @@ class CodeGeneratorServiceTest {
         this.templateListService = templateListService;
     }
 
-    private static CodeGeneratorProperties properties = new CodeGeneratorProperties();
+    private static final CodeGeneratorProperties properties = new CodeGeneratorProperties();
 
     @BeforeAll
     public static void init() {
@@ -45,8 +43,8 @@ class CodeGeneratorServiceTest {
 
     @Test
     void generateFile() throws IOException {
-        String result = this.codeGeneratorService.generateFile("azure/dev/variables.tf", properties);
-        File testFile = new ClassPathResource("nubesgen/azure/dev/variables.tf").getFile();
+        String result = this.codeGeneratorService.generateFile("terraform/azure/dev/variables.tf", properties);
+        File testFile = new ClassPathResource("nubesgen/terraform/azure/dev/variables.tf").getFile();
         String test = new String(
                 Files.readAllBytes(testFile.toPath()));
 

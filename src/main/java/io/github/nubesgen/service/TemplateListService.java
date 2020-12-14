@@ -8,12 +8,12 @@ import java.util.List;
 @Service
 public class TemplateListService {
 
-    private List<String> azureList = new ArrayList<>();
+    private final List<String> azureList = new ArrayList<>();
 
     public TemplateListService() {
-        azureList.add("azure/dev/main.tf");
-        azureList.add("azure/dev/output.tf");
-        azureList.add("azure/dev/variables.tf");
+        azureList.add("terraform/azure/dev/main.tf");
+        azureList.add("terraform/azure/dev/output.tf");
+        azureList.add("terraform/azure/dev/variables.tf");
     }
 
     public List<String> listAzureTemplates() {
