@@ -1,14 +1,14 @@
 variable "resource_group" {
   description = "The resource group"
-  default = "{{resourceGroup}}"
+  default = "nubesgen"
 }
 
 variable "application_name" {
   description = "The name of your JHipster application"
-  default     = "{{applicationName}}"
+  default     = "sampleNubesApplication"
 }
 
 variable "location" {
   description = "The Azure location where all resources in this example should be created"
-  default     = "{{location}}"
+  default     = "westeurope"
 }
