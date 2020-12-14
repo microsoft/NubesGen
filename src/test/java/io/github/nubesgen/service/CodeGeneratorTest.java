@@ -8,7 +8,6 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CodeGeneratorTest {
 
     @Autowired
-    private CodeGenerator generator;
+    private CodeGeneratorService generator;
 
     @Test
     void generate() throws IOException {
