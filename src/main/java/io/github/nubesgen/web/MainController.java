@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +35,9 @@ public class MainController {
     @GetMapping(value = "/nubesgen.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateApplication() {
+        log.info("Generating cloud configuration...");
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
         //TODO use URL parameters
         CodeGeneratorProperties properties = new CodeGeneratorProperties();
@@ -55,6 +59,8 @@ public class MainController {
         responseHeaders.add("Content-Type", "application/octet-stream");
         responseHeaders.add("Content-Transfer-Encoding", "binary");
         responseHeaders.add("Content-Length", String.valueOf(out.length));
+        stopWatch.stop();
+        log.info("Generation finished in {}ms", stopWatch.getTotalTimeMillis());
         return new ResponseEntity<>(out, responseHeaders, HttpStatus.OK);
     }
 }
