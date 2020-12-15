@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class CodeGeneratorServiceTest {
 
+    private static final CodeGeneratorProperties properties = new CodeGeneratorProperties();
     private final CodeGeneratorService codeGeneratorService;
-
     private final TemplateListService templateListService;
 
     @Autowired
@@ -25,8 +25,6 @@ class CodeGeneratorServiceTest {
         this.codeGeneratorService = codeGeneratorService;
         this.templateListService = templateListService;
     }
-
-    private static final CodeGeneratorProperties properties = new CodeGeneratorProperties();
 
     @BeforeAll
     public static void init() {

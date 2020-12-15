@@ -10,8 +10,8 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,9 +29,8 @@ public class CodeGeneratorService {
             log.info("Compiling template key \"{}\"", key);
             ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
             Resource[] resources = resolver.getResources("classpath*:nubesgen/" + key + ".mustache");
-            Path path = resources[0].getFile().toPath();
-            String templateString = new String(
-                    Files.readAllBytes(path));
+            InputStream inputStream = resources[0].getInputStream();
+            String templateString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             Template template = Mustache.compiler().compile(templateString);
             templateCache.put(key, template);
         }
