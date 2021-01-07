@@ -47,6 +47,7 @@ You should be able to use other tools like [https://start.spring.io/](https://st
 
 ## Running NugesGen
 
+To generate a default application:
 
 ```
 curl http://localhost:8080/nubesgen.zip -o nubesgen.zip
@@ -54,4 +55,14 @@ curl http://localhost:8080/nubesgen.zip -o nubesgen.zip
 
 ```
 curl http://localhost:8080/nubesgen.zip | jar xv
+```
+
+If you want to pass some parameters:
+
+```
+curl http://localhost:8080/nubesgen.zip -d location=westeurope -d applicationName=myapplication -o nubesgen.zip
+```
+
+```
+curl http://localhost:8080/nubesgen.zip -d location=westeurope -d applicationName=myapplication | jar xv
 ```

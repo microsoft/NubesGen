@@ -8,6 +8,12 @@ public class CodeGeneratorProperties {
 
     private String applicationName;
 
+    public CodeGeneratorProperties() {
+        this.resourceGroup = "nubesgen";
+        this.location = "eastus";
+        this.applicationName = "sampleNubesApplication";
+    }
+
     public String getResourceGroup() {
         return resourceGroup;
     }
@@ -30,5 +36,14 @@ public class CodeGeneratorProperties {
 
     public void setApplicationName(String applicationName) {
         this.applicationName = applicationName;
+    }
+
+    @Override
+    public String toString() {
+        return "CodeGeneratorProperties{" +
+                "resourceGroup='" + resourceGroup + '\'' +
+                ", location='" + location + '\'' +
+                ", applicationName='" + applicationName + '\'' +
+                '}';
     }
 }

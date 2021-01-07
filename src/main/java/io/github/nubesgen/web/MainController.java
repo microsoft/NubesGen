@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
@@ -32,19 +33,14 @@ public class MainController {
     @GetMapping(value = "/nubesgen.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateDefaultApplication() {
-
         CodeGeneratorProperties properties = new CodeGeneratorProperties();
-        properties.setResourceGroup("nubesgen");
-        properties.setApplicationName("sampleNubesApplication");
-        properties.setLocation("westeurope");
-
         return generateApplication(properties);
     }
 
-    @PostMapping(value = "/nubesgen.zip")
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, value = "/nubesgen.zip")
     public @ResponseBody
-    ResponseEntity<byte[]> generateApplication(@RequestBody CodeGeneratorProperties properties) {
-        log.info("Generating cloud configuration...");
+    ResponseEntity<byte[]> generateApplication(CodeGeneratorProperties properties) {
+        log.info("Generating cloud configuration\n{}", properties);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         ByteArrayOutputStream zippedApplication;
