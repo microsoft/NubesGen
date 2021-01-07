@@ -9,10 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
@@ -34,17 +31,22 @@ public class MainController {
 
     @GetMapping(value = "/nubesgen.zip")
     public @ResponseBody
-    ResponseEntity<byte[]> generateApplication() {
-        log.info("Generating cloud configuration...");
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+    ResponseEntity<byte[]> generateDefaultApplication() {
 
-        //TODO use URL parameters
         CodeGeneratorProperties properties = new CodeGeneratorProperties();
         properties.setResourceGroup("nubesgen");
         properties.setApplicationName("sampleNubesApplication");
         properties.setLocation("westeurope");
 
+        return generateApplication(properties);
+    }
+
+    @PostMapping(value = "/nubesgen.zip")
+    public @ResponseBody
+    ResponseEntity<byte[]> generateApplication(@RequestBody CodeGeneratorProperties properties) {
+        log.info("Generating cloud configuration...");
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         ByteArrayOutputStream zippedApplication;
         try {
             Map<String, String> generatedFiles = this.codeGeneratorService.generateAzureConfiguration(properties);
