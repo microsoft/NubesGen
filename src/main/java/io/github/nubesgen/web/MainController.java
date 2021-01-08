@@ -1,6 +1,6 @@
 package io.github.nubesgen.web;
 
-import io.github.nubesgen.service.CodeGeneratorProperties;
+import io.github.nubesgen.configuration.NubesgenConfiguration;
 import io.github.nubesgen.service.CodeGeneratorService;
 import io.github.nubesgen.service.ZipService;
 import org.slf4j.Logger;
@@ -33,13 +33,13 @@ public class MainController {
     @GetMapping(value = "/nubesgen.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateDefaultApplication() {
-        CodeGeneratorProperties properties = new CodeGeneratorProperties();
+        NubesgenConfiguration properties = new NubesgenConfiguration();
         return generateApplication(properties);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, value = "/nubesgen.zip")
     public @ResponseBody
-    ResponseEntity<byte[]> generateApplication(CodeGeneratorProperties properties) {
+    ResponseEntity<byte[]> generateApplication(NubesgenConfiguration properties) {
         log.info("Generating cloud configuration\n{}", properties);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();

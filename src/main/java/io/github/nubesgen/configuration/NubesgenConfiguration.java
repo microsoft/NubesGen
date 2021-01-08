@@ -1,6 +1,6 @@
-package io.github.nubesgen.service;
+package io.github.nubesgen.configuration;
 
-public class CodeGeneratorProperties {
+public class NubesgenConfiguration {
 
     private String resourceGroup;
 
@@ -8,10 +8,13 @@ public class CodeGeneratorProperties {
 
     private String applicationName;
 
-    public CodeGeneratorProperties() {
+    private Database database;
+
+    public NubesgenConfiguration() {
         this.resourceGroup = "nubesgen";
         this.location = "eastus";
         this.applicationName = "sampleNubesApplication";
+        this.database = new Database();
     }
 
     public String getResourceGroup() {
@@ -38,12 +41,33 @@ public class CodeGeneratorProperties {
         this.applicationName = applicationName;
     }
 
+    public Database getDatabaseConfiguration() {
+        return database;
+    }
+
+    public void setDatabaseConfiguration(Database database) {
+        this.database = database;
+    }
+
+    public boolean isDatabaseNone() {
+        return DatabaseType.NONE.equals(this.database.getType());
+    }
+
+    public boolean isDatabaseMysql() {
+        return DatabaseType.MYSQL.equals(this.database.getType());
+    }
+
+    public boolean isDatabasePostgresql() {
+        return DatabaseType.POSTGRESQL.equals(this.database.getType());
+    }
+
     @Override
     public String toString() {
-        return "CodeGeneratorProperties{" +
+        return "NubesgenConfiguration{" +
                 "resourceGroup='" + resourceGroup + '\'' +
                 ", location='" + location + '\'' +
                 ", applicationName='" + applicationName + '\'' +
+                ", database=" + database +
                 '}';
     }
 }

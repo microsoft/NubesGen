@@ -20,7 +20,12 @@ resource "azurerm_resource_group" "main" {
 }
 
 module "database" {
+{{#databaseMysql}}
   source           = "./modules/mysql"
+{{/databaseMysql}}
+{{#databasePostgresql}}
+  source           = "./modules/postgresql"
+{{/databasePostgresql}}
   resource_group   = var.resource_group
   location         = var.location
   application_name = var.application_name

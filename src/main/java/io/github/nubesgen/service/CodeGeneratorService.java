@@ -2,6 +2,7 @@ package io.github.nubesgen.service;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.github.nubesgen.configuration.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,7 +27,7 @@ public class CodeGeneratorService {
     public CodeGeneratorService(TemplateListService templateListService) throws IOException {
         this.templateListService = templateListService;
         log.info("Compiling all templates");
-        for (String key : templateListService.listAzureTemplates()) {
+        for (String key : templateListService.listAllTemplates()) {
             log.info("Compiling template key \"{}\"", key);
             ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
             Resource[] resources = resolver.getResources("classpath*:nubesgen/" + key + ".mustache");
@@ -41,22 +43,34 @@ public class CodeGeneratorService {
         }
     }
 
-    public Map<String, String> generateAzureConfiguration(CodeGeneratorProperties properties) {
-        log.info("Generate Azure configuration");
-        Map<String, String> configuration = new HashMap<>();
-        for (String key : templateListService.listAzureTemplates()) {
-            String generatedFile = this.generateFile(key, properties);
-            configuration.put(key, generatedFile);
+    public Map<String, String> generateAzureConfiguration(NubesgenConfiguration configuration) {
+        log.info("Generate Azure configuation");
+        Map<String, String> result = new HashMap<>();
+        // Main templates
+        for (String key : templateListService.listMainTemplates()) {
+            result.put(key, this.generateFile(key, configuration));
         }
-        return configuration;
+        // MySQL templates
+        if (DatabaseType.MYSQL.equals(configuration.getDatabaseConfiguration().getType())) {
+            for (String key : templateListService.listMysqlTemplates()) {
+                result.put(key, this.generateFile(key, configuration));
+            }
+        }
+        // PostgreSQL templates
+        if (DatabaseType.POSTGRESQL.equals(configuration.getDatabaseConfiguration().getType())) {
+            for (String key : templateListService.listPostgresqlTemplates()) {
+                result.put(key, this.generateFile(key, configuration));
+            }
+        }
+        return result;
     }
 
-    String generateFile(String key, CodeGeneratorProperties properties) {
+    String generateFile(String key, NubesgenConfiguration configuration) {
         Template template = templateCache.get(key);
         if (template == null) {
             log.error("Template key \"{}\" does not exist", key);
             return "Template does not exist";
         }
-        return template.execute(properties);
+        return template.execute(configuration);
     }
 }
