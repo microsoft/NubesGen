@@ -31,8 +31,8 @@ class DefaultConfigurationTest {
 
     @BeforeAll
     public static void init() {
-        properties.setResourceGroup("nubesgen");
-        properties.setApplicationName("sampleNubesApplication");
+        properties.setResourceGroup("test-resource-group");
+        properties.setApplicationName("testapp");
         properties.setLocation("westeurope");
     }
 
