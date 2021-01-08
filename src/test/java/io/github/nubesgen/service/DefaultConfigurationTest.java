@@ -2,6 +2,8 @@ package io.github.nubesgen.service;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class DefaultConfigurationTest {
 
+    private final Logger log = LoggerFactory.getLogger(DefaultConfigurationTest.class);
     private static final CodeGeneratorProperties properties = new CodeGeneratorProperties();
     private final CodeGeneratorService codeGeneratorService;
     private final TemplateListService templateListService;
@@ -37,15 +40,18 @@ class DefaultConfigurationTest {
     }
 
     @Test
-    void generateAzureConfiguration() {
+    void generateDefaultConfiguration() throws IOException {
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
         assertEquals(this.templateListService.listAzureTemplates().size(), configuration.size());
+        for (String filename : templateListService.listAzureTemplates()) {
+            log.info("Validating {}", filename);
+            this.generateAndTestOneFile(filename);
+        }
     }
 
-    @Test
-    void generateFile() throws IOException {
-        String result = this.codeGeneratorService.generateFile("terraform/variables.tf", properties);
-        File testFile = new ClassPathResource("nubesgen/default/terraform/variables.tf").getFile();
+    private void generateAndTestOneFile(String filename) throws IOException {
+        String result = this.codeGeneratorService.generateFile(filename, properties);
+        File testFile = new ClassPathResource("nubesgen/default/" + filename).getFile();
         String test = new String(
                 Files.readAllBytes(testFile.toPath()));
 
