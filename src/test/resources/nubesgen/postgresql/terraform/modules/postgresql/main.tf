@@ -27,7 +27,7 @@ resource "azurerm_postgresql_database" "database" {
   resource_group_name = var.resource_group
   server_name         = azurerm_postgresql_server.database.name
   charset             = "UTF8"
-  collation           = "English_United States.UTF8"
+  collation           = "English_United States.1252"
 }
 
 # This rule is to enable the 'Allow access to Azure services' checkbox
