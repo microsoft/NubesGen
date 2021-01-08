@@ -34,7 +34,7 @@ resource "azurerm_postgresql_database" "database" {
 resource "azurerm_postgresql_firewall_rule" "database" {
   name                = "${var.application_name}-postgresql-firewall"
   resource_group_name = var.resource_group
-  server_name         = azurerm_postgresql_database.database.name
+  server_name         = azurerm_postgresql_server.database.name
   start_ip_address    = "0.0.0.0"
   end_ip_address      = "0.0.0.0"
 }
