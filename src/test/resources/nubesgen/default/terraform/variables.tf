@@ -5,7 +5,7 @@ variable "resource_group" {
 
 variable "application_name" {
   description = "The name of your application"
-  default     = "testapp"
+  default     = "nubesgen-testapp"
 }
 
 variable "location" {
