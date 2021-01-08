@@ -29,10 +29,15 @@ public class CodeGeneratorService {
             log.info("Compiling template key \"{}\"", key);
             ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
             Resource[] resources = resolver.getResources("classpath*:nubesgen/" + key + ".mustache");
-            InputStream inputStream = resources[0].getInputStream();
-            String templateString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-            Template template = Mustache.compiler().compile(templateString);
-            templateCache.put(key, template);
+            try {
+                InputStream inputStream = resources[0].getInputStream();
+                String templateString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                Template template = Mustache.compiler().compile(templateString);
+                templateCache.put(key, template);
+            } catch (Exception e) {
+                log.error("Could not compile template {}", key, e);
+                throw e;
+            }
         }
     }
 

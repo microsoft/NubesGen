@@ -13,15 +13,18 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests NubesGen with the default options.
+ */
 @SpringBootTest
-class CodeGeneratorServiceTest {
+class DefaultConfigurationTest {
 
     private static final CodeGeneratorProperties properties = new CodeGeneratorProperties();
     private final CodeGeneratorService codeGeneratorService;
     private final TemplateListService templateListService;
 
     @Autowired
-    public CodeGeneratorServiceTest(CodeGeneratorService codeGeneratorService, TemplateListService templateListService) {
+    public DefaultConfigurationTest(CodeGeneratorService codeGeneratorService, TemplateListService templateListService) {
         this.codeGeneratorService = codeGeneratorService;
         this.templateListService = templateListService;
     }
@@ -41,8 +44,8 @@ class CodeGeneratorServiceTest {
 
     @Test
     void generateFile() throws IOException {
-        String result = this.codeGeneratorService.generateFile("terraform/azure/dev/variables.tf", properties);
-        File testFile = new ClassPathResource("nubesgen/terraform/azure/dev/variables.tf").getFile();
+        String result = this.codeGeneratorService.generateFile("terraform/variables.tf", properties);
+        File testFile = new ClassPathResource("nubesgen/default/terraform/variables.tf").getFile();
         String test = new String(
                 Files.readAllBytes(testFile.toPath()));
 
