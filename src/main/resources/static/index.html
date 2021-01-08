@@ -14,18 +14,62 @@
 <body>
 <div class="container">
     <h1>NubesGen - the cloud infrastructure generator</h1>
-    <div class="alert alert-primary" role="alert">
-        <code>
-            curl http://localhost:8080/nubesgen.zip -o nubesgen.zip
-        </code>
-    </div>
-    <div class="alert alert-primary" role="alert">
-        <code>
-            curl http://localhost:8080/nubesgen.zip | jar xv
-        </code>
-    </div>
-</div>
+    <h2>Default configuration</h2>
+    <p>
+    <div>Download as a ZIP file:</div>
+    <code>
+        curl https://nubesgen.azurewebsites.net/nubesgen.zip -o nubesgen.zip
+    </code></p>
 
+    <p>
+    <div>Download and unzip automatically:</div>
+    <code>
+        curl https://nubesgen.azurewebsites.net/nubesgen.zip | jar xv
+    </code></p>
+
+    <h2>Using parameters</h2>
+    <p>
+    <div>Download as a ZIP file:</div>
+    <code>
+        curl http://localhost:8080/nubesgen.zip -d location=westeurope -d applicationName=myapplication -o nubesgen.zip
+    </code></p>
+
+    <p>
+    <div>Download and unzip automatically:</div>
+    <code>
+        curl http://localhost:8080/nubesgen.zip -d location=westeurope -d applicationName=myapplication | jar xv
+    </code>
+    </p>
+
+    <h2>Available parameters</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Paramater name</th>
+            <th scope="col">Default value</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">resourceGroup</th>
+            <td>nubesgen</td>
+            <td>The resource group</td>
+        </tr>
+        <tr>
+            <th scope="row">location</th>
+            <td>eastus</td>
+            <td>The Azure location where all resources in this example should be created</td>
+        </tr>
+        <tr>
+            <th scope="row">applicationName</th>
+            <td>sampleNubesApplication</td>
+            <td>The name of your application</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
