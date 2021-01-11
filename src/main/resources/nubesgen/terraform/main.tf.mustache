@@ -41,9 +41,11 @@ module "compute" {
   resource_group    = var.resource_group
   location          = var.location
   application_name  = var.application_name
+{{^databaseTypeNone}}
   database_url      = module.database.database_url
   database_username = module.database.database_username
   database_password = module.database.database_password
+{{/databaseTypeNone}}
   depends_on = [
 {{^databaseTypeNone}}
     module.database,
