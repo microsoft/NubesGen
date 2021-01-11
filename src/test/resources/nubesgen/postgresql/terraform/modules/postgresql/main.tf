@@ -6,7 +6,7 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_postgresql_server" "database" {
-  name                = "${var.application_name}-postgresql"
+  name                = "psql-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -23,7 +23,7 @@ resource "azurerm_postgresql_server" "database" {
 }
 
 resource "azurerm_postgresql_database" "database" {
-  name                = "${var.application_name}-postgresql-db"
+  name                = "psqldb-${var.application_name}-001"
   resource_group_name = var.resource_group
   server_name         = azurerm_postgresql_server.database.name
   charset             = "UTF8"
@@ -32,7 +32,7 @@ resource "azurerm_postgresql_database" "database" {
 
 # This rule is to enable the 'Allow access to Azure services' checkbox
 resource "azurerm_postgresql_firewall_rule" "database" {
-  name                = "${var.application_name}-postgresql-firewall"
+  name                = "psqlfw-${var.application_name}-001"
   resource_group_name = var.resource_group
   server_name         = azurerm_postgresql_server.database.name
   start_ip_address    = "0.0.0.0"

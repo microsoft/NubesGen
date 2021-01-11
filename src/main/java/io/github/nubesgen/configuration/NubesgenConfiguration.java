@@ -2,8 +2,6 @@ package io.github.nubesgen.configuration;
 
 public class NubesgenConfiguration {
 
-    private String resourceGroup;
-
     private String location;
 
     private String applicationName;
@@ -11,18 +9,9 @@ public class NubesgenConfiguration {
     private Database database;
 
     public NubesgenConfiguration() {
-        this.resourceGroup = "nubesgen";
         this.location = "eastus";
         this.applicationName = "sampleNubesApplication";
         this.database = new Database();
-    }
-
-    public String getResourceGroup() {
-        return resourceGroup;
-    }
-
-    public void setResourceGroup(String resourceGroup) {
-        this.resourceGroup = resourceGroup;
     }
 
     public String getLocation() {
@@ -64,9 +53,8 @@ public class NubesgenConfiguration {
     @Override
     public String toString() {
         return "NubesgenConfiguration{" +
-                "resourceGroup='" + resourceGroup + '\'' +
+                "applicationName='" + applicationName + '\'' +
                 ", location='" + location + '\'' +
-                ", applicationName='" + applicationName + '\'' +
                 ", database=" + database +
                 '}';
     }

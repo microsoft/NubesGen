@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.41"
+      version = ">= 2.42"
     }
   }
 }
@@ -38,7 +38,7 @@ module "compute" {
   database_username = module.database.database_username
   database_password = module.database.database_password
   depends_on = [
-    azurerm_resource_group.main,
-    module.database
+    module.database,
+    azurerm_resource_group.main
   ]
 }

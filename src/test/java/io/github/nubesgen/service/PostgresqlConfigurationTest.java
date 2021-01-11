@@ -38,7 +38,6 @@ class PostgresqlConfigurationTest {
 
     @BeforeAll
     public static void init() {
-        properties.setResourceGroup("test-resource-group");
         properties.setApplicationName("nubesgen-testapp-postgresql");
         properties.setLocation("westeurope");
         properties.setDatabaseConfiguration(new Database(DatabaseType.POSTGRESQL, Size.S));

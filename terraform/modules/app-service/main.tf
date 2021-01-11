@@ -1,7 +1,7 @@
 
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "compute" {
-  name                = "${var.application_name}-plan"
+  name                = "plan-${var.application_name}"
   resource_group_name = var.resource_group
   location            = var.location
 
