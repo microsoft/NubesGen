@@ -1,35 +1,748 @@
 <!doctype html>
-<html lang="en">
+<html class="no-js" lang="">
+
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <title>NubesGen - A simple Azure Infrastructure Generator.</title>
+  <meta name="description" content="NubesGen is a Terraform-based Azure Infrastructure generator. ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
 
-    <title>NubesGen - the cloud infrastructure generator</title>
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/fontawesome.css" rel="stylesheet">
+  <link href="/css/asciinema-player.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/9c869dd423.js" crossorigin="anonymous"></script>
+  <style type="text/css">
+    /* #main-section {
+            background-color: #4C1D95;
+            /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 304 304' width='304' height='304'%3E%3Cpath fill='%23356294' fill-opacity='0.4' d='M44.1 224a5 5 0 1 1 0 2H0v-2h44.1zm160 48a5 5 0 1 1 0 2H82v-2h122.1zm57.8-46a5 5 0 1 1 0-2H304v2h-42.1zm0 16a5 5 0 1 1 0-2H304v2h-42.1zm6.2-114a5 5 0 1 1 0 2h-86.2a5 5 0 1 1 0-2h86.2zm-256-48a5 5 0 1 1 0 2H0v-2h12.1zm185.8 34a5 5 0 1 1 0-2h86.2a5 5 0 1 1 0 2h-86.2zM258 12.1a5 5 0 1 1-2 0V0h2v12.1zm-64 208a5 5 0 1 1-2 0v-54.2a5 5 0 1 1 2 0v54.2zm48-198.2V80h62v2h-64V21.9a5 5 0 1 1 2 0zm16 16V64h46v2h-48V37.9a5 5 0 1 1 2 0zm-128 96V208h16v12.1a5 5 0 1 1-2 0V210h-16v-76.1a5 5 0 1 1 2 0zm-5.9-21.9a5 5 0 1 1 0 2H114v48H85.9a5 5 0 1 1 0-2H112v-48h12.1zm-6.2 130a5 5 0 1 1 0-2H176v-74.1a5 5 0 1 1 2 0V242h-60.1zm-16-64a5 5 0 1 1 0-2H114v48h10.1a5 5 0 1 1 0 2H112v-48h-10.1zM66 284.1a5 5 0 1 1-2 0V274H50v30h-2v-32h18v12.1zM236.1 176a5 5 0 1 1 0 2H226v94h48v32h-2v-30h-48v-98h12.1zm25.8-30a5 5 0 1 1 0-2H274v44.1a5 5 0 1 1-2 0V146h-10.1zm-64 96a5 5 0 1 1 0-2H208v-80h16v-14h-42.1a5 5 0 1 1 0-2H226v18h-16v80h-12.1zm86.2-210a5 5 0 1 1 0 2H272V0h2v32h10.1zM98 101.9V146H53.9a5 5 0 1 1 0-2H96v-42.1a5 5 0 1 1 2 0zM53.9 34a5 5 0 1 1 0-2H80V0h2v34H53.9zm60.1 3.9V66H82v64H69.9a5 5 0 1 1 0-2H80V64h32V37.9a5 5 0 1 1 2 0zM101.9 82a5 5 0 1 1 0-2H128V37.9a5 5 0 1 1 2 0V82h-28.1zm16-64a5 5 0 1 1 0-2H146v44.1a5 5 0 1 1-2 0V18h-26.1zm102.2 270a5 5 0 1 1 0 2H98v14h-2v-16h124.1zM242 149.9V160h16v34h-16v62h48v48h-2v-46h-48v-66h16v-30h-16v-12.1a5 5 0 1 1 2 0zM53.9 18a5 5 0 1 1 0-2H64V2H48V0h18v18H53.9zm112 32a5 5 0 1 1 0-2H192V0h50v2h-48v48h-28.1zm-48-48a5 5 0 0 1-9.8-2h2.07a3 3 0 1 0 5.66 0H178v34h-18V21.9a5 5 0 1 1 2 0V32h14V2h-58.1zm0 96a5 5 0 1 1 0-2H137l32-32h39V21.9a5 5 0 1 1 2 0V66h-40.17l-32 32H117.9zm28.1 90.1a5 5 0 1 1-2 0v-76.51L175.59 80H224V21.9a5 5 0 1 1 2 0V82h-49.59L146 112.41v75.69zm16 32a5 5 0 1 1-2 0v-99.51L184.59 96H300.1a5 5 0 0 1 3.9-3.9v2.07a3 3 0 0 0 0 5.66v2.07a5 5 0 0 1-3.9-3.9H185.41L162 121.41v98.69zm-144-64a5 5 0 1 1-2 0v-3.51l48-48V48h32V0h2v50H66v55.41l-48 48v2.69zM50 53.9v43.51l-48 48V208h26.1a5 5 0 1 1 0 2H0v-65.41l48-48V53.9a5 5 0 1 1 2 0zm-16 16V89.41l-34 34v-2.82l32-32V69.9a5 5 0 1 1 2 0zM12.1 32a5 5 0 1 1 0 2H9.41L0 43.41V40.6L8.59 32h3.51zm265.8 18a5 5 0 1 1 0-2h18.69l7.41-7.41v2.82L297.41 50H277.9zm-16 160a5 5 0 1 1 0-2H288v-71.41l16-16v2.82l-14 14V210h-28.1zm-208 32a5 5 0 1 1 0-2H64v-22.59L40.59 194H21.9a5 5 0 1 1 0-2H41.41L66 216.59V242H53.9zm150.2 14a5 5 0 1 1 0 2H96v-56.6L56.6 162H37.9a5 5 0 1 1 0-2h19.5L98 200.6V256h106.1zm-150.2 2a5 5 0 1 1 0-2H80v-46.59L48.59 178H21.9a5 5 0 1 1 0-2H49.41L82 208.59V258H53.9zM34 39.8v1.61L9.41 66H0v-2h8.59L32 40.59V0h2v39.8zM2 300.1a5 5 0 0 1 3.9 3.9H3.83A3 3 0 0 0 0 302.17V256h18v48h-2v-46H2v42.1zM34 241v63h-2v-62H0v-2h34v1zM17 18H0v-2h16V0h2v18h-1zm273-2h14v2h-16V0h2v16zm-32 273v15h-2v-14h-14v14h-2v-16h18v1zM0 92.1A5.02 5.02 0 0 1 6 97a5 5 0 0 1-6 4.9v-2.07a3 3 0 1 0 0-5.66V92.1zM80 272h2v32h-2v-32zm37.9 32h-2.07a3 3 0 0 0-5.66 0h-2.07a5 5 0 0 1 9.8 0zM5.9 0A5.02 5.02 0 0 1 0 5.9V3.83A3 3 0 0 0 3.83 0H5.9zm294.2 0h2.07A3 3 0 0 0 304 3.83V5.9a5 5 0 0 1-3.9-5.9zm3.9 300.1v2.07a3 3 0 0 0-1.83 1.83h-2.07a5 5 0 0 1 3.9-3.9zM97 100a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-48 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 96a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-144a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-96 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm96 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-32 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM49 36a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-32 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM33 68a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 240a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm80-176a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm112 176a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17 180a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17 84a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'%3E%3C/path%3E%3C/svg%3E"); */
+    }
+
+    */
+  </style>
+  <meta name="theme-color" content="#fafafa">
+
+  <!-- 
+
+    Custom Plan selection: 
+    https://github.com/drehimself/custom-radio-buttons/blob/master/src/components/SelectablePlan.vue
+
+    Product features:
+    https://www.landingkit.com/templates/saasfolio/tailwind/
+
+  -->
+
 </head>
-<body>
-<div class="container">
-    <h1>NubesGen - the cloud infrastructure generator</h1>
-    <div class="alert alert-primary" role="alert">
-        <code>
-            curl http://localhost:8080/nubesgen.zip -o nubesgen.zip
-        </code>
+
+<body class="min-h-screen bg-gray-100 flex flex-col justify-center">
+
+  <header x-data="{ isOpen: false}" class="bg-white shadow">
+    <nav class="container mx-auto px-6 py-3">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <img src="https://chmaneumsft.blob.core.windows.net/public/nubesgen-logo.svg" class="h-12 sm:h-12"></img>
+          </div>
+
+          <!-- Mobile menu button -->
+          <div class="flex md:hidden">
+            <button @click="isOpen = !isOpen" type="button"
+              class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600" aria-label="toggle menu">
+              <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
+                <path fill-rule="evenodd"
+                  d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
+                </path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+        <div class="md:flex items-center" :class="isOpen ? 'block' : 'hidden'">
+          <div class="flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1">
+            <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+              href="#">Getting Started</a>
+            <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+              href="#">Docs</a>
+            <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+              href="#">GitHub</a>
+            <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+              href="#">Help</a>
+          </div>
+        </div>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow w-full">
+
+    <!-- hero section -->
+    <div class="lg:2/6 xl:w-2/4 mt-20 lg:mt-40 lg:ml-16 text-left h-screen">
+      <div class="grid grid-cols-2 gap-4 w-screen -mh-80">
+
+        <div class="">
+          <div class="text-6xl font-semibold text-gray-900 leading-none">Kickstart your project on Azure <span
+            class="text-blue-700 underline">in minutes</span>!
+        </div>
+        <div class="mt-6 text-xl font-light text-true-gray-500 antialiased">Easily generate
+          <strong>Terraform</strong> templates and <strong>GitHub Actions</strong> for your project.
+        </div>
+        <button href="#generator-form"
+          class="mt-12 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out">
+          Generate your project infrastructure now
+        </button>
+        <div class="mt-12 lg:mt-32 lg:ml-20 text-left">
+          <bottom type="button"
+            class="flex items-center justify-center w-12 h-12 rounded-full bg-cool-gray-100 text-gray-800 animate-bounce hover:text-gray-900 hover:bg-cool-gray-50 transition duration-300 ease-in-out cursor-pointer">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </bottom>
+        </div>
+        </div>
+
+        <div class="">
+          <asciinema-player col=60 autoplay loop src="https://asciinema.org/a/28307.cast"></asciinema-player>
+        </div>
+
+      </div>
+
     </div>
-    <div class="alert alert-primary" role="alert">
-        <code>
-            curl http://localhost:8080/nubesgen.zip | jar xv
-        </code>
+
+
+    <!-- 
+        <div class="bg-gray-100 text-center md:text-left py-16 px-4">
+            <div class="container mx-auto">
+              <div class="pb-4 lg:pb-8">
+                <div class="lg:w-full text-center">
+                  <h2 class="text-2xl md:text-4xl font-bold">Summarize your products main benefits</h2>
+                </div>
+              </div>
+      
+              <div class="flex flex-col md:flex-row md:flex-wrap">
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-settings.png" class="w-10 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-settings.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">First main product benefit</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-star.png" class="w-10 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-star.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Second main product benefit</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+      
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-idea.png" class="w-6 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-idea.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Third main product benefit</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-user.png" class="w-6 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-user.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Fourth main product benefit</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex  flex-col md:flex-row md:flex-wrap my-4">
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-idea.png" class="w-6 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-idea.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Another claim</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+            
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-user.png" class="w-6 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-user.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Another claim</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+      
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-star.png" class="w-10 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-star.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Another claim</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+      
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-star.png" class="w-10 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-star.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Another claim</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="flex  flex-col md:flex-row md:flex-wrap my-4">
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-settings.png" class="w-10 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-settings.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Free migration</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+      
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-star.png" class="w-10 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-star.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Usefull intergration</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+      
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-idea.png" class="w-6 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-idea.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Awesome support</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+      
+                <div class="w-full lg:w-1/4 md:w-1/2 text-center lg:text-left mt-4 flex flex-col justify-between">
+                  <img data-src="img/icon-user.png" class="w-6 lazy self-start py-2 mx-auto lg:mx-0 loaded" alt="Benefit Icon" data-ll-status="loaded" src="img/icon-user.png">
+                  <div>
+                    <h4 class="mb-0 font-bold">Full refund</h4>
+                    <p class="mb-0">Short text to support claim</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+    <!-- https://www.algolia.com/developers/ -->
+
+    <!-- /hero section -->
+
+
+    <section id="main-section" class="content-center bg-blue-700 py-12 w-full -mt-32">
+      <a id="generator-form"></a>
+      <div class="w-full mx-auto">
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <div class="bg-white w-9/12 shadow mx-auto  overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Create a new infrastructure
+            </h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+              Personal details and application.
+            </p>
+          </div>
+          <div class="border-t border-b border-gray-200">
+            <dl>
+              <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Project name
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <input type="text"
+                    class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
+                    placeholder="my-saas-app" style="transition: all 0.15s ease 0s;">
+                  <p class="text-gray-500 italic">We will use this name to generate your resource names. Make it
+                    short. All spaces will be replaced by dashes. </p>
+                </dd>
+              </div>
+              <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Region
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <div class="object-center relative w-8/12 mx-auto">
+                    <img height="410" width="650" x="0" y="0"
+                      src="https://chmaneumsft.blob.core.windows.net/public/map.svg"></image>
+                    <div class="flex flex-row absolute inset-0 top-20 left-52 h-6">
+
+                      <div class="w-3 h-3 bg-green-600 self-center rounded-full"></div>
+                      <p class="ml-1 text-green-700">France</p>
+                    </div>
+
+                    <div class="flex flex-row absolute inset-0 top-24 left-14 h-6">
+                      <div class="w-3 h-3 bg-gray-600 self-center rounded-full"></div>
+                      <p class="ml-1 text-gray-700">West US</p>
+                    </div>
+
+                    <div class="flex flex-row absolute inset-0 top-28 left-28 h-6">
+                      <div class="w-3 h-3 bg-gray-600 self-center rounded-full"></div>
+                      <p class="ml-1 text-gray-700">East US</p>
+                    </div>
+
+                    <div class="flex flex-row absolute inset-0 top-48 left-96  h-6" style="">
+                      <div class="w-3 h-3 bg-gray-600 self-center rounded-full"></div>
+                      <p class="ml-1 text-gray-700">Australia East</p>
+                    </div>
+                  </div>
+                </dd>
+              </div>
+              <!-- <div id="tab_wrapper" x-data="{tab: 'resources'}">
+            <nav class="px-8 pt-2 border-b-2 border-gray-700 mb-4">
+                <div class="-mb-px flex justify-center">
+                    <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 mr-8 hover:border-blue-600"
+                        :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'resources' }"
+                        @click.prevent="tab = 'resources'">
+                        Resources
+                    </a>
+                    <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 mr-8 hover:border-blue-600"
+                        :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'security' }"
+                        @click.prevent="tab = 'security'">
+                        Security
+                    </a>
+                    <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 mr-8 hover:border-blue-600"
+                        href="#" :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'cost' }"
+                        @click.prevent="tab = 'cost'">
+                        Cost management
+                    </a>
+                    <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 hover:border-blue-600"
+                        href="#" :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'operations' }"
+                        @click.prevent="tab = 'operations'">
+                        Operations
+                    </a>
+                </div>
+            </nav>
+        </div> -->
+              <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Front Application
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <div class="container sm:mx-auto py-20 px-3">
+                    <div>
+                      <select>
+                        <option>Web Application</option>
+                        <option>Serverless Application</option>
+                        <option>Static Web App</option>
+                      </select>
+                    </div>
+                    <div class="grid lg:grid-cols-3 gap-6">
+                      <div class="p-3 border rounded px-5 py-6"> <span class="text-2xl">Free</span>
+                        <p class="text-gray-500 mt-4">For development and hobbyist projects</p>
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 text-gray-500">Shared compute</span> </div>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 text-gray-500">Free SSL</span> </div>
+                        <div class="mt-5  align-bottom"> <button
+                            class="border-2 border-blue-900 p-2 px-9 rounded text-purple-900 hover:shadow hover:bg-purple-900 hover:text-white">Choose
+                            plan</button> </div>
+                      </div>
+                      <div class="p-3 border rounded px-5 py-6"> <span class="text-2xl">Small</span>
+                        <p class="text-gray-500 mt-4">For most businesses that want to optimize the web series</p>
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 text-gray-500">Dedicated compute</span> </div>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 text-gray-500">Support custom domain</span> </div>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 text-gray-500">Free SSL</span> </div>
+                        <div class="mt-5 align-bottom"> <button
+                            class="border-2 border-blue-900 p-2 px-9 rounded text-purple-900 hover:shadow hover:bg-purple-900 hover:text-white">Choose
+                            plan</button> </div>
+                      </div>
+                      <div class="p-3 bg-blue-900 rounded px-5 py-6 text-white"> <span class="text-2xl">Large</span>
+                        <p class="text-white mt-4">For medium-sized web apps</p>
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-white"></i>
+                          <span class="ml-3 text-white">Dedicated compute</span> </div>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
+                          <span class="ml-3 text-white">Support custom domain</span> </div>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
+                          <span class="ml-3 text-white">Free SSL</span> </div>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
+                          <span class="ml-3 text-white">Autoscaling up to 10 instances</span> </div>
+                        <div class="mt-5"> <button
+                            class="border-2 border-white p-2 px-9 rounded text-white hover:shadow hover:bg-white hover:text-black">Choose
+                            plan</button> </div>
+                      </div>
+                    </div>
+                  </div>
+                </dd>
+              </div>
+              <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Database
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  $120,000
+                </dd>
+              </div>
+              <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Add-Ons
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  Soon, you'll be able to add several add-ons, including: Memory Cache Redis, File Storage, CDN, etc...
+                </dd>
+              </div>
+              <!-- <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">
+            Attachments
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+              <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                <div class="w-0 flex-1 flex items-center">
+                  <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="ml-2 flex-1 w-0 truncate">
+                    resume_back_end_developer.pdf
+                  </span>
+                </div>
+                <div class="ml-4 flex-shrink-0">
+                  <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Download
+                  </a>
+                </div>
+              </li>
+              <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                <div class="w-0 flex-1 flex items-center">
+                  <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="ml-2 flex-1 w-0 truncate">
+                    coverletter_back_end_developer.pdf
+                  </span>
+                </div>
+                <div class="ml-4 flex-shrink-0">
+                  <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Download
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </dd>
+        </div> -->
+            </dl>
+          </div>
+          <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              <button>Download infrastructure scripts</button>
+              <button type="button"
+                class="flex items-center justify-center px-4 py-1 mt-5 ml-2 mr-4 text-center text-white bg-green-600 border border-green-700 rounded-lg focus:outline-none hover:bg-green-700"
+                onclick="window.location='https://nubesgen.azurewebsites.net/nubesgen.zip'">
+                <svg class="w-5 h-5 mr-1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  viewBox="0 0 24 24" stroke="currentColor">
+                  <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                <span class="self-center text-xl font-medium">Download Terraform Scripts</span>
+                <svg class="w-3 h-3 ml-1 fill-current" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <path d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+            </h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500 inline-block">
+              You can also
+              <span class="flex flex-row px-2 py-1 bg-gray-100 border border-gray-600 border-1 rounded">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+                Copy CURL script
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="main-section" class="content-center mt-20 border-t-2 border-blue-800 bg-blue-700 py-12 w-full">
+      <a id="generator-form"></a>
+      <div class="w-full mx-auto">
+        <div class="bg-white w-9/12 p-5 rounded-md mx-auto border-1 border-yellow-800 flex flex-col">
+          <h2 class="text-4xl py-4">Create a new infrastructure</h2>
+
+          <div class="relative w-full mb-3">
+            <label class="block uppercase text-gray-700 text-m font-bold mb-2">Project name</label>
+            <input type="text"
+              class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
+              placeholder="my-saas-app" style="transition: all 0.15s ease 0s;">
+            <p class="text-gray-500 italic">We will use this name to generate your resource names. Make it
+              short. All spaces will be replaced by dashes. </p>
+          </div>
+
+          <!-- Region Map Selector -->
+          <div class="relative w-full mb-3">
+            <label class="block uppercase text-gray-700 text-m font-bold mb-2">Region</label>
+            <div class="object-center relative w-8/12 mx-auto">
+              <img height="410" width="650" x="0" y="0" src="https://chmaneumsft.blob.core.windows.net/public/map.svg">
+              </image>
+              <div class="flex flex-row absolute inset-0 top-32 left-72 h-6">
+
+                <div class="w-3 h-3 bg-green-600 self-center rounded-full"></div>
+                <p class="ml-1 text-green-700">France</p>
+              </div>
+
+              <div class="flex flex-row absolute inset-0 top-36 left-20 h-6">
+                <div class="w-3 h-3 bg-gray-600 self-center rounded-full"></div>
+                <p class="ml-1 text-gray-700">West US</p>
+              </div>
+
+              <div class="flex flex-row absolute inset-0 top-40 left-40 h-6">
+                <div class="w-3 h-3 bg-gray-600 self-center rounded-full"></div>
+                <p class="ml-1 text-gray-700">East US</p>
+              </div>
+
+              <div class="flex flex-row absolute inset-0 top-80  h-6" style="left: 35rem;">
+                <div class="w-3 h-3 bg-gray-600 self-center rounded-full"></div>
+                <p class="ml-1 text-gray-700">Australia East</p>
+              </div>
+            </div>
+          </div>
+          <!-- / Region Map Selector-->
+
+
+          <!-- Generator Tabs -->
+          <div id="tab_wrapper" x-data="{tab: 'resources'}">
+            <nav class="px-8 pt-2 border-b-2 border-gray-800 mb-4">
+              <div class="-mb-px flex justify-center">
+                <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 mr-8 hover:border-blue-600"
+                  :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'resources' }"
+                  @click.prevent="tab = 'resources'">
+                  Resources
+                </a>
+                <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 mr-8 hover:border-blue-600"
+                  :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'security' }"
+                  @click.prevent="tab = 'security'">
+                  Security
+                </a>
+                <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 mr-8 hover:border-blue-600"
+                  href="#" :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'cost' }"
+                  @click.prevent="tab = 'cost'">
+                  Cost management
+                </a>
+                <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 hover:border-blue-600"
+                  href="#" :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'operations' }"
+                  @click.prevent="tab = 'operations'">
+                  Operations
+                </a>
+              </div>
+            </nav>
+
+            <!-- Resources tab -->
+            <div id="tab_resources" x-show="tab === 'resources'">
+
+              <details open class="border border-gray-400 rounded mb-4 p-2">
+                <summary class="text-xl">
+                  Front App
+                </summary>
+
+                <div class="grid grid-cols-4 gap-2">
+                  <div
+                    class="w-48 rounded-lg shadow-md p-6 border-1 border-white cursor-pointer mb-8 bg-green-lightest shadow-outline-green hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
+                    <div class="flex justify-between items-center mb-3">
+                      <h1 class="uppercase text-base tracking-wide text-blue-darker my-2">Free
+                      </h1>
+                      <div>
+                        <svg class="w-6 h-6" width="200px" height="200px" viewBox="0 0 200 200" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="checkmark-outline" fill-rule="nonzero">
+                              <path
+                                d="M31.1442786,171.840796 C5.2779518,146.858262 -5.09578082,109.862896 4.01023318,75.0738981 C13.1162472,40.2848999 40.2848999,13.1162472 75.0738981,4.01023318 C109.862896,-5.09578082 146.858262,5.2779518 171.840796,31.1442786 C209.549474,70.1869539 209.010186,132.247241 170.628714,170.628714 C132.247241,209.010186 70.1869539,209.549474 31.1442786,171.840796 Z"
+                                id="Shape" fill="#97EBDC"></path>
+                              <polygon id="Path" fill="#00836D"
+                                points="66.6666667 89.4527363 89.5522388 112.437811 132.338308 69.6517413 146.268657 83.7810945 89.5522388 140.298507 52.7363184 103.482587 66.6666667 89.3532338">
+                              </polygon>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <div class="mb-1 font-semibold text-blue-darker">
+                      <span class="text-m mr-2">Free plan for development environment.</span>
+                    </div>
+
+                    <div>
+                      <span class="text-xl text-blue-alternate">$</span>
+                      <span class="text-xl font-semibold text-blue-darker">0</span>
+                      <span class="text-blue-alternate mx-1">/</span>
+                      <span class="text-lg text-blue-alternate">mo</span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="w-48 bg-white rounded-lg shadow-md p-6 cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
+                    <div class="flex justify-between items-center mb-3">
+                      <h1 class="uppercase text-base tracking-wide text-blue-darker my-2">Small
+                      </h1>
+                      <div>
+                        <svg class="hidden w-6 h-6" width="200px" height="200px" viewBox="0 0 200 200" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="checkmark-outline" fill-rule="nonzero">
+                              <path
+                                d="M31.1442786,171.840796 C5.2779518,146.858262 -5.09578082,109.862896 4.01023318,75.0738981 C13.1162472,40.2848999 40.2848999,13.1162472 75.0738981,4.01023318 C109.862896,-5.09578082 146.858262,5.2779518 171.840796,31.1442786 C209.549474,70.1869539 209.010186,132.247241 170.628714,170.628714 C132.247241,209.010186 70.1869539,209.549474 31.1442786,171.840796 Z"
+                                id="Shape" fill="#97EBDC"></path>
+                              <polygon id="Path" fill="#00836D"
+                                points="66.6666667 89.4527363 89.5522388 112.437811 132.338308 69.6517413 146.268657 83.7810945 89.5522388 140.298507 52.7363184 103.482587 66.6666667 89.3532338">
+                              </polygon>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <div class="mb-1 font-semibold text-blue-darker">
+                      <span class="text-m mr-2">Simple website.</span>
+                    </div>
+
+                    <div>
+                      <span class="text-xl text-blue-alternate">$</span>
+                      <span class="text-xl font-semibold text-blue-darker">45</span>
+                      <span class="text-blue-alternate mx-1">/</span>
+                      <span class="text-lg text-blue-alternate">mo</span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="w-48 bg-white rounded-lg shadow-md p-6 cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
+                    <div class="flex justify-between items-center mb-3">
+                      <h1 class="uppercase text-base tracking-wide text-blue-darker my-2">Large
+                      </h1>
+                      <div>
+                        <svg class="hidden w-6 h-6" width="200px" height="200px" viewBox="0 0 200 200" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="checkmark-outline" fill-rule="nonzero">
+                              <path
+                                d="M31.1442786,171.840796 C5.2779518,146.858262 -5.09578082,109.862896 4.01023318,75.0738981 C13.1162472,40.2848999 40.2848999,13.1162472 75.0738981,4.01023318 C109.862896,-5.09578082 146.858262,5.2779518 171.840796,31.1442786 C209.549474,70.1869539 209.010186,132.247241 170.628714,170.628714 C132.247241,209.010186 70.1869539,209.549474 31.1442786,171.840796 Z"
+                                id="Shape" fill="#97EBDC"></path>
+                              <polygon id="Path" fill="#00836D"
+                                points="66.6666667 89.4527363 89.5522388 112.437811 132.338308 69.6517413 146.268657 83.7810945 89.5522388 140.298507 52.7363184 103.482587 66.6666667 89.3532338">
+                              </polygon>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <div class="mb-1 font-semibold text-blue-darker">
+                      <span class="text-m mr-2">2 instances auto-scaled website.</span>
+                    </div>
+
+                    <div>
+
+                      <span class="text-xl text-blue-alternate">$</span>
+                      <span class="text-xl font-semibold text-blue-darker">145</span>
+                      <span class="text-blue-alternate mx-1">/</span>
+                      <span class="text-lg text-blue-alternate">mo</span>
+                    </div>
+                  </div>
+
+                </div>
+              </details>
+
+
+
+
+              <details class="mb-4">
+                <summary class="border-b-2 border-gray-600 text-xl">
+                  Database
+                </summary>
+              </details>
+
+              <details class="mb-4">
+                <summary class="border-b-2 border-gray-600 text-xl">
+                  Add-ons <span class="text-sm text-gray-600">(Redis Cache, Storage, Messaging,
+                    ...)</span>
+                </summary>
+              </details>
+
+
+            </div>
+            <!-- /Resources tab -->
+
+            <div id="tab_security" x-show="tab === 'security'">
+              <h4 class="text-3xl text-gray-800 font-bold mb-3">Security best practices</h4>
+              <p class="text-gray-600 mb-8">You'll be able soon to select a level of security for your
+                project. We'll manage virtual network isolation, Key Vault configuration and other
+                security features for you.</p>
+
+            </div>
+
+            <div id="tab_cost" x-show="tab === 'cost'">
+              <h4 class="text-3xl text-gray-800 font-bold mb-3">Cost management</h4>
+              <p class="text-gray-600 mb-8">NubesGen automatically creates budgets on resource groups
+                created for you. Soon, you'll be able to setup automatic email alerts too!</p>
+
+            </div>
+
+            <div id="tab_operations" x-show="tab === 'operations'">
+              <h4 class="text-3xl text-gray-800 font-bold mb-3">Naming convention done for you</h4>
+              <p class="text-gray-600 mb-8">NubesGen adheres to Microsoft recommended naming convention
+                patterns.</p>
+              <h4 class="text-3xl text-gray-800 font-bold mb-3">Tags</h4>
+              <p class="text-gray-600 mb-8">Environment tags are automatically added to all resources.
+                You'll soon be able to add custom tags as well.</p>
+              <h4 class="text-3xl text-gray-800 font-bold mb-3">Resource deletion protection</h4>
+              <p class="text-gray-600 mb-8">If you select Production environment, we'll create Azure Locks
+                on all your resources.</p>
+
+            </div>
+
+          </div>
+          <!-- /Generator Tabs -->
+
+
+
+
+
+
+          <hr class="my-2 border-1" />
+
+          <button type="button"
+            class="flex items-center justify-center px-4 py-1 mt-5 ml-2 mr-4 text-center text-white bg-green-600 border border-green-700 rounded-lg focus:outline-none hover:bg-green-700"
+            onclick="window.location='https://nubesgen.azurewebsites.net/nubesgen.zip'">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            <span class="self-center text-xl font-medium">Download Terraform Scripts</span>
+            <svg class="w-3 h-3 ml-1 fill-current" fill="none" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+              <path d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <p class="py-1">or <span class="underline">copy</span> curl command.</p>
+    </section>
+
     </div>
-</div>
+    </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-        crossorigin="anonymous"></script>
 
+  </main>
+
+
+
+  <footer class="p-4 bg-blue-900 text-white">
+    <div class="flex flex-col lg:flex-row items-center">
+      <p class="">Made by people at Microsoft</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <script src="js/main.js"></script>
+  <script src="js/asciinema-player.js"></script>
+  <!-- TODO: Add custom Analytics-->
 </body>
+
 </html>
