@@ -1,7 +1,7 @@
 package io.github.nubesgen.service;
 
-import io.github.nubesgen.configuration.Database;
-import io.github.nubesgen.configuration.Size;
+import io.github.nubesgen.configuration.ConfigurationSize;
+import io.github.nubesgen.configuration.DatabaseConfiguration;
 import io.github.nubesgen.configuration.DatabaseType;
 import io.github.nubesgen.configuration.NubesgenConfiguration;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,7 +40,7 @@ class PostgresqlConfigurationTest {
     public static void init() {
         properties.setApplicationName("nubesgen-testapp-postgresql");
         properties.setLocation("westeurope");
-        properties.setDatabaseConfiguration(new Database(DatabaseType.POSTGRESQL, Size.S));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.S));
     }
 
     @Test

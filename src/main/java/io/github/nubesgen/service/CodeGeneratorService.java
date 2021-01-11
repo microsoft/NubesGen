@@ -51,13 +51,13 @@ public class CodeGeneratorService {
             result.put(key, this.generateFile(key, configuration));
         }
         // MySQL templates
-        if (DatabaseType.MYSQL.equals(configuration.getDatabaseConfiguration().getType())) {
+        if (DatabaseType.MYSQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
             for (String key : templateListService.listMysqlTemplates()) {
                 result.put(key, this.generateFile(key, configuration));
             }
         }
         // PostgreSQL templates
-        if (DatabaseType.POSTGRESQL.equals(configuration.getDatabaseConfiguration().getType())) {
+        if (DatabaseType.POSTGRESQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
             for (String key : templateListService.listPostgresqlTemplates()) {
                 result.put(key, this.generateFile(key, configuration));
             }

@@ -1,17 +1,20 @@
 package io.github.nubesgen.configuration;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class NubesgenConfiguration {
 
     private String location;
 
     private String applicationName;
 
-    private Database database;
+    @JsonProperty("database")
+    private DatabaseConfiguration databaseConfiguration;
 
     public NubesgenConfiguration() {
         this.location = "eastus";
         this.applicationName = "sampleNubesApplication";
-        this.database = new Database();
+        this.databaseConfiguration = new DatabaseConfiguration();
     }
 
     public String getLocation() {
@@ -30,24 +33,24 @@ public class NubesgenConfiguration {
         this.applicationName = applicationName;
     }
 
-    public Database getDatabaseConfiguration() {
-        return database;
+    public DatabaseConfiguration getDatabaseConfiguration() {
+        return databaseConfiguration;
     }
 
-    public void setDatabaseConfiguration(Database database) {
-        this.database = database;
+    public void setDatabaseConfiguration(DatabaseConfiguration databaseConfiguration) {
+        this.databaseConfiguration = databaseConfiguration;
     }
 
     public boolean isDatabaseTypeNone() {
-        return DatabaseType.NONE.equals(this.database.getType());
+        return DatabaseType.NONE.equals(this.databaseConfiguration.getDatabaseType());
     }
 
     public boolean isDatabaseTypeMysql() {
-        return DatabaseType.MYSQL.equals(this.database.getType());
+        return DatabaseType.MYSQL.equals(this.databaseConfiguration.getDatabaseType());
     }
 
     public boolean isDatabaseTypePostgresql() {
-        return DatabaseType.POSTGRESQL.equals(this.database.getType());
+        return DatabaseType.POSTGRESQL.equals(this.databaseConfiguration.getDatabaseType());
     }
 
     @Override
@@ -55,7 +58,7 @@ public class NubesgenConfiguration {
         return "NubesgenConfiguration{" +
                 "applicationName='" + applicationName + '\'' +
                 ", location='" + location + '\'' +
-                ", database=" + database +
+                ", database=" + databaseConfiguration +
                 '}';
     }
 }

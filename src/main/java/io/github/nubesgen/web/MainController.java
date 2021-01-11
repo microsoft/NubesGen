@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
@@ -32,15 +33,16 @@ public class MainController {
 
     @GetMapping(value = "/nubesgen.zip")
     public @ResponseBody
-    ResponseEntity<byte[]> generateDefaultApplication() {
+    ResponseEntity<byte[]> generateDefaultApplication(HttpServletRequest request) {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        return generateApplication(properties);
+        return generateApplication(properties, request);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, value = "/nubesgen.zip")
+    @PostMapping("/nubesgen.zip")
     public @ResponseBody
-    ResponseEntity<byte[]> generateApplication(NubesgenConfiguration properties) {
+    ResponseEntity<byte[]> generateApplication(@RequestBody NubesgenConfiguration properties, HttpServletRequest request) {
         log.info("Generating cloud configuration\n{}", properties);
+        log.info("request {}", request);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         ByteArrayOutputStream zippedApplication;

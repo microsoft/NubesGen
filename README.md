@@ -79,9 +79,9 @@ curl http://localhost:8080/nubesgen.zip | jar xv
 If you want to pass some parameters:
 
 ```
-curl http://localhost:8080/nubesgen.zip -d location=westeurope -d applicationName=myapplication -o nubesgen.zip
+curl http://localhost:8080/nubesgen.zip -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json" -o nubesgen.zip
 ```
 
 ```
-curl http://localhost:8080/nubesgen.zip -d location=westeurope -d applicationName=myapplication | jar xv
+curl http://localhost:8080/nubesgen.zip -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json" | jar xv
 ```
