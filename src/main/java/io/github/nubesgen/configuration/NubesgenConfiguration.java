@@ -49,15 +49,15 @@ public class NubesgenConfiguration {
         this.database = database;
     }
 
-    public boolean isDatabaseNone() {
+    public boolean isDatabaseTypeNone() {
         return DatabaseType.NONE.equals(this.database.getType());
     }
 
-    public boolean isDatabaseMysql() {
+    public boolean isDatabaseTypeMysql() {
         return DatabaseType.MYSQL.equals(this.database.getType());
     }
 
-    public boolean isDatabasePostgresql() {
+    public boolean isDatabaseTypePostgresql() {
         return DatabaseType.POSTGRESQL.equals(this.database.getType());
     }
 
