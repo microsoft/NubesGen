@@ -18,6 +18,35 @@ resource "azurerm_resource_group" "main" {
     "terraform" = "true"
   }
 }
+
+module "compute" {
+  source            = "./modules/app-service"
+  resource_group    = var.resource_group
+  location          = var.location
+  application_name  = var.application_name
+{{^databaseTypeNone}}
+
+  database_url      = module.database.database_url
+  database_username = module.database.database_username
+  database_password = module.database.database_password
+{{/databaseTypeNone}}
+{{#addOnStorageBlob}}
+
+  azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
+  azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
+  azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
+{{/addOnStorageBlob}}
+
+  depends_on = [
+{{^databaseTypeNone}}
+    module.database,
+{{/databaseTypeNone}}
+{{#addOnStorageBlob}}
+    module.storage-blob,
+{{/addOnStorageBlob}}
+    azurerm_resource_group.main
+  ]
+}
 {{^databaseTypeNone}}
 
 module "database" {
@@ -35,21 +64,15 @@ module "database" {
   ]
 }
 {{/databaseTypeNone}}
+{{#addOnStorageBlob}}
 
-module "compute" {
-  source            = "./modules/app-service"
-  resource_group    = var.resource_group
-  location          = var.location
-  application_name  = var.application_name
-{{^databaseTypeNone}}
-  database_url      = module.database.database_url
-  database_username = module.database.database_username
-  database_password = module.database.database_password
-{{/databaseTypeNone}}
+module "storage-blob" {
+  source           = "./modules/storage-blob"
+  resource_group   = var.resource_group
+  location         = var.location
+  application_name = var.application_name
   depends_on = [
-{{^databaseTypeNone}}
-    module.database,
-{{/databaseTypeNone}}
     azurerm_resource_group.main
   ]
 }
+{{/addOnStorageBlob}}

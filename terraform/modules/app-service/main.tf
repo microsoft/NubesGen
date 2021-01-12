@@ -31,6 +31,6 @@ resource "azurerm_app_service" "compute" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 
     # These are app specific environment variables
-    "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+    "SPRING_PROFILES_ACTIVE"     = "azure"
   }
 }

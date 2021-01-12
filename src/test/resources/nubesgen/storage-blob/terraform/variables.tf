@@ -1,6 +1,6 @@
 variable "resource_group" {
   description = "The resource group"
-  default     = "rg-nubesgen-testapp-001"
+  default     = "rg-nubesgen-testapp-storage-blob-001"
 }
 
 variable "application_name" {

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,6 +16,8 @@ public class TemplateListService {
     private final List<String> mysqlList = new ArrayList<>();
 
     private final List<String> postgresqlList = new ArrayList<>();
+
+    private final List<String> storageBlobList = new ArrayList<>();
 
     public TemplateListService() {
         // Main files
@@ -37,6 +40,11 @@ public class TemplateListService {
         postgresqlList.add("terraform/modules/postgresql/outputs.tf");
         postgresqlList.add("terraform/modules/postgresql/README.md");
         postgresqlList.add("terraform/modules/postgresql/variables.tf");
+        // Storage Blob module
+        storageBlobList.add("terraform/modules/storage-blob/main.tf");
+        storageBlobList.add("terraform/modules/storage-blob/outputs.tf");
+        storageBlobList.add("terraform/modules/storage-blob/README.md");
+        storageBlobList.add("terraform/modules/storage-blob/variables.tf");
     }
 
     public List<String> listMainTemplates() {
@@ -51,8 +59,12 @@ public class TemplateListService {
         return postgresqlList;
     }
 
+    public List<String> listStorageBlobTemplates() {
+        return storageBlobList;
+    }
+
     public List<String> listAllTemplates() {
-        return Stream.of(mainList, mysqlList, postgresqlList)
+        return Stream.of(mainList, mysqlList, postgresqlList, storageBlobList)
                 .flatMap(list -> list.stream()).collect(Collectors.toList());
     }
 }

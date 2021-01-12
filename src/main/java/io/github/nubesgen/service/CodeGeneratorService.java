@@ -62,6 +62,14 @@ public class CodeGeneratorService {
                 result.put(key, this.generateFile(key, configuration));
             }
         }
+        // Add Ons
+        for (AddOnConfiguration addOn : configuration.getAddOns()) {
+            if (AddOnType.STORAGE_BLOB.equals(addOn.getAddOnType())) {
+                for (String key : templateListService.listStorageBlobTemplates()) {
+                    result.put(key, this.generateFile(key, configuration));
+                }
+            }
+        }
         return result;
     }
 
