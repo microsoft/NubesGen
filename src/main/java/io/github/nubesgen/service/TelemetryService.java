@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Profile("azure")
 public class TelemetryService {
 
-    private final Logger log = LoggerFactory.getLogger(CodeGeneratorService.class);
+    private final Logger log = LoggerFactory.getLogger(TelemetryService.class);
 
 
 }
