@@ -1,7 +1,7 @@
 
 locals {
   // A storage blob cannot contain hyphens, and is limited to 23 characters long
-  storage-blob-name = substr(replace(var.application_name, "-", ""), 1, 19)
+  storage-blob-name = substr(replace(var.application_name, "-", ""), 0, 19)
 }
 
 resource "azurerm_storage_account" "storage-blob" {
