@@ -1,11 +1,15 @@
 package io.github.nubesgen.configuration;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NubesgenConfiguration {
+
+    private Date date = new Date();
 
     private String location;
 
@@ -21,6 +25,10 @@ public class NubesgenConfiguration {
         this.location = "eastus";
         this.applicationName = "sampleNubesApplication";
         this.databaseConfiguration = new DatabaseConfiguration();
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public String getLocation() {
@@ -55,18 +63,22 @@ public class NubesgenConfiguration {
         this.addOns = addOns;
     }
 
+    @JsonIgnore
     public boolean isDatabaseTypeNone() {
         return DatabaseType.NONE.equals(this.databaseConfiguration.getDatabaseType());
     }
 
+    @JsonIgnore
     public boolean isDatabaseTypeMysql() {
         return DatabaseType.MYSQL.equals(this.databaseConfiguration.getDatabaseType());
     }
 
+    @JsonIgnore
     public boolean isDatabaseTypePostgresql() {
         return DatabaseType.POSTGRESQL.equals(this.databaseConfiguration.getDatabaseType());
     }
 
+    @JsonIgnore
     public boolean isAddOnStorageBlob() {
         return this.getAddOns().stream()
                 .anyMatch(addOn -> AddOnType.STORAGE_BLOB.equals(addOn.getAddOnType()));
@@ -75,7 +87,8 @@ public class NubesgenConfiguration {
     @Override
     public String toString() {
         return "NubesgenConfiguration{" +
-                "location='" + location + '\'' +
+                "date=" + date +
+                ", location='" + location + '\'' +
                 ", applicationName='" + applicationName + '\'' +
                 ", databaseConfiguration=" + databaseConfiguration +
                 ", addOns=" + addOns +
