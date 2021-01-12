@@ -1,7 +1,7 @@
 
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "compute" {
-  name                = "plan-${var.application_name}"
+  name                = "plan-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -16,7 +16,7 @@ resource "azurerm_app_service_plan" "compute" {
 
 # This creates the service definition
 resource "azurerm_app_service" "compute" {
-  name                = var.application_name
+  name                = "nubesgen"
   resource_group_name = var.resource_group
   location            = var.location
   app_service_plan_id = azurerm_app_service_plan.compute.id
@@ -32,5 +32,8 @@ resource "azurerm_app_service" "compute" {
 
     # These are app specific environment variables
     "SPRING_PROFILES_ACTIVE"     = "azure"
+    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
+    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
+    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
   }
 }

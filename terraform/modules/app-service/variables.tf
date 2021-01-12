@@ -17,5 +17,17 @@ variable "sku_tier" {
 
 variable "sku_size" {
   description = "The Azure App Service plan size"
-  default     = "B1"
+  default     = "P1v2"
+}
+
+variable "azure_storage_account_name" {
+  description = "The name of the Azure Storage account"
+}
+
+variable "azure_storage_account_key" {
+  description = "The access key of the Azure Storage account"
+}
+
+variable "azure_storage_blob_endpoint" {
+  description = "The blob endpoint URL of the Azure Storage account"
 }

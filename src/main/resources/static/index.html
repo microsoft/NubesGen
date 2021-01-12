@@ -28,16 +28,18 @@
     </code></p>
 
     <h2>Using parameters</h2>
-    <p>
-    <div>Download as a ZIP file:</div>
-    <code>
-        curl https://nubesgen.azurewebsites.net/nubesgen.zip -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json" -o nubesgen.zip
-    </code></p>
 
     <p>
-    <div>Download and unzip automatically:</div>
+    <div>To use MySQL:</div>
     <code>
         curl https://nubesgen.azurewebsites.net/nubesgen.zip -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json" | jar xv
+    </code>
+    </p>
+
+    <p>
+    <div>To use Blob storage:</div>
+    <code>
+        curl https://nubesgen.azurewebsites.net/nubesgen.zip -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "NONE", "size": "S"}, "addOns": [{"type": "STORAGE_BLOB", "size": "M"}]}' -H "Content-Type: application/json" | jar xv
     </code>
     </p>
 
@@ -60,6 +62,16 @@
             <th scope="row">applicationName</th>
             <td>sampleNubesApplication</td>
             <td>The name of your application</td>
+        </tr>
+        <tr>
+            <th scope="row">database</th>
+            <td>{"type": "MYSQL", "size": "S"}</td>
+            <td>Database type can be NONE, MYSQL, POSTGRESQL</td>
+        </tr>
+        <tr>
+            <th scope="row">addOns</th>
+            <td></td>
+            <td>For blob storage: [{"type": "STORAGE_BLOB", "size": "M"}]</td>
         </tr>
         </tbody>
     </table>
