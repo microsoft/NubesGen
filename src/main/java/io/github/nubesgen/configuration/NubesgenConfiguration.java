@@ -84,6 +84,12 @@ public class NubesgenConfiguration {
                 .anyMatch(addOn -> AddOnType.STORAGE_BLOB.equals(addOn.getAddOnType()));
     }
 
+    @JsonIgnore
+    public boolean isAddOnRedis() {
+        return this.getAddOns().stream()
+                .anyMatch(addOn -> AddOnType.REDIS.equals(addOn.getAddOnType()));
+    }
+
     @Override
     public String toString() {
         return "NubesgenConfiguration{" +

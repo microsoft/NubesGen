@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -46,30 +47,31 @@ public class CodeGeneratorService {
         log.info("Generate Azure configuation");
         Map<String, String> result = new HashMap<>();
         // Main templates
-        for (String key : templateListService.listMainTemplates()) {
-            result.put(key, this.generateFile(key, configuration));
-        }
+        generateFileList(configuration, templateListService.listMainTemplates(), result);
         // MySQL templates
         if (DatabaseType.MYSQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
-            for (String key : templateListService.listMysqlTemplates()) {
-                result.put(key, this.generateFile(key, configuration));
-            }
+            generateFileList(configuration, templateListService.listMysqlTemplates(), result);
         }
         // PostgreSQL templates
         if (DatabaseType.POSTGRESQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
-            for (String key : templateListService.listPostgresqlTemplates()) {
-                result.put(key, this.generateFile(key, configuration));
-            }
+            generateFileList(configuration, templateListService.listPostgresqlTemplates(), result);
         }
         // Add Ons
         for (AddOnConfiguration addOn : configuration.getAddOns()) {
+            if (AddOnType.REDIS.equals(addOn.getAddOnType())) {
+                generateFileList(configuration, templateListService.listRedisTemplates(), result);
+            }
             if (AddOnType.STORAGE_BLOB.equals(addOn.getAddOnType())) {
-                for (String key : templateListService.listStorageBlobTemplates()) {
-                    result.put(key, this.generateFile(key, configuration));
-                }
+                generateFileList(configuration, templateListService.listStorageBlobTemplates(), result);
             }
         }
         return result;
+    }
+
+    private void generateFileList(NubesgenConfiguration configuration, List<String> fileList, Map<String, String> result) {
+        for (String key : fileList) {
+            result.put(key, this.generateFile(key, configuration));
+        }
     }
 
     String generateFile(String key, NubesgenConfiguration configuration) {

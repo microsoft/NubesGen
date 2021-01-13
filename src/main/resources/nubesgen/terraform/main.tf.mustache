@@ -30,6 +30,11 @@ module "compute" {
   database_username = module.database.database_username
   database_password = module.database.database_password
 {{/databaseTypeNone}}
+{{#addOnRedis}}
+
+  azure_redis_host       = module.redis.azure_redis_host
+  azure_redis_password   = module.redis.azure_redis_password
+{{/addOnRedis}}
 {{#addOnStorageBlob}}
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
@@ -41,6 +46,9 @@ module "compute" {
 {{^databaseTypeNone}}
     module.database,
 {{/databaseTypeNone}}
+{{#addOnRedis}}
+    module.redis,
+{{/addOnRedis}}
 {{#addOnStorageBlob}}
     module.storage-blob,
 {{/addOnStorageBlob}}
@@ -76,3 +84,15 @@ module "storage-blob" {
   ]
 }
 {{/addOnStorageBlob}}
+{{#addOnRedis}}
+
+module "redis" {
+  source           = "./modules/redis"
+  resource_group   = var.resource_group
+  location         = var.location
+  application_name = var.application_name
+  depends_on = [
+    azurerm_resource_group.main
+  ]
+}
+{{/addOnRedis}}

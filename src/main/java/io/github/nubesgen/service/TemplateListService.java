@@ -17,6 +17,8 @@ public class TemplateListService {
 
     private final List<String> postgresqlList = new ArrayList<>();
 
+    private final List<String> redisList = new ArrayList<>();
+
     private final List<String> storageBlobList = new ArrayList<>();
 
     public TemplateListService() {
@@ -40,6 +42,11 @@ public class TemplateListService {
         postgresqlList.add("terraform/modules/postgresql/outputs.tf");
         postgresqlList.add("terraform/modules/postgresql/README.md");
         postgresqlList.add("terraform/modules/postgresql/variables.tf");
+        // Redis module
+        redisList.add("terraform/modules/redis/main.tf");
+        redisList.add("terraform/modules/redis/outputs.tf");
+        redisList.add("terraform/modules/redis/README.md");
+        redisList.add("terraform/modules/redis/variables.tf");
         // Storage Blob module
         storageBlobList.add("terraform/modules/storage-blob/main.tf");
         storageBlobList.add("terraform/modules/storage-blob/outputs.tf");
@@ -59,12 +66,16 @@ public class TemplateListService {
         return postgresqlList;
     }
 
+    public List<String> listRedisTemplates() {
+        return redisList;
+    }
+
     public List<String> listStorageBlobTemplates() {
         return storageBlobList;
     }
 
     public List<String> listAllTemplates() {
-        return Stream.of(mainList, mysqlList, postgresqlList, storageBlobList)
+        return Stream.of(mainList, mysqlList, postgresqlList, redisList, storageBlobList)
                 .flatMap(list -> list.stream()).collect(Collectors.toList());
     }
 }
