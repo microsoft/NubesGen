@@ -31,7 +31,7 @@ resource "azurerm_app_service" "compute" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 
     # These are app specific environment variables
-    "SPRING_PROFILES_ACTIVE"     = "azure"
+    "SPRING_PROFILES_ACTIVE"     = "prod,azure"
     "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
     "SPRING_DATASOURCE_USERNAME" = var.database_username
     "SPRING_DATASOURCE_PASSWORD" = var.database_password
