@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.nubesgen.configuration.NubesgenConfiguration;
 import io.github.nubesgen.service.CodeGeneratorService;
 import io.github.nubesgen.service.TelemetryService;
-import io.github.nubesgen.service.CompressionService;
+import io.github.nubesgen.service.compression.CompressionService;
+import io.github.nubesgen.service.compression.TarGzService;
+import io.github.nubesgen.service.compression.ZipService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,29 +28,49 @@ public class MainController {
 
     private final CodeGeneratorService codeGeneratorService;
 
-    private final CompressionService compressionService;
+    private final TarGzService tarGzService;
+
+    private final ZipService zipService;
 
     private final ObjectMapper objectMapper;
 
     @Autowired(required = false)
     private TelemetryService telemetryService;
 
-    public MainController(CodeGeneratorService codeGeneratorService, CompressionService compressionService, ObjectMapper objectMapper) {
+    public MainController(CodeGeneratorService codeGeneratorService, TarGzService tarGzService, ZipService zipService, ObjectMapper objectMapper) {
         this.codeGeneratorService = codeGeneratorService;
-        this.compressionService = compressionService;
+        this.tarGzService = tarGzService;
+        this.zipService = zipService;
         this.objectMapper = objectMapper;
+    }
+
+    @GetMapping(value = "/nubesgen.zip")
+    public @ResponseBody
+    ResponseEntity<byte[]> generateZipApplication() {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        return generateZipApplication(properties);
+    }
+
+    @PostMapping("/nubesgen.zip")
+    public @ResponseBody
+    ResponseEntity<byte[]> generateZipApplication(@RequestBody NubesgenConfiguration properties) {
+        return this.generateApplication(properties, this.zipService);
     }
 
     @GetMapping(value = "/nubesgen.tgz")
     public @ResponseBody
-    ResponseEntity<byte[]> generateDefaultApplication() {
+    ResponseEntity<byte[]> generateTgzApplication() {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        return generateApplication(properties);
+        return generateTgzApplication(properties);
     }
 
     @PostMapping("/nubesgen.tgz")
     public @ResponseBody
-    ResponseEntity<byte[]> generateApplication(@RequestBody NubesgenConfiguration properties) {
+    ResponseEntity<byte[]> generateTgzApplication(@RequestBody NubesgenConfiguration properties) {
+        return this.generateApplication(properties, this.tarGzService);
+    }
+
+    private ResponseEntity<byte[]> generateApplication(NubesgenConfiguration properties, CompressionService compressionService) {
         try {
             String jsonConfiguration = objectMapper.writeValueAsString(properties);
             log.info("Generating cloud configuration\n{}", jsonConfiguration);
@@ -63,14 +85,18 @@ public class MainController {
         ByteArrayOutputStream zippedApplication;
         try {
             Map<String, String> generatedFiles = this.codeGeneratorService.generateAzureConfiguration(properties);
-            zippedApplication = this.compressionService.compressApplication(generatedFiles);
+            zippedApplication = compressionService.compressApplication(generatedFiles);
         } catch (Exception e) {
             log.error("Error generating application", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         byte[] out = zippedApplication.toByteArray();
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("content-disposition", "attachment; filename=nubesgen.tgz");
+        if (compressionService.isZip()) {
+            responseHeaders.add("content-disposition", "attachment; filename=nubesgen.zip");
+        } else {
+            responseHeaders.add("content-disposition", "attachment; filename=nubesgen.tgz");
+        }
         responseHeaders.add("Content-Type", "application/octet-stream");
         responseHeaders.add("Content-Transfer-Encoding", "binary");
         responseHeaders.add("Content-Length", String.valueOf(out.length));

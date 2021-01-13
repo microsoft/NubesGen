@@ -72,6 +72,12 @@ To generate a default application:
 curl http://localhost:8080/nubesgen.tgz | tar -xzvf -
 ```
 
+or (as a .zip file):
+
+```
+curl http://localhost:8080/nubesgen.zip | jar xv
+```
+
 If you want to pass some parameters:
 
 ```

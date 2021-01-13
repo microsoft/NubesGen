@@ -1,4 +1,4 @@
-package io.github.nubesgen.service;
+package io.github.nubesgen.service.compression;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -13,8 +13,9 @@ import java.io.IOException;
 import java.util.Map;
 
 @Service
-public class CompressionService {
+public class TarGzService implements CompressionService {
 
+    @Override
     public ByteArrayOutputStream compressApplication(Map<String, String> files) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         GzipCompressorOutputStream gzOut = new GzipCompressorOutputStream(baos);
@@ -30,5 +31,10 @@ public class CompressionService {
         archive.finish();
         gzOut.finish();
         return baos;
+    }
+
+    @Override
+    public boolean isZip() {
+        return false;
     }
 }
