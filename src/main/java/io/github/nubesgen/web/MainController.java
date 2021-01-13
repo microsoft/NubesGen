@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.nubesgen.configuration.NubesgenConfiguration;
 import io.github.nubesgen.service.CodeGeneratorService;
 import io.github.nubesgen.service.TelemetryService;
-import io.github.nubesgen.service.ZipService;
+import io.github.nubesgen.service.CompressionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +26,27 @@ public class MainController {
 
     private final CodeGeneratorService codeGeneratorService;
 
-    private final ZipService zipService;
+    private final CompressionService compressionService;
 
     private final ObjectMapper objectMapper;
 
     @Autowired(required = false)
     private TelemetryService telemetryService;
 
-    public MainController(CodeGeneratorService codeGeneratorService, ZipService zipService, ObjectMapper objectMapper) {
+    public MainController(CodeGeneratorService codeGeneratorService, CompressionService compressionService, ObjectMapper objectMapper) {
         this.codeGeneratorService = codeGeneratorService;
-        this.zipService = zipService;
+        this.compressionService = compressionService;
         this.objectMapper = objectMapper;
     }
 
-    @GetMapping(value = "/nubesgen.zip")
+    @GetMapping(value = "/nubesgen.tgz")
     public @ResponseBody
     ResponseEntity<byte[]> generateDefaultApplication() {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         return generateApplication(properties);
     }
 
-    @PostMapping("/nubesgen.zip")
+    @PostMapping("/nubesgen.tgz")
     public @ResponseBody
     ResponseEntity<byte[]> generateApplication(@RequestBody NubesgenConfiguration properties) {
         try {
@@ -63,14 +63,14 @@ public class MainController {
         ByteArrayOutputStream zippedApplication;
         try {
             Map<String, String> generatedFiles = this.codeGeneratorService.generateAzureConfiguration(properties);
-            zippedApplication = this.zipService.zipApplication(generatedFiles);
+            zippedApplication = this.compressionService.compressApplication(generatedFiles);
         } catch (Exception e) {
             log.error("Error generating application", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         byte[] out = zippedApplication.toByteArray();
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("content-disposition", "attachment; filename=nubesgen.zip");
+        responseHeaders.add("content-disposition", "attachment; filename=nubesgen.tgz");
         responseHeaders.add("Content-Type", "application/octet-stream");
         responseHeaders.add("Content-Transfer-Encoding", "binary");
         responseHeaders.add("Content-Length", String.valueOf(out.length));

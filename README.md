@@ -20,7 +20,7 @@ For advanced users, this Terraform configuration can be modified and tweaked as 
 
 ## What is being generated?
 
-NubesGen generates a `nubesgen.zip` file, that you can download from [https://nubesgen.com](https://nubesgen.com).
+NubesGen generates a `nubesgen.tgz` file, that you can download from [https://nubesgen.com](https://nubesgen.com).
 
 Unzipping that file provides a similar structure:
 
@@ -69,19 +69,11 @@ To automate your workflow, you don't need to use a Web interface! Use cURL to di
 To generate a default application:
 
 ```
-curl http://localhost:8080/nubesgen.zip -o nubesgen.zip
-```
-
-```
-curl http://localhost:8080/nubesgen.zip | jar xv
+curl http://localhost:8080/nubesgen.tgz | tar -xzvf -
 ```
 
 If you want to pass some parameters:
 
 ```
-curl http://localhost:8080/nubesgen.zip -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json" -o nubesgen.zip
-```
-
-```
-curl http://localhost:8080/nubesgen.zip -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json" | jar xv
+curl http://localhost:8080/nubesgen.tgz -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"  | tar -xzvf -
 ```

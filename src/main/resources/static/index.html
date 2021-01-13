@@ -15,16 +15,11 @@
 <div class="container">
     <h1>NubesGen - the cloud infrastructure generator</h1>
     <h2>Default configuration</h2>
-    <p>
-    <div>Download as a ZIP file:</div>
-    <code>
-        curl https://nubesgen.azurewebsites.net/nubesgen.zip -o nubesgen.zip
-    </code></p>
 
     <p>
     <div>Download and unzip automatically:</div>
     <code>
-        curl https://nubesgen.azurewebsites.net/nubesgen.zip | jar xv
+        curl https://nubesgen.azurewebsites.net/nubesgen.tgz | tar -xzvf -
     </code></p>
 
     <h2>Using parameters</h2>
@@ -32,14 +27,14 @@
     <p>
     <div>To use MySQL:</div>
     <code>
-        curl https://nubesgen.azurewebsites.net/nubesgen.zip -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json" | jar xv
+        curl https://nubesgen.azurewebsites.net/nubesgen.tgz -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json" | tar -xzvf -
     </code>
     </p>
 
     <p>
     <div>To use Blob storage:</div>
     <code>
-        curl https://nubesgen.azurewebsites.net/nubesgen.zip -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "NONE", "size": "S"}, "addOns": [{"type": "STORAGE_BLOB", "size": "M"}]}' -H "Content-Type: application/json" | jar xv
+        curl https://nubesgen.azurewebsites.net/nubesgen.tgz -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "NONE", "size": "S"}, "addOns": [{"type": "STORAGE_BLOB", "size": "M"}]}' -H "Content-Type: application/json" | tar -xzvf -
     </code>
     </p>
 
