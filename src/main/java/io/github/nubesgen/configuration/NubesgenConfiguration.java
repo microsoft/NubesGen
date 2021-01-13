@@ -23,7 +23,7 @@ public class NubesgenConfiguration {
 
     public NubesgenConfiguration() {
         this.location = "eastus";
-        this.applicationName = "sampleNubesApplication";
+        this.applicationName = "sample-nubes-application";
         this.databaseConfiguration = new DatabaseConfiguration();
     }
 
