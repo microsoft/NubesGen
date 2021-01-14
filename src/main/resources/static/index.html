@@ -90,23 +90,25 @@
 
         <div class="">
           <div class="text-6xl font-semibold text-gray-900 leading-none">Kickstart your project on Azure <span
-            class="text-blue-700 underline">in minutes</span>!
-        </div>
-        <div class="mt-6 text-xl font-light text-true-gray-500 antialiased">Easily generate
-          <strong>Terraform</strong> templates and <strong>GitHub Actions</strong> for your project.
-        </div>
-        <button href="#generator-form"
-          class="mt-12 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out">
-          Generate your project infrastructure now
-        </button>
-        <div class="mt-12 lg:mt-32 lg:ml-20 text-left">
-          <bottom type="button"
-            class="flex items-center justify-center w-12 h-12 rounded-full bg-cool-gray-100 text-gray-800 animate-bounce hover:text-gray-900 hover:bg-cool-gray-50 transition duration-300 ease-in-out cursor-pointer">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-          </bottom>
-        </div>
+              class="text-blue-700 underline">in minutes</span>!
+          </div>
+          <div class="mt-6 text-xl font-light text-true-gray-500 antialiased">Easily generate
+            <strong>Terraform</strong> templates and <strong>GitHub Actions</strong> for your project.
+          </div>
+          <button href="#generator-form"
+            class="mt-12 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out">
+            Generate your project infrastructure now
+          </button>
+          <div class="mt-12 lg:mt-32 lg:ml-20 text-left">
+            <bottom type="button"
+              class="flex items-center justify-center w-12 h-12 rounded-full bg-cool-gray-100 text-gray-800 animate-bounce hover:text-gray-900 hover:bg-cool-gray-50 transition duration-300 ease-in-out cursor-pointer">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3">
+                </path>
+              </svg>
+            </bottom>
+          </div>
         </div>
 
         <div class="">
@@ -271,8 +273,8 @@
                       src="https://chmaneumsft.blob.core.windows.net/public/map.svg"></image>
                     <div class="flex flex-row absolute inset-0 top-20 left-52 h-6">
 
-                      <div class="w-3 h-3 bg-green-600 self-center rounded-full"></div>
-                      <p class="ml-1 text-green-700">France</p>
+                      <div class="w-3 h-3 bg-blue-600 self-center rounded-full"></div>
+                      <p class="ml-1 text-blue-700">France</p>
                     </div>
 
                     <div class="flex flex-row absolute inset-0 top-24 left-14 h-6">
@@ -323,47 +325,94 @@
                   Front Application
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <div class="container sm:mx-auto py-20 px-3">
-                    <div>
-                      <select>
-                        <option>Web Application</option>
-                        <option>Serverless Application</option>
-                        <option>Static Web App</option>
-                      </select>
+                  <div class="container sm:mx-auto py-4 px-3">
+
+                    <div class="text-lg font-bold">Hosting type</div>
+                    <hr />
+                    <div class="grid grid-cols-3 gap-6 mt-4">
+
+                      <div class="p-4 bg-white border-2 border-blue-900 rounded shadow bg-blue-100">
+                        <img class="w-8 h-8" src="img/10035-icon-App Services-App Services.svg"></img>
+                        <div class="text-lg font-semibold text-blue-900">
+                          Web Application
+                          <p class="text-sm font-normal text-gray-500">Ideal for any web app or container</p>
+                          <p class="text-sm italic text-gray-500">Supports .NET, Java, NodeJS, PHP apps.</p>
+                          <p class="font-normal text-gray-500 text-sm mt-4">Select your framework:</p>
+                          <select class="text-sm">
+                            <option>.NET App</option>
+                            <option>Java Spring App</option>
+                            <option>NodeJS Express</option>
+                            <option>Python Flask</option>
+                            <option>PHP Symfony App</option>
+                            <option>Docker App</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
+                        <img class="w-8 h-8" src="img/10029-icon-Function Apps-IoT.svg"></img>
+                        <div class="text-lg font-semibold">
+                          Serverless App
+                          <p class="text-sm font-normal text-gray-500">Host event-driven workloads</p>
+                        </div>
+                      </div>
+
+                      <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
+                        <img class="w-8 h-8" src="img/01007-icon-Static Apps-Preview (1).svg"></img>
+                        <div class="text-lg font-semibold">
+                          Static Web App
+                          <p class="text-sm font-normal text-gray-500">Great for blogs & Single-Page Applications</p>
+                        </div>
+                      </div>
+
                     </div>
-                    <div class="grid lg:grid-cols-3 gap-6">
-                      <div class="p-3 border rounded px-5 py-6"> <span class="text-2xl">Free</span>
+
+
+                    <div class="text-lg font-bold mt-6">App size</div>
+                    <hr />
+
+                    <div class="grid lg:grid-cols-3 gap-6 mt-4">
+                      <div class="p-3 border rounded px-5 py-6 hover:bg-blue-100"> <span class="text-2xl">Free</span>
                         <p class="text-gray-500 mt-4">For development and hobbyist projects</p>
                         <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                          <span class="ml-3 text-gray-500">Shared compute</span> </div>
+                          <span class="ml-3 text-gray-500">Shared compute</span>
+                        </div>
                         <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                          <span class="ml-3 text-gray-500">Free SSL</span> </div>
+                          <span class="ml-3 text-gray-500">Free SSL</span>
+                        </div>
                         <div class="mt-5  align-bottom"> <button
-                            class="border-2 border-blue-900 p-2 px-9 rounded text-purple-900 hover:shadow hover:bg-purple-900 hover:text-white">Choose
+                            class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">Choose
                             plan</button> </div>
                       </div>
-                      <div class="p-3 border rounded px-5 py-6"> <span class="text-2xl">Small</span>
+                      <div class="p-3 border rounded px-5 py-6 hover:bg-blue-100"> <span class="text-2xl">Small</span>
                         <p class="text-gray-500 mt-4">For most businesses that want to optimize the web series</p>
                         <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                          <span class="ml-3 text-gray-500">Dedicated compute</span> </div>
+                          <span class="ml-3 text-gray-500">Dedicated compute</span>
+                        </div>
                         <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                          <span class="ml-3 text-gray-500">Support custom domain</span> </div>
+                          <span class="ml-3 text-gray-500">Support custom domain</span>
+                        </div>
                         <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                          <span class="ml-3 text-gray-500">Free SSL</span> </div>
+                          <span class="ml-3 text-gray-500">Free SSL</span>
+                        </div>
                         <div class="mt-5 align-bottom"> <button
-                            class="border-2 border-blue-900 p-2 px-9 rounded text-purple-900 hover:shadow hover:bg-purple-900 hover:text-white">Choose
+                            class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">Choose
                             plan</button> </div>
                       </div>
                       <div class="p-3 bg-blue-900 rounded px-5 py-6 text-white"> <span class="text-2xl">Large</span>
                         <p class="text-white mt-4">For medium-sized web apps</p>
                         <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-white"></i>
-                          <span class="ml-3 text-white">Dedicated compute</span> </div>
+                          <span class="ml-3 text-white">Dedicated compute</span>
+                        </div>
                         <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
-                          <span class="ml-3 text-white">Support custom domain</span> </div>
+                          <span class="ml-3 text-white">Support custom domain</span>
+                        </div>
                         <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
-                          <span class="ml-3 text-white">Free SSL</span> </div>
+                          <span class="ml-3 text-white">Free SSL</span>
+                        </div>
                         <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
-                          <span class="ml-3 text-white">Autoscaling up to 10 instances</span> </div>
+                          <span class="ml-3 text-white">Autoscaling up to 10 instances</span>
+                        </div>
                         <div class="mt-5"> <button
                             class="border-2 border-white p-2 px-9 rounded text-white hover:shadow hover:bg-white hover:text-black">Choose
                             plan</button> </div>
@@ -377,7 +426,101 @@
                   Database
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  $120,000
+                  
+                  <div class="grid grid-cols-4 gap-6">
+                    
+                    <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
+                      
+                      <div class="text-lg mt-8 font-semibold">
+                        No database
+                        <p class="text-sm font-normal text-gray-500">You can still use an existing database in your subscription.</p>
+                      </div>
+                    </div>
+                    
+                    <div class="p-4 bg-white border-2 border-blue-900 rounded shadow bg-blue-100">
+                      <img class="w-8 h-8" src="img/10130-icon-SQL Database-Databases (1).svg"></img>
+                      <div class="text-lg font-semibold text-blue-900">
+                        Azure SQL
+                        <p class="text-sm font-normal text-gray-500">Managed SQL Database, with AI</p>
+                      </div>
+                    </div>
+  
+                    <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
+                      <img class="w-8 h-8" src="img/10131-icon-Azure Database PostgreSQL Server-Databases.svg"></img>
+                      <div class="text-lg font-semibold">
+                        PostgreSQL
+                        <p class="text-sm font-normal text-gray-500">Scalable Opensource-Leading SQL Database</p>
+                      </div>
+                    </div>
+  
+                    <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
+                      <img class="w-8 h-8" src="img/mongodb.png"></img>
+                      <div class="text-lg font-semibold">
+                        MongoDB
+                        <p class="text-sm font-normal text-gray-500">NoSQL Databased, powered by CosmosDB</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                  <div class="text-lg font-bold mt-6">Database size</div>
+                  <hr />
+
+
+                  <div class="grid lg:grid-cols-3 gap-6 mt-4">
+                    <div class="p-3 border rounded px-5 py-6 hover:bg-blue-100"> <span class="text-2xl">Serverless</span>
+                      <p class="text-gray-500 mt-4">For development and small applications</p>
+                      <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                        <span class="ml-3 text-gray-500">5 Gb included, up to 4Tb</span>
+                      </div>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                        <span class="ml-3 text-gray-500">Auto-shutdown after 1 hour. Autorestart on first query.</span>
+                      </div>
+                      <div class="mt-5  align-bottom"> <button
+                          class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">Choose
+                          plan</button> </div>
+                    </div>
+                    <div class="p-3 border rounded px-5 py-6 hover:bg-blue-100"> <span class="text-2xl">Basic</span>
+                      <p class="text-gray-500 mt-4">For classic web apps up to hundred users</p>
+                      <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                        <span class="ml-3 text-gray-500">250 Gb storage included, up to 1 Tb</span>
+                      </div>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                        <span class="ml-3 text-gray-500">Scalable in a click</span>
+                      </div>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                        <span class="ml-3 text-gray-500">Included PITR backups</span>
+                      </div>
+                      <div class="mt-5 align-bottom"> <button
+                          class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">Choose
+                          plan</button> </div>
+                    </div>
+                    <div class="p-3 bg-blue-900 rounded px-5 py-6 text-white"> <span class="text-2xl">High-Availability</span>
+                      <p class="text-white mt-4">For reliable web apps</p>
+                      <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-white"></i>
+                        <span class="ml-3 text-white">250 Gb storage included, up to 1 Tb</span>
+                      </div>
+                      <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-white"></i>
+                        <span class="ml-3 text-white">Multi-Region deployment</span>
+                      </div>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
+                        <span class="ml-3 text-white">Automatic failover</span>
+                      </div>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
+                        <span class="ml-3 text-white">Read replica</span>
+                      </div>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
+                        <span class="ml-3 text-white">Autoscaling up to 10 instances</span>
+                      </div>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
+                        <span class="ml-3 text-white">Included PITR backups</span>
+                      </div>
+                      <div class="mt-5"> <button
+                          class="border-2 text-white border-white p-2 px-9 rounded text-white hover:shadow hover:bg-white hover:text-black">Choose
+                          plan</button> </div>
+                    </div>
+                  </div>
+
                 </dd>
               </div>
               <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -385,9 +528,80 @@
                   Add-Ons
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  Soon, you'll be able to add several add-ons, including: Memory Cache Redis, File Storage, CDN, etc...
+                  <div class="flex row-auto items-center mt-4">
+                    <span class="ml-3 text-gray-700 font-semibold">Coming soon</span>
+                    <span class="ml-2 text-gray-500">Blob Storage, Redis Cache, CDN, ...</span>
+                  </div>
                 </dd>
               </div>
+
+              <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Security
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                    <span class="ml-3 text-gray-500">Azure-managed encryption at rest</span>
+                  </div>
+                  <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                    <span class="ml-3 text-gray-500">Basic DDOS Protection</span>
+                  </div>
+                  <div class="flex row-auto items-center mt-4">
+                    <span class="ml-3 text-gray-700 font-semibold">Coming soon</span>
+                    <span class="ml-2 text-gray-500">Network isolation, Web Application Firewall, Advanced DDOS</span>
+                  </div>
+                </dd>
+              </div>
+
+              <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Management & Operations
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                    <span class="ml-3 font-bold text-gray-500">Naming convention</span>
+                    <span class="ml-1 text-gray-500">Resources names generated according to official Azure naming convention.</span>
+                  </div>
+                  <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                    <span class="ml-3 font-bold text-gray-500">Tagging</span>
+                    <span class="ml-1 text-gray-500">Ease your resources managements with automatic resource tagging.</span>
+                  </div>
+                  <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                    <span class="ml-3 font-bold text-gray-500">Monitoring</span>
+                    <span class="ml-1 text-gray-500">All your compute resources tracing available through Application Insights.</span>
+                  </div>
+                </dd>
+              </div>
+
+              <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Product & Business metrics
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <p>Track <strong>Users, Sessons, Funnels, Cohorts & User Flows</strong> easily with Azure Application Insights.</p>
+                </dd>
+              </div>
+
+              <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Cost
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <div>
+                    <div class="text-gray-500">Expected deployment cost</div>
+                    <div class="text-6xl text-blue-700 font-semibold">$54<span class="text-lg text-gray-500">/month</span></div>
+                    <div class="text-gray-500">Pricing vary depending on several factors, including usage. <a class="underline text-blue-500" href="">Open this architecture in Azure Pricing Calculator.</a></div>                    
+                  </div>
+                  <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                    <span class="ml-3 font-bold text-gray-500">Cost alerts</span>
+                    <span class="ml-1 text-gray-500">You'll receive automatic email alerts when actual costs reaches 50%, 75%, 100% and 125%.</span>
+                  </div>
+                  
+                </dd>
+              </div>
+
+   
+
               <!-- <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">
             Attachments
@@ -462,268 +676,7 @@
       </div>
     </section>
 
-    <section id="main-section" class="content-center mt-20 border-t-2 border-blue-800 bg-blue-700 py-12 w-full">
-      <a id="generator-form"></a>
-      <div class="w-full mx-auto">
-        <div class="bg-white w-9/12 p-5 rounded-md mx-auto border-1 border-yellow-800 flex flex-col">
-          <h2 class="text-4xl py-4">Create a new infrastructure</h2>
-
-          <div class="relative w-full mb-3">
-            <label class="block uppercase text-gray-700 text-m font-bold mb-2">Project name</label>
-            <input type="text"
-              class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-              placeholder="my-saas-app" style="transition: all 0.15s ease 0s;">
-            <p class="text-gray-500 italic">We will use this name to generate your resource names. Make it
-              short. All spaces will be replaced by dashes. </p>
-          </div>
-
-          <!-- Region Map Selector -->
-          <div class="relative w-full mb-3">
-            <label class="block uppercase text-gray-700 text-m font-bold mb-2">Region</label>
-            <div class="object-center relative w-8/12 mx-auto">
-              <img height="410" width="650" x="0" y="0" src="https://chmaneumsft.blob.core.windows.net/public/map.svg">
-              </image>
-              <div class="flex flex-row absolute inset-0 top-32 left-72 h-6">
-
-                <div class="w-3 h-3 bg-green-600 self-center rounded-full"></div>
-                <p class="ml-1 text-green-700">France</p>
-              </div>
-
-              <div class="flex flex-row absolute inset-0 top-36 left-20 h-6">
-                <div class="w-3 h-3 bg-gray-600 self-center rounded-full"></div>
-                <p class="ml-1 text-gray-700">West US</p>
-              </div>
-
-              <div class="flex flex-row absolute inset-0 top-40 left-40 h-6">
-                <div class="w-3 h-3 bg-gray-600 self-center rounded-full"></div>
-                <p class="ml-1 text-gray-700">East US</p>
-              </div>
-
-              <div class="flex flex-row absolute inset-0 top-80  h-6" style="left: 35rem;">
-                <div class="w-3 h-3 bg-gray-600 self-center rounded-full"></div>
-                <p class="ml-1 text-gray-700">Australia East</p>
-              </div>
-            </div>
-          </div>
-          <!-- / Region Map Selector-->
-
-
-          <!-- Generator Tabs -->
-          <div id="tab_wrapper" x-data="{tab: 'resources'}">
-            <nav class="px-8 pt-2 border-b-2 border-gray-800 mb-4">
-              <div class="-mb-px flex justify-center">
-                <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 mr-8 hover:border-blue-600"
-                  :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'resources' }"
-                  @click.prevent="tab = 'resources'">
-                  Resources
-                </a>
-                <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 mr-8 hover:border-blue-600"
-                  :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'security' }"
-                  @click.prevent="tab = 'security'">
-                  Security
-                </a>
-                <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 mr-8 hover:border-blue-600"
-                  href="#" :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'cost' }"
-                  @click.prevent="tab = 'cost'">
-                  Cost management
-                </a>
-                <a class="no-underline text-grey-dark border-b-2 border-transparent uppercase tracking-wide font-bold text-xs px-3 py-3 hover:border-blue-600"
-                  href="#" :class="{ 'border-blue-900 bg-blue-500 text-white': tab === 'operations' }"
-                  @click.prevent="tab = 'operations'">
-                  Operations
-                </a>
-              </div>
-            </nav>
-
-            <!-- Resources tab -->
-            <div id="tab_resources" x-show="tab === 'resources'">
-
-              <details open class="border border-gray-400 rounded mb-4 p-2">
-                <summary class="text-xl">
-                  Front App
-                </summary>
-
-                <div class="grid grid-cols-4 gap-2">
-                  <div
-                    class="w-48 rounded-lg shadow-md p-6 border-1 border-white cursor-pointer mb-8 bg-green-lightest shadow-outline-green hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
-                    <div class="flex justify-between items-center mb-3">
-                      <h1 class="uppercase text-base tracking-wide text-blue-darker my-2">Free
-                      </h1>
-                      <div>
-                        <svg class="w-6 h-6" width="200px" height="200px" viewBox="0 0 200 200" version="1.1"
-                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="checkmark-outline" fill-rule="nonzero">
-                              <path
-                                d="M31.1442786,171.840796 C5.2779518,146.858262 -5.09578082,109.862896 4.01023318,75.0738981 C13.1162472,40.2848999 40.2848999,13.1162472 75.0738981,4.01023318 C109.862896,-5.09578082 146.858262,5.2779518 171.840796,31.1442786 C209.549474,70.1869539 209.010186,132.247241 170.628714,170.628714 C132.247241,209.010186 70.1869539,209.549474 31.1442786,171.840796 Z"
-                                id="Shape" fill="#97EBDC"></path>
-                              <polygon id="Path" fill="#00836D"
-                                points="66.6666667 89.4527363 89.5522388 112.437811 132.338308 69.6517413 146.268657 83.7810945 89.5522388 140.298507 52.7363184 103.482587 66.6666667 89.3532338">
-                              </polygon>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
-
-                    <div class="mb-1 font-semibold text-blue-darker">
-                      <span class="text-m mr-2">Free plan for development environment.</span>
-                    </div>
-
-                    <div>
-                      <span class="text-xl text-blue-alternate">$</span>
-                      <span class="text-xl font-semibold text-blue-darker">0</span>
-                      <span class="text-blue-alternate mx-1">/</span>
-                      <span class="text-lg text-blue-alternate">mo</span>
-                    </div>
-                  </div>
-
-                  <div
-                    class="w-48 bg-white rounded-lg shadow-md p-6 cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
-                    <div class="flex justify-between items-center mb-3">
-                      <h1 class="uppercase text-base tracking-wide text-blue-darker my-2">Small
-                      </h1>
-                      <div>
-                        <svg class="hidden w-6 h-6" width="200px" height="200px" viewBox="0 0 200 200" version="1.1"
-                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="checkmark-outline" fill-rule="nonzero">
-                              <path
-                                d="M31.1442786,171.840796 C5.2779518,146.858262 -5.09578082,109.862896 4.01023318,75.0738981 C13.1162472,40.2848999 40.2848999,13.1162472 75.0738981,4.01023318 C109.862896,-5.09578082 146.858262,5.2779518 171.840796,31.1442786 C209.549474,70.1869539 209.010186,132.247241 170.628714,170.628714 C132.247241,209.010186 70.1869539,209.549474 31.1442786,171.840796 Z"
-                                id="Shape" fill="#97EBDC"></path>
-                              <polygon id="Path" fill="#00836D"
-                                points="66.6666667 89.4527363 89.5522388 112.437811 132.338308 69.6517413 146.268657 83.7810945 89.5522388 140.298507 52.7363184 103.482587 66.6666667 89.3532338">
-                              </polygon>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
-
-                    <div class="mb-1 font-semibold text-blue-darker">
-                      <span class="text-m mr-2">Simple website.</span>
-                    </div>
-
-                    <div>
-                      <span class="text-xl text-blue-alternate">$</span>
-                      <span class="text-xl font-semibold text-blue-darker">45</span>
-                      <span class="text-blue-alternate mx-1">/</span>
-                      <span class="text-lg text-blue-alternate">mo</span>
-                    </div>
-                  </div>
-
-                  <div
-                    class="w-48 bg-white rounded-lg shadow-md p-6 cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
-                    <div class="flex justify-between items-center mb-3">
-                      <h1 class="uppercase text-base tracking-wide text-blue-darker my-2">Large
-                      </h1>
-                      <div>
-                        <svg class="hidden w-6 h-6" width="200px" height="200px" viewBox="0 0 200 200" version="1.1"
-                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="checkmark-outline" fill-rule="nonzero">
-                              <path
-                                d="M31.1442786,171.840796 C5.2779518,146.858262 -5.09578082,109.862896 4.01023318,75.0738981 C13.1162472,40.2848999 40.2848999,13.1162472 75.0738981,4.01023318 C109.862896,-5.09578082 146.858262,5.2779518 171.840796,31.1442786 C209.549474,70.1869539 209.010186,132.247241 170.628714,170.628714 C132.247241,209.010186 70.1869539,209.549474 31.1442786,171.840796 Z"
-                                id="Shape" fill="#97EBDC"></path>
-                              <polygon id="Path" fill="#00836D"
-                                points="66.6666667 89.4527363 89.5522388 112.437811 132.338308 69.6517413 146.268657 83.7810945 89.5522388 140.298507 52.7363184 103.482587 66.6666667 89.3532338">
-                              </polygon>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
-
-                    <div class="mb-1 font-semibold text-blue-darker">
-                      <span class="text-m mr-2">2 instances auto-scaled website.</span>
-                    </div>
-
-                    <div>
-
-                      <span class="text-xl text-blue-alternate">$</span>
-                      <span class="text-xl font-semibold text-blue-darker">145</span>
-                      <span class="text-blue-alternate mx-1">/</span>
-                      <span class="text-lg text-blue-alternate">mo</span>
-                    </div>
-                  </div>
-
-                </div>
-              </details>
-
-
-
-
-              <details class="mb-4">
-                <summary class="border-b-2 border-gray-600 text-xl">
-                  Database
-                </summary>
-              </details>
-
-              <details class="mb-4">
-                <summary class="border-b-2 border-gray-600 text-xl">
-                  Add-ons <span class="text-sm text-gray-600">(Redis Cache, Storage, Messaging,
-                    ...)</span>
-                </summary>
-              </details>
-
-
-            </div>
-            <!-- /Resources tab -->
-
-            <div id="tab_security" x-show="tab === 'security'">
-              <h4 class="text-3xl text-gray-800 font-bold mb-3">Security best practices</h4>
-              <p class="text-gray-600 mb-8">You'll be able soon to select a level of security for your
-                project. We'll manage virtual network isolation, Key Vault configuration and other
-                security features for you.</p>
-
-            </div>
-
-            <div id="tab_cost" x-show="tab === 'cost'">
-              <h4 class="text-3xl text-gray-800 font-bold mb-3">Cost management</h4>
-              <p class="text-gray-600 mb-8">NubesGen automatically creates budgets on resource groups
-                created for you. Soon, you'll be able to setup automatic email alerts too!</p>
-
-            </div>
-
-            <div id="tab_operations" x-show="tab === 'operations'">
-              <h4 class="text-3xl text-gray-800 font-bold mb-3">Naming convention done for you</h4>
-              <p class="text-gray-600 mb-8">NubesGen adheres to Microsoft recommended naming convention
-                patterns.</p>
-              <h4 class="text-3xl text-gray-800 font-bold mb-3">Tags</h4>
-              <p class="text-gray-600 mb-8">Environment tags are automatically added to all resources.
-                You'll soon be able to add custom tags as well.</p>
-              <h4 class="text-3xl text-gray-800 font-bold mb-3">Resource deletion protection</h4>
-              <p class="text-gray-600 mb-8">If you select Production environment, we'll create Azure Locks
-                on all your resources.</p>
-
-            </div>
-
-          </div>
-          <!-- /Generator Tabs -->
-
-
-
-
-
-
-          <hr class="my-2 border-1" />
-
-          <button type="button"
-            class="flex items-center justify-center px-4 py-1 mt-5 ml-2 mr-4 text-center text-white bg-green-600 border border-green-700 rounded-lg focus:outline-none hover:bg-green-700"
-            onclick="window.location='https://nubesgen.azurewebsites.net/nubesgen.zip'">
-            <svg class="w-5 h-5 mr-1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              viewBox="0 0 24 24" stroke="currentColor">
-              <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-            </svg>
-            <span class="self-center text-xl font-medium">Download Terraform Scripts</span>
-            <svg class="w-3 h-3 ml-1 fill-current" fill="none" stroke-linecap="round" stroke-linejoin="round"
-              stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-              <path d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <p class="py-1">or <span class="underline">copy</span> curl command.</p>
-    </section>
-
+   
     </div>
     </div>
 
