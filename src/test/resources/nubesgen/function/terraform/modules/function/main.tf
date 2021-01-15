@@ -14,14 +14,29 @@ resource "azurerm_app_service_plan" "compute" {
   }
 }
 
+locals {
+  // A storage blob cannot contain hyphens, and is limited to 23 characters long
+  storage-app-blob-name = substr(replace(var.application_name, "-", ""), 0, 16)
+}
+
+resource "azurerm_storage_account" "compute" {
+  name                     = "stapp${local.storage-app-blob-name}001"
+  resource_group_name      = var.resource_group
+  location                 = var.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
 # This creates the service definition
 resource "azurerm_function_app" "compute" {
-  name                = "func-${var.application_name}-001"
-  resource_group_name = var.resource_group
-  location            = var.location
-  app_service_plan_id = azurerm_app_service_plan.compute.id
-  os_type             = "linux"
-  https_only          = true
+  name                       = "func-${var.application_name}-001"
+  resource_group_name        = var.resource_group
+  location                   = var.location
+  app_service_plan_id        = azurerm_app_service_plan.compute.id
+  storage_account_name       = azurerm_storage_account.compute.name
+  storage_account_access_key = azurerm_storage_account.compute.primary_access_key
+  os_type                    = "linux"
+  https_only                 = true
 
   site_config {
     linux_fx_version = "JAVA|11-java11"
