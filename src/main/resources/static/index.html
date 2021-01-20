@@ -52,7 +52,7 @@
         projectName: '', 
         projectSlug: '', 
         region: 'francecentral',
-        addons: { frontApp: { type: 'web', size: 'free'}, database: { type: 'azuresql', size: 'server'} },
+        addons: { frontApp: { type: 'web', size: 'free'}, database: { type: 'azuresql', size: 'serverless'} },
         updatePageParameters() {
           const url = new URL(window.location.href);
           url.searchParams.set('frontApp.type', this.addons.frontApp.type);
@@ -65,7 +65,7 @@
             // TODO: Do something
             return;
           this.updatePageParameters();
-          window.open(`https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.addons.frontApp.type}&frontApp.size=${this.addons.frontApp.size}`, '_blank');
+          window.open(`https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.addons.frontApp.type}&frontApp.size=${this.addons.frontApp.size}&db.size=${this.addons.database.size}&db.type=${this.addons.database.type}`, '_blank');
         }
       }
     }
@@ -75,6 +75,8 @@
       const url = new URL(window.location.href);
       url.searchParams.set('frontApp.type', value.frontApp.type);
       url.searchParams.set('frontApp.size', value.frontApp.size);
+      url.searchParams.set('db.type', value.database.type);
+      url.searchParams.set('db.size', value.database.size);
       history.pushState(null, document.title, url.toString());
     }
 
@@ -489,7 +491,10 @@
                   
                   <div class="grid grid-cols-4 gap-6">
                     
-                    <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
+                    <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100"
+                      @click="addons.database.type='no'"
+                      :class="addons.database.type==='no' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                    >
                       
                       <div class="text-lg mt-8 font-semibold">
                         No database
@@ -497,7 +502,10 @@
                       </div>
                     </div>
                     
-                    <div class="p-4 bg-white border-2 border-blue-900 rounded shadow bg-blue-100">
+                    <div class="p-4 bg-white border-2"
+                      @click="addons.database.type='azuresql'"
+                      :class="addons.database.type==='azuresql' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                    >
                       <img class="w-8 h-8" src="img/10130-icon-SQL Database-Databases (1).svg"></img>
                       <div class="text-lg font-semibold text-blue-900">
                         Azure SQL
@@ -505,7 +513,10 @@
                       </div>
                     </div>
   
-                    <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
+                    <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100"
+                      @click="addons.database.type='postgresql'"
+                      :class="addons.database.type==='postgresql' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                    >
                       <img class="w-8 h-8" src="img/10131-icon-Azure Database PostgreSQL Server-Databases.svg"></img>
                       <div class="text-lg font-semibold">
                         PostgreSQL
@@ -513,7 +524,10 @@
                       </div>
                     </div>
   
-                    <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
+                    <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100"
+                    @click="addons.database.type='mongodb'"
+                      :class="addons.database.type==='mongodb' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                    >
                       <img class="w-8 h-8" src="img/mongodb.png"></img>
                       <div class="text-lg font-semibold">
                         MongoDB
@@ -528,56 +542,59 @@
 
 
                   <div class="grid lg:grid-cols-3 gap-6 mt-4">
-                    <div class="p-3 border rounded px-5 py-6 hover:bg-blue-100"> <span class="text-2xl">Serverless</span>
-                      <p class="text-gray-500 mt-4">For development and small applications</p>
+                    <div class="p-3 border rounded px-5 py-6 "
+                    :class="addons.database.size==='serverless' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                    @click="addons.database.size = 'serverless'"
+                    > <span class="text-2xl">Serverless</span>
+                      <p class=" mt-4">For development and small applications</p>
                       <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                        <span class="ml-3 text-gray-500">5 Gb included, up to 4Tb</span>
+                        <span class="ml-3 ">5 Gb included, up to 4Tb</span>
                       </div>
                       <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                        <span class="ml-3 text-gray-500">Auto-shutdown after 1 hour. Autorestart on first query.</span>
+                        <span class="ml-3 ">Auto-shutdown after 1 hour. Autorestart on first query.</span>
                       </div>
-                      <div class="mt-5  align-bottom"> <button
-                          class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">Choose
-                          plan</button> </div>
+                      
                     </div>
-                    <div class="p-3 border rounded px-5 py-6 hover:bg-blue-100"> <span class="text-2xl">Basic</span>
+                    <div class="p-3 border rounded px-5 py-6 "
+                    :class="addons.database.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                    @click="addons.database.size = 'basic'"
+                    > <span class="text-2xl">Basic</span>
                       <p class="text-gray-500 mt-4">For classic web apps up to hundred users</p>
                       <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                        <span class="ml-3 text-gray-500">250 Gb storage included, up to 1 Tb</span>
+                        <span class="ml-3 ">250 Gb storage included, up to 1 Tb</span>
                       </div>
                       <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                        <span class="ml-3 text-gray-500">Scalable in a click</span>
+                        <span class="ml-3 ">Scalable in a click</span>
                       </div>
                       <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                        <span class="ml-3 text-gray-500">Included PITR backups</span>
+                        <span class="ml-3 ">Included PITR backups</span>
                       </div>
-                      <div class="mt-5 align-bottom"> <button
-                          class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">Choose
-                          plan</button> </div>
+
                     </div>
-                    <div class="p-3 bg-blue-900 rounded px-5 py-6 text-white"> <span class="text-2xl">High-Availability</span>
-                      <p class="text-white mt-4">For reliable web apps</p>
-                      <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-white"></i>
-                        <span class="ml-3 text-white">250 Gb storage included, up to 1 Tb</span>
+                    <div class="p-3 bg-white border rounded px-5 py-6"
+                    :class="addons.database.size==='highavailability' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                    @click="addons.database.size = 'highavailability'"
+                    > <span class="text-2xl">High-Availability</span>
+                      <p class=" mt-4">For reliable web apps</p>
+                      <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
+                        <span class="ml-3 ">250 Gb storage included, up to 1 Tb</span>
                       </div>
-                      <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-white"></i>
-                        <span class="ml-3 text-white">Multi-Region deployment</span>
+                      <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
+                        <span class="ml-3 ">Multi-Region deployment</span>
                       </div>
-                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
-                        <span class="ml-3 text-white">Automatic failover</span>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o "></i>
+                        <span class="ml-3 ">Automatic failover</span>
                       </div>
-                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
-                        <span class="ml-3 text-white">Read replica</span>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o "></i>
+                        <span class="ml-3 ">Read replica</span>
                       </div>
-                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
-                        <span class="ml-3 text-white">Autoscaling up to 10 instances</span>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o "></i>
+                        <span class="ml-3 ">Autoscaling up to 10 instances</span>
                       </div>
-                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-white"></i>
-                        <span class="ml-3 text-white">Included PITR backups</span>
+                      <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o "></i>
+                        <span class="ml-3 ">Included PITR backups</span>
                       </div>
-                      <div class="mt-5"> <button
-                          class="border-2 text-white border-white p-2 px-9 rounded text-white hover:shadow hover:bg-white hover:text-black">Choose
-                          plan</button> </div>
+                      
                     </div>
                   </div>
 
