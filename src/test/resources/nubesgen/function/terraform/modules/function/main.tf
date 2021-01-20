@@ -20,11 +20,13 @@ locals {
 }
 
 resource "azurerm_storage_account" "compute" {
-  name                     = "stapp${local.storage-app-blob-name}001"
-  resource_group_name      = var.resource_group
-  location                 = var.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+  name                      = "stapp${local.storage-app-blob-name}001"
+  resource_group_name       = var.resource_group
+  location                  = var.location
+  account_tier              = "Standard"
+  account_replication_type  = "LRS"
+  enable_https_traffic_only = true
+  allow_blob_public_access  = true
 }
 
 # This creates the service definition
@@ -39,7 +41,7 @@ resource "azurerm_function_app" "compute" {
   https_only                 = true
 
   site_config {
-    linux_fx_version = "JAVA|11-java11"
+    linux_fx_version = "java|11"
   }
 
   app_settings = {
