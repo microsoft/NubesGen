@@ -1,7 +1,7 @@
 
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "compute" {
-  name                = "${var.application_name}-plan"
+  name                = "plan-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -16,7 +16,7 @@ resource "azurerm_app_service_plan" "compute" {
 
 # This creates the service definition
 resource "azurerm_app_service" "compute" {
-  name                = var.application_name
+  name                = "app-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
   app_service_plan_id = azurerm_app_service_plan.compute.id
@@ -32,8 +32,26 @@ resource "azurerm_app_service" "compute" {
 
     # These are app specific environment variables
     "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+{{#databaseTypeMysql}}
     "SPRING_DATASOURCE_URL"      = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
     "SPRING_DATASOURCE_USERNAME" = var.database_username
     "SPRING_DATASOURCE_PASSWORD" = var.database_password
+{{/databaseTypeMysql}}
+{{#databaseTypePostgresql}}
+    "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
+    "SPRING_DATASOURCE_USERNAME" = var.database_username
+    "SPRING_DATASOURCE_PASSWORD" = var.database_password
+{{/databaseTypePostgresql}}
+{{#addOnRedis}}
+    "SPRING_REDIS_HOST"          = var.azure_redis_host
+    "SPRING_REDIS_PASSWORD"      = var.azure_redis_password
+    "SPRING_REDIS_PORT"          = "6380"
+    "SPRING_REDIS_SSL"           = "true"
+{{/addOnRedis}}
+{{#addOnStorageBlob}}
+    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
+    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
+    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+{{/addOnStorageBlob}}
   }
 }

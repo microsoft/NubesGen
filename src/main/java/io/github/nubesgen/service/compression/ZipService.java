@@ -1,4 +1,4 @@
-package io.github.nubesgen.service;
+package io.github.nubesgen.service.compression;
 
 import org.springframework.stereotype.Service;
 
@@ -9,9 +9,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Service
-public class ZipService {
+public class ZipService implements CompressionService {
 
-    public ByteArrayOutputStream zipApplication(Map<String, String> files) {
+    @Override
+    public ByteArrayOutputStream compressApplication(Map<String, String> files) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (ZipOutputStream zos = new ZipOutputStream(baos)) {
             for (String fileName : files.keySet()) {
@@ -24,5 +25,10 @@ public class ZipService {
             ioe.printStackTrace();
         }
         return baos;
+    }
+
+    @Override
+    public boolean isZip() {
+        return true;
     }
 }

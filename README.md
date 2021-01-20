@@ -2,6 +2,8 @@
 
 _A cloud infrastructure generator for Terraform and Azure_
 
+[https://nubesgen.azurewebsites.net/](https://nubesgen.azurewebsites.net/)
+
 ## 1-minute introduction to NubesGen
 
 With NubesGen, going to production to Azure is painless, secured and on budget!
@@ -20,20 +22,37 @@ For advanced users, this Terraform configuration can be modified and tweaked as 
 
 ## What is being generated?
 
-NubesGen generates a `nubesgen.zip` file, that you can download from [https://nubesgen.com](https://nubesgen.com).
+NubesGen generates a `nubesgen.tgz` file, that you can download from [https://nubesgen.com](https://nubesgen.com).
 
-Unzipping that file provides the following directories:
+Unzipping that file provides a similar structure:
 
 ```
 - terraform
-  |- azure
-    |- dev
-    |- prod
+  |- modules
+    |- app-service
+      |- main.tf
+      |- outputs.tf
+      |- README.md
+      |- variables.tf
+    |- mysql
+      |- main.tf
+      |- outputs.tf
+      |- README.md
+      |- variables.tf
+  |- main.tf
+  |- outputs.tf
+  |- README.md
+  |- variables.tf
 ```
 
-The `dev` directory contains a Terraform configuration for a _development_ setup: it focuses on having a quick and cheap environment for developing and testing.
+In this example, we have a Terraform configuration that uses two modules (App Service and MySQL), that are ready for 
+deployment.
 
-The `prod` directory contains a Terraform configuration for a _production_ setup: it focuses on following security and scalability best practices for running code in production.
+To deploy your infrastructure, all you need to do is initialize Terraform and apply its configuration:
+
+```bash
+terraform init && terraform apply -auto-approve
+```
 
 ## Why only Azure?
 
@@ -45,13 +64,17 @@ If you want to join the team to add support to another cloud, feel free to conta
 
 You should be able to use other tools like [https://start.spring.io/](https://start.spring.io/) or [https://www.jhipster.tech/](https://www.jhipster.tech/) with NubesGen.
 
-## Running NugesGen
+## Running NugesGen from the command line with cURL
+
+To automate your workflow, you don't need to use a Web interface! Use cURL to directly download and use your NubesGen configuration.
 
 To generate a default application:
 
 ```
-curl http://localhost:8080/nubesgen.zip -o nubesgen.zip
+curl http://localhost:8080/nubesgen.tgz | tar -xzvf -
 ```
+
+or (as a .zip file):
 
 ```
 curl http://localhost:8080/nubesgen.zip | jar xv
@@ -60,9 +83,5 @@ curl http://localhost:8080/nubesgen.zip | jar xv
 If you want to pass some parameters:
 
 ```
-curl http://localhost:8080/nubesgen.zip -d location=westeurope -d applicationName=myapplication -o nubesgen.zip
-```
-
-```
-curl http://localhost:8080/nubesgen.zip -d location=westeurope -d applicationName=myapplication | jar xv
+curl http://localhost:8080/nubesgen.tgz -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"  | tar -xzvf -
 ```

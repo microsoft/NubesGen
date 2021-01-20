@@ -31,4 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
-/terraform/azure/dev/.terraform/
+
+### Terraform ###
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+.terraform/

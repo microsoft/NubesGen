@@ -6,7 +6,7 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_mysql_server" "database" {
-  name                = "${var.application_name}-mysql-server"
+  name                = "mysql-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -26,7 +26,7 @@ resource "azurerm_mysql_server" "database" {
 }
 
 resource "azurerm_mysql_database" "database" {
-  name                = "${var.application_name}_mysql_db"
+  name                = "mysqldb-${var.application_name}-001"
   resource_group_name = var.resource_group
   server_name         = azurerm_mysql_server.database.name
   charset             = "utf8"
@@ -35,7 +35,7 @@ resource "azurerm_mysql_database" "database" {
 
 # This rule is to enable the 'Allow access to Azure services' checkbox
 resource "azurerm_mysql_firewall_rule" "database" {
-  name                = "${var.application_name}-mysql-firewall"
+  name                = "mysqlfw-${var.application_name}-001"
   resource_group_name = var.resource_group
   server_name         = azurerm_mysql_server.database.name
   start_ip_address    = "0.0.0.0"

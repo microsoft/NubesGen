@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.41"
+      version = ">= 2.42"
     }
   }
 }
@@ -19,26 +19,28 @@ resource "azurerm_resource_group" "main" {
   }
 }
 
-module "database" {
-  source           = "./modules/mysql"
-  resource_group   = var.resource_group
-  application_name = var.application_name
-  location         = var.location
+module "compute" {
+  source            = "./modules/app-service"
+  resource_group    = var.resource_group
+  location          = var.location
+  application_name  = var.application_name
+
+  database_url      = module.database.database_url
+  database_username = module.database.database_username
+  database_password = module.database.database_password
+
   depends_on = [
+    module.database,
     azurerm_resource_group.main
   ]
 }
 
-module "compute" {
-  source            = "./modules/app-service"
-  resource_group    = var.resource_group
-  application_name  = var.application_name
-  location          = var.location
-  database_url      = module.database.database_url
-  database_username = module.database.database_username
-  database_password = module.database.database_password
+module "database" {
+  source           = "./modules/mysql"
+  resource_group   = var.resource_group
+  location         = var.location
+  application_name = var.application_name
   depends_on = [
-    azurerm_resource_group.main,
-    module.database
+    azurerm_resource_group.main
   ]
 }
