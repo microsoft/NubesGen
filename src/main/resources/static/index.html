@@ -65,7 +65,7 @@
             // TODO: Do something
             return;
           this.updatePageParameters();
-          window.open(`https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.addons.frontApp.type}&frontApp.size=${this.addons.frontApp.size}&db.size=${this.addons.database.size}&db.type=${this.addons.database.type}`, '_blank');
+          window.open(`https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.addons.frontApp.type}&frontApp.size=${this.addons.frontApp.size}&database.size=${this.addons.database.size}&database.type=${this.addons.database.type}`, '_blank');
         }
       }
     }
@@ -75,8 +75,8 @@
       const url = new URL(window.location.href);
       url.searchParams.set('frontApp.type', value.frontApp.type);
       url.searchParams.set('frontApp.size', value.frontApp.size);
-      url.searchParams.set('db.type', value.database.type);
-      url.searchParams.set('db.size', value.database.size);
+      url.searchParams.set('database.type', value.database.type);
+      url.searchParams.set('database.size', value.database.size);
       history.pushState(null, document.title, url.toString());
     }
 
