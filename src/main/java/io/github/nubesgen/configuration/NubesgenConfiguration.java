@@ -11,7 +11,7 @@ public class NubesgenConfiguration {
 
     private Date date = new Date();
 
-    private String location;
+    private String region;
 
     private String applicationName;
 
@@ -22,7 +22,7 @@ public class NubesgenConfiguration {
     private List<AddOnConfiguration> addOns = new ArrayList<>();
 
     public NubesgenConfiguration() {
-        this.location = "eastus";
+        this.region = "eastus";
         this.applicationName = "sample-nubes-application";
         this.databaseConfiguration = new DatabaseConfiguration();
     }
@@ -31,12 +31,12 @@ public class NubesgenConfiguration {
         return date;
     }
 
-    public String getLocation() {
-        return location;
+    public String getRegion() {
+        return region;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getApplicationName() {
@@ -94,7 +94,7 @@ public class NubesgenConfiguration {
     public String toString() {
         return "NubesgenConfiguration{" +
                 "date=" + date +
-                ", location='" + location + '\'' +
+                ", region='" + region + '\'' +
                 ", applicationName='" + applicationName + '\'' +
                 ", databaseConfiguration=" + databaseConfiguration +
                 ", addOns=" + addOns +

@@ -50,10 +50,10 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
-                                                  @RequestParam(defaultValue = "eastus") String location,
+                                                  @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "MYSQL") String database) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(location, database);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(region, database);
         return generateZipApplication(applicationName, properties);
     }
 
@@ -71,10 +71,10 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.tgz")
     public @ResponseBody
     ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
-                                                  @RequestParam(defaultValue = "eastus") String location,
+                                                  @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "MYSQL") String database) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(location, database);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(region, database);
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -87,9 +87,9 @@ public class MainController {
         return this.generateApplication(properties, this.tarGzService);
     }
 
-    private NubesgenConfiguration generateNubesgenConfiguration(String location, String database) {
+    private NubesgenConfiguration generateNubesgenConfiguration(String region, String database) {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setLocation(location);
+        properties.setRegion(region);
         if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.S));
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {

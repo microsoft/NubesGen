@@ -36,7 +36,7 @@ class DefaultConfigurationTest {
     @BeforeAll
     public static void init() {
         properties.setApplicationName("nubesgen-testapp");
-        properties.setLocation("westeurope");
+        properties.setRegion("westeurope");
     }
 
     @Test

@@ -7,7 +7,7 @@ variable "application_name" {
 }
 
 variable "location" {
-  description = "The Azure location where all resources in this example should be created"
+  description = "The Azure region where all resources in this example should be created"
 }
 
 variable "sku_tier" {
