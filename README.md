@@ -71,25 +71,25 @@ To automate your workflow, you don't need to use a Web interface! Use cURL to di
 To generate a default application:
 
 ```
-curl http://localhost:8080/nubesgen.tgz | tar -xzvf -
+curl "http://localhost:8080/nubesgen.tgz" | tar -xzvf -
 ```
 
 or (as a .zip file):
 
 ```
-curl http://localhost:8080/nubesgen.zip | jar xv
+curl "http://localhost:8080/nubesgen.zip" | jar xv
 ```
 
 If you want to pass some parameters in POST:
 
 ```
-curl http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"  | tar -xzvf -
+curl "http://localhost:8080/myapplication.tgz" -d '{ "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"  | tar -xzvf -
 ```
 
 If you want to pass some parameters in GET:
 
 ```
-curl http://localhost:8080/myapplication.tgz?location=westeurope&database=MYSQL  | tar -xzvf -
+curl "http://localhost:8080/myapplication.tgz?location=westeurope&database=MYSQL"  | tar -xzvf -
 ```
 
 ## Complete parameters list
