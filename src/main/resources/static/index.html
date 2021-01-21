@@ -49,9 +49,9 @@
     function nubesGen()
     {
       return {
-        projectName: '', 
-        projectSlug: '', 
-        region: 'francecentral',
+        projectName: 'nubesgen',
+        projectSlug: 'nubesgen',
+        region: 'eastus',
         addons: { frontApp: { type: 'web', size: 'free'}, database: { type: 'azuresql', size: 'serverless'} },
         updatePageParameters() {
           const url = new URL(window.location.href);
