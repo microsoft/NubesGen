@@ -80,8 +80,14 @@ or (as a .zip file):
 curl http://localhost:8080/nubesgen.zip | jar xv
 ```
 
-If you want to pass some parameters:
+If you want to pass some parameters in POST:
 
 ```
 curl http://localhost:8080/nubesgen.tgz -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"  | tar -xzvf -
+```
+
+If you want to pass some parameters in GET:
+
+```
+curl http://localhost:8080/nubesgen.tgz?applicationName=myapplication&location=westeurope&database=MYSQL  | tar -xzvf -
 ```
