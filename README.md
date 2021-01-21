@@ -83,11 +83,22 @@ curl http://localhost:8080/nubesgen.zip | jar xv
 If you want to pass some parameters in POST:
 
 ```
-curl http://localhost:8080/nubesgen.tgz -d '{ "applicationName": "myapplication", "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"  | tar -xzvf -
+curl http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"  | tar -xzvf -
 ```
 
 If you want to pass some parameters in GET:
 
 ```
-curl http://localhost:8080/nubesgen.tgz?applicationName=myapplication&location=westeurope&database=MYSQL  | tar -xzvf -
+curl http://localhost:8080/myapplication.tgz?location=westeurope&database=MYSQL  | tar -xzvf -
 ```
+
+## Complete parameters list
+
+| Name  | Description  | Values  | POST example | GET example  |
+|---|---|---|---|---|
+| location  |  Azure Region where the resource will be located | Run `az account list-locations`  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?location=westeurope`  |
+| database  |  The database | NONE, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=MYSQL`  |
+
+You can also add "addOns", which are specific technologies added to your stack:
+
+

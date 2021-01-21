@@ -68,7 +68,7 @@ public class MainControllerTest {
 
     @Test
     public void generateApplicationWithPostgresql() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?applicationName=myapplication&location=westeurope&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?applicationName=myapplication&location=westeurope&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
