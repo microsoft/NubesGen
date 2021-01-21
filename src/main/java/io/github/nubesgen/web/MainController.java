@@ -123,9 +123,9 @@ public class MainController {
         byte[] out = zippedApplication.toByteArray();
         HttpHeaders responseHeaders = new HttpHeaders();
         if (compressionService.isZip()) {
-            responseHeaders.add("content-disposition", "attachment; filename=nubesgen.zip");
+            responseHeaders.add("content-disposition", "attachment; filename=" + properties.getApplicationName() + ".zip");
         } else {
-            responseHeaders.add("content-disposition", "attachment; filename=nubesgen.tgz");
+            responseHeaders.add("content-disposition", "attachment; filename=" + properties.getApplicationName() + ".tgz");
         }
         responseHeaders.add("Content-Type", "application/octet-stream");
         responseHeaders.add("Content-Transfer-Encoding", "binary");
