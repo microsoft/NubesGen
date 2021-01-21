@@ -65,7 +65,7 @@
             // TODO: Do something
             return;
           this.updatePageParameters();
-          window.open(`https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.addons.frontApp.type}&frontApp.size=${this.addons.frontApp.size}&database.size=${this.addons.database.size}&database.type=${this.addons.database.type}`, '_blank');
+          window.open(`https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.addons.frontApp.type}&frontApp.size=${this.addons.frontApp.size}&database=${this.addons.database.type}.${this.addons.database.size}`, '_blank');
         }
       }
     }
@@ -492,8 +492,8 @@
                   <div class="grid grid-cols-4 gap-6">
                     
                     <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100"
-                      @click="addons.database.type='no'"
-                      :class="addons.database.type==='no' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                      @click="addons.database.type='NONE'"
+                      :class="addons.database.type==='NONE' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
                     >
                       
                       <div class="text-lg mt-8 font-semibold">
@@ -514,8 +514,8 @@
                     </div>
   
                     <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100"
-                      @click="addons.database.type='postgresql'"
-                      :class="addons.database.type==='postgresql' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                      @click="addons.database.type='POSTGRESQL'"
+                      :class="addons.database.type==='POSTGRESQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
                     >
                       <img class="w-8 h-8" src="img/10131-icon-Azure Database PostgreSQL Server-Databases.svg"></img>
                       <div class="text-lg font-semibold">
@@ -525,8 +525,8 @@
                     </div>
   
                     <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100"
-                    @click="addons.database.type='mongodb'"
-                      :class="addons.database.type==='mongodb' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                    @click="addons.database.type='MONGODB'"
+                      :class="addons.database.type==='MONGODB' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
                     >
                       <img class="w-8 h-8" src="img/mongodb.png"></img>
                       <div class="text-lg font-semibold">
