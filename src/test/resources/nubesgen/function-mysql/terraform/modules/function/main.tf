@@ -1,6 +1,6 @@
 
 # This creates the plan that the service use
-resource "azurerm_app_service_plan" "compute" {
+resource "azurerm_app_service_plan" "application" {
   name                = "plan-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
@@ -19,7 +19,7 @@ locals {
   storage-app-blob-name = substr(replace(var.application_name, "-", ""), 0, 16)
 }
 
-resource "azurerm_storage_account" "compute" {
+resource "azurerm_storage_account" "application" {
   name                      = "stapp${local.storage-app-blob-name}001"
   resource_group_name       = var.resource_group
   location                  = var.location
@@ -30,13 +30,13 @@ resource "azurerm_storage_account" "compute" {
 }
 
 # This creates the service definition
-resource "azurerm_function_app" "compute" {
+resource "azurerm_function_app" "application" {
   name                       = "func-${var.application_name}-001"
   resource_group_name        = var.resource_group
   location                   = var.location
-  app_service_plan_id        = azurerm_app_service_plan.compute.id
-  storage_account_name       = azurerm_storage_account.compute.name
-  storage_account_access_key = azurerm_storage_account.compute.primary_access_key
+  app_service_plan_id        = azurerm_app_service_plan.application.id
+  storage_account_name       = azurerm_storage_account.application.name
+  storage_account_access_key = azurerm_storage_account.application.primary_access_key
   os_type                    = "linux"
   https_only                 = true
 

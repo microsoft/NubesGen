@@ -1,6 +1,6 @@
 
 # This creates the plan that the service use
-resource "azurerm_app_service_plan" "compute" {
+resource "azurerm_app_service_plan" "application" {
   name                = "plan-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
@@ -15,11 +15,11 @@ resource "azurerm_app_service_plan" "compute" {
 }
 
 # This creates the service definition
-resource "azurerm_app_service" "compute" {
+resource "azurerm_app_service" "application" {
   name                = "app-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
-  app_service_plan_id = azurerm_app_service_plan.compute.id
+  app_service_plan_id = azurerm_app_service_plan.application.id
   https_only          = true
 
   site_config {

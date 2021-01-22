@@ -19,7 +19,7 @@ resource "azurerm_resource_group" "main" {
   }
 }
 
-module "compute" {
+module "application" {
   source            = "./modules/function"
   resource_group    = var.resource_group
   location          = var.location
