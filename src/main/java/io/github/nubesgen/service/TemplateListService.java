@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -12,6 +11,10 @@ import java.util.stream.Stream;
 public class TemplateListService {
 
     private final List<String> mainList = new ArrayList<>();
+
+    private final List<String> appServiceList = new ArrayList<>();
+
+    private final List<String> functionList = new ArrayList<>();
 
     private final List<String> mysqlList = new ArrayList<>();
 
@@ -28,10 +31,15 @@ public class TemplateListService {
         mainList.add("terraform/README.md");
         mainList.add("terraform/variables.tf");
         // App Service module
-        mainList.add("terraform/modules/app-service/main.tf");
-        mainList.add("terraform/modules/app-service/outputs.tf");
-        mainList.add("terraform/modules/app-service/README.md");
-        mainList.add("terraform/modules/app-service/variables.tf");
+        appServiceList.add("terraform/modules/app-service/main.tf");
+        appServiceList.add("terraform/modules/app-service/outputs.tf");
+        appServiceList.add("terraform/modules/app-service/README.md");
+        appServiceList.add("terraform/modules/app-service/variables.tf");
+        // Azure Functions module
+        functionList.add("terraform/modules/function/main.tf");
+        functionList.add("terraform/modules/function/outputs.tf");
+        functionList.add("terraform/modules/function/README.md");
+        functionList.add("terraform/modules/function/variables.tf");
         // MySQL module
         mysqlList.add("terraform/modules/mysql/main.tf");
         mysqlList.add("terraform/modules/mysql/outputs.tf");
@@ -58,6 +66,14 @@ public class TemplateListService {
         return mainList;
     }
 
+    public List<String> listAppServiceTemplates() {
+        return appServiceList;
+    }
+
+    public List<String> listFunctionTemplates() {
+        return functionList;
+    }
+
     public List<String> listMysqlTemplates() {
         return mysqlList;
     }
@@ -75,7 +91,7 @@ public class TemplateListService {
     }
 
     public List<String> listAllTemplates() {
-        return Stream.of(mainList, mysqlList, postgresqlList, redisList, storageBlobList)
+        return Stream.of(mainList, appServiceList, functionList, mysqlList, postgresqlList, redisList, storageBlobList)
                 .flatMap(list -> list.stream()).collect(Collectors.toList());
     }
 }

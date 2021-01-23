@@ -15,6 +15,9 @@ public class NubesgenConfiguration {
 
     private String applicationName;
 
+    @JsonProperty("type")
+    private ApplicationType applicationType;
+
     @JsonProperty("database")
     private DatabaseConfiguration databaseConfiguration;
 
@@ -24,6 +27,7 @@ public class NubesgenConfiguration {
     public NubesgenConfiguration() {
         this.region = "eastus";
         this.applicationName = "sample-nubes-application";
+        this.applicationType = ApplicationType.APP_SERVICE;
         this.databaseConfiguration = new DatabaseConfiguration();
     }
 
@@ -47,6 +51,14 @@ public class NubesgenConfiguration {
         this.applicationName = applicationName;
     }
 
+    public ApplicationType getApplicationType() {
+        return applicationType;
+    }
+
+    public void setApplicationType(ApplicationType applicationType) {
+        this.applicationType = applicationType;
+    }
+
     public DatabaseConfiguration getDatabaseConfiguration() {
         return databaseConfiguration;
     }
@@ -61,6 +73,16 @@ public class NubesgenConfiguration {
 
     public void setAddOns(List<AddOnConfiguration> addOns) {
         this.addOns = addOns;
+    }
+
+    @JsonIgnore
+    public boolean isApplicationTypeAppService() {
+        return ApplicationType.APP_SERVICE.equals(this.getApplicationType());
+    }
+
+    @JsonIgnore
+    public boolean isApplicationTypeFunction() {
+        return ApplicationType.FUNCTION.equals(this.getApplicationType());
     }
 
     @JsonIgnore
@@ -96,6 +118,7 @@ public class NubesgenConfiguration {
                 "date=" + date +
                 ", region='" + region + '\'' +
                 ", applicationName='" + applicationName + '\'' +
+                ", applicationType=" + applicationType +
                 ", databaseConfiguration=" + databaseConfiguration +
                 ", addOns=" + addOns +
                 '}';

@@ -2,10 +2,7 @@ package io.github.nubesgen.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.nubesgen.configuration.ConfigurationSize;
-import io.github.nubesgen.configuration.DatabaseConfiguration;
-import io.github.nubesgen.configuration.DatabaseType;
-import io.github.nubesgen.configuration.NubesgenConfiguration;
+import io.github.nubesgen.configuration.*;
 import io.github.nubesgen.service.CodeGeneratorService;
 import io.github.nubesgen.service.TelemetryService;
 import io.github.nubesgen.service.compression.CompressionService;
@@ -50,10 +47,11 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
+                                                  @RequestParam(defaultValue = "APP_SERVICE") String type,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "MYSQL") String database) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(region, database);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database);
         return generateZipApplication(applicationName, properties);
     }
 
@@ -71,10 +69,11 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.tgz")
     public @ResponseBody
     ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
+                                                  @RequestParam(defaultValue = "APP_SERVICE") String type,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "MYSQL") String database) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(region, database);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database);
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -87,8 +86,13 @@ public class MainController {
         return this.generateApplication(properties, this.tarGzService);
     }
 
-    private NubesgenConfiguration generateNubesgenConfiguration(String region, String database) {
+    private NubesgenConfiguration generateNubesgenConfiguration(String type, String region, String database) {
         NubesgenConfiguration properties = new NubesgenConfiguration();
+        if (type.equals(ApplicationType.FUNCTION)) {
+            properties.setApplicationType(ApplicationType.FUNCTION);
+        } else {
+            properties.setApplicationType(ApplicationType.APP_SERVICE);
+        }
         properties.setRegion(region);
         if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.S));

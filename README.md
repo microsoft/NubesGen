@@ -96,6 +96,7 @@ curl "http://localhost:8080/myapplication.tgz?location=westeurope&database=MYSQL
 
 | Name  | Description  | Values  | POST example | GET example  |
 |---|---|---|---|---|
+| type  | Type of application: Web app or serverless  | APP_SERVICE, FUNCTION  | `http://localhost:8080/myapplication.tgz -d '{ "type": "FUNCTION"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?type=FUNCTION`  |
 | location  |  Azure Region where the resource will be located | Run `az account list-locations`  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?location=westeurope`  |
 | database  |  The database | NONE, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=MYSQL`  |
 

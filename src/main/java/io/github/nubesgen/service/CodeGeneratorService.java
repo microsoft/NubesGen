@@ -48,6 +48,14 @@ public class CodeGeneratorService {
         Map<String, String> result = new HashMap<>();
         // Main templates
         generateFileList(configuration, templateListService.listMainTemplates(), result);
+        // App Services templates
+        if (ApplicationType.APP_SERVICE.equals(configuration.getApplicationType())) {
+            generateFileList(configuration, templateListService.listAppServiceTemplates(), result);
+        }
+        // Functions templates
+        if (ApplicationType.FUNCTION.equals(configuration.getApplicationType())) {
+            generateFileList(configuration, templateListService.listFunctionTemplates(), result);
+        }
         // MySQL templates
         if (DatabaseType.MYSQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
             generateFileList(configuration, templateListService.listMysqlTemplates(), result);

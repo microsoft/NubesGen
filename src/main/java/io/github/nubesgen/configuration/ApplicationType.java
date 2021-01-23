@@ -1,5 +1,5 @@
 package io.github.nubesgen.configuration;
 
-public enum DatabaseType {
-    NONE, MYSQL, POSTGRESQL
+public enum ApplicationType {
+    APP_SERVICE, FUNCTION
 }
