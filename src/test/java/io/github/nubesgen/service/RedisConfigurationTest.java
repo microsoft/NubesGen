@@ -39,9 +39,9 @@ class RedisConfigurationTest {
     public static void init() {
         properties.setApplicationName("nubesgen-testapp-redis");
         properties.setRegion("westeurope");
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.S));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.BASIC));
         List<AddOnConfiguration> addOns = new ArrayList<>();
-        addOns.add(new AddOnConfiguration(AddOnType.REDIS, ConfigurationSize.M));
+        addOns.add(new AddOnConfiguration(AddOnType.REDIS, ConfigurationSize.BASIC));
         properties.setAddOns(addOns);
     }
 

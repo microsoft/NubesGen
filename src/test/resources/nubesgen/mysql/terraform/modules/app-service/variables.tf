@@ -19,3 +19,15 @@ variable "sku_size" {
   description = "The Azure App Service plan size"
   default     = "P1v2"
 }
+
+variable "database_url" {
+  description = "The URL to the database"
+}
+
+variable "database_username" {
+  description = "The database username"
+}
+
+variable "database_password" {
+  description = "The database password"
+}

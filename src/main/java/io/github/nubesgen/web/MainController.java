@@ -49,7 +49,7 @@ public class MainController {
     ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String type,
                                                   @RequestParam(defaultValue = "eastus") String region,
-                                                  @RequestParam(defaultValue = "MYSQL") String database) {
+                                                  @RequestParam(defaultValue = "NONE") String database) {
 
         NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database);
         return generateZipApplication(applicationName, properties);
@@ -71,7 +71,7 @@ public class MainController {
     ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String type,
                                                   @RequestParam(defaultValue = "eastus") String region,
-                                                  @RequestParam(defaultValue = "MYSQL") String database) {
+                                                  @RequestParam(defaultValue = "NONE") String database) {
 
         NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database);
         return generateTgzApplication(applicationName, properties);
@@ -95,11 +95,11 @@ public class MainController {
         }
         properties.setRegion(region);
         if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.S));
+            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.FREE));
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, ConfigurationSize.S));
+            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, ConfigurationSize.BASIC));
         } else if (database.startsWith(DatabaseType.POSTGRESQL.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.S));
+            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.BASIC));
         }
         return properties;
     }

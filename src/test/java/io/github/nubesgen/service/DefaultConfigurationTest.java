@@ -43,17 +43,13 @@ class DefaultConfigurationTest {
     void generateDefaultConfiguration() throws IOException {
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
         int templatesSize = this.templateListService.listMainTemplates().size() +
-                this.templateListService.listAppServiceTemplates().size() +
-                this.templateListService.listMysqlTemplates().size();
+                this.templateListService.listAppServiceTemplates().size();
 
         assertEquals(templatesSize, configuration.size());
         for (String filename : templateListService.listMainTemplates()) {
             this.generateAndTestOneFile(filename);
         }
         for (String filename : templateListService.listAppServiceTemplates()) {
-            this.generateAndTestOneFile(filename);
-        }
-        for (String filename : templateListService.listMysqlTemplates()) {
             this.generateAndTestOneFile(filename);
         }
     }

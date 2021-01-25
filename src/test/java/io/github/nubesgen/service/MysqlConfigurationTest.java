@@ -1,6 +1,9 @@
 package io.github.nubesgen.service;
 
-import io.github.nubesgen.configuration.*;
+import io.github.nubesgen.configuration.ConfigurationSize;
+import io.github.nubesgen.configuration.DatabaseConfiguration;
+import io.github.nubesgen.configuration.DatabaseType;
+import io.github.nubesgen.configuration.NubesgenConfiguration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -17,42 +20,41 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests NubesGen with Azure Functions + MySQL.
+ * Tests NubesGen with the default options.
  */
 @SpringBootTest
-class FunctionMysqlConfigurationTest {
+class MysqlConfigurationTest {
 
-    private final Logger log = LoggerFactory.getLogger(FunctionMysqlConfigurationTest.class);
+    private final Logger log = LoggerFactory.getLogger(MysqlConfigurationTest.class);
     private static final NubesgenConfiguration properties = new NubesgenConfiguration();
     private final CodeGeneratorService codeGeneratorService;
     private final TemplateListService templateListService;
 
     @Autowired
-    public FunctionMysqlConfigurationTest(CodeGeneratorService codeGeneratorService, TemplateListService templateListService) {
+    public MysqlConfigurationTest(CodeGeneratorService codeGeneratorService, TemplateListService templateListService) {
         this.codeGeneratorService = codeGeneratorService;
         this.templateListService = templateListService;
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, ConfigurationSize.BASIC));
     }
 
     @BeforeAll
     public static void init() {
-        properties.setApplicationName("nubesgen-testapp-function");
+        properties.setApplicationName("nubesgen-testapp-mysql");
         properties.setRegion("westeurope");
-        properties.setApplicationType(ApplicationType.FUNCTION);
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, ConfigurationSize.BASIC));
     }
 
     @Test
-    void generateFunctionMysqlConfiguration() throws IOException {
+    void generateMysqlConfiguration() throws IOException {
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
         int templatesSize = this.templateListService.listMainTemplates().size() +
-                this.templateListService.listFunctionTemplates().size() +
+                this.templateListService.listAppServiceTemplates().size() +
                 this.templateListService.listMysqlTemplates().size();
 
         assertEquals(templatesSize, configuration.size());
         for (String filename : templateListService.listMainTemplates()) {
             this.generateAndTestOneFile(filename);
         }
-        for (String filename : templateListService.listFunctionTemplates()) {
+        for (String filename : templateListService.listAppServiceTemplates()) {
             this.generateAndTestOneFile(filename);
         }
         for (String filename : templateListService.listMysqlTemplates()) {
@@ -63,7 +65,7 @@ class FunctionMysqlConfigurationTest {
     private void generateAndTestOneFile(String filename) throws IOException {
         log.info("Validating {}", filename);
         String result = this.codeGeneratorService.generateFile(filename, properties);
-        File testFile = new ClassPathResource("nubesgen/function-mysql/" + filename).getFile();
+        File testFile = new ClassPathResource("nubesgen/mysql/" + filename).getFile();
         String test = new String(
                 Files.readAllBytes(testFile.toPath()));
 

@@ -40,7 +40,7 @@ class PostgresqlConfigurationTest {
     public static void init() {
         properties.setApplicationName("nubesgen-testapp-postgresql");
         properties.setRegion("westeurope");
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.S));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.BASIC));
     }
 
     @Test

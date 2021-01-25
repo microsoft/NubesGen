@@ -11,8 +11,8 @@ public class DatabaseConfiguration {
     private ConfigurationSize configurationSize;
 
     public DatabaseConfiguration() {
-        this.databaseType = DatabaseType.MYSQL;
-        this.configurationSize = ConfigurationSize.S;
+        this.databaseType = DatabaseType.NONE;
+        this.configurationSize = ConfigurationSize.FREE;
     }
 
     public DatabaseConfiguration(DatabaseType databaseType, ConfigurationSize configurationSize) {

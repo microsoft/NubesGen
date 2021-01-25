@@ -39,9 +39,9 @@ class StorageBlobConfigurationTest {
     public static void init() {
         properties.setApplicationName("nubesgen-testapp-storage-blob");
         properties.setRegion("westeurope");
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.S));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.BASIC));
         List<AddOnConfiguration> addOns = new ArrayList<>();
-        addOns.add(new AddOnConfiguration(AddOnType.STORAGE_BLOB, ConfigurationSize.M));
+        addOns.add(new AddOnConfiguration(AddOnType.STORAGE_BLOB, ConfigurationSize.BASIC));
         properties.setAddOns(addOns);
     }
 
