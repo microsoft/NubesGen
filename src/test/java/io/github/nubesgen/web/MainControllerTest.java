@@ -81,6 +81,23 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
     }
 
+    @Test
+    public void generateApplicationWithAddOns() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?addOns=STORAGE_BLOB,REDIS")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.keySet().contains("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/redis"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/storage-blob"));
+        assertTrue(entries.keySet().contains("terraform/modules/redis/main.tf"));
+        assertTrue(entries.get("terraform/modules/redis/main.tf").contains("azurerm_redis_cache"));
+        assertTrue(entries.keySet().contains("terraform/modules/storage-blob/main.tf"));
+        assertTrue(entries.get("terraform/modules/storage-blob/main.tf").contains("azurerm_storage_account"));
+    }
+
     private static Map<String, String> extractZipEntries(byte[] content) throws IOException {
         Map<String, String> entries = new HashMap<>();
 

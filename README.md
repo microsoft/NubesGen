@@ -54,6 +54,10 @@ To deploy your infrastructure, all you need to do is initialize Terraform and ap
 terraform init && terraform apply -auto-approve
 ```
 
+## Why the name "NubesGen"?
+
+NubesGen is a code generator for Terraform. In Latin, Terra means "earth" and Nubes means "cloud". 
+
 ## Why only Azure?
 
 There is nothing specific to Azure in NubesGen, but as our goal is to have high-quality templates and as this is being done by Azure experts, we are only focusing on Azure for the moment.
@@ -83,7 +87,7 @@ curl "http://localhost:8080/nubesgen.zip" | jar xv
 If you want to pass some parameters in POST:
 
 ```
-curl "http://localhost:8080/myapplication.tgz" -d '{ "location": "westeurope", "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"  | tar -xzvf -
+curl "http://localhost:8080/myapplication.tgz" -d '{ "location": "westeurope", "database": { "type": "MYSQL", "size": "BASIC"}}' -H "Content-Type: application/json"  | tar -xzvf -
 ```
 
 If you want to pass some parameters in GET:
@@ -98,8 +102,22 @@ curl "http://localhost:8080/myapplication.tgz?location=westeurope&database=MYSQL
 |---|---|---|---|---|
 | type  | Type of application: Web app or serverless  | APP_SERVICE, FUNCTION  | `http://localhost:8080/myapplication.tgz -d '{ "type": "FUNCTION"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?type=FUNCTION`  |
 | location  |  Azure Region where the resource will be located | Run `az account list-locations`  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?location=westeurope`  |
-| database  |  The database | NONE, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "size": "S"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=MYSQL`  |
+| database  |  The database | NONE, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "size": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=MYSQL`  |
 
 You can also add "addOns", which are specific technologies added to your stack:
 
+| Name  | Description  | POST example | GET example  |
+|---|---|---|---|
+| STORAGE_BLOB  | Add support for Azure Blob Storage  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope", "addOns": [{ "type": "STORAGE_BLOB", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addOns=STORAGE_BLOB`  |
+| REDIS  | Add support for Azure Cache for Redis  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope", "addOns": [{ "type": "REDIS", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addOns=REDIS`  |
 
+_In a GET request, you can configure several addOns by separating them with a comma, for example `addOns=STORAGE_BLOB,REDIS`_
+
+Here is a complete example:
+
+```
+curl "http://localhost:8080/myapplication.tgz" -d '{ "location": "westeurope", "database": { "type": "MYSQL", "size": "BASIC"}, "addOns": [{ "type": "STORAGE_BLOB", "size": "BASIC"}, { "type": "REDIS", "size": "BASIC"}]}' -H "Content-Type: application/json"  | tar -xzvf -
+```
+```
+curl "http://localhost:8080/myapplication.tgz?location=westeurope&database=MYSQL&addOns=STORAGE_BLOB,REDIS"  | tar -xzvf -
+```

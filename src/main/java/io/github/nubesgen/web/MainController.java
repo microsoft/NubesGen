@@ -18,6 +18,8 @@ import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -49,9 +51,10 @@ public class MainController {
     ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String type,
                                                   @RequestParam(defaultValue = "eastus") String region,
-                                                  @RequestParam(defaultValue = "NONE") String database) {
+                                                  @RequestParam(defaultValue = "NONE") String database,
+                                                  @RequestParam(defaultValue = "") String addOns) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database, addOns);
         return generateZipApplication(applicationName, properties);
     }
 
@@ -71,9 +74,10 @@ public class MainController {
     ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String type,
                                                   @RequestParam(defaultValue = "eastus") String region,
-                                                  @RequestParam(defaultValue = "NONE") String database) {
+                                                  @RequestParam(defaultValue = "NONE") String database,
+                                                  @RequestParam(defaultValue = "") String addOns) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database, addOns);
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -86,13 +90,14 @@ public class MainController {
         return this.generateApplication(properties, this.tarGzService);
     }
 
-    private NubesgenConfiguration generateNubesgenConfiguration(String type, String region, String database) {
+    private NubesgenConfiguration generateNubesgenConfiguration(String type, String region, String database, String addOns) {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         if (type.equals(ApplicationType.FUNCTION)) {
             properties.setApplicationType(ApplicationType.FUNCTION);
         } else {
             properties.setApplicationType(ApplicationType.APP_SERVICE);
         }
+        log.debug("Application is of type: {}", properties.getApplicationType());
         properties.setRegion(region);
         if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.FREE));
@@ -100,6 +105,19 @@ public class MainController {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, ConfigurationSize.BASIC));
         } else if (database.startsWith(DatabaseType.POSTGRESQL.name())) {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.BASIC));
+        }
+        log.debug("Database is: {}", properties.getDatabaseConfiguration().getDatabaseType());
+        if (addOns != null && !"".equals(addOns)) {
+            List<AddOnConfiguration> addOnConfigurations = new ArrayList<>();
+            for (String addOn : addOns.split(",")) {
+                log.debug("Configuring addOn: {}", addOn);
+                if (addOn.startsWith(AddOnType.REDIS.name())) {
+                    addOnConfigurations.add(new AddOnConfiguration(AddOnType.REDIS, ConfigurationSize.BASIC));
+                } else if (addOn.startsWith(AddOnType.STORAGE_BLOB.name())) {
+                    addOnConfigurations.add(new AddOnConfiguration(AddOnType.STORAGE_BLOB, ConfigurationSize.BASIC));
+                }
+            }
+            properties.setAddOns(addOnConfigurations);
         }
         return properties;
     }
