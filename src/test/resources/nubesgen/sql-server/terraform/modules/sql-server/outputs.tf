@@ -1,5 +1,5 @@
 output "database_url" {
-  value = "jdbc:sqlserver://${azurerm_mssql_server.database.name}.database.windows.net:1433;database=${azurerm_mssql_database.database.name};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+  value = "${azurerm_mssql_server.database.name}.database.windows.net:1433;database=${azurerm_mssql_database.database.name};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
 }
 
 output "database_username" {
