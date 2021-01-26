@@ -20,7 +20,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests NubesGen with the default options.
+ * Tests NubesGen with the App Service + MySQL option.
  */
 @SpringBootTest
 class MysqlConfigurationTest {
