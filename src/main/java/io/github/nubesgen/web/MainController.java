@@ -91,6 +91,9 @@ public class MainController {
     }
 
     private NubesgenConfiguration generateNubesgenConfiguration(String type, String region, String database, String addOns) {
+        type = type.toUpperCase();
+        database = database.toUpperCase();
+        addOns = addOns.toUpperCase();
         NubesgenConfiguration properties = new NubesgenConfiguration();
         if (type.equals(ApplicationType.FUNCTION)) {
             properties.setApplicationType(ApplicationType.FUNCTION);
