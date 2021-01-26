@@ -93,25 +93,27 @@ curl "http://localhost:8080/myapplication.tgz" -d '{ "location": "westeurope", "
 If you want to pass some parameters in GET:
 
 ```
-curl "http://localhost:8080/myapplication.tgz?location=westeurope&database=MYSQL"  | tar -xzvf -
+curl "http://localhost:8080/myapplication.tgz?location=westeurope&database=mysql"  | tar -xzvf -
 ```
 
 ## Complete parameters list
 
 | Name  | Description  | Values  | POST example | GET example  |
 |---|---|---|---|---|
-| type  | Type of application: Web app or serverless  | APP_SERVICE, FUNCTION  | `http://localhost:8080/myapplication.tgz -d '{ "type": "FUNCTION"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?type=FUNCTION`  |
+| type  | Type of application: Web app or serverless  | APP_SERVICE, FUNCTION  | `http://localhost:8080/myapplication.tgz -d '{ "type": "FUNCTION"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?type=function`  |
 | location  |  Azure Region where the resource will be located | Run `az account list-locations`  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?location=westeurope`  |
-| database  |  The database | NONE, SQL_SERVER, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "size": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=MYSQL`  |
+| database  |  The database | NONE, SQL_SERVER, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "size": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=mysql`  |
+
+_In a GET request, parameters can be in uppercase or lowercase, for example `database=MYSQL`or `database=mysql`_
 
 You can also add "addOns", which are specific technologies added to your stack:
 
 | Name  | Description  | POST example | GET example  |
 |---|---|---|---|
-| STORAGE_BLOB  | Add support for Azure Blob Storage  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope", "addOns": [{ "type": "STORAGE_BLOB", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addOns=STORAGE_BLOB`  |
-| REDIS  | Add support for Azure Cache for Redis  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope", "addOns": [{ "type": "REDIS", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addOns=REDIS`  |
+| STORAGE_BLOB  | Add support for Azure Blob Storage  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope", "addOns": [{ "type": "STORAGE_BLOB", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addOns=storage_blob`  |
+| REDIS  | Add support for Azure Cache for Redis  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope", "addOns": [{ "type": "REDIS", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addOns=redis`  |
 
-_In a GET request, you can configure several addOns by separating them with a comma, for example `addOns=STORAGE_BLOB,REDIS`_
+_In a GET request, you can configure several addOns by separating them with a comma, for example `addOns=storage_blob,redis`_
 
 Here is a complete example:
 
