@@ -56,6 +56,10 @@ public class CodeGeneratorService {
         if (ApplicationType.FUNCTION.equals(configuration.getApplicationType())) {
             generateFileList(configuration, templateListService.listFunctionTemplates(), result);
         }
+        // SQL Server templates
+        if (DatabaseType.SQL_SERVER.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
+            generateFileList(configuration, templateListService.listSqlServerTemplates(), result);
+        }
         // MySQL templates
         if (DatabaseType.MYSQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
             generateFileList(configuration, templateListService.listMysqlTemplates(), result);

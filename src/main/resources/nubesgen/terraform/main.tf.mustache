@@ -63,6 +63,9 @@ module "application" {
 {{^databaseTypeNone}}
 
 module "database" {
+{{#databaseTypeSqlServer}}
+  source           = "./modules/sql-server"
+{{/databaseTypeSqlServer}}
 {{#databaseTypeMysql}}
   source           = "./modules/mysql"
 {{/databaseTypeMysql}}

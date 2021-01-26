@@ -91,6 +91,11 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isDatabaseTypeSqlServer() {
+        return DatabaseType.SQL_SERVER.equals(this.databaseConfiguration.getDatabaseType());
+    }
+
+    @JsonIgnore
     public boolean isDatabaseTypeMysql() {
         return DatabaseType.MYSQL.equals(this.databaseConfiguration.getDatabaseType());
     }

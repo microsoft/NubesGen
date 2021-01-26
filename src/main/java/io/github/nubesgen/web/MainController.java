@@ -101,6 +101,8 @@ public class MainController {
         properties.setRegion(region);
         if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.FREE));
+        } else if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
+            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, ConfigurationSize.BASIC));
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, ConfigurationSize.BASIC));
         } else if (database.startsWith(DatabaseType.POSTGRESQL.name())) {

@@ -102,7 +102,7 @@ curl "http://localhost:8080/myapplication.tgz?location=westeurope&database=MYSQL
 |---|---|---|---|---|
 | type  | Type of application: Web app or serverless  | APP_SERVICE, FUNCTION  | `http://localhost:8080/myapplication.tgz -d '{ "type": "FUNCTION"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?type=FUNCTION`  |
 | location  |  Azure Region where the resource will be located | Run `az account list-locations`  | `http://localhost:8080/myapplication.tgz -d '{ "location": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?location=westeurope`  |
-| database  |  The database | NONE, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "size": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=MYSQL`  |
+| database  |  The database | NONE, SQL_SERVER, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "size": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=MYSQL`  |
 
 You can also add "addOns", which are specific technologies added to your stack:
 
