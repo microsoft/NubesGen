@@ -1,5 +1,5 @@
 output "database_url" {
-  value = "${azurerm_postgresql_server.database.fqdn}:5432/${azurerm_postgresql_server.database.name}"
+  value = "${azurerm_postgresql_server.database.fqdn}:5432/${azurerm_postgresql_database.database.name}"
 }
 
 output "database_username" {
