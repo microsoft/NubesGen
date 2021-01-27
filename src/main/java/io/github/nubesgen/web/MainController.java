@@ -112,7 +112,7 @@ public class MainController {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.BASIC));
         }
         log.debug("Database is: {}", properties.getDatabaseConfiguration().getDatabaseType());
-        if (addOns != null && !"".equals(addOns)) {
+        if (!"".equals(addOns)) {
             List<AddOnConfiguration> addOnConfigurations = new ArrayList<>();
             for (String addOn : addOns.split(",")) {
                 log.debug("Configuring addOn: {}", addOn);
