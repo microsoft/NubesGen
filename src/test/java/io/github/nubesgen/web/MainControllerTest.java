@@ -63,7 +63,7 @@ public class MainControllerTest {
 
         byte[] zippedContent = result.getResponse().getContentAsByteArray();
         Map<String, String> entries = extractZipEntries(zippedContent);
-        assertTrue(entries.keySet().contains("terraform/main.tf"));
+        assertTrue(entries.containsKey("terraform/main.tf"));
     }
 
     @Test
@@ -74,9 +74,9 @@ public class MainControllerTest {
 
         byte[] zippedContent = result.getResponse().getContentAsByteArray();
         Map<String, String> entries = extractZipEntries(zippedContent);
-        assertTrue(entries.keySet().contains("terraform/main.tf"));
+        assertTrue(entries.containsKey("terraform/main.tf"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/postgresql"));
-        assertTrue(entries.keySet().contains("terraform/variables.tf"));
+        assertTrue(entries.containsKey("terraform/variables.tf"));
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
     }
@@ -89,12 +89,12 @@ public class MainControllerTest {
 
         byte[] zippedContent = result.getResponse().getContentAsByteArray();
         Map<String, String> entries = extractZipEntries(zippedContent);
-        assertTrue(entries.keySet().contains("terraform/main.tf"));
+        assertTrue(entries.containsKey("terraform/main.tf"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/redis"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/storage-blob"));
-        assertTrue(entries.keySet().contains("terraform/modules/redis/main.tf"));
+        assertTrue(entries.containsKey("terraform/modules/redis/main.tf"));
         assertTrue(entries.get("terraform/modules/redis/main.tf").contains("azurerm_redis_cache"));
-        assertTrue(entries.keySet().contains("terraform/modules/storage-blob/main.tf"));
+        assertTrue(entries.containsKey("terraform/modules/storage-blob/main.tf"));
         assertTrue(entries.get("terraform/modules/storage-blob/main.tf").contains("azurerm_storage_account"));
     }
 
@@ -106,12 +106,12 @@ public class MainControllerTest {
 
         byte[] zippedContent = result.getResponse().getContentAsByteArray();
         Map<String, String> entries = extractZipEntries(zippedContent);
-        assertTrue(entries.keySet().contains("terraform/main.tf"));
+        assertTrue(entries.containsKey("terraform/main.tf"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/function"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/cosmosdb-mongodb"));
-        assertTrue(entries.keySet().contains("terraform/modules/function/main.tf"));
+        assertTrue(entries.containsKey("terraform/modules/function/main.tf"));
         assertTrue(entries.get("terraform/modules/function/main.tf").contains("azurerm_function_app"));
-        assertTrue(entries.keySet().contains("terraform/modules/cosmosdb-mongodb/main.tf"));
+        assertTrue(entries.containsKey("terraform/modules/cosmosdb-mongodb/main.tf"));
         assertTrue(entries.get("terraform/modules/cosmosdb-mongodb/main.tf").contains("azurerm_cosmosdb_mongo_database"));
     }
 
