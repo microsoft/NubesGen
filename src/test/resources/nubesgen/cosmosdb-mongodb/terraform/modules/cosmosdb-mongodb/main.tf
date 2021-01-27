@@ -11,7 +11,7 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   kind                = "MongoDB"
   enable_free_tier    = true
   consistency_policy {
-    consistency_level = "BoundedStaleness"
+    consistency_level = "Session"
   }
   geo_location {
     failover_priority = 0
