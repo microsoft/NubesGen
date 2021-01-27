@@ -33,6 +33,7 @@ resource "azurerm_app_service" "application" {
 
     # These are app specific environment variables
     "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+
     "SPRING_REDIS_HOST"          = var.azure_redis_host
     "SPRING_REDIS_PASSWORD"      = var.azure_redis_password
     "SPRING_REDIS_PORT"          = "6380"

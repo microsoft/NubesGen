@@ -95,7 +95,7 @@ public class MainController {
         database = database.toUpperCase();
         addOns = addOns.toUpperCase();
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        if (type.equals(ApplicationType.FUNCTION)) {
+        if (type.equals(ApplicationType.FUNCTION.name())) {
             properties.setApplicationType(ApplicationType.FUNCTION);
         } else {
             properties.setApplicationType(ApplicationType.APP_SERVICE);
@@ -120,6 +120,8 @@ public class MainController {
                     addOnConfigurations.add(new AddOnConfiguration(AddOnType.REDIS, ConfigurationSize.BASIC));
                 } else if (addOn.startsWith(AddOnType.STORAGE_BLOB.name())) {
                     addOnConfigurations.add(new AddOnConfiguration(AddOnType.STORAGE_BLOB, ConfigurationSize.BASIC));
+                } else if (addOn.startsWith(AddOnType.COSMOSDB_MONGODB.name())) {
+                    addOnConfigurations.add(new AddOnConfiguration(AddOnType.COSMOSDB_MONGODB, ConfigurationSize.FREE));
                 }
             }
             properties.setAddOns(addOnConfigurations);

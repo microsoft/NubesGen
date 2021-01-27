@@ -48,26 +48,28 @@ public class CodeGeneratorService {
         Map<String, String> result = new HashMap<>();
         // Main templates
         generateFileList(configuration, templateListService.listMainTemplates(), result);
-        // App Services templates
-        if (ApplicationType.APP_SERVICE.equals(configuration.getApplicationType())) {
+
+        // Application templates
+        if (ApplicationType.FUNCTION.equals(configuration.getApplicationType())) {
+            // Functions templates
+            generateFileList(configuration, templateListService.listFunctionTemplates(), result);
+        } else {
+            // App Services templates (default template)
             generateFileList(configuration, templateListService.listAppServiceTemplates(), result);
         }
-        // Functions templates
-        if (ApplicationType.FUNCTION.equals(configuration.getApplicationType())) {
-            generateFileList(configuration, templateListService.listFunctionTemplates(), result);
-        }
-        // SQL Server templates
+
+        // Database templates
         if (DatabaseType.SQL_SERVER.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
+            // SQL Server templates
             generateFileList(configuration, templateListService.listSqlServerTemplates(), result);
-        }
-        // MySQL templates
-        if (DatabaseType.MYSQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
+        } else if (DatabaseType.MYSQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
+            // MySQL templates
             generateFileList(configuration, templateListService.listMysqlTemplates(), result);
-        }
-        // PostgreSQL templates
-        if (DatabaseType.POSTGRESQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
+        } else if (DatabaseType.POSTGRESQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
+            // PostgreSQL templates
             generateFileList(configuration, templateListService.listPostgresqlTemplates(), result);
         }
+
         // Add Ons
         for (AddOnConfiguration addOn : configuration.getAddOns()) {
             if (AddOnType.REDIS.equals(addOn.getAddOnType())) {
@@ -75,6 +77,9 @@ public class CodeGeneratorService {
             }
             if (AddOnType.STORAGE_BLOB.equals(addOn.getAddOnType())) {
                 generateFileList(configuration, templateListService.listStorageBlobTemplates(), result);
+            }
+            if (AddOnType.COSMOSDB_MONGODB.equals(addOn.getAddOnType())) {
+                generateFileList(configuration, templateListService.listCosmosdbMongodbTemplates(), result);
             }
         }
         return result;

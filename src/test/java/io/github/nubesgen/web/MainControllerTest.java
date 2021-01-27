@@ -98,6 +98,23 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/storage-blob/main.tf").contains("azurerm_storage_account"));
     }
 
+    @Test
+    public void generateFunctionWithCosmosdb() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?type=function&addOns=cosmosdb_mongodb")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.keySet().contains("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/function"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/cosmosdb-mongodb"));
+        assertTrue(entries.keySet().contains("terraform/modules/function/main.tf"));
+        assertTrue(entries.get("terraform/modules/function/main.tf").contains("azurerm_function_app"));
+        assertTrue(entries.keySet().contains("terraform/modules/cosmosdb-mongodb/main.tf"));
+        assertTrue(entries.get("terraform/modules/cosmosdb-mongodb/main.tf").contains("azurerm_cosmosdb_mongo_database"));
+    }
+
     private static Map<String, String> extractZipEntries(byte[] content) throws IOException {
         Map<String, String> entries = new HashMap<>();
 

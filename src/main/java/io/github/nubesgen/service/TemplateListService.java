@@ -3,6 +3,7 @@ package io.github.nubesgen.service;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,6 +26,8 @@ public class TemplateListService {
     private final List<String> redisList = new ArrayList<>();
 
     private final List<String> storageBlobList = new ArrayList<>();
+
+    private final List<String> cosmosdbMongodbList = new ArrayList<>();
 
     public TemplateListService() {
         // Main files
@@ -67,6 +70,11 @@ public class TemplateListService {
         storageBlobList.add("terraform/modules/storage-blob/outputs.tf");
         storageBlobList.add("terraform/modules/storage-blob/README.md");
         storageBlobList.add("terraform/modules/storage-blob/variables.tf");
+        // Cosmos DB MongoDB module
+        cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/main.tf");
+        cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/outputs.tf");
+        cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/README.md");
+        cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/variables.tf");
     }
 
     public List<String> listMainTemplates() {
@@ -101,8 +109,13 @@ public class TemplateListService {
         return storageBlobList;
     }
 
+    public List<String> listCosmosdbMongodbTemplates() {
+        return cosmosdbMongodbList;
+    }
+
     public List<String> listAllTemplates() {
-        return Stream.of(mainList, appServiceList, functionList, sqlServerList, mysqlList, postgresqlList, redisList, storageBlobList)
-                .flatMap(list -> list.stream()).collect(Collectors.toList());
+        return Stream.of(mainList, appServiceList, functionList, sqlServerList, mysqlList, postgresqlList, redisList,
+                storageBlobList, cosmosdbMongodbList)
+                .flatMap(Collection::stream).collect(Collectors.toList());
     }
 }

@@ -46,6 +46,11 @@ module "application" {
   azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
   azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
 {{/addOnStorageBlob}}
+{{#addOnCosmosdbMongodb}}
+
+  azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
+  azure_cosmosdb_mongodb_uri      = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
+{{/addOnCosmosdbMongodb}}
 
   depends_on = [
 {{^databaseTypeNone}}
@@ -57,6 +62,9 @@ module "application" {
 {{#addOnStorageBlob}}
     module.storage-blob,
 {{/addOnStorageBlob}}
+{{#addOnCosmosdbMongodb}}
+    module.cosmosdb-mongodb,
+{{/addOnCosmosdbMongodb}}
     azurerm_resource_group.main
   ]
 }
@@ -80,18 +88,6 @@ module "database" {
   ]
 }
 {{/databaseTypeNone}}
-{{#addOnStorageBlob}}
-
-module "storage-blob" {
-  source           = "./modules/storage-blob"
-  resource_group   = var.resource_group
-  location         = var.location
-  application_name = var.application_name
-  depends_on = [
-    azurerm_resource_group.main
-  ]
-}
-{{/addOnStorageBlob}}
 {{#addOnRedis}}
 
 module "redis" {
@@ -104,3 +100,27 @@ module "redis" {
   ]
 }
 {{/addOnRedis}}
+{{#addOnStorageBlob}}
+
+module "storage-blob" {
+  source           = "./modules/storage-blob"
+  resource_group   = var.resource_group
+  location         = var.location
+  application_name = var.application_name
+  depends_on = [
+    azurerm_resource_group.main
+  ]
+}
+{{/addOnStorageBlob}}
+{{#addOnCosmosdbMongodb}}
+
+module "cosmosdb-mongodb" {
+  source           = "./modules/cosmosdb-mongodb"
+  resource_group   = var.resource_group
+  location         = var.location
+  application_name = var.application_name
+  depends_on = [
+    azurerm_resource_group.main
+  ]
+}
+{{/addOnCosmosdbMongodb}}

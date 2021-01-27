@@ -106,15 +106,21 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isAddOnRedis() {
+        return this.getAddOns().stream()
+                .anyMatch(addOn -> AddOnType.REDIS.equals(addOn.getAddOnType()));
+    }
+
+    @JsonIgnore
     public boolean isAddOnStorageBlob() {
         return this.getAddOns().stream()
                 .anyMatch(addOn -> AddOnType.STORAGE_BLOB.equals(addOn.getAddOnType()));
     }
 
     @JsonIgnore
-    public boolean isAddOnRedis() {
+    public boolean isAddOnCosmosdbMongodb() {
         return this.getAddOns().stream()
-                .anyMatch(addOn -> AddOnType.REDIS.equals(addOn.getAddOnType()));
+                .anyMatch(addOn -> AddOnType.COSMOSDB_MONGODB.equals(addOn.getAddOnType()));
     }
 
     @Override

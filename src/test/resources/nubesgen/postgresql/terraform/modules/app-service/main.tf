@@ -33,6 +33,7 @@ resource "azurerm_app_service" "application" {
 
     # These are app specific environment variables
     "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+
     "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
     "SPRING_DATASOURCE_USERNAME" = var.database_username
     "SPRING_DATASOURCE_PASSWORD" = var.database_password
