@@ -9,7 +9,7 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   location            = var.location
   offer_type          = "Standard"
   kind                = "MongoDB"
-  #enable_free_tier    = true
+  enable_free_tier    = true
   consistency_policy {
     consistency_level = "BoundedStaleness"
   }
