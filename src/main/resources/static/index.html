@@ -77,8 +77,10 @@
          },
         download(){
           if(this.projectSlug.trim() === '')
-            // TODO: Do something
+          {
+            document.getElementById('projectNameInput').focus();
             return;
+          }
           this.updatePageParameters();
           var url = `https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.components.frontApp.type}&frontApp.size=${this.components.frontApp.size}&database=${this.components.database.type}.${this.components.database.size}`;
 
@@ -185,13 +187,13 @@
         <div class="text-6xl font-semibold text-gray-900 leading-none">Kickstart your project on Azure <span
           class="text-blue-700 underline">in minutes</span>!
       </div>
-      <div class="mt-6 text-xl font-light text-true-gray-500 antialiased">Easily generate
+      <div class="my-12 text-xl font-light text-true-gray-500 antialiased">Easily generate
         <strong>Terraform</strong> templates and <strong>GitHub Actions</strong> for your project.
       </div>
-      <button href="#generator-form"
-        class="mt-12 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out">
+      <a href="#generator-form"
+        class="mt-24 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out">
         Generate your project infrastructure now
-      </button>
+    </a>
       <div class="mt-12 lg:mt-32 lg:ml-20 text-left">
         <bottom type="button"
           class="flex items-center justify-center w-12 h-12 rounded-full bg-cool-gray-100 text-gray-800 animate-bounce hover:text-gray-900 hover:bg-cool-gray-50 transition duration-300 ease-in-out cursor-pointer">
@@ -229,18 +231,18 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Create a new infrastructure
             </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
-              Personal details and application.
-            </p>
+            
           </div>
           <div class="border-t border-b border-gray-200">
             <dl>
               <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">
-                  Project name
+                  Project name <span class="text-red-600">*</span>
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <input type="text"
+                  <input 
+                    id="projectNameInput"
+                    type="text"
                     class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                     placeholder="my-saas-app"
                     style="transition: all 0.15s ease 0s;"
