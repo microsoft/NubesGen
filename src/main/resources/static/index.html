@@ -82,7 +82,7 @@
             return;
           }
           this.updatePageParameters();
-          var url = `https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.components.frontApp.type}&frontApp.size=${this.components.frontApp.size}&database=${this.components.database.type}.${this.components.database.size}`;
+          var url = `https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&type=${this.components.frontApp.type}.${this.components.frontApp.size}&database=${this.components.database.type}.${this.components.database.size}`;
 
           if(this.addons.length > 0)
           {
