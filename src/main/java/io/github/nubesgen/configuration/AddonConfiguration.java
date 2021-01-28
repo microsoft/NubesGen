@@ -2,28 +2,28 @@ package io.github.nubesgen.configuration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AddOnConfiguration {
+public class AddonConfiguration {
 
     @JsonProperty("type")
-    private AddOnType addOnType;
+    private AddonType addonType;
 
     @JsonProperty("size")
     private ConfigurationSize configurationSize;
 
-    public AddOnConfiguration() {
+    public AddonConfiguration() {
     }
 
-    public AddOnConfiguration(AddOnType addOnType, ConfigurationSize configurationSize) {
-        this.addOnType = addOnType;
+    public AddonConfiguration(AddonType addonType, ConfigurationSize configurationSize) {
+        this.addonType = addonType;
         this.configurationSize = configurationSize;
     }
 
-    public AddOnType getAddOnType() {
-        return addOnType;
+    public AddonType getAddonType() {
+        return addonType;
     }
 
-    public void setAddOnType(AddOnType addOnType) {
-        this.addOnType = addOnType;
+    public void setAddonType(AddonType addonType) {
+        this.addonType = addonType;
     }
 
     public ConfigurationSize getConfigurationSize() {
@@ -39,20 +39,20 @@ public class AddOnConfiguration {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AddOnConfiguration that = (AddOnConfiguration) o;
+        AddonConfiguration that = (AddonConfiguration) o;
 
-        return addOnType == that.addOnType;
+        return addonType == that.addonType;
     }
 
     @Override
     public int hashCode() {
-        return addOnType.hashCode();
+        return addonType.hashCode();
     }
 
     @Override
     public String toString() {
-        return "AddOnConfiguration{" +
-                "addOnType=" + addOnType +
+        return "AddonConfiguration{" +
+                "addonType=" + addonType +
                 ", configurationSize=" + configurationSize +
                 '}';
     }

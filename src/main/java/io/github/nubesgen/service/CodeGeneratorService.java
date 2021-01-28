@@ -71,14 +71,14 @@ public class CodeGeneratorService {
         }
 
         // Add Ons
-        for (AddOnConfiguration addOn : configuration.getAddOns()) {
-            if (AddOnType.REDIS.equals(addOn.getAddOnType())) {
+        for (AddonConfiguration addon : configuration.getAddons()) {
+            if (AddonType.REDIS.equals(addon.getAddonType())) {
                 generateFileList(configuration, templateListService.listRedisTemplates(), result);
             }
-            if (AddOnType.STORAGE_BLOB.equals(addOn.getAddOnType())) {
+            if (AddonType.STORAGE_BLOB.equals(addon.getAddonType())) {
                 generateFileList(configuration, templateListService.listStorageBlobTemplates(), result);
             }
-            if (AddOnType.COSMOSDB_MONGODB.equals(addOn.getAddOnType())) {
+            if (AddonType.COSMOSDB_MONGODB.equals(addon.getAddonType())) {
                 generateFileList(configuration, templateListService.listCosmosdbMongodbTemplates(), result);
             }
         }

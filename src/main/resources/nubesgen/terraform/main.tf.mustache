@@ -35,36 +35,36 @@ module "application" {
   database_username = module.database.database_username
   database_password = module.database.database_password
 {{/databaseTypeNone}}
-{{#addOnRedis}}
+{{#addonRedis}}
 
   azure_redis_host       = module.redis.azure_redis_host
   azure_redis_password   = module.redis.azure_redis_password
-{{/addOnRedis}}
-{{#addOnStorageBlob}}
+{{/addonRedis}}
+{{#addonStorageBlob}}
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
   azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
   azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
-{{/addOnStorageBlob}}
-{{#addOnCosmosdbMongodb}}
+{{/addonStorageBlob}}
+{{#addonCosmosdbMongodb}}
 
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
   azure_cosmosdb_mongodb_uri      = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
-{{/addOnCosmosdbMongodb}}
+{{/addonCosmosdbMongodb}}
 
   depends_on = [
 {{^databaseTypeNone}}
     module.database,
 {{/databaseTypeNone}}
-{{#addOnRedis}}
+{{#addonRedis}}
     module.redis,
-{{/addOnRedis}}
-{{#addOnStorageBlob}}
+{{/addonRedis}}
+{{#addonStorageBlob}}
     module.storage-blob,
-{{/addOnStorageBlob}}
-{{#addOnCosmosdbMongodb}}
+{{/addonStorageBlob}}
+{{#addonCosmosdbMongodb}}
     module.cosmosdb-mongodb,
-{{/addOnCosmosdbMongodb}}
+{{/addonCosmosdbMongodb}}
     azurerm_resource_group.main
   ]
 }
@@ -88,7 +88,7 @@ module "database" {
   ]
 }
 {{/databaseTypeNone}}
-{{#addOnRedis}}
+{{#addonRedis}}
 
 module "redis" {
   source           = "./modules/redis"
@@ -99,8 +99,8 @@ module "redis" {
     azurerm_resource_group.main
   ]
 }
-{{/addOnRedis}}
-{{#addOnStorageBlob}}
+{{/addonRedis}}
+{{#addonStorageBlob}}
 
 module "storage-blob" {
   source           = "./modules/storage-blob"
@@ -111,8 +111,8 @@ module "storage-blob" {
     azurerm_resource_group.main
   ]
 }
-{{/addOnStorageBlob}}
-{{#addOnCosmosdbMongodb}}
+{{/addonStorageBlob}}
+{{#addonCosmosdbMongodb}}
 
 module "cosmosdb-mongodb" {
   source           = "./modules/cosmosdb-mongodb"
@@ -123,4 +123,4 @@ module "cosmosdb-mongodb" {
     azurerm_resource_group.main
   ]
 }
-{{/addOnCosmosdbMongodb}}
+{{/addonCosmosdbMongodb}}

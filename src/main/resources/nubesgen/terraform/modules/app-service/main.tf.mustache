@@ -51,23 +51,23 @@ resource "azurerm_app_service" "application" {
     "SPRING_DATASOURCE_USERNAME" = var.database_username
     "SPRING_DATASOURCE_PASSWORD" = var.database_password
 {{/databaseTypePostgresql}}
-{{#addOnRedis}}
+{{#addonRedis}}
 
     "SPRING_REDIS_HOST"          = var.azure_redis_host
     "SPRING_REDIS_PASSWORD"      = var.azure_redis_password
     "SPRING_REDIS_PORT"          = "6380"
     "SPRING_REDIS_SSL"           = "true"
-{{/addOnRedis}}
-{{#addOnStorageBlob}}
+{{/addonRedis}}
+{{#addonStorageBlob}}
 
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
     "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
-{{/addOnStorageBlob}}
-{{#addOnCosmosdbMongodb}}
+{{/addonStorageBlob}}
+{{#addonCosmosdbMongodb}}
 
     "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
     "SPRING_DATA_MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
-{{/addOnCosmosdbMongodb}}
+{{/addonCosmosdbMongodb}}
   }
 }

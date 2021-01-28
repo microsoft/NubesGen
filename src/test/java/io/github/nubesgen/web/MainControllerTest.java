@@ -82,8 +82,8 @@ public class MainControllerTest {
     }
 
     @Test
-    public void generateApplicationWithAddOns() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?addOns=STORAGE_BLOB,REDIS")).andDo(print()).andExpect(status().isOk())
+    public void generateApplicationWithAddons() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?addons=STORAGE_BLOB,REDIS")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -100,7 +100,7 @@ public class MainControllerTest {
 
     @Test
     public void generateFunctionWithCosmosdb() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?type=function&addOns=cosmosdb_mongodb")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?type=function&addons=cosmosdb_mongodb")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 

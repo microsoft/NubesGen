@@ -21,8 +21,8 @@ public class NubesgenConfiguration {
     @JsonProperty("database")
     private DatabaseConfiguration databaseConfiguration;
 
-    @JsonProperty("addOns")
-    private List<AddOnConfiguration> addOns = new ArrayList<>();
+    @JsonProperty("addons")
+    private List<AddonConfiguration> addons = new ArrayList<>();
 
     public NubesgenConfiguration() {
         this.region = "eastus";
@@ -67,12 +67,12 @@ public class NubesgenConfiguration {
         this.databaseConfiguration = databaseConfiguration;
     }
 
-    public List<AddOnConfiguration> getAddOns() {
-        return addOns;
+    public List<AddonConfiguration> getAddons() {
+        return addons;
     }
 
-    public void setAddOns(List<AddOnConfiguration> addOns) {
-        this.addOns = addOns;
+    public void setAddons(List<AddonConfiguration> addons) {
+        this.addons = addons;
     }
 
     @JsonIgnore
@@ -106,21 +106,21 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
-    public boolean isAddOnRedis() {
-        return this.getAddOns().stream()
-                .anyMatch(addOn -> AddOnType.REDIS.equals(addOn.getAddOnType()));
+    public boolean isAddonRedis() {
+        return this.getAddons().stream()
+                .anyMatch(addon -> AddonType.REDIS.equals(addon.getAddonType()));
     }
 
     @JsonIgnore
-    public boolean isAddOnStorageBlob() {
-        return this.getAddOns().stream()
-                .anyMatch(addOn -> AddOnType.STORAGE_BLOB.equals(addOn.getAddOnType()));
+    public boolean isAddonStorageBlob() {
+        return this.getAddons().stream()
+                .anyMatch(addon -> AddonType.STORAGE_BLOB.equals(addon.getAddonType()));
     }
 
     @JsonIgnore
-    public boolean isAddOnCosmosdbMongodb() {
-        return this.getAddOns().stream()
-                .anyMatch(addOn -> AddOnType.COSMOSDB_MONGODB.equals(addOn.getAddOnType()));
+    public boolean isAddonCosmosdbMongodb() {
+        return this.getAddons().stream()
+                .anyMatch(addon -> AddonType.COSMOSDB_MONGODB.equals(addon.getAddonType()));
     }
 
     @Override
@@ -131,7 +131,7 @@ public class NubesgenConfiguration {
                 ", applicationName='" + applicationName + '\'' +
                 ", applicationType=" + applicationType +
                 ", databaseConfiguration=" + databaseConfiguration +
-                ", addOns=" + addOns +
+                ", addons=" + addons +
                 '}';
     }
 }

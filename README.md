@@ -106,20 +106,20 @@ curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=mysql" 
 
 _In a GET request, parameters can be in uppercase or lowercase, for example `database=MYSQL`or `database=mysql`_
 
-You can also add "addOns", which are specific technologies added to your stack:
+You can also add "addons", which are specific technologies added to your stack:
 
 | Name  | Description  | POST example | GET example  |
 |---|---|---|---|
-| STORAGE_BLOB  | Add support for Azure Blob Storage  | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope", "addOns": [{ "type": "STORAGE_BLOB", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addOns=storage_blob`  |
-| REDIS  | Add support for Azure Cache for Redis  | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope", "addOns": [{ "type": "REDIS", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addOns=redis`  |
+| STORAGE_BLOB  | Add support for Azure Blob Storage  | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope", "addons": [{ "type": "STORAGE_BLOB", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addons=storage_blob`  |
+| REDIS  | Add support for Azure Cache for Redis  | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope", "addons": [{ "type": "REDIS", "size": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addons=redis`  |
 
-_In a GET request, you can configure several addOns by separating them with a comma, for example `addOns=storage_blob,redis`_
+_In a GET request, you can configure several addons by separating them with a comma, for example `addons=storage_blob,redis`_
 
 Here is a complete example:
 
 ```
-curl "http://localhost:8080/myapplication.tgz" -d '{ "region": "westeurope", "database": { "type": "MYSQL", "size": "BASIC"}, "addOns": [{ "type": "STORAGE_BLOB", "size": "BASIC"}, { "type": "REDIS", "size": "BASIC"}]}' -H "Content-Type: application/json"  | tar -xzvf -
+curl "http://localhost:8080/myapplication.tgz" -d '{ "region": "westeurope", "database": { "type": "MYSQL", "size": "BASIC"}, "addons": [{ "type": "STORAGE_BLOB", "size": "BASIC"}, { "type": "REDIS", "size": "BASIC"}]}' -H "Content-Type: application/json"  | tar -xzvf -
 ```
 ```
-curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=MYSQL&addOns=STORAGE_BLOB,REDIS"  | tar -xzvf -
+curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=MYSQL&addons=STORAGE_BLOB,REDIS"  | tar -xzvf -
 ```

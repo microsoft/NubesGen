@@ -33,7 +33,7 @@ variable "database_password" {
   description = "The database password"
 }
 {{/databaseTypeNone}}
-{{#addOnRedis}}
+{{#addonRedis}}
 
 variable "azure_redis_host" {
   description = "The Azure Cache for Redis hostname"
@@ -42,8 +42,8 @@ variable "azure_redis_host" {
 variable "azure_redis_password" {
   description = "The Azure Cache for Redis password"
 }
-{{/addOnRedis}}
-{{#addOnStorageBlob}}
+{{/addonRedis}}
+{{#addonStorageBlob}}
 
 variable "azure_storage_account_name" {
   description = "The name of the Azure Storage account"
@@ -56,8 +56,8 @@ variable "azure_storage_account_key" {
 variable "azure_storage_blob_endpoint" {
   description = "The blob endpoint URL of the Azure Storage account"
 }
-{{/addOnStorageBlob}}
-{{#addOnCosmosdbMongodb}}
+{{/addonStorageBlob}}
+{{#addonCosmosdbMongodb}}
 
 variable "azure_cosmosdb_mongodb_database" {
   description = "The Cosmos DB with MongoDB API database name"
@@ -66,4 +66,4 @@ variable "azure_cosmosdb_mongodb_database" {
 variable "azure_cosmosdb_mongodb_uri" {
   description = "The Cosmos DB with MongoDB API database URI"
 }
-{{/addOnCosmosdbMongodb}}
+{{/addonCosmosdbMongodb}}

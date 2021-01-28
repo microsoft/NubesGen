@@ -52,9 +52,9 @@ public class MainController {
                                                   @RequestParam(defaultValue = "APP_SERVICE") String type,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
-                                                  @RequestParam(defaultValue = "") String addOns) {
+                                                  @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database, addOns);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database, addons);
         return generateZipApplication(applicationName, properties);
     }
 
@@ -75,9 +75,9 @@ public class MainController {
                                                   @RequestParam(defaultValue = "APP_SERVICE") String type,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
-                                                  @RequestParam(defaultValue = "") String addOns) {
+                                                  @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database, addOns);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database, addons);
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -90,10 +90,10 @@ public class MainController {
         return this.generateApplication(properties, this.tarGzService);
     }
 
-    private NubesgenConfiguration generateNubesgenConfiguration(String type, String region, String database, String addOns) {
+    private NubesgenConfiguration generateNubesgenConfiguration(String type, String region, String database, String addons) {
         type = type.toUpperCase();
         database = database.toUpperCase();
-        addOns = addOns.toUpperCase();
+        addons = addons.toUpperCase();
         NubesgenConfiguration properties = new NubesgenConfiguration();
         if (type.equals(ApplicationType.FUNCTION.name())) {
             properties.setApplicationType(ApplicationType.FUNCTION);
@@ -112,19 +112,19 @@ public class MainController {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.BASIC));
         }
         log.debug("Database is: {}", properties.getDatabaseConfiguration().getDatabaseType());
-        if (!"".equals(addOns)) {
-            List<AddOnConfiguration> addOnConfigurations = new ArrayList<>();
-            for (String addOn : addOns.split(",")) {
-                log.debug("Configuring addOn: {}", addOn);
-                if (addOn.startsWith(AddOnType.REDIS.name())) {
-                    addOnConfigurations.add(new AddOnConfiguration(AddOnType.REDIS, ConfigurationSize.BASIC));
-                } else if (addOn.startsWith(AddOnType.STORAGE_BLOB.name())) {
-                    addOnConfigurations.add(new AddOnConfiguration(AddOnType.STORAGE_BLOB, ConfigurationSize.BASIC));
-                } else if (addOn.startsWith(AddOnType.COSMOSDB_MONGODB.name())) {
-                    addOnConfigurations.add(new AddOnConfiguration(AddOnType.COSMOSDB_MONGODB, ConfigurationSize.FREE));
+        if (!"".equals(addons)) {
+            List<AddonConfiguration> addonConfigurations = new ArrayList<>();
+            for (String addon : addons.split(",")) {
+                log.debug("Configuring addon: {}", addon);
+                if (addon.startsWith(AddonType.REDIS.name())) {
+                    addonConfigurations.add(new AddonConfiguration(AddonType.REDIS, ConfigurationSize.BASIC));
+                } else if (addon.startsWith(AddonType.STORAGE_BLOB.name())) {
+                    addonConfigurations.add(new AddonConfiguration(AddonType.STORAGE_BLOB, ConfigurationSize.BASIC));
+                } else if (addon.startsWith(AddonType.COSMOSDB_MONGODB.name())) {
+                    addonConfigurations.add(new AddonConfiguration(AddonType.COSMOSDB_MONGODB, ConfigurationSize.FREE));
                 }
             }
-            properties.setAddOns(addOnConfigurations);
+            properties.setAddons(addonConfigurations);
         }
         return properties;
     }

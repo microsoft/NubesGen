@@ -40,9 +40,9 @@ class CosmosdbMongodbConfigurationTest {
         properties.setApplicationName("nubesgen-testapp-mongodb");
         properties.setRegion("westeurope");
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.BASIC));
-        List<AddOnConfiguration> addOns = new ArrayList<>();
-        addOns.add(new AddOnConfiguration(AddOnType.COSMOSDB_MONGODB, ConfigurationSize.FREE));
-        properties.setAddOns(addOns);
+        List<AddonConfiguration> addons = new ArrayList<>();
+        addons.add(new AddonConfiguration(AddonType.COSMOSDB_MONGODB, ConfigurationSize.FREE));
+        properties.setAddons(addons);
     }
 
     @Test
