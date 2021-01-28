@@ -1,6 +1,6 @@
 package io.github.nubesgen.service;
 
-import io.github.nubesgen.configuration.ConfigurationSize;
+import io.github.nubesgen.configuration.Tier;
 import io.github.nubesgen.configuration.DatabaseConfiguration;
 import io.github.nubesgen.configuration.DatabaseType;
 import io.github.nubesgen.configuration.NubesgenConfiguration;
@@ -34,7 +34,7 @@ class MysqlConfigurationTest {
     public MysqlConfigurationTest(CodeGeneratorService codeGeneratorService, TemplateListService templateListService) {
         this.codeGeneratorService = codeGeneratorService;
         this.templateListService = templateListService;
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, ConfigurationSize.BASIC));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC));
     }
 
     @BeforeAll

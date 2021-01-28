@@ -103,13 +103,13 @@ public class MainController {
         log.debug("Application is of type: {}", properties.getApplicationType());
         properties.setRegion(region);
         if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, ConfigurationSize.FREE));
+            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.FREE));
         } else if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, ConfigurationSize.BASIC));
+            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.BASIC));
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, ConfigurationSize.BASIC));
+            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC));
         } else if (database.startsWith(DatabaseType.POSTGRESQL.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.BASIC));
+            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC));
         }
         log.debug("Database is: {}", properties.getDatabaseConfiguration().getDatabaseType());
         if (!"".equals(addons)) {
@@ -117,11 +117,11 @@ public class MainController {
             for (String addon : addons.split(",")) {
                 log.debug("Configuring addon: {}", addon);
                 if (addon.startsWith(AddonType.REDIS.name())) {
-                    addonConfigurations.add(new AddonConfiguration(AddonType.REDIS, ConfigurationSize.BASIC));
+                    addonConfigurations.add(new AddonConfiguration(AddonType.REDIS, Tier.BASIC));
                 } else if (addon.startsWith(AddonType.STORAGE_BLOB.name())) {
-                    addonConfigurations.add(new AddonConfiguration(AddonType.STORAGE_BLOB, ConfigurationSize.BASIC));
+                    addonConfigurations.add(new AddonConfiguration(AddonType.STORAGE_BLOB, Tier.BASIC));
                 } else if (addon.startsWith(AddonType.COSMOSDB_MONGODB.name())) {
-                    addonConfigurations.add(new AddonConfiguration(AddonType.COSMOSDB_MONGODB, ConfigurationSize.FREE));
+                    addonConfigurations.add(new AddonConfiguration(AddonType.COSMOSDB_MONGODB, Tier.FREE));
                 }
             }
             properties.setAddons(addonConfigurations);

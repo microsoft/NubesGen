@@ -1,6 +1,6 @@
 package io.github.nubesgen.service;
 
-import io.github.nubesgen.configuration.ConfigurationSize;
+import io.github.nubesgen.configuration.Tier;
 import io.github.nubesgen.configuration.DatabaseConfiguration;
 import io.github.nubesgen.configuration.DatabaseType;
 import io.github.nubesgen.configuration.NubesgenConfiguration;
@@ -34,7 +34,7 @@ class SqlserverConfigurationTest {
     public SqlserverConfigurationTest(CodeGeneratorService codeGeneratorService, TemplateListService templateListService) {
         this.codeGeneratorService = codeGeneratorService;
         this.templateListService = templateListService;
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, ConfigurationSize.BASIC));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.BASIC));
     }
 
     @BeforeAll

@@ -7,17 +7,17 @@ public class DatabaseConfiguration {
     @JsonProperty("type")
     private DatabaseType databaseType;
 
-    @JsonProperty("size")
-    private ConfigurationSize configurationSize;
+    @JsonProperty("tier")
+    private Tier tier;
 
     public DatabaseConfiguration() {
         this.databaseType = DatabaseType.NONE;
-        this.configurationSize = ConfigurationSize.FREE;
+        this.tier = Tier.FREE;
     }
 
-    public DatabaseConfiguration(DatabaseType databaseType, ConfigurationSize configurationSize) {
+    public DatabaseConfiguration(DatabaseType databaseType, Tier tier) {
         this.databaseType = databaseType;
-        this.configurationSize = configurationSize;
+        this.tier = tier;
     }
 
     public DatabaseType getDatabaseType() {
@@ -28,19 +28,19 @@ public class DatabaseConfiguration {
         this.databaseType = databaseType;
     }
 
-    public ConfigurationSize getConfigurationSize() {
-        return configurationSize;
+    public Tier getTier() {
+        return tier;
     }
 
-    public void setConfigurationSize(ConfigurationSize configurationSize) {
-        this.configurationSize = configurationSize;
+    public void setTier(Tier tier) {
+        this.tier = tier;
     }
 
     @Override
     public String toString() {
         return "DatabaseConfiguration{" +
                 "databaseType=" + databaseType +
-                ", configurationSize=" + configurationSize +
+                ", tier=" + tier +
                 '}';
     }
 }

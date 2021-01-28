@@ -7,15 +7,15 @@ public class AddonConfiguration {
     @JsonProperty("type")
     private AddonType addonType;
 
-    @JsonProperty("size")
-    private ConfigurationSize configurationSize;
+    @JsonProperty("tier")
+    private Tier tier;
 
     public AddonConfiguration() {
     }
 
-    public AddonConfiguration(AddonType addonType, ConfigurationSize configurationSize) {
+    public AddonConfiguration(AddonType addonType, Tier tier) {
         this.addonType = addonType;
-        this.configurationSize = configurationSize;
+        this.tier = tier;
     }
 
     public AddonType getAddonType() {
@@ -26,12 +26,12 @@ public class AddonConfiguration {
         this.addonType = addonType;
     }
 
-    public ConfigurationSize getConfigurationSize() {
-        return configurationSize;
+    public Tier getTier() {
+        return tier;
     }
 
-    public void setConfigurationSize(ConfigurationSize configurationSize) {
-        this.configurationSize = configurationSize;
+    public void setTier(Tier tier) {
+        this.tier = tier;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AddonConfiguration {
     public String toString() {
         return "AddonConfiguration{" +
                 "addonType=" + addonType +
-                ", configurationSize=" + configurationSize +
+                ", tier=" + tier +
                 '}';
     }
 }

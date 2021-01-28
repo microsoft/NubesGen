@@ -1,6 +1,6 @@
 package io.github.nubesgen.service;
 
-import io.github.nubesgen.configuration.ConfigurationSize;
+import io.github.nubesgen.configuration.Tier;
 import io.github.nubesgen.configuration.DatabaseConfiguration;
 import io.github.nubesgen.configuration.DatabaseType;
 import io.github.nubesgen.configuration.NubesgenConfiguration;
@@ -40,7 +40,7 @@ class PostgresqlConfigurationTest {
     public static void init() {
         properties.setApplicationName("nubesgen-testapp-postgresql");
         properties.setRegion("westeurope");
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, ConfigurationSize.BASIC));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC));
     }
 
     @Test

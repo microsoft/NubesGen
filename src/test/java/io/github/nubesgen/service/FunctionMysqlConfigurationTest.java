@@ -38,7 +38,7 @@ class FunctionMysqlConfigurationTest {
         properties.setApplicationName("nubesgen-testapp-function");
         properties.setRegion("westeurope");
         properties.setApplicationType(ApplicationType.FUNCTION);
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, ConfigurationSize.BASIC));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC));
     }
 
     @Test
