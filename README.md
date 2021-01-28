@@ -98,6 +98,8 @@ curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=mysql" 
 
 ## Complete parameters list
 
+### Main parameters
+
 | Name  | Description  | Values  | POST example | GET example  |
 |---|---|---|---|---|
 | type  | Type of application: Web app or serverless  | APP_SERVICE, FUNCTION  | `http://localhost:8080/myapplication.tgz -d '{ "type": "FUNCTION"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?type=function`  |
@@ -106,7 +108,28 @@ curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=mysql" 
 
 _In a GET request, parameters can be in uppercase or lowercase, for example `database=MYSQL`or `database=mysql`_
 
-You can also add "addons", which are specific technologies added to your stack:
+### Tiers
+
+Application types and databases have different tiers.
+
+- Each resource type have its own specific tiers.
+- NubesGen provides the main available tiers for running development and production workloads.
+- For each of those tiers, NubesGen configures the less expensive options possible. If you want to upgrade your resource, you'll need to modify the Terraform configuration (our recommended solution) or modify the resource using the Azure portal.
+- If no tier is provided, NubesGen will use the less expensive one.
+
+We provide the following tiers per resource type:
+
+| Resource type  | Available tiers  | Example |
+|---|---|---|
+| APP_SERVICE | FREE, STANDARD, PREMIUM | `http://localhost:8080/myapplication.tgz?type=app_service.premium` |
+| FUNCTION | CONSUMPTION, PREMIUM | `http://localhost:8080/myapplication.tgz?type=function.premium` |
+| SQL_SERVER | SERVERLESS, BASIC, STANDARD | `http://localhost:8080/myapplication.tgz?type=sql_server.basic` |
+| MYSQL | BASIC, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?type=mysql.general_purpose` |
+| POSTGRESQL |BASIC, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?type=postgresql.general_purpose` |
+
+### Add-ons
+
+You can add "addons", which are specific technologies added to your stack:
 
 | Name  | Description  | POST example | GET example  |
 |---|---|---|---|
