@@ -66,11 +66,12 @@
         region2: {id: 'eastus', name: 'USA - East (Virginia)', flag:'./img/us.svg'},
         regionName: 'USA - East',
         regionFlag: './img/us.svg',
-        addons: { frontApp: { type: 'web', size: 'free'}, database: { type: 'azuresql', size: 'serverless'} },
+        components: { frontApp: { type: 'APP_SERVICE', size: 'free'}, database: { type: 'SQL_SERVER', size: 'serverless'}},
+        addons: [],
         updatePageParameters() {
           const url = new URL(window.location.href);
-          url.searchParams.set('frontApp.type', this.addons.frontApp.type);
-          url.searchParams.set('frontApp.size', this.addons.frontApp.size);
+          url.searchParams.set('frontApp.type', this.components.frontApp.type);
+          url.searchParams.set('frontApp.size', this.components.frontApp.size);
           history.pushState(null, document.title, url.toString());
 
          },
@@ -79,16 +80,23 @@
             // TODO: Do something
             return;
           this.updatePageParameters();
-          window.open(`https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.addons.frontApp.type}&frontApp.size=${this.addons.frontApp.size}&database=${this.addons.database.type}.${this.addons.database.size}`, '_blank');
+          var url = `https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&frontApp.type=${this.components.frontApp.type}&frontApp.size=${this.components.frontApp.size}&database=${this.components.database.type}.${this.components.database.size}`;
+
+          if(this.addons.length > 0)
+          {
+            url += `&addons=${this.addons.join(",")}`;
+          }
+          console.log(url);
+          window.open(url, '_blank');
         },
         allRegions:
         [
           {id: 'eastus', name: 'USA - East (Virginia)', flag:'./img/us.svg'},
           {id: 'westus', name: 'USA - West (California)', flag:'./img/us.svg'},
-          {id: 'westus', name: 'South America - Brazil South (São Paulo State)', flag:'./img/br.svg'},
+          {id: 'brazilsouth', name: 'South America - Brazil South (São Paulo State)', flag:'./img/br.svg'},
           {id: 'francecentral', name: 'Europe - France Central (Paris)' , flag:'./img/fr.svg'},  
           {id: 'westeurope', name: 'Europe - West Europe (Netherlands)' , flag:'./img/eu.svg'},  
-          {id: 'australiacentral', name: 'Asia Pacific - Australia Central' , flag:'./img/au.svg'},  
+          {id: 'australiacentral', name: 'Asia Pacific - Australia Central (Canberra)' , flag:'./img/au.svg'},  
         ],
         regionSelectorOpened: false,
         selectRegion(selectedRegion){
@@ -216,7 +224,7 @@
     >
       <a id="generator-form"></a>
       <div class="w-full mx-auto">
-        <div class="bg-white w-9/12 shadow mx-auto  overflow-hidden sm:rounded-lg">
+        <div class="bg-white w-full md:w-9/12 shadow mx-auto  overflow-hidden sm:rounded-lg">
           <div class="px-4 py-5 sm:px-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Create a new infrastructure
@@ -339,23 +347,19 @@
                     <div class="grid grid-cols-3 gap-6 mt-4">
 
                       <div class="p-4 border-gray-300 rounded shadow bg-white hover:bg-blue-100"
-                        @click="addons.frontApp.type='web'"
-                        :class="addons.frontApp.type==='web' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                        @click="components.frontApp.type='APP_SERVICE'"
+                        :class="components.frontApp.type==='APP_SERVICE' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
                         >
                         <img class="w-8 h-8" src="img/10035-icon-App Services-App Services.svg"></img>
                         <div class="text-lg font-semibold text-blue-900">
                           Web Application
                           <p class="text-sm font-normal text-gray-500">Ideal for any web app or container</p>
                           <p class="text-sm italic text-gray-500">Supports .NET, Java, NodeJS, PHP apps.</p>
-                          <div x-show="addons.frontApp.type==='web'">
+                          <div x-show="components.frontApp.type==='APP_SERVICE'">
                             <p class="font-normal text-gray-500 text-sm mt-4">Select your framework:</p>
                             <select class="text-sm">
-                              <option>.NET App</option>
-                              <option>Java Spring App</option>
-                              <option>NodeJS Express</option>
-                              <option>Python Flask</option>
-                              <option>PHP Symfony App</option>
-                              <option>Docker App</option>
+                              <option value="dotnet">.NET App</option>
+                              <option value="java-spring">Java Spring App</option>
                             </select>
                           </div>
                           
@@ -363,8 +367,8 @@
                       </div>
 
                       <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
-                      @click="addons.frontApp.type='serverless'"
-                      :class="addons.frontApp.type==='serverless' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                      @click="components.frontApp.type='FUNCTION'"
+                      :class="components.frontApp.type==='FUNCTION' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
                       >
                         <img class="w-8 h-8" src="img/10029-icon-Function Apps-IoT.svg"></img>
                         <div class="text-lg font-semibold">
@@ -389,7 +393,7 @@
 
                     <div class="grid lg:grid-cols-3 gap-6 mt-4">
                       <div class="p-3 border bg-white rounded px-5 py-6"
-                        :class="addons.frontApp.size==='free' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                        :class="components.frontApp.size==='free' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
                       > <span class="text-2xl">Free</span>
                         <p class="mt-4">For development and hobbyist projects</p>
                         <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
@@ -399,14 +403,14 @@
                           <span class="ml-3">Free SSL</span>
                         </div>
                         <div class="mt-5  align-bottom"
-                        x-show="addons.frontApp.size==='free' ? false:true;"
+                        x-show="components.frontApp.size==='free' ? false:true;"
                         > <button
-                            @click="addons.frontApp.size='free'"
+                            @click="components.frontApp.size='free'"
                             class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">Choose
                             plan</button> </div>
                       </div>
                       <div class="p-3 bg-white border rounded px-5 py-6 "
-                      :class="addons.frontApp.size==='production' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                      :class="components.frontApp.size==='production' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
                       > <span class="text-2xl">Production</span>
                         <p class="mt-4">For most businesses that want to optimize the web series</p>
                         <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
@@ -419,9 +423,9 @@
                           <span class="ml-3">Free SSL</span>
                         </div>
                         <div class="mt-5 align-bottom"
-                        x-show="addons.frontApp.size==='production' ? false:true;"
+                        x-show="components.frontApp.size==='production' ? false:true;"
                         > <button
-                            @click="addons.frontApp.size='production'"
+                            @click="components.frontApp.size='production'"
                             class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">Choose
                             plan</button> </div>
                       </div>
@@ -438,8 +442,8 @@
                   <div class="grid grid-cols-4 gap-6">
                     
                     <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100"
-                      @click="addons.database.type='NONE'"
-                      :class="addons.database.type==='NONE' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                      @click="components.database.type='NONE'"
+                      :class="components.database.type==='NONE' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
                     >
                       
                       <div class="text-lg mt-8 font-semibold">
@@ -449,8 +453,8 @@
                     </div>
                     
                     <div class="p-4 bg-white border-2"
-                      @click="addons.database.type='azuresql'"
-                      :class="addons.database.type==='azuresql' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                      @click="components.database.type='SQL_SERVER'"
+                      :class="components.database.type==='SQL_SERVER' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
                     >
                       <img class="w-8 h-8" src="img/10130-icon-SQL Database-Databases (1).svg"></img>
                       <div class="text-lg font-semibold text-blue-900">
@@ -460,8 +464,8 @@
                     </div>
   
                     <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100"
-                      @click="addons.database.type='POSTGRESQL'"
-                      :class="addons.database.type==='POSTGRESQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                      @click="components.database.type='POSTGRESQL'"
+                      :class="components.database.type==='POSTGRESQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
                     >
                       <img class="w-8 h-8" src="img/10131-icon-Azure Database PostgreSQL Server-Databases.svg"></img>
                       <div class="text-lg font-semibold">
@@ -471,26 +475,29 @@
                     </div>
   
                     <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100"
-                    @click="addons.database.type='MONGODB'"
-                      :class="addons.database.type==='MONGODB' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
+                    @click="components.database.type='MYSQL'"
+                      :class="components.database.type==='MYSQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'"
                     >
-                      <img class="w-8 h-8" src="img/mongodb.png"></img>
+                      <img class="w-8 h-8" src="img/10122-icon-Azure Database MySQL Server-Databases.svg"></img>
                       <div class="text-lg font-semibold">
-                        MongoDB
-                        <p class="text-sm font-normal text-gray-500">NoSQL Databased, powered by CosmosDB</p>
+                        MySQL
+                        <p class="text-sm font-normal text-gray-500">The SQL database you already know</p>
                       </div>
                     </div>
                   </div>
                   
-
+                  <div
+                  x-show="components.database.type!=='NONE'"
+                  >
                   <div class="text-lg font-bold mt-6">Database size</div>
                   <hr />
 
 
                   <div class="grid lg:grid-cols-3 gap-6 mt-4">
                     <div class="p-3 border rounded px-5 py-6 "
-                    :class="addons.database.size==='serverless' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
-                    @click="addons.database.size = 'serverless'"
+                    :class="components.database.size==='serverless' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                    @click="components.database.size = 'serverless'"
+                    x-show="components.database.type==='SQL_SERVER'"
                     > <span class="text-2xl">Serverless</span>
                       <p class=" mt-4">For development and small applications</p>
                       <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
@@ -502,8 +509,8 @@
                       
                     </div>
                     <div class="p-3 border rounded px-5 py-6 "
-                    :class="addons.database.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
-                    @click="addons.database.size = 'basic'"
+                    :class="components.database.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                    @click="components.database.size = 'basic'"
                     > <span class="text-2xl">Basic</span>
                       <p class="text-gray-500 mt-4">For classic web apps up to hundred users</p>
                       <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
@@ -518,8 +525,8 @@
 
                     </div>
                     <div class="p-3 bg-white border rounded px-5 py-6"
-                    :class="addons.database.size==='highavailability' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
-                    @click="addons.database.size = 'highavailability'"
+                    :class="components.database.size==='highavailability' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                    @click="components.database.size = 'highavailability'"
                     > <span class="text-2xl">High-Availability</span>
                       <p class=" mt-4">For reliable web apps</p>
                       <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
@@ -543,6 +550,7 @@
                       
                     </div>
                   </div>
+                </div>
 
                 </dd>
               </div>
@@ -551,10 +559,37 @@
                   Add-Ons
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <div class="flex row-auto items-center mt-4">
-                    <span class="ml-3 text-gray-700 font-semibold">Coming soon</span>
-                    <span class="ml-2 text-gray-500">Blob Storage, Redis Cache, CDN, ...</span>
+                  <div class="grid grid-rows-1 mt-4 gap-4">
+                    
+                    <div class="border bg-white rounded flex content-center py-2 px-4"
+                    x-bind:class="{'bg-blue-200': addons.includes('blobStorage')}" 
+                    >
+                      <label class="inline-flex items-center text-xl">
+                        <input type="checkbox" value="blobStorage" class="form-checkbox h-5 w-5 mr-2" x-model="addons">Blob storage<div>
+                          <span class="ml-3 font-normal text-base text-gray-500">File storage</span>
+                        </div>
+                      </label>
+                    </div>
+
+                    <div class="border bg-white rounded flex content-center py-2 px-4" x-bind:class="{'bg-blue-200': addons.includes('redis')}" >
+                      <label class="inline-flex items-center text-xl">
+                        <input type="checkbox" value="redis" class="form-checkbox h-5 w-5 mr-2" x-model="addons">Redis Cache <div>
+                          <span class="ml-3 font-normal text-base text-gray-500">In Memory Key-value store</span>
+                        </div>
+                      </label>
+                    </div>
+
+                    <div class="border bg-white rounded flex content-center py-2 px-4" x-bind:class="{'bg-blue-200': addons.includes('mongodb')}"  >
+                      <label class="inline-flex items-center text-xl">
+                        <input type="checkbox" value="mongodb" class="form-checkbox h-5 w-5 mr-2" x-model="addons">MongoDB<div>
+                          <span class="ml-3 font-normal text-base text-gray-500">Powered by Azure CosmosDB</span>
+                        </div>
+                      </label>
+                    </div>
+
                   </div>
+
+
                 </dd>
               </div>
 
