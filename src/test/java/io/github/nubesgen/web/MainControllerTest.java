@@ -117,17 +117,22 @@ public class MainControllerTest {
 
     @Test
     public void generateApplicationWithPremiumTiers() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=app_service.premium&database=mysql.general_purpose")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=app_service.basic&database=mysql.general_purpose")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
         byte[] zippedContent = result.getResponse().getContentAsByteArray();
         Map<String, String> entries = extractZipEntries(zippedContent);
         assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/mysql"));
+        assertTrue(entries.get("terraform/main.tf").contains("sku_tier          = \"Basic\""));
+        assertTrue(entries.get("terraform/main.tf").contains("sku_size          = \"B1\""));
         assertTrue(entries.containsKey("terraform/variables.tf"));
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.containsKey("terraform/modules/mysql/main.tf"));
     }
 
     private static Map<String, String> extractZipEntries(byte[] content) throws IOException {

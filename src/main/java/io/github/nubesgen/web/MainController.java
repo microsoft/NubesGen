@@ -107,8 +107,8 @@ public class MainController {
         } else {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
             applicationConfiguration.setApplicationType(ApplicationType.APP_SERVICE);
-            if (application.endsWith(Tier.PREMIUM.name())) {
-                applicationConfiguration.setTier(Tier.PREMIUM);
+            if (application.endsWith(Tier.BASIC.name())) {
+                applicationConfiguration.setTier(Tier.BASIC);
             } else if (application.endsWith(Tier.STANDARD.name())) {
                 applicationConfiguration.setTier(Tier.STANDARD);
             } else {
