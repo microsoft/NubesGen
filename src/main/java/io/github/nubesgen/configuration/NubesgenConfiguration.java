@@ -15,8 +15,8 @@ public class NubesgenConfiguration {
 
     private String applicationName;
 
-    @JsonProperty("type")
-    private ApplicationType applicationType;
+    @JsonProperty("application")
+    private ApplicationConfiguration applicationConfiguration;
 
     @JsonProperty("database")
     private DatabaseConfiguration databaseConfiguration;
@@ -27,7 +27,7 @@ public class NubesgenConfiguration {
     public NubesgenConfiguration() {
         this.region = "eastus";
         this.applicationName = "sample-nubes-application";
-        this.applicationType = ApplicationType.APP_SERVICE;
+        this.applicationConfiguration = new ApplicationConfiguration();
         this.databaseConfiguration = new DatabaseConfiguration();
     }
 
@@ -51,12 +51,12 @@ public class NubesgenConfiguration {
         this.applicationName = applicationName;
     }
 
-    public ApplicationType getApplicationType() {
-        return applicationType;
+    public ApplicationConfiguration getApplicationConfiguration() {
+        return applicationConfiguration;
     }
 
-    public void setApplicationType(ApplicationType applicationType) {
-        this.applicationType = applicationType;
+    public void setApplicationConfiguration(ApplicationConfiguration applicationConfiguration) {
+        this.applicationConfiguration = applicationConfiguration;
     }
 
     public DatabaseConfiguration getDatabaseConfiguration() {
@@ -77,12 +77,12 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isApplicationTypeAppService() {
-        return ApplicationType.APP_SERVICE.equals(this.getApplicationType());
+        return ApplicationType.APP_SERVICE.equals(this.getApplicationConfiguration().getApplicationType());
     }
 
     @JsonIgnore
     public boolean isApplicationTypeFunction() {
-        return ApplicationType.FUNCTION.equals(this.getApplicationType());
+        return ApplicationType.FUNCTION.equals(this.getApplicationConfiguration().getApplicationType());
     }
 
     @JsonIgnore
@@ -129,7 +129,7 @@ public class NubesgenConfiguration {
                 "date=" + date +
                 ", region='" + region + '\'' +
                 ", applicationName='" + applicationName + '\'' +
-                ", applicationType=" + applicationType +
+                ", applicationConfiguration=" + applicationConfiguration +
                 ", databaseConfiguration=" + databaseConfiguration +
                 ", addons=" + addons +
                 '}';

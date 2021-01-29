@@ -50,7 +50,7 @@ public class CodeGeneratorService {
         generateFileList(configuration, templateListService.listMainTemplates(), result);
 
         // Application templates
-        if (ApplicationType.FUNCTION.equals(configuration.getApplicationType())) {
+        if (ApplicationType.FUNCTION.equals(configuration.getApplicationConfiguration().getApplicationType())) {
             // Functions templates
             generateFileList(configuration, templateListService.listFunctionTemplates(), result);
         } else {

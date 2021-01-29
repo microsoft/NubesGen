@@ -49,12 +49,12 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
-                                                  @RequestParam(defaultValue = "APP_SERVICE") String type,
+                                                  @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(application, region, database, addons);
         return generateZipApplication(applicationName, properties);
     }
 
@@ -72,12 +72,12 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.tgz")
     public @ResponseBody
     ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
-                                                  @RequestParam(defaultValue = "APP_SERVICE") String type,
+                                                  @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(type, region, database, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(application, region, database, addons);
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -90,26 +90,59 @@ public class MainController {
         return this.generateApplication(properties, this.tarGzService);
     }
 
-    private NubesgenConfiguration generateNubesgenConfiguration(String type, String region, String database, String addons) {
-        type = type.toUpperCase();
+    private NubesgenConfiguration generateNubesgenConfiguration(String application, String region, String database, String addons) {
+        application = application.toUpperCase();
         database = database.toUpperCase();
         addons = addons.toUpperCase();
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        if (type.equals(ApplicationType.FUNCTION.name())) {
-            properties.setApplicationType(ApplicationType.FUNCTION);
+        if (application.startsWith(ApplicationType.FUNCTION.name())) {
+            ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
+            applicationConfiguration.setApplicationType(ApplicationType.FUNCTION);
+            if (application.endsWith(Tier.PREMIUM.name())) {
+                applicationConfiguration.setTier(Tier.PREMIUM);
+            } else {
+                applicationConfiguration.setTier(Tier.CONSUMPTION);
+            }
+            properties.setApplicationConfiguration(applicationConfiguration);
         } else {
-            properties.setApplicationType(ApplicationType.APP_SERVICE);
+            ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
+            applicationConfiguration.setApplicationType(ApplicationType.APP_SERVICE);
+            if (application.endsWith(Tier.PREMIUM.name())) {
+                applicationConfiguration.setTier(Tier.PREMIUM);
+            } else if (application.endsWith(Tier.STANDARD.name())) {
+                applicationConfiguration.setTier(Tier.STANDARD);
+            } else {
+                applicationConfiguration.setTier(Tier.FREE);
+            }
+            properties.setApplicationConfiguration(applicationConfiguration);
         }
-        log.debug("Application is of type: {}", properties.getApplicationType());
+        log.debug("Application is of type: {} with tier: {}",
+                properties.getApplicationConfiguration().getApplicationType(),
+                properties.getApplicationConfiguration().getTier());
+
         properties.setRegion(region);
         if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.FREE));
         } else if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.BASIC));
+            DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS);
+            if (database.endsWith(Tier.BASIC.name())) {
+                databaseConfiguration.setTier(Tier.BASIC);
+            } else if (database.endsWith(Tier.STANDARD.name())) {
+                databaseConfiguration.setTier(Tier.STANDARD);
+            }
+            properties.setDatabaseConfiguration(databaseConfiguration);
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC));
+            DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC);
+            if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
+                databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
+            }
+            properties.setDatabaseConfiguration(databaseConfiguration);
         } else if (database.startsWith(DatabaseType.POSTGRESQL.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC));
+            DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC);
+            if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
+                databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
+            }
+            properties.setDatabaseConfiguration(databaseConfiguration);
         }
         log.debug("Database is: {}", properties.getDatabaseConfiguration().getDatabaseType());
         if (!"".equals(addons)) {

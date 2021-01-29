@@ -102,7 +102,7 @@ curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=mysql" 
 
 | Name  | Description  | Values  | POST example | GET example  |
 |---|---|---|---|---|
-| type  | Type of application: Web app or serverless  | APP_SERVICE, FUNCTION  | `http://localhost:8080/myapplication.tgz -d '{ "type": "FUNCTION"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?type=function`  |
+| application  | Type of application: Web app or serverless  | APP_SERVICE, FUNCTION  | `http://localhost:8080/myapplication.tgz -d '{ "application": { "type": "FUNCTION", "tier": "CONSUMPTION"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?application=function`  |
 | region  |  Azure Region where the resource will be located | Run `az account list-locations`  | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?region=westeurope`  |
 | database  |  The database | NONE, SQL_SERVER, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "tier": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=mysql`  |
 
@@ -121,11 +121,11 @@ We provide the following tiers per resource type:
 
 | Resource type  | Available tiers  | Example |
 |---|---|---|
-| APP_SERVICE | FREE, STANDARD, PREMIUM | `http://localhost:8080/myapplication.tgz?type=app_service.premium` |
-| FUNCTION | CONSUMPTION, PREMIUM | `http://localhost:8080/myapplication.tgz?type=function.premium` |
-| SQL_SERVER | SERVERLESS, BASIC, STANDARD | `http://localhost:8080/myapplication.tgz?type=sql_server.basic` |
-| MYSQL | BASIC, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?type=mysql.general_purpose` |
-| POSTGRESQL |BASIC, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?type=postgresql.general_purpose` |
+| APP_SERVICE | FREE, STANDARD, PREMIUM | `http://localhost:8080/myapplication.tgz?application=app_service.premium` |
+| FUNCTION | CONSUMPTION, PREMIUM | `http://localhost:8080/myapplication.tgz?application=function.premium` |
+| SQL_SERVER | SERVERLESS, BASIC, STANDARD | `http://localhost:8080/myapplication.tgz?database=sql_server.basic` |
+| MYSQL | BASIC, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?database=mysql.general_purpose` |
+| POSTGRESQL |BASIC, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?database=postgresql.general_purpose` |
 
 ### Add-ons
 

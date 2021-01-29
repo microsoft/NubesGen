@@ -100,7 +100,7 @@ public class MainControllerTest {
 
     @Test
     public void generateFunctionWithCosmosdb() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?type=function&addons=cosmosdb_mongodb")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?application=function&addons=cosmosdb_mongodb")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -113,6 +113,21 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/function/main.tf").contains("azurerm_function_app"));
         assertTrue(entries.containsKey("terraform/modules/cosmosdb-mongodb/main.tf"));
         assertTrue(entries.get("terraform/modules/cosmosdb-mongodb/main.tf").contains("azurerm_cosmosdb_mongo_database"));
+    }
+
+    @Test
+    public void generateApplicationWithPremiumTiers() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=app_service.premium&database=mysql.general_purpose")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/mysql"));
+        assertTrue(entries.containsKey("terraform/variables.tf"));
+        assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
+        assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
     }
 
     private static Map<String, String> extractZipEntries(byte[] content) throws IOException {
