@@ -10,16 +10,6 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
 }
 
-variable "sku_tier" {
-  description = "The Azure App Service plan tier"
-  default     = "Dynamic"
-}
-
-variable "sku_size" {
-  description = "The Azure App Service plan size"
-  default     = "Y1"
-}
-
 variable "database_url" {
   description = "The URL to the database"
 }

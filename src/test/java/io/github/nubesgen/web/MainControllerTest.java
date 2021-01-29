@@ -116,6 +116,22 @@ public class MainControllerTest {
     }
 
     @Test
+    public void generateFunctionWithPremiumTier() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?application=function.premium")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/function"));
+        assertTrue(entries.containsKey("terraform/modules/function/main.tf"));
+        assertTrue(entries.get("terraform/modules/function/main.tf").contains("azurerm_function_app"));
+        assertTrue(entries.get("terraform/modules/function/main.tf").contains("kind     = \"elastic\""));
+        assertTrue(entries.get("terraform/modules/function/main.tf").contains("tier     = \"ElasticPremium\""));
+    }
+
+    @Test
     public void generateApplicationWithStandardTier() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=app_service.standard&database=mysql.general_purpose")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))

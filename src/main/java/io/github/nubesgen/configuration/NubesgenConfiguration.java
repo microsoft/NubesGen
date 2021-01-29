@@ -91,6 +91,16 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isApplicationTierConsumption() {
+        return Tier.CONSUMPTION.equals(this.getApplicationConfiguration().getTier());
+    }
+
+    @JsonIgnore
+    public boolean isApplicationTierPremium() {
+        return Tier.PREMIUM.equals(this.getApplicationConfiguration().getTier());
+    }
+
+    @JsonIgnore
     public boolean isApplicationTierStandard() {
         return Tier.STANDARD.equals(this.getApplicationConfiguration().getTier());
     }

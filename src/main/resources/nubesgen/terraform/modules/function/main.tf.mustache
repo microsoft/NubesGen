@@ -5,12 +5,24 @@ resource "azurerm_app_service_plan" "application" {
   resource_group_name = var.resource_group
   location            = var.location
 
+{{#applicationTierConsumption}}
   kind     = "Linux"
+{{/applicationTierConsumption}}
+{{#applicationTierPremium}}
+  kind     = "elastic"
+{{/applicationTierPremium}}
   reserved = true
 
   sku {
-    tier = var.sku_tier
-    size = var.sku_size
+{{#applicationTierConsumption}}
+    tier = "Dynamic"
+    size = "Y1"
+{{/applicationTierConsumption}}
+{{#applicationTierPremium}}
+    tier     = "ElasticPremium"
+    size     = "EP1"
+    capacity = 1
+{{/applicationTierPremium}}
   }
 }
 
