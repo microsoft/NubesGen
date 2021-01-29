@@ -10,16 +10,6 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
 }
 
-variable "sku_tier" {
-  description = "The Azure App Service plan tier"
-  default     = "Free"
-}
-
-variable "sku_size" {
-  description = "The Azure App Service plan size"
-  default     = "F1"
-}
-
 variable "azure_redis_host" {
   description = "The Azure Cache for Redis hostname"
 }

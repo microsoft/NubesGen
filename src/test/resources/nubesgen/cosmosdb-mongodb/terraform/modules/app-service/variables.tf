@@ -10,16 +10,6 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
 }
 
-variable "sku_tier" {
-  description = "The Azure App Service plan tier"
-  default     = "Free"
-}
-
-variable "sku_size" {
-  description = "The Azure App Service plan size"
-  default     = "F1"
-}
-
 variable "azure_cosmosdb_mongodb_database" {
   description = "The Cosmos DB with MongoDB API database name"
 }

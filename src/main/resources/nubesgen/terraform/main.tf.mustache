@@ -22,14 +22,6 @@ resource "azurerm_resource_group" "main" {
 module "application" {
 {{#applicationTypeAppService}}
   source            = "./modules/app-service"
-{{#applicationTierBasic}}
-  sku_tier          = "Basic"
-  sku_size          = "B1"
-{{/applicationTierBasic}}
-{{#applicationTierStandard}}
-  sku_tier          = "Standard"
-  sku_size          = "S1"
-{{/applicationTierStandard}}
 {{/applicationTypeAppService}}
 {{#applicationTypeFunction}}
   source            = "./modules/function"

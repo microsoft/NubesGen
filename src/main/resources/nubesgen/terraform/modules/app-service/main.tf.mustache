@@ -9,8 +9,18 @@ resource "azurerm_app_service_plan" "application" {
   reserved = true
 
   sku {
-    tier = var.sku_tier
-    size = var.sku_size
+{{#applicationTierFree}}
+    tier = "Free"
+    size = "F1"
+{{/applicationTierFree}}
+{{#applicationTierBasic}}
+    tier = "Basic"
+    size = "B1"
+{{/applicationTierBasic}}
+{{#applicationTierStandard}}
+    tier = "Standard"
+    size = "S1"
+{{/applicationTierStandard}}
   }
 }
 

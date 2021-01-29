@@ -81,6 +81,11 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isApplicationTierFree() {
+        return Tier.FREE.equals(this.getApplicationConfiguration().getTier());
+    }
+
+    @JsonIgnore
     public boolean isApplicationTierBasic() {
         return Tier.BASIC.equals(this.getApplicationConfiguration().getTier());
     }

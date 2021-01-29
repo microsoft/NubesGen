@@ -9,8 +9,8 @@ resource "azurerm_app_service_plan" "application" {
   reserved = true
 
   sku {
-    tier = var.sku_tier
-    size = var.sku_size
+    tier = "Free"
+    size = "F1"
   }
 }
 
