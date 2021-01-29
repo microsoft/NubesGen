@@ -149,6 +149,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("tier = \"Standard\""));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("size = \"S1\""));
         assertTrue(entries.containsKey("terraform/modules/mysql/main.tf"));
+        assertTrue(entries.get("terraform/modules/mysql/main.tf").contains("sku_name                          = \"GP_Gen5_2\""));
     }
 
     private static Map<String, String> extractZipEntries(byte[] content) throws IOException {

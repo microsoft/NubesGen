@@ -96,13 +96,13 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
-    public boolean isApplicationTierPremium() {
-        return Tier.PREMIUM.equals(this.getApplicationConfiguration().getTier());
+    public boolean isApplicationTierStandard() {
+        return Tier.STANDARD.equals(this.getApplicationConfiguration().getTier());
     }
 
     @JsonIgnore
-    public boolean isApplicationTierStandard() {
-        return Tier.STANDARD.equals(this.getApplicationConfiguration().getTier());
+    public boolean isApplicationTierPremium() {
+        return Tier.PREMIUM.equals(this.getApplicationConfiguration().getTier());
     }
 
     @JsonIgnore
@@ -128,6 +128,16 @@ public class NubesgenConfiguration {
     @JsonIgnore
     public boolean isDatabaseTypePostgresql() {
         return DatabaseType.POSTGRESQL.equals(this.databaseConfiguration.getDatabaseType());
+    }
+
+    @JsonIgnore
+    public boolean isDatabaseTierBasic() {
+        return Tier.BASIC.equals(this.getDatabaseConfiguration().getTier());
+    }
+
+    @JsonIgnore
+    public boolean isDatabaseTierGeneralPurpose() {
+        return Tier.GENERAL_PURPOSE.equals(this.getDatabaseConfiguration().getTier());
     }
 
     @JsonIgnore

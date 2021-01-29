@@ -13,7 +13,12 @@ resource "azurerm_mysql_server" "database" {
   administrator_login          = var.administrator_login
   administrator_login_password = random_password.password.result
 
+{{#databaseTierBasic}}
   sku_name                          = "B_Gen5_1"
+{{/databaseTierBasic}}
+{{#databaseTierGeneralPurpose}}
+  sku_name                          = "GP_Gen5_2"
+{{/databaseTierGeneralPurpose}}
   storage_mb                        = 5120
   version                           = "5.7"
   auto_grow_enabled                 = true
