@@ -125,10 +125,8 @@ public class MainController {
             properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.FREE));
         } else if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
             DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS);
-            if (database.endsWith(Tier.BASIC.name())) {
-                databaseConfiguration.setTier(Tier.BASIC);
-            } else if (database.endsWith(Tier.STANDARD.name())) {
-                databaseConfiguration.setTier(Tier.STANDARD);
+            if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
+                databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
             }
             properties.setDatabaseConfiguration(databaseConfiguration);
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {

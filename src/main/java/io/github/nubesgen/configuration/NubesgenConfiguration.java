@@ -136,6 +136,11 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isDatabaseTierServerless() {
+        return Tier.SERVERLESS.equals(this.getDatabaseConfiguration().getTier());
+    }
+
+    @JsonIgnore
     public boolean isDatabaseTierGeneralPurpose() {
         return Tier.GENERAL_PURPOSE.equals(this.getDatabaseConfiguration().getTier());
     }

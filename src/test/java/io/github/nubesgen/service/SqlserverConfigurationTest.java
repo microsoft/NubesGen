@@ -34,7 +34,7 @@ class SqlserverConfigurationTest {
     public SqlserverConfigurationTest(CodeGeneratorService codeGeneratorService, TemplateListService templateListService) {
         this.codeGeneratorService = codeGeneratorService;
         this.templateListService = templateListService;
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.BASIC));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS));
     }
 
     @BeforeAll

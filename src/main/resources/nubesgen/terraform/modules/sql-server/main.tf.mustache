@@ -20,9 +20,14 @@ resource "azurerm_mssql_database" "database" {
   server_id           = azurerm_mssql_server.database.id
   collation           = "SQL_Latin1_General_CP1_CI_AS"
 
+{{#databaseTierServerless}}
   sku_name                    = "GP_S_Gen5_1"
   min_capacity                = 0.5
   auto_pause_delay_in_minutes = 60
+{{/databaseTierServerless}}
+{{#databaseTierGeneralPurpose}}
+  sku_name                    = "GP_Gen5_2"
+{{/databaseTierGeneralPurpose}}
 }
 
 # This rule is to enable the 'Allow access to Azure services' checkbox
