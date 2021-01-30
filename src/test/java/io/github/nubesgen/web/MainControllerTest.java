@@ -64,6 +64,10 @@ public class MainControllerTest {
         byte[] zippedContent = result.getResponse().getContentAsByteArray();
         Map<String, String> entries = extractZipEntries(zippedContent);
         assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
     }
 
     @Test
@@ -79,6 +83,36 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/variables.tf"));
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
+    }
+
+    @Test
+    public void generateApplicationWithSpringRuntime() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=spring&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("\"SPRING_DATASOURCE_URL\"      = \"jdbc:postgresql://${var.database_url}\""));
+    }
+    
+    public void generateApplicationWithDotnetRuntime() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=dontnet&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOTNETCORE|5.0"));
     }
 
     @Test

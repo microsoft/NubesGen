@@ -102,9 +102,10 @@ curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=mysql" 
 
 | Name  | Description  | Values  | POST example | GET example  |
 |---|---|---|---|---|
-| application  | Type of application: Web app or serverless  | APP_SERVICE, FUNCTION  | `http://localhost:8080/myapplication.tgz -d '{ "application": { "type": "FUNCTION", "tier": "CONSUMPTION"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?application=function`  |
-| region  |  Azure Region where the resource will be located | Run `az account list-locations`  | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?region=westeurope`  |
-| database  |  The database | NONE, SQL_SERVER, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "tier": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=mysql`  |
+| runtime |  The language and framework used to run the application | JAVA (default), SPRING, DOTNET | `http://localhost:8080/myapplication.tgz -d '{ "runtime": "JAVA"' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?runtime=java`  |
+| application  | Type of application: Web app or serverless  | APP_SERVICE (default), FUNCTION | `http://localhost:8080/myapplication.tgz -d '{ "application": { "type": "FUNCTION", "tier": "CONSUMPTION"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?application=function`  |
+| region  |  Azure Region where the resource will be located | Run `az account list-locations` | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?region=westeurope`  |
+| database  |  The database | NONE (default), SQL_SERVER, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "tier": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=mysql`  |
 
 _In a GET request, parameters can be in uppercase or lowercase, for example `database=MYSQL`or `database=mysql`_
 
@@ -141,8 +142,8 @@ _In a GET request, you can configure several addons by separating them with a co
 Here is a complete example:
 
 ```
-curl "http://localhost:8080/myapplication.tgz" -d '{ "region": "westeurope", "database": { "type": "MYSQL", "tier": "BASIC"}, "addons": [{ "type": "STORAGE_BLOB", "tier": "BASIC"}, { "type": "REDIS", "tier": "BASIC"}]}' -H "Content-Type: application/json"  | tar -xzvf -
+curl "http://localhost:8080/myapplication.tgz" -d '{ "region": "westeurope", "runtime": "spring", "database": { "type": "MYSQL", "tier": "BASIC"}, "addons": [{ "type": "STORAGE_BLOB", "tier": "BASIC"}, { "type": "REDIS", "tier": "BASIC"}]}' -H "Content-Type: application/json"  | tar -xzvf -
 ```
 ```
-curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=MYSQL&addons=STORAGE_BLOB,REDIS"  | tar -xzvf -
+curl "http://localhost:8080/myapplication.tgz?region=westeurope&runtime=spring&database=MYSQL&addons=STORAGE_BLOB,REDIS"  | tar -xzvf -
 ```

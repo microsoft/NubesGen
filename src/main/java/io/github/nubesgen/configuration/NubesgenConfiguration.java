@@ -15,6 +15,9 @@ public class NubesgenConfiguration {
 
     private String applicationName;
 
+    @JsonProperty("runtime")
+    private RuntimeType runtimeType;
+
     @JsonProperty("application")
     private ApplicationConfiguration applicationConfiguration;
 
@@ -27,6 +30,7 @@ public class NubesgenConfiguration {
     public NubesgenConfiguration() {
         this.region = "eastus";
         this.applicationName = "sample-nubes-application";
+        this.runtimeType = RuntimeType.JAVA;
         this.applicationConfiguration = new ApplicationConfiguration();
         this.databaseConfiguration = new DatabaseConfiguration();
     }
@@ -51,6 +55,14 @@ public class NubesgenConfiguration {
         this.applicationName = applicationName;
     }
 
+    public RuntimeType getRuntimeType() {
+        return runtimeType;
+    }
+
+    public void setRuntimeType(RuntimeType runtimeType) {
+        this.runtimeType = runtimeType;
+    }
+
     public ApplicationConfiguration getApplicationConfiguration() {
         return applicationConfiguration;
     }
@@ -73,6 +85,16 @@ public class NubesgenConfiguration {
 
     public void setAddons(List<AddonConfiguration> addons) {
         this.addons = addons;
+    }
+
+    @JsonIgnore
+    public boolean isRuntimeJava() {
+        return RuntimeType.JAVA.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
+    public boolean isRuntimeDotnet() {
+        return RuntimeType.DOTNET.equals(this.getRuntimeType());
     }
 
     @JsonIgnore
@@ -166,9 +188,9 @@ public class NubesgenConfiguration {
     @Override
     public String toString() {
         return "NubesgenConfiguration{" +
-                "date=" + date +
-                ", region='" + region + '\'' +
+                "region='" + region + '\'' +
                 ", applicationName='" + applicationName + '\'' +
+                ", runtimeType=" + runtimeType +
                 ", applicationConfiguration=" + applicationConfiguration +
                 ", databaseConfiguration=" + databaseConfiguration +
                 ", addons=" + addons +

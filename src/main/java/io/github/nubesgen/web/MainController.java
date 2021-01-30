@@ -49,12 +49,13 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
+                                                  @RequestParam(defaultValue = "JAVA") String runtime,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(application, region, database, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, addons);
         return generateZipApplication(applicationName, properties);
     }
 
@@ -72,12 +73,13 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.tgz")
     public @ResponseBody
     ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
+                                                  @RequestParam(defaultValue = "JAVA") String runtime,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(application, region, database, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, addons);
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -90,11 +92,21 @@ public class MainController {
         return this.generateApplication(properties, this.tarGzService);
     }
 
-    private NubesgenConfiguration generateNubesgenConfiguration(String application, String region, String database, String addons) {
+    private NubesgenConfiguration generateNubesgenConfiguration(String runtime, String application, String region,
+                                                                String database, String addons) {
+
+        runtime = runtime.toUpperCase();
         application = application.toUpperCase();
         database = database.toUpperCase();
         addons = addons.toUpperCase();
         NubesgenConfiguration properties = new NubesgenConfiguration();
+        if (runtime.equals(RuntimeType.DOTNET.name())) {
+            properties.setRuntimeType(RuntimeType.DOTNET);
+        } else if (runtime.equals(RuntimeType.SPRING.name())) {
+            properties.setRuntimeType(RuntimeType.SPRING);
+        } else {
+            properties.setRuntimeType(RuntimeType.JAVA);
+        }
         if (application.startsWith(ApplicationType.FUNCTION.name())) {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
             applicationConfiguration.setApplicationType(ApplicationType.FUNCTION);

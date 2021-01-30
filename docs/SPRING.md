@@ -14,7 +14,7 @@ curl https://start.spring.io/starter.tgz -d dependencies=web,data-jdbc,postgresq
 Go to the Nubesgen website and create an infrastructure configuration using the same technologies (in this example, PostgreSQL):
 
 ```
-curl "http://localhost:8080/nubesgen-test-1234.tgz?region=westeurope&database=postgresql"  | tar -xzvf -
+curl "http://localhost:8080/nubesgen-test-1234.tgz?region=westeurope&runtime=spring&database=postgresql"  | tar -xzvf -
 ```
 _Change `nubesgen-test-1234` by a unique name that you will use for your application_
 
