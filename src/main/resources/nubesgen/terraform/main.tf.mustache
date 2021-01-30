@@ -71,15 +71,15 @@ module "application" {
 {{^databaseTypeNone}}
 
 module "database" {
-{{#databaseTypeSqlServer}}
+  {{#databaseTypeSqlServer}}
   source           = "./modules/sql-server"
-{{/databaseTypeSqlServer}}
-{{#databaseTypeMysql}}
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
   source           = "./modules/mysql"
-{{/databaseTypeMysql}}
-{{#databaseTypePostgresql}}
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
   source           = "./modules/postgresql"
-{{/databaseTypePostgresql}}
+  {{/databaseTypePostgresql}}
   resource_group   = var.resource_group
   location         = var.location
   application_name = var.application_name
