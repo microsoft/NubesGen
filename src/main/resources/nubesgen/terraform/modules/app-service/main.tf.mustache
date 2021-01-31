@@ -35,49 +35,96 @@ resource "azurerm_app_service" "application" {
   site_config {
     ftps_state       = "FtpsOnly"
     always_on        = true
+{{#runtimeSpring}} 
     linux_fx_version = "JAVA|11-java11"
+{{/runtimeSpring}}
+{{#runtimeJava}} 
+    linux_fx_version = "JAVA|11-java11"
+{{/runtimeJava}}
+{{#runtimeDotnet}} 
+    linux_fx_version = "DOTNETCORE|5.0"
+{{/runtimeDotnet}}
   }
 
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 
     # These are app specific environment variables
+{{#runtimeSpring}} 
     "SPRING_PROFILES_ACTIVE"     = "prod,azure"
-{{#databaseTypeSqlServer}}
+  {{#databaseTypeSqlServer}}
 
     "SPRING_DATASOURCE_URL"      = "jdbc:sqlserver://${var.database_url}"
     "SPRING_DATASOURCE_USERNAME" = var.database_username
     "SPRING_DATASOURCE_PASSWORD" = var.database_password
-{{/databaseTypeSqlServer}}
-{{#databaseTypeMysql}}
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
 
     "SPRING_DATASOURCE_URL"      = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
     "SPRING_DATASOURCE_USERNAME" = var.database_username
     "SPRING_DATASOURCE_PASSWORD" = var.database_password
-{{/databaseTypeMysql}}
-{{#databaseTypePostgresql}}
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
 
     "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
     "SPRING_DATASOURCE_USERNAME" = var.database_username
     "SPRING_DATASOURCE_PASSWORD" = var.database_password
-{{/databaseTypePostgresql}}
-{{#addonRedis}}
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
 
     "SPRING_REDIS_HOST"          = var.azure_redis_host
     "SPRING_REDIS_PASSWORD"      = var.azure_redis_password
     "SPRING_REDIS_PORT"          = "6380"
     "SPRING_REDIS_SSL"           = "true"
-{{/addonRedis}}
-{{#addonStorageBlob}}
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
 
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
     "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
-{{/addonStorageBlob}}
-{{#addonCosmosdbMongodb}}
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
 
     "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
     "SPRING_DATA_MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
-{{/addonCosmosdbMongodb}}
+  {{/addonCosmosdbMongodb}}
+{{/runtimeSpring}}
+{{^runtimeSpring}}
+  {{#databaseTypeSqlServer}}
+
+    "DATABASE_URL"      = var.database_url
+    "DATABASE_USERNAME" = var.database_username
+    "DATABASE_PASSWORD" = var.database_password
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+
+    "DATABASE_URL"      = var.database_url
+    "DATABASE_USERNAME" = var.database_username
+    "DATABASE_PASSWORD" = var.database_password
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+
+    "DATABASE_URL"      = var.database_url
+    "DATABASE_USERNAME" = var.database_username
+    "DATABASE_PASSWORD" = var.database_password
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+
+    "REDIS_HOST"          = var.azure_redis_host
+    "REDIS_PASSWORD"      = var.azure_redis_password
+    "REDIS_PORT"          = "6380"
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+
+    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
+    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
+    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+
+    "MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
+    "MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
+  {{/addonCosmosdbMongodb}}
+{{/runtimeSpring}}
   }
 }

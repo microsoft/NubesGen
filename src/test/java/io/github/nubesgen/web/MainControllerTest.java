@@ -100,9 +100,10 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("\"SPRING_DATASOURCE_URL\"      = \"jdbc:postgresql://${var.database_url}\""));
     }
-    
+
+    @Test
     public void generateApplicationWithDotnetRuntime() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=dontnet&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=dotnet&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -112,7 +113,24 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOTNETCORE|5.0"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOTNETCORE|"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+    }
+
+    @Test
+    public void generateApplicationWithJavaRuntime() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=java&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test

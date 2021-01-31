@@ -30,7 +30,7 @@ public class NubesgenConfiguration {
     public NubesgenConfiguration() {
         this.region = "eastus";
         this.applicationName = "sample-nubes-application";
-        this.runtimeType = RuntimeType.JAVA;
+        this.runtimeType = RuntimeType.SPRING;
         this.applicationConfiguration = new ApplicationConfiguration();
         this.databaseConfiguration = new DatabaseConfiguration();
     }
@@ -90,6 +90,11 @@ public class NubesgenConfiguration {
     @JsonIgnore
     public boolean isRuntimeJava() {
         return RuntimeType.JAVA.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
+    public boolean isRuntimeSpring() {
+        return RuntimeType.SPRING.equals(this.getRuntimeType());
     }
 
     @JsonIgnore
