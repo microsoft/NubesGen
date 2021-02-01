@@ -82,7 +82,7 @@
             return;
           }
           this.updatePageParameters();
-          var url = `https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&type=${this.components.frontApp.type}.${this.components.frontApp.size}&database=${this.components.database.type}.${this.components.database.size}`;
+          var url = `https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&database=${this.components.database.type}.${this.components.database.size}`;
 
           if(this.addons.length > 0)
           {
@@ -564,10 +564,10 @@
                   <div class="grid grid-rows-1 mt-4 gap-4">
                     
                     <div class="border bg-white rounded flex content-center py-2 px-4"
-                    x-bind:class="{'bg-blue-200': addons.includes('blobStorage')}" 
+                    x-bind:class="{'bg-blue-200': addons.includes('storage_blob')}" 
                     >
                       <label class="inline-flex items-center text-xl">
-                        <input type="checkbox" value="blobStorage" class="form-checkbox h-5 w-5 mr-2" x-model="addons">Blob storage<div>
+                        <input type="checkbox" value="storage_blob" class="form-checkbox h-5 w-5 mr-2" x-model="addons">Blob storage<div>
                           <span class="ml-3 font-normal text-base text-gray-500">File storage</span>
                         </div>
                       </label>
@@ -581,9 +581,9 @@
                       </label>
                     </div>
 
-                    <div class="border bg-white rounded flex content-center py-2 px-4" x-bind:class="{'bg-blue-200': addons.includes('mongodb')}"  >
+                    <div class="border bg-white rounded flex content-center py-2 px-4" x-bind:class="{'bg-blue-200': addons.includes('cosmosdb_mongodb')}"  >
                       <label class="inline-flex items-center text-xl">
-                        <input type="checkbox" value="mongodb" class="form-checkbox h-5 w-5 mr-2" x-model="addons">MongoDB<div>
+                        <input type="checkbox" value="cosmosdb_mongodb" class="form-checkbox h-5 w-5 mr-2" x-model="addons">MongoDB<div>
                           <span class="ml-3 font-normal text-base text-gray-500">Powered by Azure CosmosDB</span>
                         </div>
                       </label>
