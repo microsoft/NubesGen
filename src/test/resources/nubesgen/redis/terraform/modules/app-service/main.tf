@@ -23,9 +23,10 @@ resource "azurerm_app_service" "application" {
   https_only          = true
 
   site_config {
-    ftps_state       = "FtpsOnly"
-    always_on        = true
-    linux_fx_version = "JAVA|11-java11"
+    linux_fx_version          = "JAVA|11-java11"
+    always_on                 = false
+    use_32_bit_worker_process = true
+    ftps_state                = "FtpsOnly"
   }
 
   app_settings = {

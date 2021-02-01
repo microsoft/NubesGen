@@ -33,17 +33,33 @@ resource "azurerm_app_service" "application" {
   https_only          = true
 
   site_config {
-    ftps_state       = "FtpsOnly"
-    always_on        = true
-{{#runtimeSpring}} 
+{{#applicationTierFree}}
+  {{#runtimeSpring}} 
+    linux_fx_version          = "JAVA|11-java11"
+  {{/runtimeSpring}}
+  {{#runtimeJava}} 
+    linux_fx_version          = "JAVA|11-java11"
+  {{/runtimeJava}}
+  {{#runtimeDotnet}} 
+    linux_fx_version          = "DOTNETCORE|5.0"
+  {{/runtimeDotnet}}
+    always_on                 = false
+    use_32_bit_worker_process = true
+    ftps_state                = "FtpsOnly"
+{{/applicationTierFree}}
+{{^applicationTierFree}}
+  {{#runtimeSpring}} 
     linux_fx_version = "JAVA|11-java11"
-{{/runtimeSpring}}
-{{#runtimeJava}} 
+  {{/runtimeSpring}}
+  {{#runtimeJava}} 
     linux_fx_version = "JAVA|11-java11"
-{{/runtimeJava}}
-{{#runtimeDotnet}} 
+  {{/runtimeJava}}
+  {{#runtimeDotnet}} 
     linux_fx_version = "DOTNETCORE|5.0"
-{{/runtimeDotnet}}
+  {{/runtimeDotnet}}
+    always_on        = true
+    ftps_state       = "FtpsOnly"
+{{/applicationTierFree}}
   }
 
   app_settings = {
