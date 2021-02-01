@@ -609,45 +609,77 @@
                         <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
                           <span class="ml-3 ">Auto-shutdown after 1 hour. Autorestart on first query.</span>
                         </div>
-
                       </div>
+
                       <div class="p-3 border rounded px-5 py-6 "
                         :class="components.database.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
-                        @click="components.database.size = 'basic'"> <span class="text-2xl">Basic</span>
-                        <p class="text-gray-500 mt-4">For classic web apps up to hundred users</p>
+                        @click="components.database.size = 'basic'"
+                        x-show="components.database.type==='SQL_SERVER'"> <span class="text-2xl">Basic</span>
+                        <p class=" mt-4">For development and small applications</p>
                         <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                          <span class="ml-3 ">250 Gb storage included, up to 1 Tb</span>
+                          <span class="ml-3 ">Manual scaling possible</span>
                         </div>
                         <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
-                          <span class="ml-3 ">Scalable in a click</span>
+                          <span class="ml-3 ">Auto-shutdown after 1 hour. Autorestart on first query.</span>
+                        </div>
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
+                          <span class="ml-3 ">99,99% SLA</span>
+                        </div>
+                      </div>
+
+                      <div class="p-3 border rounded px-5 py-6 "
+                        :class="components.database.size==='general_purpose' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                        @click="components.database.size = 'general_purpose'"
+                        x-show="components.database.type==='SQL_SERVER'"> <span class="text-2xl">General purpose</span>
+                        <p class=" mt-4">For most workloads</p>
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 ">2 vCore and 10.2 Gb of Memory</span>
+                        </div>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 ">5Gb of storage, up to 4Tb</span>
+                        </div>
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
+                          <span class="ml-3 ">99,99% SLA</span>
+                        </div>
+                      </div>
+
+
+                      <div class="p-3 border rounded px-5 py-6 "
+                        :class="components.database.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                        @click="components.database.size = 'basic'"
+                        x-show="components.database.type!=='SQL_SERVER'"> <span class="text-2xl">Basic</span>
+                        <p class="mt-4">For workloads requiring light compute and I/O performance</p>
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 ">1 vcore and 2GiB Memory</span>
+                        </div>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 ">Up to 1Tb of storage</span>
                         </div>
                         <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
                           <span class="ml-3 ">Included PITR backups</span>
                         </div>
-
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
+                          <span class="ml-3 ">99,99% SLA</span>
+                        </div>
                       </div>
                       <div class="p-3 bg-white border rounded px-5 py-6"
                         :class="components.database.size==='general_purpose' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
-                        @click="components.database.size = 'general_purpose'"> <span
+                        @click="components.database.size = 'general_purpose'"
+                        x-show="components.database.type!=='SQL_SERVER'"> <span
                           class="text-2xl">General Purpose</span>
-                        <p class=" mt-4">For reliable web apps</p>
-                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
-                          <span class="ml-3 ">250 Gb storage included, up to 1 Tb</span>
+                        <p class=" mt-4">For most business workloads</p>
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 ">Start at 2 vcore and 10GiB Memory, scale up to 64 vCore/320Gib</span>
                         </div>
-                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
-                          <span class="ml-3 ">Multi-Region deployment</span>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
+                          <span class="ml-3 ">Up to 16 Tb of storage</span>
                         </div>
-                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o "></i>
-                          <span class="ml-3 ">Automatic failover</span>
-                        </div>
-                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o "></i>
-                          <span class="ml-3 ">Read replica</span>
-                        </div>
-                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o "></i>
-                          <span class="ml-3 ">Autoscaling up to 10 instances</span>
-                        </div>
-                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o "></i>
+                        <div class="flex row-auto items-center mt-2"> <i class="fa fa-check-circle-o text-gray-400"></i>
                           <span class="ml-3 ">Included PITR backups</span>
+                        </div>
+
+                        <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o "></i>
+                          <span class="ml-3 ">99,99% SLA</span>
                         </div>
 
                       </div>
