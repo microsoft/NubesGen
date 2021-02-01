@@ -136,6 +136,7 @@ You can add "addons", which are specific technologies added to your stack:
 |---|---|---|---|
 | STORAGE_BLOB  | Add support for Azure Blob Storage  | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope", "addons": [{ "type": "STORAGE_BLOB", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addons=storage_blob`  |
 | REDIS  | Add support for Azure Cache for Redis  | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope", "addons": [{ "type": "REDIS", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addons=redis`  |
+| COSMOSDB_MONGODB  | Add support for Cosmos DB with the MongoDB API  | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope", "addons": [{ "type": "COSMOSDB_MONGODB", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?addons=cosmosdb_mongodb`  |
 
 _In a GET request, you can configure several addons by separating them with a comma, for example `addons=storage_blob,redis`_
 
