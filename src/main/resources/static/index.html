@@ -68,6 +68,7 @@
         regionFlag: './img/us.svg',
         components: { frontApp: { type: 'APP_SERVICE', size: 'free'}, database: { type: 'SQL_SERVER', size: 'serverless'}},
         addons: [],
+        runtime: "DOTNET",
         updatePageParameters() {
           const url = new URL(window.location.href);
           url.searchParams.set('frontApp.type', this.components.frontApp.type);
@@ -82,7 +83,7 @@
             return;
           }
           this.updatePageParameters();
-          var url = `https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&database=${this.components.database.type}.${this.components.database.size}`;
+          var url = `https://nubesgen.azurewebsites.net/${this.projectSlug}.zip?region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
 
           if(this.addons.length > 0)
           {
@@ -100,6 +101,11 @@
           {id: 'westeurope', name: 'Europe - West Europe (Netherlands)' , flag:'./img/eu.svg'},  
           {id: 'australiacentral', name: 'Asia Pacific - Australia Central (Canberra)' , flag:'./img/au.svg'},  
         ],
+        allRuntimes: [
+          {id: 'DOTNET', name: '.NET'},
+          {id: 'JAVA', name: 'Java'},
+          {id: 'SPRING', name: 'Spring (Java)'},
+         ],
         regionSelectorOpened: false,
         selectRegion(selectedRegion){
           this.region2 = selectedRegion;
@@ -356,12 +362,13 @@
                         <div class="text-lg font-semibold text-blue-900">
                           Web Application
                           <p class="text-sm font-normal text-gray-500">Ideal for any web app or container</p>
-                          <p class="text-sm italic text-gray-500">Supports .NET, Java, NodeJS, PHP apps.</p>
+                          <p class="text-sm italic text-gray-500">Supports Docker, .NET, Java, NodeJS, PHP apps.</p>
                           <div x-show="components.frontApp.type==='APP_SERVICE'">
                             <p class="font-normal text-gray-500 text-sm mt-4">Select your framework:</p>
-                            <select class="text-sm">
-                              <option value="dotnet">.NET App</option>
-                              <option value="java-spring">Java Spring App</option>
+                            <select class="text-sm" x-model="runtime">
+                              <template x-for="rt in allRuntimes" :key="rt.id">
+                                <option x-bind:value="rt.id" x-text="rt.name" />
+                              </template>
                             </select>
                           </div>
                           
@@ -376,6 +383,14 @@
                         <div class="text-lg font-semibold">
                           Serverless App
                           <p class="text-sm font-normal text-gray-500">Host event-driven workloads</p>
+                          <div x-show="components.frontApp.type==='FUNCTION'">
+                            <p class="font-normal text-gray-500 text-sm mt-4">Select your framework:</p>
+                            <select class="text-sm" x-model="runtime">
+                              <template x-for="rt in allRuntimes" :key="rt.id">
+                                <option x-bind:value="rt.id" x-text="rt.name" />
+                              </template>
+                            </select>
+                          </div>
                         </div>
                       </div>
 
