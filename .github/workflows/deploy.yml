@@ -32,5 +32,8 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Deploy with Maven
-        run: mvn azure-webapp:deploy
+      - name: 'Deploy to Azure WebApp'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: nubesgen
+          package: '${{ github.workspace }}/target/*.jar'
