@@ -49,4 +49,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: nubesgen-staging
-          package: package
+          package: '${{ github.workspace }}/target/*.jar'
