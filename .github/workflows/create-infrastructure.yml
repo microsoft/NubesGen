@@ -3,7 +3,7 @@ name: Create Infrastructure
 on:
   push:
     tags:
-      - '[env]-*'
+      - 'env-*'
 
 jobs:
   terraform:
@@ -13,7 +13,7 @@ jobs:
     - name: Get tag name
       run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Get environment name
-      run: echo "ENVIRONMENT_NAME=${TAG_NAME:6}" >> $GITHUB_ENV
+      run: echo "ENVIRONMENT_NAME=${TAG_NAME:4}" >> $GITHUB_ENV
     - uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
       run: terraform init
