@@ -15,13 +15,13 @@ jobs:
     - name: Set environment name
       run: echo "ENVIRONMENT_NAME=${TAG_NAME:4}" >> $GITHUB_ENV
     - name: Set ARM_CLIENT_ID
-      run: echo "ARM_CLIENT_ID=$(echo ${{ secrets.SERVICE_PRINCIPAL }} | jq -r .clientId)" >> $GITHUB_ENV
-    - name: Set ARM_CLIENT_SECRET
-      run: echo "ARM_CLIENT_SECRET=$(echo ${{ secrets.SERVICE_PRINCIPAL }} | jq -r .clientSecret)" >> $GITHUB_ENV
-    - name: Set ARM_SUBSCRIPTION_ID
-      run: echo "ARM_SUBSCRIPTION_ID=$(echo ${{ secrets.SERVICE_PRINCIPAL }} | jq -r .subscriptionId)" >> $GITHUB_ENV
-    - name: Set ARM_TENANT_ID
-      run: echo "ARM_TENANT_ID=$(echo ${{ secrets.SERVICE_PRINCIPAL }} | jq -r .tenantId)" >> $GITHUB_ENV
+      env:
+        SERVICE_PRINCIPAL: ${{ secrets.SERVICE_PRINCIPAL }}
+      run: |
+        echo "ARM_CLIENT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .clientId)" >> $GITHUB_ENV
+        echo "ARM_CLIENT_SECRET=$(echo $SERVICE_PRINCIPAL | jq -r .clientSecret)" >> $GITHUB_ENV
+        echo "ARM_SUBSCRIPTION_ID=$(echo $SERVICE_PRINCIPAL | jq -r .subscriptionId)" >> $GITHUB_ENV
+        echo "ARM_TENANT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .tenantId)" >> $GITHUB_ENV
     - name: Print environment variables
       run: |
         echo "TAG_NAME=$TAG_NAME"
