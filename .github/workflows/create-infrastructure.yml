@@ -16,12 +16,20 @@ jobs:
       run: echo "ENVIRONMENT_NAME=${TAG_NAME:4}" >> $GITHUB_ENV
     - name: Set ARM_CLIENT_ID
       run: echo "ARM_CLIENT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .clientId)" >> $GITHUB_ENV
-    - name: Set ARM_CLIENT_ID
+    - name: Set ARM_CLIENT_SECRET
       run: echo "ARM_CLIENT_SECRET=$(echo $SERVICE_PRINCIPAL | jq -r .clientSecret)" >> $GITHUB_ENV
-    - name: Set ARM_CLIENT_ID
+    - name: Set ARM_SUBSCRIPTION_ID
       run: echo "ARM_SUBSCRIPTION_ID=$(echo $SERVICE_PRINCIPAL | jq -r .subscriptionId)" >> $GITHUB_ENV
-    - name: Set ARM_CLIENT_ID
+    - name: Set ARM_TENANT_ID
       run: echo "ARM_TENANT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .tenantId)" >> $GITHUB_ENV
+    - name: Print environment variables
+      run: |
+        echo "TAG_NAME=$TAG_NAME"
+        echo "ENVIRONMENT_NAME=$ENVIRONMENT_NAME"
+        echo "ARM_CLIENT_ID=$ARM_CLIENT_ID"
+        echo "ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET"
+        echo "ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID"
+        echo "ARM_TENANT_ID=$ARM_TENANT_ID"
     - uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
       run: terraform init -input=false -backend-config="resource_group_name=rg-terraform-001" -backend-config="storage_account_name=stterraform2961426474" -backend-config="container_name=MyBucket" -backend-config="key=${{ env.ENVIRONMENT_NAME }}.terraform.tfstate"
