@@ -17,5 +17,7 @@ jobs:
     - uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
       run: terraform init
+      working-directory: '${{ github.workspace }}/terraform'
     - name: Apply Terraform
       run: terraform apply -auto-approve -var="environment=${{ env.ENVIRONMENT_NAME }}"
+      working-directory: '${{ github.workspace }}/terraform'
