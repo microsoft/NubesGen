@@ -16,7 +16,7 @@ resource "azurerm_app_service_plan" "application" {
 
 # This creates the service definition
 resource "azurerm_app_service" "application" {
-  name                = "nubesgen"
+  name                = "app-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
   app_service_plan_id = azurerm_app_service_plan.application.id
