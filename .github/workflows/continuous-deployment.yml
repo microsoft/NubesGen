@@ -1,10 +1,16 @@
 name: Continuous Deployment
 
-### This needs the following env variable defined in GitHub secrets ###
+### This needs the following env variables defined in GitHub secrets ###
+#
+## AZURE_CREDENTIALS ##
 # RESOURCE_ID=$(az group show --name "rg-nubesgen-001" --query id -o tsv)
 # SPNAME="sp-$(az webapp list --resource-group rg-nubesgen-001  --query '[].name' -o tsv)"
 # az ad sp create-for-rbac --name "${SPNAME}" --role contributor --scopes "$RESOURCE_ID" --sdk-auth
 # -> copy this JSON data to the AZURE_CREDENTIALS GitHub secret
+#
+## APPLICATION_NAME ##
+# The application name, as used in App Service.
+# In Terraform, this is the "name" of the "azurerm_app_service" resource.
 
 on:
   push:
@@ -48,5 +54,5 @@ jobs:
       - name: 'Deploy to Azure WebApp'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: nubesgen-staging
+          app-name: ${{ secrets.APPLICATION_NAME }}
           package: '*.jar'
