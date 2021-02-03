@@ -16,12 +16,7 @@ jobs:
       run: echo "ENVIRONMENT_NAME=${TAG_NAME:4}" >> $GITHUB_ENV
     - uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
-      run: terraform init \
-        -backend=true \
-        -backend-config="resource_group_name=rg-terraform-001" \
-        -backend-config="storage_account_name=stterraform2961426474" \
-        -backend-config="container_name=MyBucket" \
-        -backend-config="tfstate=${{ env.ENVIRONMENT_NAME }}.terraform.tfstate"
+      run: terraform init -input=false -backend-config="resource_group_name=rg-terraform-001" -backend-config="storage_account_name=stterraform2961426474" -backend-config="container_name=MyBucket" -backend-config="tfstate=${{ env.ENVIRONMENT_NAME }}.terraform.tfstate"
       working-directory: '${{ github.workspace }}/terraform'
     - name: Apply Terraform
       run: terraform apply -auto-approve \
