@@ -1,11 +1,11 @@
 variable "resource_group" {
   description = "The resource group"
-  default     = "rg-nubesgen-001"
+  default     = "rg-nubesgen-staging-001"
 }
 
 variable "application_name" {
   description = "The name of your application"
-  default     = "nubesgen"
+  default     = "nubesgen-staging"
 }
 
 variable "location" {
