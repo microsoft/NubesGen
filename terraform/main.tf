@@ -27,7 +27,6 @@ resource "azurerm_resource_group" "main" {
 
 module "application" {
   source            = "./modules/app-service"
-  environment       = var.environment
   resource_group    = var.resource_group
   location          = var.location
   application_name  = var.application_name

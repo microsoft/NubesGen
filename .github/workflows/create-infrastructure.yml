@@ -19,5 +19,8 @@ jobs:
       run: terraform init
       working-directory: '${{ github.workspace }}/terraform'
     - name: Apply Terraform
-      run: terraform apply -auto-approve -var="environment=${{ env.ENVIRONMENT_NAME }}"
+      run: terraform apply -auto-approve \
+        -var="environment=${{ env.ENVIRONMENT_NAME }}" \
+        -var="resource_group=rg-${{ secrets.APPLICATION_NAME }}-${{ env.ENVIRONMENT_NAME }}-001" \
+        -var="application_name=app-${{ secrets.APPLICATION_NAME }}-${{ env.ENVIRONMENT_NAME }}-001"
       working-directory: '${{ github.workspace }}/terraform'

@@ -1,8 +1,3 @@
-variable "environment" {
-  description = "The environment: dev, test, staging, prod..."
-  default     = "dev"
-}
-
 variable "resource_group" {
   description = "The resource group"
 }

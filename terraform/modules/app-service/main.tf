@@ -1,7 +1,7 @@
 
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "application" {
-  name                = "plan-${var.application_name}-${var.environment}-001"
+  name                = "plan-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -16,7 +16,7 @@ resource "azurerm_app_service_plan" "application" {
 
 # This creates the service definition
 resource "azurerm_app_service" "application" {
-  name                = "app-${var.application_name}-${var.environment}-001"
+  name                = "app-${var.application_name}-001"
   resource_group_name = var.resource_group
   location            = var.location
   app_service_plan_id = azurerm_app_service_plan.application.id
