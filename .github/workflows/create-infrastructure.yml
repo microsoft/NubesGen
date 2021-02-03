@@ -32,8 +32,10 @@ jobs:
         echo "ARM_TENANT_ID=$ARM_TENANT_ID"
     - uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
-      run: terraform init -input=false -backend-config="resource_group_name=rg-terraform-001" -backend-config="storage_account_name=stterraform2961426474" -backend-config="container_name=MyBucket" -backend-config="key=${{ env.ENVIRONMENT_NAME }}.terraform.tfstate"
+      run: terraform init -input=false -backend-config="resource_group_name=rg-terraform-001" -backend-config="storage_account_name=stterraform2961426474" -backend-config="container_name=tfstate" -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
       working-directory: '${{ github.workspace }}/terraform'
     - name: Apply Terraform
-      run: terraform apply -input=false -auto-approve -var="environment=${{ env.ENVIRONMENT_NAME }}" -var="resource_group=rg-${{ secrets.APPLICATION_NAME }}-${{ env.ENVIRONMENT_NAME }}-001" -var="application_name=app-${{ secrets.APPLICATION_NAME }}-${{ env.ENVIRONMENT_NAME }}-001"
+      env:
+        APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
+      run: terraform apply -input=false -auto-approve -var="environment=$ENVIRONMENT_NAME" -var="resource_group=rg-$APPLICATION_NAME-$ENVIRONMENT_NAME-001" -var="application_name=app-$APPLICATION_NAME-$ENVIRONMENT_NAME-001"
       working-directory: '${{ github.workspace }}/terraform'
