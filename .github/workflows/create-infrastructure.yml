@@ -1,0 +1,21 @@
+name: Create Infrastructure
+
+on:
+  push:
+    tags:
+      - '[env]-*'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get tag name
+      run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+    - name: Get environment name
+      run: echo "ENVIRONMENT_NAME=${TAG_NAME:6}" >> $GITHUB_ENV
+    - uses: hashicorp/setup-terraform@v1
+    - name: Initialize Terraform
+      run: terraform init
+    - name: Apply Terraform
+      run: terraform apply -auto-approve -var="environment=${{ env.ENVIRONMENT_NAME }}"

@@ -9,7 +9,7 @@ terraform {
     resource_group_name  = "rg-terraform-001"
     storage_account_name = "stterraform2961426474"
     container_name       = "tfstate"
-    key                  = "staging.terraform.tfstate"
+    key                  = "${var.environment}.terraform.tfstate"
   }
 }
 
@@ -27,6 +27,7 @@ resource "azurerm_resource_group" "main" {
 
 module "application" {
   source            = "./modules/app-service"
+  environment       = var.environment
   resource_group    = var.resource_group
   location          = var.location
   application_name  = var.application_name

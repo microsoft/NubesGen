@@ -1,11 +1,16 @@
+variable "environment" {
+  description = "The environment: dev, test, staging, prod..."
+  default     = "dev"
+}
+
 variable "resource_group" {
   description = "The resource group"
-  default     = "rg-nubesgen-staging-001"
+  default     = "rg-nubesgen-dev-001"
 }
 
 variable "application_name" {
   description = "The name of your application"
-  default     = "nubesgen-staging"
+  default     = "nubesgen-dev"
 }
 
 variable "location" {
