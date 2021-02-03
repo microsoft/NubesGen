@@ -10,14 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Get tag name
+    - name: Set tag name
       run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-    - name: Get environment name
+    - name: Set environment name
       run: echo "ENVIRONMENT_NAME=${TAG_NAME:4}" >> $GITHUB_ENV
-    - name: Login to Azure Spring Cloud
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.SERVICE_PRINCIPAL }}
+    - name: Set ARM_CLIENT_ID
+      run: echo "ARM_CLIENT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .clientId)" >> $GITHUB_ENV
+    - name: Set ARM_CLIENT_ID
+      run: echo "ARM_CLIENT_SECRET=$(echo $SERVICE_PRINCIPAL | jq -r .clientSecret)" >> $GITHUB_ENV
+    - name: Set ARM_CLIENT_ID
+      run: echo "ARM_SUBSCRIPTION_ID=$(echo $SERVICE_PRINCIPAL | jq -r .subscriptionId)" >> $GITHUB_ENV
+    - name: Set ARM_CLIENT_ID
+      run: echo "ARM_TENANT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .tenantId)" >> $GITHUB_ENV
     - uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
       run: terraform init -input=false -backend-config="resource_group_name=rg-terraform-001" -backend-config="storage_account_name=stterraform2961426474" -backend-config="container_name=MyBucket" -backend-config="key=${{ env.ENVIRONMENT_NAME }}.terraform.tfstate"
