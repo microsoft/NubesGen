@@ -17,6 +17,7 @@ jobs:
     - uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
       run: terraform init \
+        -backend=true \
         -backend-config="resource_group_name=rg-terraform-001" \
         -backend-config="storage_account_name=stterraform2961426474" \
         -backend-config="container_name=MyBucket" \
