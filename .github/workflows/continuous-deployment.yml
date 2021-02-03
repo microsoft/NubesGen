@@ -1,4 +1,4 @@
-name: Build and deploy to Azure
+name: Continuous Deployment
 
 ### This needs the following env variable defined in GitHub secrets ###
 # RESOURCE_ID=$(az group show --name "rg-nubesgen-001" --query id -o tsv)
