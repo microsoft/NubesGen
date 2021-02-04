@@ -10,21 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set tag name
-      run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-    - name: Set environment name
-      run: echo "ENVIRONMENT_NAME=${TAG_NAME:4}" >> $GITHUB_ENV
     - name: Set ARM_CLIENT_ID
       env:
         SERVICE_PRINCIPAL: ${{ secrets.SERVICE_PRINCIPAL }}
       run: |
+        TAG_NAME=${GITHUB_REF#refs/*/}
+        echo "ENVIRONMENT_NAME=${TAG_NAME:4}" >> $GITHUB_ENV
         echo "ARM_CLIENT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .clientId)" >> $GITHUB_ENV
         echo "ARM_CLIENT_SECRET=$(echo $SERVICE_PRINCIPAL | jq -r .clientSecret)" >> $GITHUB_ENV
         echo "ARM_SUBSCRIPTION_ID=$(echo $SERVICE_PRINCIPAL | jq -r .subscriptionId)" >> $GITHUB_ENV
         echo "ARM_TENANT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .tenantId)" >> $GITHUB_ENV
     - name: Print environment variables
       run: |
-        echo "TAG_NAME=$TAG_NAME"
         echo "ENVIRONMENT_NAME=$ENVIRONMENT_NAME"
         echo "ARM_CLIENT_ID=$ARM_CLIENT_ID"
         echo "ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET"
@@ -32,10 +29,20 @@ jobs:
         echo "ARM_TENANT_ID=$ARM_TENANT_ID"
     - uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
-      run: terraform init -input=false -backend-config="resource_group_name=rg-terraform-001" -backend-config="storage_account_name=stterraform2961426474" -backend-config="container_name=tfstate" -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
+      run: terraform init \
+        -input=false \
+        -backend-config="resource_group_name=rg-terraform-001" \
+        -backend-config="storage_account_name=stterraform2961426474" \
+        -backend-config="container_name=tfstate" \
+        -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
       working-directory: '${{ github.workspace }}/terraform'
     - name: Apply Terraform
       env:
         APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
-      run: terraform apply -input=false -auto-approve -var="environment=$ENVIRONMENT_NAME" -var="resource_group=rg-$APPLICATION_NAME-$ENVIRONMENT_NAME-001" -var="application_name=app-$APPLICATION_NAME-$ENVIRONMENT_NAME-001"
+      run: terraform apply \
+        -input=false \
+        -auto-approve \
+        -var="environment=$ENVIRONMENT_NAME" \
+        -var="resource_group=rg-$APPLICATION_NAME-$ENVIRONMENT_NAME-001" \
+        -var="application_name=app-$APPLICATION_NAME-$ENVIRONMENT_NAME-001"
       working-directory: '${{ github.workspace }}/terraform'
