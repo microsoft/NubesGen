@@ -1,7 +1,7 @@
 name: Create Infrastructure
 
 on:
-  create:
+  delete:
     tags:
       - 'env-*'
 
@@ -21,23 +21,16 @@ jobs:
         echo "ARM_SUBSCRIPTION_ID=$(echo $SERVICE_PRINCIPAL | jq -r .subscriptionId)" >> $GITHUB_ENV
         echo "ARM_TENANT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .tenantId)" >> $GITHUB_ENV
     - uses: hashicorp/setup-terraform@v1
-    - name: Initialize Terraform
+    - name: Destroy Terraform infrastructure
+      env:
+        APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
       run: |
-        terraform init \
+        terraform destroy \
         -input=false \
+        -auto-approve \
         -backend-config="resource_group_name=rg-terraform-001" \
         -backend-config="storage_account_name=stterraform2961426474" \
         -backend-config="container_name=tfstate" \
         -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
-      working-directory: '${{ github.workspace }}/terraform'
-    - name: Apply Terraform infrastructure
-      env:
-        APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
-      run: |
-        terraform apply \
-        -input=false \
-        -auto-approve \
-        -var="environment=$ENVIRONMENT_NAME" \
-        -var="resource_group=rg-$APPLICATION_NAME-$ENVIRONMENT_NAME-001" \
-        -var="application_name=app-$APPLICATION_NAME-$ENVIRONMENT_NAME-001"
+        -var="environment=$ENVIRONMENT_NAME"
       working-directory: '${{ github.workspace }}/terraform'
