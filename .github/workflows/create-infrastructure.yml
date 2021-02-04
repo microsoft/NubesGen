@@ -29,7 +29,8 @@ jobs:
         echo "ARM_TENANT_ID=$ARM_TENANT_ID"
     - uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
-      run: terraform init \
+      run: |
+        terraform init \
         -input=false \
         -backend-config="resource_group_name=rg-terraform-001" \
         -backend-config="storage_account_name=stterraform2961426474" \
@@ -39,7 +40,8 @@ jobs:
     - name: Apply Terraform
       env:
         APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
-      run: terraform apply \
+      run: |
+        terraform apply \
         -input=false \
         -auto-approve \
         -var="environment=$ENVIRONMENT_NAME" \
