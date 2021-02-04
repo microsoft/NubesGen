@@ -37,6 +37,10 @@ jobs:
         terraform apply \
         -input=false \
         -auto-approve \
+        -backend-config="resource_group_name=rg-terraform-001" \
+        -backend-config="storage_account_name=stterraform2961426474" \
+        -backend-config="container_name=tfstate" \
+        -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
         -var="environment=$ENVIRONMENT_NAME" \
         -var="resource_group=rg-$APPLICATION_NAME-$ENVIRONMENT_NAME-001" \
         -var="application_name=app-$APPLICATION_NAME-$ENVIRONMENT_NAME-001"
