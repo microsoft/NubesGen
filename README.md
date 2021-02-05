@@ -149,6 +149,14 @@ curl "http://localhost:8080/myapplication.tgz" -d '{ "region": "westeurope", "ru
 curl "http://localhost:8080/myapplication.tgz?region=westeurope&runtime=spring&database=MYSQL&addons=STORAGE_BLOB,REDIS"  | tar -xzvf -
 ```
 
+## Working on the project
+
+| Command                          | Action                                          |
+|----------------------------------|-------------------------------------------------|
+| `./mvnw package`                 | Generates .jar package in `/target` folder      |
+| `./mvnw test`                    | Runs tests                                      |
+| `java -jar target/nubesgen*.jar` | Starts NubesGen server on http://localhost:8080 |
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
