@@ -43,6 +43,9 @@ resource "azurerm_app_service" "application" {
   {{#runtimeDotnet}} 
     linux_fx_version          = "DOTNETCORE|5.0"
   {{/runtimeDotnet}}
+  {{#runtimeNodejs}} 
+    linux_fx_version          = "NODE|14-lts"
+  {{/runtimeNodejs}}
     always_on                 = false
     use_32_bit_worker_process = true
     ftps_state                = "FtpsOnly"
@@ -57,6 +60,9 @@ resource "azurerm_app_service" "application" {
   {{#runtimeDotnet}} 
     linux_fx_version = "DOTNETCORE|5.0"
   {{/runtimeDotnet}}
+  {{#runtimeNodejs}} 
+    linux_fx_version = "NODE|14-lts"
+  {{/runtimeNodejs}}
     always_on        = true
     ftps_state       = "FtpsOnly"
 {{/applicationTierFree}}
