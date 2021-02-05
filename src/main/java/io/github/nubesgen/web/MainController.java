@@ -104,6 +104,8 @@ public class MainController {
             properties.setRuntimeType(RuntimeType.DOTNET);
         } else if (runtime.equals(RuntimeType.JAVA.name())) {
             properties.setRuntimeType(RuntimeType.JAVA);
+        } else if (runtime.equals(RuntimeType.NODEJS.name())) {
+            properties.setRuntimeType(RuntimeType.NODEJS);
         } else {
             properties.setRuntimeType(RuntimeType.SPRING);
         }
