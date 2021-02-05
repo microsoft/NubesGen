@@ -102,6 +102,12 @@ public class NubesgenConfiguration {
         return RuntimeType.DOTNET.equals(this.getRuntimeType());
     }
 
+
+    @JsonIgnore
+    public boolean isRuntimeNodejs() {
+        return RuntimeType.NODEJS.equals(this.getRuntimeType());
+    }
+
     @JsonIgnore
     public boolean isApplicationTypeAppService() {
         return ApplicationType.APP_SERVICE.equals(this.getApplicationConfiguration().getApplicationType());
