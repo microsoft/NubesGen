@@ -155,6 +155,21 @@ class CodeGeneratorServiceTest {
 
     }
 
+    @Test
+    void generateAppServiceNodejsConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-app-service-nodejs");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.NODEJS);
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "app-service-nodejs", configuration, this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates());
+
+    }
+
     private void testGeneratedFiles(NubesgenConfiguration properties, String testDirectory,
                                     Map<String, String> configuration, List<String>... templateLists)
             throws IOException {
