@@ -1,4 +1,5 @@
 # NubesGen
+![Continuous Integration](https://github.com/microsoft/NubesGen/workflows/Continuous%20Integration/badge.svg)
 
 _A cloud infrastructure generator for Terraform and Azure_
 
