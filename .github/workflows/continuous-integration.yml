@@ -1,5 +1,12 @@
 name: Continuous Integration
 
+###
+# Continuous integration GitHub Action
+#
+# -> Push your code to the `main` branch to have it automatically tested
+#
+###
+
 on:
   push:
     branches: [ main ]
