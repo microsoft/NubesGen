@@ -1,0 +1,64 @@
+name: Create Infrastructure
+
+###
+# Create infrastructure GitHub Action
+#
+# -> Create a tag starting with `env-` branch to have a cloud environment automatically set up
+#
+# For example, create tag called `env-test` to create a `test` environment.
+#
+# Configuration:
+#
+# - On `terraform/main.tf`, the `backend "azurerm" {}` should be uncommented, in order to use the Azure backend for Terraform
+# - The `terraform/create_azure_remote_backend.sh` should be run to create a new `AZURE_CREDENTIALS` GitHub secret
+# - In `terraform/modules/app-service/main.tf` the `azurerm_app_service.application.name` variable should be changed from
+#   "nubesgen" to "app-${var.application_name}-001"
+#
+# Note: the `AZURE_CREDENTIALS` GitHub secret configured in `.github/workflows/continuous-deployment.yml` is scoped to a
+# specific resource group, here we need one with a wider scope as it can create resource groups.
+###
+
+on:
+  create:
+    tags:
+      - 'env-*'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set ARM_CLIENT_ID
+      env:
+        SERVICE_PRINCIPAL: ${{ secrets.AZURE_CREDENTIALS }}
+      run: |
+        TAG_NAME=${GITHUB_REF#refs/*/}
+        echo "ENVIRONMENT_NAME=${TAG_NAME:4}" >> $GITHUB_ENV
+        echo "ARM_CLIENT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .clientId)" >> $GITHUB_ENV
+        echo "ARM_CLIENT_SECRET=$(echo $SERVICE_PRINCIPAL | jq -r .clientSecret)" >> $GITHUB_ENV
+        echo "ARM_SUBSCRIPTION_ID=$(echo $SERVICE_PRINCIPAL | jq -r .subscriptionId)" >> $GITHUB_ENV
+        echo "ARM_TENANT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .tenantId)" >> $GITHUB_ENV
+    - uses: hashicorp/setup-terraform@v1
+    - name: Initialize Terraform
+      run: |
+        terraform init \
+        -input=false \
+        -backend-config="resource_group_name=rg-terraform-001" \
+        -backend-config="storage_account_name=stterraform2961426474" \
+        -backend-config="container_name=tfstate" \
+        -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
+      working-directory: '${{ github.workspace }}/terraform'
+    - name: Apply Terraform infrastructure
+      env:
+        APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
+      run: |
+        terraform apply \
+        -input=false \
+        -auto-approve \
+        -backend-config="resource_group_name=rg-terraform-001" \
+        -backend-config="storage_account_name=stterraform2961426474" \
+        -backend-config="container_name=tfstate" \
+        -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
+        -var="resource_group=rg-$APPLICATION_NAME-$ENVIRONMENT_NAME-001" \
+        -var="application_name=app-$APPLICATION_NAME-$ENVIRONMENT_NAME-001"
+      working-directory: '${{ github.workspace }}/terraform'
