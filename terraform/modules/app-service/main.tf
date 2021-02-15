@@ -9,8 +9,8 @@ resource "azurerm_app_service_plan" "application" {
   reserved = true
 
   sku {
-    tier = var.sku_tier
-    size = var.sku_size
+    tier = "Free"
+    size = "F1"
   }
 }
 
@@ -23,13 +23,18 @@ resource "azurerm_app_service" "application" {
   https_only          = true
 
   site_config {
-    ftps_state       = "FtpsOnly"
-    always_on        = true
-    linux_fx_version = "JAVA|11-java11"
+    ftps_state                = "FtpsOnly"
+    always_on                 = false
+    linux_fx_version          = "DOCKER|${var.container_registry_name}.azurecr.io/nubesgen/nubesgen:latest"
+    use_32_bit_worker_process = true
   }
 
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+    "DOCKER_REGISTRY_SERVER_URL"          = "https://${var.container_registry_name}.azurecr.io"
+    "DOCKER_REGISTRY_SERVER_USERNAME"     = var.container_registry_username
+    "DOCKER_REGISTRY_SERVER_PASSWORD"     = var.container_registry_password
+    "WEBSITES_PORT"                       = "8080"
 
     # These are app specific environment variables
     "SPRING_PROFILES_ACTIVE"     = "prod,azure"
