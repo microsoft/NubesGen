@@ -12,19 +12,30 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  // If an environment is set up (dev, test, prod...), it is used in the application name
+  application_name_no_env   = var.application_name
+  application_name_with_env = "${var.environment}-${var.environment}"
+  application_name_final    = "${var.environment == '' ? var.application_name : application_name_with_env}"
+  
+  resource_group     = "rg-${locals.application_name_final}-001"
+}
+
 resource "azurerm_resource_group" "main" {
-  name     = var.resource_group
-  location = var.location
+  name        = locals.resource_group
+  location    = var.location
   tags = {
-    "terraform" = "true"
+    "terraform"   = "true"
+    "environment" = var.environment
   }
 }
 
 module "application" {
   source            = "./modules/app-service"
-  resource_group    = var.resource_group
+  resource_group    = locals.resource_group
+  application_name  = locals.application_name_final
+  environment       = var.environment
   location          = var.location
-  application_name  = var.application_name
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
   azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
@@ -38,9 +49,10 @@ module "application" {
 
 module "application-docker" {
   source            = "./modules/app-service-docker"
-  resource_group    = var.resource_group
+  resource_group    = locals.resource_group
+  application_name  = locals.application_name_final
+  environment       = var.environment
   location          = var.location
-  application_name  = var.application_name
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
   azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
@@ -59,9 +71,11 @@ module "application-docker" {
 
 module "container-registry" {
   source           = "./modules/container-registry"
-  resource_group   = var.resource_group
+  resource_group   = locals.resource_group
+  application_name = locals.application_name_final
+  environment      = var.environment
   location         = var.location
-  application_name = var.application_name
+  
   depends_on = [
     azurerm_resource_group.main
   ]
@@ -69,9 +83,11 @@ module "container-registry" {
 
 module "storage-blob" {
   source           = "./modules/storage-blob"
-  resource_group   = var.resource_group
+  resource_group   = locals.resource_group
+  application_name = locals.application_name_final
+  environment      = var.environment
   location         = var.location
-  application_name = var.application_name
+
   depends_on = [
     azurerm_resource_group.main
   ]

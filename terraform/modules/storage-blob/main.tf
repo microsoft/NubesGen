@@ -10,10 +10,18 @@ resource "azurerm_storage_account" "storage-blob" {
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+
+  tags = {
+    "environment" = var.environment
+  }
 }
 
 resource "azurerm_storage_container" "storage-blob" {
   name                  = "stblob${local.storage-blob-name}001"
   storage_account_name  = azurerm_storage_account.storage-blob.name
   container_access_type = "private"
+
+  tags = {
+    "environment" = var.environment
+  }
 }
