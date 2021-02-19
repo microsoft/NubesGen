@@ -31,7 +31,7 @@ Even without knowing anything about the underlying cloud provider, developers ar
 
 Advanced users can still benefit from Terraform, a well-known and beloved tool used by Ops people worldwide.
 
-## How does this work behind-the scenes?
+## How does this work behind-the-scenes?
 
 When choosing the `GitOps` option, NubesGen generates a GitHub Action next to its normal Terraform configuration.
 
@@ -41,7 +41,7 @@ Once committed into Git, this GitHub Action works in the following way:
 - As a result, a specific resource group is created, with specific resources inside: they all use the environment name inside their name, and they are also tagged with it.
 - When someone pushes code to the `env-` branch, the Terraform configuration is applied again, so the cloud resources are updated accordingly.
 
-## What happens if something does bad?
+## What happens if something goes bad?
 
 NubesGen uses the `backend` configuration of Terraform: it stores the state of each cloud infrastructure inside an Azure Blob container.
 
