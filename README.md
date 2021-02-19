@@ -150,6 +150,18 @@ curl "http://localhost:8080/myapplication.tgz" -d '{ "region": "westeurope", "ru
 curl "http://localhost:8080/myapplication.tgz?region=westeurope&runtime=spring&database=MYSQL&addons=STORAGE_BLOB,REDIS"  | tar -xzvf -
 ```
 
+## Working on the project
+
+The easiest way to work on the project is to use [Visual Studio Code](https://code.visualstudio.com/) with [Docker](https://docs.docker.com/get-docker/) and the [Remote Development Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
+
+Once you have the project cloned on your machine, open the VS Code command palette and select **Reopen Folder in Container**. It will take a few minutes the first time while the container image is building, after that you're ready to code.
+
+| Command                          | Action                                          |
+|----------------------------------|-------------------------------------------------|
+| `./mvnw package`                 | Generates .jar package in `/target` folder      |
+| `./mvnw test`                    | Runs tests                                      |
+| `java -jar target/nubesgen*.jar` | Starts NubesGen server on http://localhost:8080 |
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
