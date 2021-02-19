@@ -27,8 +27,9 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set ARM_CLIENT_ID
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set environment variables
       env:
         SERVICE_PRINCIPAL: ${{ secrets.AZURE_CREDENTIALS }}
       run: |
@@ -38,7 +39,8 @@ jobs:
         echo "ARM_CLIENT_SECRET=$(echo $SERVICE_PRINCIPAL | jq -r .clientSecret)" >> $GITHUB_ENV
         echo "ARM_SUBSCRIPTION_ID=$(echo $SERVICE_PRINCIPAL | jq -r .subscriptionId)" >> $GITHUB_ENV
         echo "ARM_TENANT_ID=$(echo $SERVICE_PRINCIPAL | jq -r .tenantId)" >> $GITHUB_ENV
-    - uses: hashicorp/setup-terraform@v1
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
     - name: Initialize Terraform
       run: |
         terraform init \
@@ -48,7 +50,7 @@ jobs:
         -backend-config="container_name=tfstate" \
         -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
       working-directory: '${{ github.workspace }}/terraform'
-    - name: Apply Terraform infrastructure
+    - name: Apply Terraform
       env:
         APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
       run: |
