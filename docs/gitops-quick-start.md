@@ -31,6 +31,6 @@
     ```
     </details>
 1. The script above generates two variables, `AZURE_CREDENTIALS` and `TF_STORAGE_ACCOUNT`. Go to your GitHub repository's settings, and create two secrets using those names and values.
-1. You can now push the NubesGen code to your repository, for example by typing `git add . && git commit - m 'Configure GitOps with NubesGen' && git push`.
+1. You can now push the NubesGen code to your repository, for example by typing `git add . && git commit -m 'Configure GitOps with NubesGen' && git push`.
 
 __Congratulations, you have setup GitOps with NubesGen on your project!__
