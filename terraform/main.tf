@@ -16,7 +16,7 @@ locals {
   // If an environment is set up (dev, test, prod...), it is used in the application name
   application_name_no_env   = var.application_name
   application_name_with_env = "${var.environment}-${var.environment}"
-  application_name_final    = "${var.environment == '' ? var.application_name : application_name_with_env}"
+  application_name_final    = var.environment == "" ? var.application_name : application_name_with_env
   
   resource_group     = "rg-${locals.application_name_final}-001"
 }
