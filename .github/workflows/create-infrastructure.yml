@@ -20,11 +20,12 @@ name: Create Infrastructure
 
 on:
   create:
-    tags:
+    branches:
       - 'env-*'
 
 jobs:
   terraform:
+    if: startsWith(github.ref, "refs/heads/env-")
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
