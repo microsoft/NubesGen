@@ -14,15 +14,12 @@ provider "azurerm" {
 
 locals {
   // If an environment is set up (dev, test, prod...), it is used in the application name
-  application_name_no_env   = var.application_name
-  application_name_with_env = "${var.environment}-${var.environment}"
-  application_name_final    = var.environment == "" ? var.application_name : var.application_name_with_env
-  
-  resource_group     = "rg-${locals.application_name_final}-001"
+  application_name_final = var.environment == "" ? var.application_name : "${var.environment}-${var.environment}"
+  resource_group         = "rg-${local.application_name_final}-001"
 }
 
 resource "azurerm_resource_group" "main" {
-  name        = locals.resource_group
+  name        = local.resource_group
   location    = var.location
   tags = {
     "terraform"   = "true"
@@ -32,8 +29,8 @@ resource "azurerm_resource_group" "main" {
 
 module "application" {
   source            = "./modules/app-service"
-  resource_group    = locals.resource_group
-  application_name  = locals.application_name_final
+  resource_group    = local.resource_group
+  application_name  = local.application_name_final
   environment       = var.environment
   location          = var.location
 
@@ -49,8 +46,8 @@ module "application" {
 
 module "application-docker" {
   source            = "./modules/app-service-docker"
-  resource_group    = locals.resource_group
-  application_name  = locals.application_name_final
+  resource_group    = local.resource_group
+  application_name  = local.application_name_final
   environment       = var.environment
   location          = var.location
 
@@ -71,8 +68,8 @@ module "application-docker" {
 
 module "container-registry" {
   source           = "./modules/container-registry"
-  resource_group   = locals.resource_group
-  application_name = locals.application_name_final
+  resource_group   = local.resource_group
+  application_name = local.application_name_final
   environment      = var.environment
   location         = var.location
   
@@ -83,8 +80,8 @@ module "container-registry" {
 
 module "storage-blob" {
   source           = "./modules/storage-blob"
-  resource_group   = locals.resource_group
-  application_name = locals.application_name_final
+  resource_group   = local.resource_group
+  application_name = local.application_name_final
   environment      = var.environment
   location         = var.location
 
