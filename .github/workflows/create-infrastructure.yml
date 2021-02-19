@@ -52,8 +52,6 @@ jobs:
         -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
       working-directory: '${{ github.workspace }}/terraform'
     - name: Apply Terraform
-      env:
-        APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
       run: |
         terraform apply \
         -input=false \
@@ -62,6 +60,5 @@ jobs:
         -backend-config="storage_account_name=stterraform2961426474" \
         -backend-config="container_name=tfstate" \
         -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
-        -var="resource_group=rg-$APPLICATION_NAME-$ENVIRONMENT_NAME-001" \
-        -var="application_name=app-$APPLICATION_NAME-$ENVIRONMENT_NAME-001"
+        -var="environment=$ENVIRONMENT_NAME"
       working-directory: '${{ github.workspace }}/terraform'

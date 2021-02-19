@@ -10,4 +10,8 @@ resource "azurerm_container_registry" "container-registry" {
   location                 = var.location
   admin_enabled            = true
   sku                      = "Basic"
+
+  tags = {
+    "environment" = var.environment
+  }
 }
