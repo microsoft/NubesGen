@@ -15,7 +15,7 @@ The best way to describe it is through an example:
 - Alice, a new developer, joins the project.
 - Alice creates a new branch, called `env-alice`.
 - As soon as the branch is pushed, Alice automatically has a working environment.
-- If Alice wants to modifies the environment, for example upgrading the database to another tier, the only command to do is `git push` and the environment is automatically updated.
+- If Alice wants to modify the environment, for example upgrading the database to another tier, the only command to do is `git push` and the environment is automatically updated.
 
 ## What are the benefits of GitOps with NubesGen?
 
