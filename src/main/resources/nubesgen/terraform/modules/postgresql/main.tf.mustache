@@ -25,6 +25,10 @@ resource "azurerm_postgresql_server" "database" {
   auto_grow_enabled            = true
   version                      = "9.5"
   ssl_enforcement_enabled      = true
+
+  tags = {
+    "environment" = var.environment
+  }
 }
 
 resource "azurerm_postgresql_database" "database" {
