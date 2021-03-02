@@ -10,9 +10,15 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   offer_type          = "Standard"
   kind                = "MongoDB"
   enable_free_tier    = true
+
+  tags = {
+    "environment" = var.environment
+  }
+
   consistency_policy {
     consistency_level = "Session"
   }
+
   geo_location {
     failover_priority = 0
     location          = var.location

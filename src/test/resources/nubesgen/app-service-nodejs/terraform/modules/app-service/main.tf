@@ -8,6 +8,10 @@ resource "azurerm_app_service_plan" "application" {
   kind     = "Linux"
   reserved = true
 
+  tags = {
+    "environment" = var.environment
+  }
+
   sku {
     tier = "Free"
     size = "F1"
@@ -21,6 +25,10 @@ resource "azurerm_app_service" "application" {
   location            = var.location
   app_service_plan_id = azurerm_app_service_plan.application.id
   https_only          = true
+
+  tags = {
+    "environment" = var.environment
+  }
 
   site_config {
     linux_fx_version          = "NODE|14-lts"

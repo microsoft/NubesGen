@@ -13,6 +13,10 @@ resource "azurerm_app_service_plan" "application" {
 {{/applicationTierPremium}}
   reserved = true
 
+  tags = {
+    "environment" = var.environment
+  }
+
   sku {
 {{#applicationTierConsumption}}
     tier = "Dynamic"

@@ -89,9 +89,10 @@ module "database" {
   {{#databaseTypePostgresql}}
   source           = "./modules/postgresql"
   {{/databaseTypePostgresql}}
-  resource_group   = var.resource_group
+  resource_group   = local.resource_group
+  application_name = local.application_name
+  environment      = local.environment
   location         = var.location
-  application_name = var.application_name
   depends_on = [
     azurerm_resource_group.main
   ]
@@ -100,10 +101,11 @@ module "database" {
 {{#addonRedis}}
 
 module "redis" {
-  source           = "./modules/redis"
-  resource_group   = var.resource_group
-  location         = var.location
-  application_name = var.application_name
+  source            = "./modules/redis"
+  resource_group    = local.resource_group
+  application_name  = local.application_name
+  environment       = local.environment
+  location          = var.location
   depends_on = [
     azurerm_resource_group.main
   ]
@@ -113,9 +115,10 @@ module "redis" {
 
 module "storage-blob" {
   source           = "./modules/storage-blob"
-  resource_group   = var.resource_group
+  resource_group   = local.resource_group
+  application_name = local.application_name
+  environment      = local.environment
   location         = var.location
-  application_name = var.application_name
   depends_on = [
     azurerm_resource_group.main
   ]
@@ -125,9 +128,10 @@ module "storage-blob" {
 
 module "cosmosdb-mongodb" {
   source           = "./modules/cosmosdb-mongodb"
-  resource_group   = var.resource_group
+  resource_group   = local.resource_group
+  application_name = local.application_name
+  environment      = local.environment
   location         = var.location
-  application_name = var.application_name
   depends_on = [
     azurerm_resource_group.main
   ]

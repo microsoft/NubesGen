@@ -8,6 +8,11 @@ variable "application_name" {
   default     = ""
 }
 
+variable "environment" {
+  description = "The environment (dev, test, prod...)"
+  default     = "dev"
+}
+
 variable "location" {
   description = "The Azure region where all resources in this example should be created"
   default     = ""
