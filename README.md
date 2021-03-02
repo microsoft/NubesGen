@@ -123,9 +123,9 @@ We provide the following tiers per resource type:
 
 | Resource type  | Available tiers  | Example |
 |---|---|---|
-| APP_SERVICE | FREE, BASIC, STANDARD | `http://localhost:8080/myapplication.tgz?application=app_service.premium` |
+| APP_SERVICE | FREE, BASIC, STANDARD | `http://localhost:8080/myapplication.tgz?application=app_service.standard` |
 | FUNCTION | CONSUMPTION, PREMIUM | `http://localhost:8080/myapplication.tgz?application=function.premium` |
-| SQL_SERVER | SERVERLESS, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?database=sql_server.basic` |
+| SQL_SERVER | SERVERLESS, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?database=sql_server.general_purpose` |
 | MYSQL | BASIC, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?database=mysql.general_purpose` |
 | POSTGRESQL |BASIC, GENERAL_PURPOSE | `http://localhost:8080/myapplication.tgz?database=postgresql.general_purpose` |
 
