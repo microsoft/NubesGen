@@ -8,6 +8,10 @@ resource "azurerm_app_service_plan" "application" {
   kind     = "Linux"
   reserved = true
 
+  tags = {
+    "environment" = var.environment
+  }
+
   sku {
     tier = "Dynamic"
     size = "Y1"
@@ -27,6 +31,10 @@ resource "azurerm_storage_account" "application" {
   account_replication_type  = "LRS"
   enable_https_traffic_only = true
   allow_blob_public_access  = true
+
+  tags = {
+    "environment" = var.environment
+  }
 }
 
 # This creates the service definition
@@ -39,6 +47,10 @@ resource "azurerm_function_app" "application" {
   storage_account_access_key = azurerm_storage_account.application.primary_access_key
   os_type                    = "linux"
   https_only                 = true
+
+  tags = {
+    "environment" = var.environment
+  }
 
   site_config {
     linux_fx_version = "java|11"

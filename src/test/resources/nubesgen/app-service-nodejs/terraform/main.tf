@@ -19,8 +19,9 @@ locals {
 }
 
 resource "azurerm_resource_group" "main" {
-  name        = local.resource_group
-  location    = var.location
+  name     = local.resource_group
+  location = var.location
+
   tags = {
     "terraform"   = "true"
     "environment" = local.environment

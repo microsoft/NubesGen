@@ -19,8 +19,9 @@ locals {
 }
 
 resource "azurerm_resource_group" "main" {
-  name        = local.resource_group
-  location    = var.location
+  name     = local.resource_group
+  location = var.location
+
   tags = {
     "terraform"   = "true"
     "environment" = local.environment
@@ -93,6 +94,7 @@ module "database" {
   application_name = local.application_name
   environment      = local.environment
   location         = var.location
+
   depends_on = [
     azurerm_resource_group.main
   ]
@@ -106,6 +108,7 @@ module "redis" {
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
+
   depends_on = [
     azurerm_resource_group.main
   ]
@@ -119,6 +122,7 @@ module "storage-blob" {
   application_name = local.application_name
   environment      = local.environment
   location         = var.location
+
   depends_on = [
     azurerm_resource_group.main
   ]
@@ -132,6 +136,7 @@ module "cosmosdb-mongodb" {
   application_name = local.application_name
   environment      = local.environment
   location         = var.location
+
   depends_on = [
     azurerm_resource_group.main
   ]
