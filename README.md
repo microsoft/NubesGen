@@ -107,6 +107,7 @@ curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=mysql" 
 | application  | Type of application: Web app or serverless  | APP_SERVICE (default), FUNCTION | `http://localhost:8080/myapplication.tgz -d '{ "application": { "type": "FUNCTION", "tier": "CONSUMPTION"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?application=function`  |
 | region  |  Azure Region where the resource will be located | Run `az account list-locations` | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?region=westeurope`  |
 | database  |  The database | NONE (default), SQL_SERVER, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "tier": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=mysql`  |
+| gitops  |  If [GitOps](docs/gitops-overview.md) is enabled | FALSE (default), TRUE  | `http://localhost:8080/myapplication.tgz -d '{ "gitops": "true"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?gitops=true`  |
 
 _In a GET request, parameters can be in uppercase or lowercase, for example `database=MYSQL`or `database=mysql`_
 

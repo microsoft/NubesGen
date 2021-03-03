@@ -57,7 +57,7 @@ public class MainControllerTest {
 
     @Test
     public void generateDefaultApplication() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/nubesgen.zip")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?gitops=true")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -68,6 +68,7 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("GitOps"));
     }
 
     @Test

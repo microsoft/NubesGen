@@ -42,7 +42,23 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "default", configuration, this.templateListService.listMainTemplates(),
+        testGeneratedFiles(properties, "default", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates());
+    }
+
+    @Test
+    void generateGitOpsConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-gitops-testapp");
+        properties.setRegion("westeurope");
+        properties.setGitops(true);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "gitops", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listGitOpsTemplates(),
                 this.templateListService.listAppServiceTemplates());
     }
 
@@ -59,8 +75,10 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "cosmosdb-mongodb", configuration, this.templateListService.listMainTemplates(),
-                this.templateListService.listAppServiceTemplates(), this.templateListService.listCosmosdbMongodbTemplates());
+        testGeneratedFiles(properties, "cosmosdb-mongodb", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listCosmosdbMongodbTemplates());
 
     }
 
@@ -74,8 +92,10 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "function-mysql", configuration, this.templateListService.listMainTemplates(),
-                this.templateListService.listFunctionTemplates(), this.templateListService.listMysqlTemplates());
+        testGeneratedFiles(properties, "function-mysql", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listFunctionTemplates(),
+                this.templateListService.listMysqlTemplates());
 
     }
 
@@ -88,8 +108,10 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "mysql", configuration, this.templateListService.listMainTemplates(),
-                this.templateListService.listAppServiceTemplates(), this.templateListService.listMysqlTemplates());
+        testGeneratedFiles(properties, "mysql", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listMysqlTemplates());
 
     }
 
@@ -102,8 +124,10 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "postgresql", configuration, this.templateListService.listMainTemplates(),
-                this.templateListService.listAppServiceTemplates(), this.templateListService.listPostgresqlTemplates());
+        testGeneratedFiles(properties, "postgresql", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listPostgresqlTemplates());
 
     }
 
@@ -119,8 +143,10 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "redis", configuration, this.templateListService.listMainTemplates(),
-                this.templateListService.listAppServiceTemplates(), this.templateListService.listRedisTemplates());
+        testGeneratedFiles(properties, "redis", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listRedisTemplates());
 
     }
 
@@ -133,8 +159,10 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "sql-server", configuration, this.templateListService.listMainTemplates(),
-                this.templateListService.listAppServiceTemplates(), this.templateListService.listSqlServerTemplates());
+        testGeneratedFiles(properties, "sql-server", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listSqlServerTemplates());
 
     }
 
@@ -150,8 +178,10 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "storage-blob", configuration, this.templateListService.listMainTemplates(),
-                this.templateListService.listAppServiceTemplates(), this.templateListService.listStorageBlobTemplates());
+        testGeneratedFiles(properties, "storage-blob", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listStorageBlobTemplates());
 
     }
 
@@ -165,7 +195,8 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "app-service-nodejs", configuration, this.templateListService.listMainTemplates(),
+        testGeneratedFiles(properties, "app-service-nodejs", configuration,
+                this.templateListService.listMainTemplates(),
                 this.templateListService.listAppServiceTemplates());
 
     }

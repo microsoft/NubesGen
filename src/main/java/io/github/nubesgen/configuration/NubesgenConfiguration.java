@@ -24,6 +24,9 @@ public class NubesgenConfiguration {
     @JsonProperty("database")
     private DatabaseConfiguration databaseConfiguration;
 
+    @JsonProperty("gitops")
+    private boolean gitops;
+
     @JsonProperty("addons")
     private List<AddonConfiguration> addons = new ArrayList<>();
 
@@ -33,6 +36,7 @@ public class NubesgenConfiguration {
         this.runtimeType = RuntimeType.SPRING;
         this.applicationConfiguration = new ApplicationConfiguration();
         this.databaseConfiguration = new DatabaseConfiguration();
+        this.gitops = false;
     }
 
     public Date getDate() {
@@ -77,6 +81,14 @@ public class NubesgenConfiguration {
 
     public void setDatabaseConfiguration(DatabaseConfiguration databaseConfiguration) {
         this.databaseConfiguration = databaseConfiguration;
+    }
+
+    public boolean isGitops() {
+        return gitops;
+    }
+
+    public void setGitops(boolean gitops) {
+        this.gitops = gitops;
     }
 
     public List<AddonConfiguration> getAddons() {
