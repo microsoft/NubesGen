@@ -8,7 +8,7 @@
 1. Go to [https://nubesgen.azurewebsites.net/](https://nubesgen.azurewebsites.net/) to create your Terraform configuration, and select the `GitOps` option. Download the generated file and unzip it inside the Git repository you have just cloned.
 1. Go to [https://shell.azure.com/](https://shell.azure.com/) and login with the Azure subscription you want to use. In this shell, run the following script:
     <details>
-    <summary>Run this script</summary>
+    <summary>Run this script (first-time users)</summary>
 
     ```bash
     RESOURCE_GROUP_NAME=rg-terraform-001
@@ -23,6 +23,22 @@
     ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $TF_STORAGE_ACCOUNT --query [0].value -o tsv)
     # Create blob container
     az storage container create --name $CONTAINER_NAME --account-name $TF_STORAGE_ACCOUNT --account-key $ACCOUNT_KEY
+    # Create service principal
+    SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+    SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --sdk-auth)
+    echo "AZURE_CREDENTIALS: $SERVICE_PRINCIPAL"
+    echo "TF_STORAGE_ACCOUNT: $TF_STORAGE_ACCOUNT"
+    ```
+    </details>
+   <details>
+    <summary>Run this script (existing users, who are already using GitOps with NubesGen on their subscription)</summary>
+
+    ```bash
+    RESOURCE_GROUP_NAME=rg-terraform-001
+    LOCATION=westeurope
+    CONTAINER_NAME=tfstate
+    # Get existing storage account
+    TF_STORAGE_ACCOUNT=$(az storage account list --resource-group $RESOURCE_GROUP_NAME --query [0].name -o tsv)
     # Create service principal
     SUBSCRIPTION_ID=$(az account show --query id --output tsv)
     SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --sdk-auth)
