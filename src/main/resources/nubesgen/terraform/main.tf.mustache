@@ -5,6 +5,9 @@ terraform {
       version = ">= 2.42"
     }
   }
+{{#gitops}}
+  backend "azurerm" {}
+{{/gitops}}
 }
 
 provider "azurerm" {
