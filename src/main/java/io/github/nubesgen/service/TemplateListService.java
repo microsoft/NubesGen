@@ -35,6 +35,7 @@ public class TemplateListService {
         // GitOps files
         gitOpsList.add(".github/workflows/gitops.yml");
         // Main files
+        mainList.add("terraform/.gitignore");
         mainList.add("terraform/main.tf");
         mainList.add("terraform/outputs.tf");
         mainList.add("terraform/README.md");
