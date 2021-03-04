@@ -9,13 +9,13 @@ _A cloud infrastructure generator for Terraform and Azure_
 
 With NubesGen, going to production to Azure is painless, secured and on budget!
 
-It is a graphical Web tool that generates a cloud infrastructure using Terraform: you select easy-to-understand options ("a MySQL database", "a medium-sized application server"), and NubesGen will generate a state-of-the-art configuration that you can import and tweak in your project.
+It is a graphical Web tool that generates a cloud infrastructure using Terraform: you select easy-to-understand options ("a MySQL database", "an application server"), and NubesGen will generate a state-of-the-art configuration that you can import and tweak in your project.
 
 ## 5-minutes introduction to NubesGen
 
 Terraform and Azure look complicated to you?
 
-With Nubesgen, we have simplified the way to production: you answer some easy-to-understand options ("a MySQL database", "a medium-sized application server"), so you don't need to spend hours looking at the technical documentation.
+With Nubesgen, we have simplified the way to production: you answer some easy-to-understand options ("a MySQL database", "an application server"), so you don't need to spend hours looking at the technical documentation.
 
 NubesGen generates a Terraform configuration that is hand-made by Azure experts: it follows the current best practices, with a specific focus on security and scalability. We also provide budget estimates and dashboards, so you can be assured your finances will be under control.
 
