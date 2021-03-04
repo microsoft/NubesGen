@@ -9,13 +9,13 @@ _A cloud infrastructure generator for Terraform and Azure_
 
 With NubesGen, going to production to Azure is painless, secured and on budget!
 
-It is a graphical Web tool that generates a cloud infrastructure using Terraform: you select easy-to-understand options ("a MySQL database", "a medium-sized application server"), and NubesGen will generate a state-of-the-art configuration that you can import and tweak in your project.
+It is a graphical Web tool that generates a cloud infrastructure using Terraform: you select easy-to-understand options ("a MySQL database", "an application server"), and NubesGen will generate a state-of-the-art configuration that you can import and tweak in your project.
 
 ## 5-minutes introduction to NubesGen
 
 Terraform and Azure look complicated to you?
 
-With Nubesgen, we have simplified the way to production: you answer some easy-to-understand options ("a MySQL database", "a medium-sized application server"), so you don't need to spend hours looking at the technical documentation.
+With Nubesgen, we have simplified the way to production: you answer some easy-to-understand options ("a MySQL database", "an application server"), so you don't need to spend hours looking at the technical documentation.
 
 NubesGen generates a Terraform configuration that is hand-made by Azure experts: it follows the current best practices, with a specific focus on security and scalability. We also provide budget estimates and dashboards, so you can be assured your finances will be under control.
 
@@ -107,6 +107,7 @@ curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=mysql" 
 | application  | Type of application: Web app or serverless  | APP_SERVICE (default), FUNCTION | `http://localhost:8080/myapplication.tgz -d '{ "application": { "type": "FUNCTION", "tier": "CONSUMPTION"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?application=function`  |
 | region  |  Azure Region where the resource will be located | Run `az account list-locations` | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?region=westeurope`  |
 | database  |  The database | NONE (default), SQL_SERVER, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "tier": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=mysql`  |
+| gitops  |  If [GitOps](docs/gitops-overview.md) is enabled | FALSE (default), TRUE  | `http://localhost:8080/myapplication.tgz -d '{ "gitops": "true"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?gitops=true`  |
 
 _In a GET request, parameters can be in uppercase or lowercase, for example `database=MYSQL`or `database=mysql`_
 

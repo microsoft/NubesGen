@@ -1,11 +1,11 @@
-variable "resource_group" {
-  description = "The resource group"
-  default     = "rg-{{applicationName}}-001"
-}
-
 variable "application_name" {
   description = "The name of your application"
   default     = "{{applicationName}}"
+}
+
+variable "environment" {
+  description = "The environment (dev, test, prod...)"
+  default     = ""
 }
 
 variable "location" {

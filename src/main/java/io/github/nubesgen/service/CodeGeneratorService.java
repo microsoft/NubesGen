@@ -46,6 +46,12 @@ public class CodeGeneratorService {
     public Map<String, String> generateAzureConfiguration(NubesgenConfiguration configuration) {
         log.info("Generate Azure configuation");
         Map<String, String> result = new HashMap<>();
+
+        // GitOps templates
+        if (configuration.isGitops()) {
+            generateFileList(configuration, templateListService.listGitOpsTemplates(), result);
+        }
+
         // Main templates
         generateFileList(configuration, templateListService.listMainTemplates(), result);
 

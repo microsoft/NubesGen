@@ -53,9 +53,10 @@ public class MainController {
                                                   @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
+                                                  @RequestParam(defaultValue = "false") boolean gitops,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, gitops, addons);
         return generateZipApplication(applicationName, properties);
     }
 
@@ -77,9 +78,10 @@ public class MainController {
                                                   @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
+                                                  @RequestParam(defaultValue = "false") boolean gitops,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, gitops, addons);
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -93,7 +95,7 @@ public class MainController {
     }
 
     private NubesgenConfiguration generateNubesgenConfiguration(String runtime, String application, String region,
-                                                                String database, String addons) {
+                                                                String database, boolean gitops, String addons) {
 
         runtime = runtime.toUpperCase();
         application = application.toUpperCase();
@@ -157,6 +159,10 @@ public class MainController {
             properties.setDatabaseConfiguration(databaseConfiguration);
         }
         log.debug("Database is: {}", properties.getDatabaseConfiguration().getDatabaseType());
+        if (gitops) {
+            properties.setGitops(true);
+        }
+        log.debug("GitOps is: {}", gitops);
         if (!"".equals(addons)) {
             List<AddonConfiguration> addonConfigurations = new ArrayList<>();
             for (String addon : addons.split(",")) {

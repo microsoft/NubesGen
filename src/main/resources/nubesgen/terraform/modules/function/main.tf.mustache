@@ -13,6 +13,10 @@ resource "azurerm_app_service_plan" "application" {
 {{/applicationTierPremium}}
   reserved = true
 
+  tags = {
+    "environment" = var.environment
+  }
+
   sku {
 {{#applicationTierConsumption}}
     tier = "Dynamic"
@@ -39,6 +43,10 @@ resource "azurerm_storage_account" "application" {
   account_replication_type  = "LRS"
   enable_https_traffic_only = true
   allow_blob_public_access  = true
+
+  tags = {
+    "environment" = var.environment
+  }
 }
 
 # This creates the service definition
@@ -52,13 +60,14 @@ resource "azurerm_function_app" "application" {
   os_type                    = "linux"
   https_only                 = true
 
+  tags = {
+    "environment" = var.environment
+  }
+
   site_config {
-{{#runtimeSpring}} 
+{{#runtimeSpringOrJava}}
     linux_fx_version = "java|11"
-{{/runtimeSpring}}
-{{#runtimeJava}} 
-    linux_fx_version = "java|11"
-{{/runtimeJava}}
+{{/runtimeSpringOrJava}}
 {{#runtimeDotnet}} 
     linux_fx_version = "dotnet|3.1"
 {{/runtimeDotnet}}    

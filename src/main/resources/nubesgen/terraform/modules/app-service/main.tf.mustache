@@ -8,6 +8,10 @@ resource "azurerm_app_service_plan" "application" {
   kind     = "Linux"
   reserved = true
 
+  tags = {
+    "environment" = var.environment
+  }
+
   sku {
 {{#applicationTierFree}}
     tier = "Free"
@@ -32,6 +36,10 @@ resource "azurerm_app_service" "application" {
   app_service_plan_id = azurerm_app_service_plan.application.id
   https_only          = true
 
+  tags = {
+    "environment" = var.environment
+  }
+
   site_config {
 {{#applicationTierFree}}
   {{#runtimeSpring}} 
@@ -51,12 +59,9 @@ resource "azurerm_app_service" "application" {
     ftps_state                = "FtpsOnly"
 {{/applicationTierFree}}
 {{^applicationTierFree}}
-  {{#runtimeSpring}} 
+  {{#runtimeSpringOrJava}}
     linux_fx_version = "JAVA|11-java11"
-  {{/runtimeSpring}}
-  {{#runtimeJava}} 
-    linux_fx_version = "JAVA|11-java11"
-  {{/runtimeJava}}
+  {{/runtimeSpringOrJava}}
   {{#runtimeDotnet}} 
     linux_fx_version = "DOTNETCORE|5.0"
   {{/runtimeDotnet}}

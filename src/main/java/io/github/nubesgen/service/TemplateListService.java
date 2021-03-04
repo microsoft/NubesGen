@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 @Service
 public class TemplateListService {
 
+    private final List<String> gitOpsList = new ArrayList<>();
+
     private final List<String> mainList = new ArrayList<>();
 
     private final List<String> appServiceList = new ArrayList<>();
@@ -30,7 +32,10 @@ public class TemplateListService {
     private final List<String> cosmosdbMongodbList = new ArrayList<>();
 
     public TemplateListService() {
+        // GitOps files
+        gitOpsList.add(".github/workflows/gitops.yml");
         // Main files
+        mainList.add("terraform/.gitignore");
         mainList.add("terraform/main.tf");
         mainList.add("terraform/outputs.tf");
         mainList.add("terraform/README.md");
@@ -77,6 +82,10 @@ public class TemplateListService {
         cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/variables.tf");
     }
 
+    public List<String> listGitOpsTemplates() {
+        return gitOpsList;
+    }
+
     public List<String> listMainTemplates() {
         return mainList;
     }
@@ -114,7 +123,7 @@ public class TemplateListService {
     }
 
     public List<String> listAllTemplates() {
-        return Stream.of(mainList, appServiceList, functionList, sqlServerList, mysqlList, postgresqlList, redisList,
+        return Stream.of(gitOpsList, mainList, appServiceList, functionList, sqlServerList, mysqlList, postgresqlList, redisList,
                 storageBlobList, cosmosdbMongodbList)
                 .flatMap(Collection::stream).collect(Collectors.toList());
     }

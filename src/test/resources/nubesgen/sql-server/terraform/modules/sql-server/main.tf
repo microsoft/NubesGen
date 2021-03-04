@@ -13,6 +13,10 @@ resource "azurerm_mssql_server" "database" {
 
   administrator_login          = var.administrator_login
   administrator_login_password = random_password.password.result
+
+  tags = {
+    "environment" = var.environment
+  }
 }
 
 resource "azurerm_mssql_database" "database" {
