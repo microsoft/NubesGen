@@ -59,12 +59,9 @@ resource "azurerm_app_service" "application" {
     ftps_state                = "FtpsOnly"
 {{/applicationTierFree}}
 {{^applicationTierFree}}
-  {{#runtimeSpring}} 
+  {{#runtimeSpringOrJava}}
     linux_fx_version = "JAVA|11-java11"
-  {{/runtimeSpring}}
-  {{#runtimeJava}} 
-    linux_fx_version = "JAVA|11-java11"
-  {{/runtimeJava}}
+  {{/runtimeSpringOrJava}}
   {{#runtimeDotnet}} 
     linux_fx_version = "DOTNETCORE|5.0"
   {{/runtimeDotnet}}

@@ -110,6 +110,11 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isRuntimeSpringOrJava() {
+        return RuntimeType.SPRING.equals(this.getRuntimeType()) || RuntimeType.JAVA.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
     public boolean isRuntimeDotnet() {
         return RuntimeType.DOTNET.equals(this.getRuntimeType());
     }

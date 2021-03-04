@@ -65,12 +65,9 @@ resource "azurerm_function_app" "application" {
   }
 
   site_config {
-{{#runtimeSpring}} 
+{{#runtimeSpringOrJava}}
     linux_fx_version = "java|11"
-{{/runtimeSpring}}
-{{#runtimeJava}} 
-    linux_fx_version = "java|11"
-{{/runtimeJava}}
+{{/runtimeSpringOrJava}}
 {{#runtimeDotnet}} 
     linux_fx_version = "dotnet|3.1"
 {{/runtimeDotnet}}    
