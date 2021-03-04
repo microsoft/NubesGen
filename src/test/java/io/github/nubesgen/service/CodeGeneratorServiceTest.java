@@ -216,6 +216,10 @@ class CodeGeneratorServiceTest {
     }
 
     private void generateAndTestOneFile(NubesgenConfiguration properties, String testDirectory, String filename) throws IOException {
+        if (".gitignore".equals(filename)) {
+            // GitHub Actions uses the GitHub REST API and not git, so .gitignore files are missing and can't be tested
+            return;
+        }
         log.info("Validating {}", filename);
         String result = this.codeGeneratorService.generateFile(filename, properties);
         File testFile = new ClassPathResource("nubesgen/" + testDirectory + "/" + filename).getFile();
