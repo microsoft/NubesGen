@@ -71,6 +71,7 @@
         components: { frontApp: { type: 'APP_SERVICE', size: 'free' }, database: { type: 'SQL_SERVER', size: 'serverless' } },
         addons: [],
         runtime: "DOTNET",
+        gitops: false,
         updatePageParameters() {
           const url = new URL(window.location.href);
           url.searchParams.set('frontApp.type', this.components.frontApp.type);
@@ -100,6 +101,9 @@
 
           if (this.addons.length > 0) {
             url += `&addons=${this.addons.join(",")}`;
+          }
+          if(this.gitops === true) {
+            url += "&gitops=true";
           }
           console.log(url);
           window.open(url, '_blank');
@@ -725,6 +729,29 @@
                         <input type="checkbox" value="cosmosdb_mongodb" class="form-checkbox h-5 w-5 mr-2"
                           x-model="addons">MongoDB<div>
                           <span class="ml-3 font-normal text-base text-gray-500">Powered by Azure CosmosDB</span>
+                        </div>
+                      </label>
+                    </div>
+
+                  </div>
+
+
+                </dd>
+              </div>
+
+              <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  GitOps
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <div class="grid grid-rows-1 mt-4 gap-4">
+
+                    <div class="border bg-white rounded flex content-center py-2 px-4"
+                      x-bind:class="{'bg-blue-200': gitops === true}">
+                      <label class="inline-flex items-center text-xl">
+                        <input type="checkbox" value="true" class="form-checkbox h-5 w-5 mr-2"
+                          x-model="gitops">Add GitOps<div>
+                          <span class="ml-3 font-normal text-base text-gray-500">Deploy your infrastructure & code with GitHub Actions</span>
                         </div>
                       </label>
                     </div>
