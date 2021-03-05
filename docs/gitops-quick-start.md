@@ -28,17 +28,17 @@ _Installation_
     CONTAINER_NAME=tfstate
     # Create resource group
     if [ $(az group exists --name $RESOURCE_GROUP_NAME) = false ]; then
-      az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
+      az group create --name $RESOURCE_GROUP_NAME --location $LOCATION -o none
     fi
     # Create storage account
-    az storage account create --resource-group $RESOURCE_GROUP_NAME --name $TF_STORAGE_ACCOUNT --sku Standard_LRS --encryption-services blob
+    az storage account create --resource-group $RESOURCE_GROUP_NAME --name $TF_STORAGE_ACCOUNT --sku Standard_LRS --encryption-services blob -o none
     # Get storage account key
     ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $TF_STORAGE_ACCOUNT --query '[0].value' -o tsv)
     # Create blob container
-    az storage container create --name $CONTAINER_NAME --account-name $TF_STORAGE_ACCOUNT --account-key $ACCOUNT_KEY
+    az storage container create --name $CONTAINER_NAME --account-name $TF_STORAGE_ACCOUNT --account-key $ACCOUNT_KEY -o none
     # Create service principal
-    SUBSCRIPTION_ID=$(az account show --query id --output tsv)
-    SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --sdk-auth)
+    SUBSCRIPTION_ID=$(az account show --query id --output tsv --only-show-errors)
+    SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --sdk-auth --only-show-errors)
     # Create secrets in GitHub
     gh secret set AZURE_CREDENTIALS -b $SERVICE_PRINCIPAL
     gh secret set TF_STORAGE_ACCOUNT -b $TF_STORAGE_ACCOUNT   
@@ -64,17 +64,17 @@ __Congratulations, you have setup GitOps with NubesGen on your project!__
     CONTAINER_NAME=tfstate
     # Create resource group
     if [ $(az group exists --name $RESOURCE_GROUP_NAME) = false ]; then
-      az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
+      az group create --name $RESOURCE_GROUP_NAME --location $LOCATION -o none
     fi
     # Create storage account
-    az storage account create --resource-group $RESOURCE_GROUP_NAME --name $TF_STORAGE_ACCOUNT --sku Standard_LRS --encryption-services blob
+    az storage account create --resource-group $RESOURCE_GROUP_NAME --name $TF_STORAGE_ACCOUNT --sku Standard_LRS --encryption-services blob -o none
     # Get storage account key
     ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $TF_STORAGE_ACCOUNT --query '[0].value' -o tsv)
     # Create blob container
-    az storage container create --name $CONTAINER_NAME --account-name $TF_STORAGE_ACCOUNT --account-key $ACCOUNT_KEY
+    az storage container create --name $CONTAINER_NAME --account-name $TF_STORAGE_ACCOUNT --account-key $ACCOUNT_KEY -o none
     # Create service principal
-    SUBSCRIPTION_ID=$(az account show --query id --output tsv)
-    SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --sdk-auth)
+    SUBSCRIPTION_ID=$(az account show --query id --output tsv --only-show-errors)
+    SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --sdk-auth --only-show-errors)
     echo "AZURE_CREDENTIALS: $SERVICE_PRINCIPAL"
     echo "TF_STORAGE_ACCOUNT: $TF_STORAGE_ACCOUNT"
     ```
