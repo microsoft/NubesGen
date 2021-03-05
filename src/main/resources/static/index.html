@@ -72,6 +72,8 @@
         addons: [],
         runtime: "DOTNET",
         gitops: false,
+        curlScript: '',
+        copySuccessful: false,
         updatePageParameters() {
           const url = new URL(window.location.href);
           url.searchParams.set('frontApp.type', this.components.frontApp.type);
@@ -91,7 +93,16 @@
               this.components.frontApp.size = 'consumption'
             }
         },
+        async copyCurlScript() {
+          var url = this.generateUrl();
+          this.curlScript = `curl "${window.location.protocol}//${window.location.host}${url}" | tar -xzvf -`;
+          this.copySuccessful = await navigator.clipboard.writeText(this.curlScript);
+        },
         download() {
+          var url = this.generateUrl();
+          window.open(url, '_blank');
+        },
+        generateUrl() {
           if (this.projectSlug.trim() === '') {
             document.getElementById('projectNameInput').focus();
             return;
@@ -106,7 +117,7 @@
             url += "&gitops=true";
           }
           console.log(url);
-          window.open(url, '_blank');
+          return url;
         },
         allRegions:
           [
@@ -884,8 +895,7 @@
             </dl>
           </div>
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              <button>Download infrastructure scripts</button>
+            <!-- <h3 class="text-lg leading-6 font-medium text-gray-900"> -->
               <button type="button"
                 class="flex items-center justify-center px-4 py-1 mt-5 ml-2 mr-4 text-center text-white bg-green-600 border border-green-700 rounded-lg focus:outline-none hover:bg-green-700"
                 @click="download()">
@@ -894,23 +904,22 @@
                   <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                 </svg>
                 <span class="self-center text-xl font-medium">Download Terraform Scripts</span>
-                <svg class="w-3 h-3 ml-1 fill-current" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                  stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M19 9l-7 7-7-7"></path>
-                </svg>
               </button>
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500 inline-block">
-              You can also
-              <span class="flex flex-row px-2 py-1 bg-gray-100 border border-gray-600 border-1 rounded">
+            <!-- </h3> -->
+
+            <button type="button" class="mt-1 max-w-2xl text-sm text-gray-500 inline-block"
+               @click="copyCurlScript()"></p>
+              <div class="flex flex-row px-2 py-1 bg-gray-100 border border-gray-600 border-1 rounded hover:bg-gray-400">
                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                   stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                 </svg>
-                Copy CURL script
-              </span>
-            </p>
+                or copy CURL script <span class="inline-block rounded bg-green-800 text-white" x-show="copySuccessful === true">Copied!</span>
+              </div>
+            </button>
+
+            <pre class="bg-black text-gray-200 mt-10 px-4 overflow-auto" x-show="curlScript !== ''"><code x-text="curlScript"></code></pre>
           </div>
         </div>
       </div>
