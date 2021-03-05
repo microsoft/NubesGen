@@ -12,6 +12,12 @@ on:
   push:
     branches:
       - 'env-*'
+<%#runtimeDotnet%>
+
+env: 
+  DOTNET_VERSION: '3.1'
+  APP_PACKAGE_PATH: 'Server' # set this to the path to your web app project, defaults to the repository root
+<%/runtimeDotnet%>
 
 jobs:
   manage-infrastructure:
@@ -100,3 +106,48 @@ jobs:
           app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
           package: '*'
 <%/runtimeSpringOrJava%>
+<%#runtimeDotnet%>
+  build:
+      needs: manage-infrastructure
+      runs-on: ubuntu-20.04
+      steps:
+        - uses: actions/checkout@v2
+        - name: Set up .NET ${{ env.DOTNET_VERSION }}
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
+        - name: Build .NET app
+          working-directory: ${{ env.APP_PACKAGE_PATH }}
+          run: dotnet build --configuration Release
+        - name: Publish .NET app
+          run: dotnet publish -c Release -o output
+          working-directory: ${{ env.APP_PACKAGE_PATH }}          
+        - name: Temporarily save package
+          uses: actions/upload-artifact@v2
+          with:
+            name: package
+            path: '${{ env.APP_PACKAGE_PATH }}/output'
+            retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Set environment variables
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/*/}
+          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
+      - uses: actions/download-artifact@v2
+        with:
+          name: package
+          path: ./output
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: 'Deploy to Azure App Service'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
+          package: './output'
+<%/runtimeDotnet%>
