@@ -61,6 +61,7 @@ jobs:
           -var="environment=$ENVIRONMENT"
         working-directory: '${{ github.workspace }}/terraform'
 <%#runtimeSpringOrJava%>
+  <%#applicationTypeAppService%>
   build:
     needs: manage-infrastructure
     runs-on: ubuntu-20.04
@@ -100,20 +101,45 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-  <%#applicationTypeAppService%>
       - name: 'Deploy to Azure App Service'
         uses: azure/webapps-deploy@v2
         with:
           app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
           package: '*'
   <%/applicationTypeAppService%>
-<%#applicationTypeAppFunction%>
-      - name: 'Deploy to Azure Functions'
-        uses: azure/functions-action@v1
+  <%#applicationTypeFunction%>
+  build-and-deploy:
+    needs: manage-infrastructure
+    runs-on: ubuntu-20.04
+    env:
+      APPLICATION_NAME: '<% applicationName %>'
+    steps:
+      - name: Set environment variables
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/*/}
+          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
+      - name: Login to Azure
+        uses: azure/login@v1
         with:
-          app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
-          package: '*'
-  <%/applicationTypeAppFunction%>
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Build and deploy with Maven
+        run: |
+          mvn package azure-functions:deploy -Pprod,azure -DskipTests \
+          -DfunctionResourceGroup=rg-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001 \
+          -DfunctionAppName=func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
+  <%/applicationTypeFunction%>
 <%/runtimeSpringOrJava%>
 <%#runtimeDotnet%>
   build:
