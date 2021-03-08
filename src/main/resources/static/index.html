@@ -108,7 +108,7 @@
             return;
           }
           this.updatePageParameters();
-          var url = `/${this.projectSlug}.zip?region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
+          var url = `/${this.projectSlug}.tgz?region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
 
           if (this.addons.length > 0) {
             url += `&addons=${this.addons.join(",")}`;
