@@ -5,7 +5,7 @@ resource "azurerm_app_service_plan" "application" {
   resource_group_name = var.resource_group
   location            = var.location
 
-  kind     = "Linux"
+  kind     = "FunctionApp"
   reserved = true
 
   tags = {

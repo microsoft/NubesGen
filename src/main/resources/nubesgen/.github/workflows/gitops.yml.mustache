@@ -100,11 +100,20 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+  <%#applicationTypeAppService%>
       - name: 'Deploy to Azure App Service'
         uses: azure/webapps-deploy@v2
         with:
           app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
           package: '*'
+  <%/applicationTypeAppService%>
+<%#applicationTypeAppFunction%>
+      - name: 'Deploy to Azure Functions'
+        uses: azure/functions-action@v1
+        with:
+          app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
+          package: '*'
+  <%/applicationTypeAppFunction%>
 <%/runtimeSpringOrJava%>
 <%#runtimeDotnet%>
   build:
