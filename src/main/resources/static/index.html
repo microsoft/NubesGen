@@ -73,6 +73,7 @@
         runtime: "DOTNET",
         gitops: false,
         curlScript: '',
+        poshScript: '',
         copySuccessful: false,
         updatePageParameters() {
           const url = new URL(window.location.href);
@@ -93,13 +94,17 @@
               this.components.frontApp.size = 'consumption'
             }
         },
-        async copyCurlScript() {
+        generateScriptUrl() {
           var url = this.generateUrl();
-          this.curlScript = `curl "${window.location.protocol}//${window.location.host}${url}" | tar -xzvf -`;
-          this.copySuccessful = await navigator.clipboard.writeText(this.curlScript);
+          this.curlScript = `curl "${window.location.protocol}//${window.location.host}/${this.projectSlug}.tgz${url}" | tar -xzvf -`;
+          this.poshScript = `Invoke-WebRequest -Uri "${window.location.protocol}//${window.location.host}/${this.projectSlug}.zip${url}" -OutFile ${this.projectSlug}.zip; Expand-Archive ${this.projectSlug}.zip -DestinationPath '.' -Force; Remove-Item ${this.projectSlug}.zip`;
+        
+        },
+        async copyScript(scriptContents) {
+          this.copySuccessful = await navigator.clipboard.writeText(scriptContents);
         },
         download() {
-          var url = this.generateUrl();
+          var url = `${this.projectSlug}.zip${this.generateUrl()}`;
           window.open(url, '_blank');
         },
         generateUrl() {
@@ -108,7 +113,7 @@
             return;
           }
           this.updatePageParameters();
-          var url = `/${this.projectSlug}.tgz?region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
+          var url = `?region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
 
           if (this.addons.length > 0) {
             url += `&addons=${this.addons.join(",")}`;
@@ -908,7 +913,7 @@
             <!-- </h3> -->
 
             <button type="button" class="mt-1 max-w-2xl text-sm text-gray-500 inline-block"
-               @click="copyCurlScript()"></p>
+               @click="generateScriptUrl()"></p>
               <div class="flex flex-row px-2 py-1 bg-gray-100 border border-gray-600 border-1 rounded hover:bg-gray-400">
                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                   stroke="currentColor">
@@ -919,7 +924,43 @@
               </div>
             </button>
 
-            <pre class="bg-black text-gray-200 mt-10 px-4 overflow-auto" x-show="curlScript !== ''"><code x-text="curlScript"></code></pre>
+
+
+            <div class="bg-gray-200 border-gray-400 border m-10" x-show="curlScript !== ''">
+              <div class="m-2 text-sm">
+                <span class="m-2">curl bash</span>
+                <div class="inline-flex float-right hover:bg-gray-600">
+                  <span class="w-6 h-6"
+                    @click="copyScript(curlScript)"
+                  >
+                    <svg fill="#1A1A1A" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve"><g><path d="M73.91,21H36.09C33.28,21,31,23.28,31,26.09V31h-4.91C23.28,31,21,33.28,21,36.09v37.82c0,2.81,2.28,5.09,5.09,5.09h37.82   c2.81,0,5.09-2.28,5.09-5.09V69h4.91c2.81,0,5.09-2.28,5.09-5.09V26.09C79,23.28,76.72,21,73.91,21z M65,73.91   c0,0.6-0.49,1.09-1.09,1.09H26.09c-0.6,0-1.09-0.49-1.09-1.09V36.09c0-0.6,0.49-1.09,1.09-1.09h37.82c0.6,0,1.09,0.49,1.09,1.09   V73.91z M75,63.91c0,0.6-0.49,1.09-1.09,1.09H69V36.09c0-2.81-2.28-5.09-5.09-5.09H35v-4.91c0-0.6,0.49-1.09,1.09-1.09h37.82   c0.6,0,1.09,0.49,1.09,1.09V63.91z"></path></g></svg></span>
+                  Copy
+                </div>
+              </div>
+              <div class="text-sm bg-gray-50 border-t border-gray-400">
+                <pre class="overflow-scroll" x-text="curlScript">
+                </pre>
+              </div>
+            </div>
+            
+
+            <div class="bg-gray-200 border-gray-400 border m-10" x-show="poshScript !== ''">
+              <div class="m-2 text-sm">
+                <span class="m-2">PowerShell</span>
+                <div class="inline-flex float-right hover:bg-gray-600">
+                  <span class="w-6 h-6"
+                    @click="copyScript(poshScript)"
+                  >
+                    <svg fill="#1A1A1A" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve"><g><path d="M73.91,21H36.09C33.28,21,31,23.28,31,26.09V31h-4.91C23.28,31,21,33.28,21,36.09v37.82c0,2.81,2.28,5.09,5.09,5.09h37.82   c2.81,0,5.09-2.28,5.09-5.09V69h4.91c2.81,0,5.09-2.28,5.09-5.09V26.09C79,23.28,76.72,21,73.91,21z M65,73.91   c0,0.6-0.49,1.09-1.09,1.09H26.09c-0.6,0-1.09-0.49-1.09-1.09V36.09c0-0.6,0.49-1.09,1.09-1.09h37.82c0.6,0,1.09,0.49,1.09,1.09   V73.91z M75,63.91c0,0.6-0.49,1.09-1.09,1.09H69V36.09c0-2.81-2.28-5.09-5.09-5.09H35v-4.91c0-0.6,0.49-1.09,1.09-1.09h37.82   c0.6,0,1.09,0.49,1.09,1.09V63.91z"></path></g></svg></span>
+                  Copy
+                </div>
+              </div>
+              <div class="text-sm bg-gray-50 border-t border-gray-400">
+                <pre class="overflow-scroll" x-text="poshScript">
+                </pre>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
