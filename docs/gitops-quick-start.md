@@ -42,6 +42,7 @@ _Installation_
     # Create secrets in GitHub
     gh secret set AZURE_CREDENTIALS -b"$SERVICE_PRINCIPAL"
     gh secret set TF_STORAGE_ACCOUNT -b"$TF_STORAGE_ACCOUNT"
+
     ```
     </details>
 1. You can now push the NubesGen code to your repository, for example by typing `git add . && git commit -m 'Configure GitOps with NubesGen' && git push`.
@@ -77,6 +78,7 @@ __Congratulations, you have setup GitOps with NubesGen on your project!__
     SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --sdk-auth --only-show-errors)
     echo "AZURE_CREDENTIALS: $SERVICE_PRINCIPAL"
     echo "TF_STORAGE_ACCOUNT: $TF_STORAGE_ACCOUNT"
+
     ```
     </details>
 1. The script above generates two variables, `AZURE_CREDENTIALS` and `TF_STORAGE_ACCOUNT`. Go to your GitHub repository's settings, and create two secrets using those names and values.
