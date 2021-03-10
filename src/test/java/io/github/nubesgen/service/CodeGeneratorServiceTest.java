@@ -48,7 +48,7 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
-    void generateGitOpsConfiguration() throws IOException {
+    void generateGitOpsMavenConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-gitops-testapp");
         properties.setRegion("westeurope");
@@ -56,7 +56,23 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "gitops", configuration,
+        testGeneratedFiles(properties, "gitops-maven", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listGitOpsTemplates(),
+                this.templateListService.listAppServiceTemplates());
+    }
+
+    @Test
+    void generateGitOpsGradleConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-gitops-gradle");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING_GRADLE);
+        properties.setGitops(true);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "gitops-gradle", configuration,
                 this.templateListService.listMainTemplates(),
                 this.templateListService.listGitOpsTemplates(),
                 this.templateListService.listAppServiceTemplates());

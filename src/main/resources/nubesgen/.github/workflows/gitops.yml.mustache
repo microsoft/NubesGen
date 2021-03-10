@@ -71,6 +71,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+    <%#runtimeMaven%>
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
@@ -86,6 +87,26 @@ jobs:
           name: package
           path: '${{ github.workspace }}/target/*.[j,w]ar'
           retention-days: 1
+    <%/runtimeMaven%>
+    <%#runtimeGradle%>
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Build with Gradle
+        run: ./gradlew build -Pprod,azure
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: '${{ github.workspace }}/build/libs/*.[j,w]ar'
+          retention-days: 1
+    <%/runtimeGradle%>
   deploy:
     needs: build
     runs-on: ubuntu-20.04
