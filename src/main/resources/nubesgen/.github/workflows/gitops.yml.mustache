@@ -198,7 +198,7 @@ jobs:
       - name: 'Deploy to Azure App Service'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
+          app-name: func-<% applicationName %>-${{ env.ENVIRONMENT }}-001
           package: '*'
     <%/runtimeGradle%>
   <%/applicationTypeFunction%>
