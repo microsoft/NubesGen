@@ -72,7 +72,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Build with Gradle
-        run: ./gradlew build -Pprod,azure
+        run: gradle build -Pprod,azure
       - name: Temporarily save package
         uses: actions/upload-artifact@v2
         with:
