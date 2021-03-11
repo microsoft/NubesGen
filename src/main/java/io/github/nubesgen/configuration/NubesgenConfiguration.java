@@ -101,24 +101,40 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isRuntimeJava() {
-        return RuntimeType.JAVA.equals(this.getRuntimeType());
+        return RuntimeType.JAVA.equals(this.getRuntimeType()) ||
+                RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType());
     }
 
     @JsonIgnore
     public boolean isRuntimeSpring() {
-        return RuntimeType.SPRING.equals(this.getRuntimeType());
+        return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+                RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType());
     }
 
     @JsonIgnore
     public boolean isRuntimeSpringOrJava() {
-        return RuntimeType.SPRING.equals(this.getRuntimeType()) || RuntimeType.JAVA.equals(this.getRuntimeType());
+        return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+                RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
+                RuntimeType.JAVA.equals(this.getRuntimeType()) ||
+                RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
+    public boolean isRuntimeMaven() {
+        return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+                RuntimeType.JAVA.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
+    public boolean isRuntimeGradle() {
+        return RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
+                RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType());
     }
 
     @JsonIgnore
     public boolean isRuntimeDotnet() {
         return RuntimeType.DOTNET.equals(this.getRuntimeType());
     }
-
 
     @JsonIgnore
     public boolean isRuntimeNodejs() {

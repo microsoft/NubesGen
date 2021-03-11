@@ -47,6 +47,7 @@ resource "azurerm_function_app" "application" {
   storage_account_access_key = azurerm_storage_account.application.primary_access_key
   os_type                    = "linux"
   https_only                 = true
+  version                    = "~3"
 
   tags = {
     "environment" = var.environment
