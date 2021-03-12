@@ -54,7 +54,6 @@ jobs:
           -var="environment=$ENVIRONMENT"
         working-directory: '${{ github.workspace }}/terraform'
   build:
-    needs: manage-infrastructure
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -78,7 +77,7 @@ jobs:
           path: '${{ github.workspace }}/target/*.[j,w]ar'
           retention-days: 1
   deploy:
-    needs: build
+    needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
       - name: Set environment variables
