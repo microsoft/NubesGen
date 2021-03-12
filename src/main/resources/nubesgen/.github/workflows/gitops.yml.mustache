@@ -63,7 +63,6 @@ jobs:
 <%#runtimeSpringOrJava%>
   <%#applicationTypeAppService%>
   build:
-    needs: manage-infrastructure
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -108,7 +107,7 @@ jobs:
           retention-days: 1
     <%/runtimeGradle%>
   deploy:
-    needs: build
+    needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
       - name: Set environment variables
@@ -182,7 +181,6 @@ jobs:
 <%/runtimeSpringOrJava%>
 <%#runtimeDotnet%>
   build:
-      needs: manage-infrastructure
       runs-on: ubuntu-20.04
       steps:
         - uses: actions/checkout@v2
@@ -202,9 +200,8 @@ jobs:
             name: package
             path: '${{ env.APP_PACKAGE_PATH }}/output'
             retention-days: 1
-
   deploy:
-    needs: build
+    needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
       - name: Set environment variables
