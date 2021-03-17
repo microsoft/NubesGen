@@ -16,7 +16,7 @@ on:
 
 env: 
   DOTNET_VERSION: '3.1'
-  APP_PACKAGE_PATH: 'Server' # set this to the path to your web app project, defaults to the repository root
+  APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
 <%/runtimeDotnet%>
 
 jobs:
@@ -188,12 +188,19 @@ jobs:
           uses: actions/setup-dotnet@v1
           with:
             dotnet-version: ${{ env.DOTNET_VERSION }}
+  <%#applicationTypeAppService%>
         - name: Build .NET app
           working-directory: ${{ env.APP_PACKAGE_PATH }}
           run: dotnet build --configuration Release
         - name: Publish .NET app
           run: dotnet publish -c Release -o output
-          working-directory: ${{ env.APP_PACKAGE_PATH }}          
+          working-directory: ${{ env.APP_PACKAGE_PATH }}
+  <%/applicationTypeAppService%>
+  <%#applicationTypeFunction%>
+        - name: Build .NET app
+          working-directory: ${{ env.APP_PACKAGE_PATH }}
+          run: dotnet build --configuration Release -o output 
+  <%/applicationTypeFunction%>                      
         - name: Temporarily save package
           uses: actions/upload-artifact@v2
           with:
@@ -216,9 +223,21 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+<%#applicationTypeAppService%>
       - name: 'Deploy to Azure App Service'
         uses: azure/webapps-deploy@v2
         with:
           app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
           package: './output'
+<%/applicationTypeAppService%>
+<%#applicationTypeFunction%>
+      - name: 'Deploy to Azure Functions'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: func-<% applicationName %>-${{ env.ENVIRONMENT }}-001
+          package: './output'
+<%/applicationTypeFunction%>            
+  
+
 <%/runtimeDotnet%>
