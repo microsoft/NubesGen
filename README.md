@@ -69,7 +69,7 @@ If you want to join the team to add support to another cloud, feel free to conta
 
 You should be able to use other tools like [https://start.spring.io/](https://start.spring.io/) or [https://www.jhipster.tech/](https://www.jhipster.tech/) with NubesGen.
 
-## Running NugesGen from the command line with cURL
+## Running NubesGen from the command line with cURL
 
 To automate your workflow, you don't need to use a Web interface! Use cURL to directly download and use your NubesGen configuration.
 
