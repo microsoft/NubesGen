@@ -48,10 +48,9 @@ resource "azurerm_app_service" "application" {
   }
 
   site_config {
-    linux_fx_version          = "DOCKER|${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}:latest"
-    always_on                 = true
-    use_32_bit_worker_process = true
-    ftps_state                = "FtpsOnly"
+    linux_fx_version = "DOCKER|${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}:latest"
+    always_on        = true
+    ftps_state       = "FtpsOnly"
   }
 
   app_settings = {

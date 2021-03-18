@@ -103,7 +103,7 @@ curl "http://localhost:8080/myapplication.tgz?region=westeurope&database=mysql" 
 
 | Name  | Description  | Values  | POST example | GET example  |
 |---|---|---|---|---|
-| runtime |  The language and framework used to run the application | JAVA (default), SPRING, DOTNET | `http://localhost:8080/myapplication.tgz -d '{ "runtime": "JAVA"' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?runtime=java`  |
+| runtime |  The language and framework used to run the application | DOCKER (default), DOCKER_SPRING, JAVA, JAVA_GRADLE, SPRING, SPRING_GRADLE, DOTNET | `http://localhost:8080/myapplication.tgz -d '{ "runtime": "JAVA"' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?runtime=java`  |
 | application  | Type of application: Web app or serverless  | APP_SERVICE (default), FUNCTION | `http://localhost:8080/myapplication.tgz -d '{ "application": { "type": "FUNCTION", "tier": "CONSUMPTION"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?application=function`  |
 | region  |  Azure Region where the resource will be located | Run `az account list-locations` | `http://localhost:8080/myapplication.tgz -d '{ "region": "westeurope"}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?region=westeurope`  |
 | database  |  The database | NONE (default), SQL_SERVER, MYSQL, POSTGRESQL  | `http://localhost:8080/myapplication.tgz -d '{ "database": { "type": "MYSQL", "tier": "BASIC"}}' -H "Content-Type: application/json"` | `http://localhost:8080/myapplication.tgz?database=mysql`  |

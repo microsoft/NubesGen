@@ -67,6 +67,22 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOCKER|"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("GitOps"));
+    }
+
+    @Test
+    public void generateDefaultSpringApplication() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?runtime=spring&gitops=true")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
         assertTrue(entries.get(".github/workflows/gitops.yml").contains("GitOps"));
     }
