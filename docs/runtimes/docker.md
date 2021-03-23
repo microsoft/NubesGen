@@ -1,3 +1,5 @@
+[[ << Back to the main documentation page](../README.md)]
+
 # Using Docker with NubesGen
 
 Docker is the default option with NubesGen, and allows to run any kind of application supporting Docker.
@@ -50,3 +52,5 @@ As it is a simple application, it should print by default `Hello, world`.
 9. Once you have finished, you should clean up your resources:
    1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-<your-unique-name>-001`.
    2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group, named ``.
+
+[[ << Back to the main documentation page](../README.md)]
