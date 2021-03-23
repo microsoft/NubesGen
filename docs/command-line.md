@@ -1,3 +1,5 @@
+[Back to the main documentation page](README.md)
+
 # Running NubesGen from the command line
 
 __We're using `http://localhost:8080` in the following examples, but you can replace it with our online instance at [https://nubesgen.azurewebsites.net/](https://nubesgen.azurewebsites.net/) if needed__
@@ -84,3 +86,5 @@ curl "http://localhost:8080/myapplication.tgz" -d '{ "region": "westeurope", "ru
 ```bash
 curl "http://localhost:8080/myapplication.tgz?region=westeurope&runtime=spring&database=MYSQL&addons=STORAGE_BLOB,REDIS"  | tar -xzvf -
 ```
+
+[Back to the main documentation page](README.md)
