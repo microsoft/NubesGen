@@ -33,7 +33,7 @@ public class NubesgenConfiguration {
     public NubesgenConfiguration() {
         this.region = "eastus";
         this.applicationName = "sample-nubes-application";
-        this.runtimeType = RuntimeType.SPRING;
+        this.runtimeType = RuntimeType.DOCKER;
         this.applicationConfiguration = new ApplicationConfiguration();
         this.databaseConfiguration = new DatabaseConfiguration();
         this.gitops = false;
@@ -57,6 +57,16 @@ public class NubesgenConfiguration {
 
     public void setApplicationName(String applicationName) {
         this.applicationName = applicationName;
+     }
+
+    @JsonIgnore
+    public String getContainerRegistry() {
+        // This has the same algorithm as the Terraform template which manages the Azure Container Registry
+        String containerRegistryWithNoHyphens = applicationName.replace("-", "");
+        // the maxLength doesn't include the environment, as we can't know it from here
+        // so this will probably won't be correct for longer names, when using an environment
+        int maxLength = (containerRegistryWithNoHyphens.length() < 46) ? containerRegistryWithNoHyphens.length() : 46;
+        return containerRegistryWithNoHyphens.replace("-", "").substring(0, maxLength);
     }
 
     public RuntimeType getRuntimeType() {
@@ -100,23 +110,24 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isRuntimeDocker() {
+        return RuntimeType.DOCKER.equals(this.getRuntimeType()) ||
+                RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
     public boolean isRuntimeJava() {
-        return RuntimeType.JAVA.equals(this.getRuntimeType()) ||
+        return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+                RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
+                RuntimeType.JAVA.equals(this.getRuntimeType()) ||
                 RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType());
     }
 
     @JsonIgnore
     public boolean isRuntimeSpring() {
         return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
-                RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType());
-    }
-
-    @JsonIgnore
-    public boolean isRuntimeSpringOrJava() {
-        return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
                 RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
-                RuntimeType.JAVA.equals(this.getRuntimeType()) ||
-                RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType());
+                RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType());
     }
 
     @JsonIgnore

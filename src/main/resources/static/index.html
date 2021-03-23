@@ -68,9 +68,9 @@
         region2: { id: 'eastus', name: 'USA - East (Virginia)', flag: './img/us.svg' },
         regionName: 'USA - East',
         regionFlag: './img/us.svg',
-        components: { frontApp: { type: 'APP_SERVICE', size: 'free' }, database: { type: 'SQL_SERVER', size: 'serverless' } },
+        components: { frontApp: { type: 'APP_SERVICE', size: 'free' }, database: { type: 'NONE', size: 'free' } },
         addons: [],
-        runtime: "SPRING",
+        runtime: "DOCKER",
         gitops: false,
         curlScript: '',
         poshScript: '',
@@ -134,8 +134,17 @@
             { id: 'australiaeast', name: 'Asia Pacific - Australia East (Sydney)', flag: './img/au.svg' },
             { id: 'australiasoutheast', name: 'Asia Pacific - Australia Southeast (Melbourne)', flag: './img/au.svg' },
           ],
-        allRuntimes: [
-
+        appServiceRuntimes: [
+          { id: 'DOCKER', name: 'Docker with a Dockerfile' },
+          { id: 'DOCKER_SPRING', name: 'Docker with Spring Boot' },
+          { id: 'JAVA', name: 'Java with Maven' },
+          { id: 'JAVA_GRADLE', name: 'Java with Gradle' },
+          { id: 'SPRING', name: 'Spring Boot (Java) with Maven' },
+          { id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle' },
+          { id: 'DOTNET', name: '.NET' },
+          { id: 'NODEJS', name: 'Node.js (JavaScript)' }
+        ],
+        functionsRuntimes: [
           { id: 'JAVA', name: 'Java with Maven' },
           { id: 'JAVA_GRADLE', name: 'Java with Gradle' },
           { id: 'SPRING', name: 'Spring Boot (Java) with Maven' },
@@ -395,12 +404,12 @@
                         <img class="w-8 h-8" src="img/10035-icon-App Services-App Services.svg"></img>
                         <div class="text-lg font-semibold text-blue-900">
                           Web Application
-                          <p class="text-sm font-normal text-gray-500">Ideal for any web app or container</p>
-                          <p class="text-sm italic text-gray-500">Supports Spring Boot, Java, .NET, Node.js apps.</p>
+                          <p class="text-sm font-normal text-gray-500">Web applications</p>
+                          <p class="text-sm italic text-gray-500">Supports Docker, Spring Boot, Java, .NET, Node.js applications.</p>
                           <div x-show="components.frontApp.type==='APP_SERVICE'">
                             <p class="font-normal text-gray-500 text-sm mt-4">Select your framework:</p>
                             <select class="text-sm" x-model="runtime">
-                              <template x-for="rt in allRuntimes" :key="rt.id">
+                              <template x-for="rt in appServiceRuntimes" :key="rt.id">
                                 <option x-bind:value="rt.id" x-text="rt.name" />
                               </template>
                             </select>
@@ -414,12 +423,12 @@
                         :class="components.frontApp.type==='FUNCTION' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                         <img class="w-8 h-8" src="img/10029-icon-Function Apps-IoT.svg"></img>
                         <div class="text-lg font-semibold">
-                          Serverless App
-                          <p class="text-sm font-normal text-gray-500">Host event-driven workloads</p>
+                          Serverless Applications
+                          <p class="text-sm font-normal text-gray-500">Supports Spring Boot, Java, .NET, Node.js functions.</p>
                           <div x-show="components.frontApp.type==='FUNCTION'">
                             <p class="font-normal text-gray-500 text-sm mt-4">Select your framework:</p>
                             <select class="text-sm" x-model="runtime">
-                              <template x-for="rt in allRuntimes" :key="rt.id">
+                              <template x-for="rt in functionsRuntimes" :key="rt.id">
                                 <option x-bind:value="rt.id" x-text="rt.name" />
                               </template>
                             </select>
