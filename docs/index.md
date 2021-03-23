@@ -3,7 +3,7 @@
 - [Getting started](getting-started.md)
 - GitOps
   - [GitOps overview](gitops-overview.md)
-  - [GitOps quick start](gitops-quickstart.md)
+  - [GitOps quick start](gitops-quick-start.md)
 - [What is being generated](what-is-being-generated.md)
 - [Running NubesGen from the command line](command-line.md)
 - Using NubesGen with your favorite language or framework
