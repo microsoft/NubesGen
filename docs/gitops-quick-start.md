@@ -1,4 +1,4 @@
-# GitOps quick start
+# GitOps with NubesGen quick start
 
 [Do you want to understand first GitOps with NubesGen? Here is the overview](gitops-overview.md)
 
@@ -60,7 +60,6 @@ _Installation_
 
 __Congratulations, you have setup GitOps with NubesGen on your project!__
 
-
 ## Configure GitOps in 6 steps, using your Web browser
 
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
@@ -98,3 +97,12 @@ __Congratulations, you have setup GitOps with NubesGen on your project!__
    `git checkout -b env-test && git push --set-upstream origin env-test`
 
 __Congratulations, you have setup GitOps with NubesGen on your project!__
+
+## Using the GitOps workflow
+
+As described in the [GitOps overview](gitops-overview.md), each time you create an `env-*` branch in Git, a new environment will be created for you.
+
+That environment is an Azure resource group, containing all the resources configured with Terraform. When that environment is created, and each time you `git push` to that branch, two things will happen:
+
+- The GitHub Action will apply the current Terraform configuration, so that your Azure resource group is synchronized with the configuration store in Git.
+- The GitHub Action will then package and deploy the code stored in the Git branch, so that code runs on the infrastructure that was configured in the previous step.
