@@ -64,7 +64,10 @@ NubesGen will generate some environment variables for your application, dependin
    ```
 4. Create a new branch called `env-dev`, and push your code:
    ```bash
-   git checkout -b env-dev && git add . && git commit -m 'Configure GitOps with NubesGen' && git push --set-upstream origin env-dev
+   git checkout -b env-dev
+   git add .
+   git commit -m 'Configure GitOps with NubesGen'
+   git push --set-upstream origin env-dev
    ```
 5. Go to your GitHub project, and check that the GitHub Action is running.
 6. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
