@@ -1,4 +1,4 @@
-# Using NubesGen with Spring
+# Using Spring Boot with NubesGen
 
 ## Create a Spring Boot application
 
