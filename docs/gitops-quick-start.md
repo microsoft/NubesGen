@@ -2,7 +2,15 @@
 
 [Do you want to understand first GitOps with NubesGen? Here is the overview](gitops-overview.md)
 
-_There are two ways to configure GitOps with NubesGen: a 3-step installation using the command line, or a 5-step 
+## Introduction
+
+When using GitOps, Terraform will use [an Azure backend](https://www.terraform.io/docs/language/settings/backends/azurerm.html) to lock its state while it is being updated, as several GitHub Actions runs can occur in parallel.
+
+This makes this setup far more robust than running Terraform manually, but adds a bit more complexity, as a specific resource group and a specific storage account need to created.
+
+The following steps will guide you through creating those resources, and authorizing GitHub Actions to perform Azure resource management on your behalf.
+
+_There are two ways to configure GitOps with NubesGen: a 5-step installation using the command line, or a 6-step 
 installation using only a Web browser_
 
 ## Configure GitOps in 5 steps, using the command line

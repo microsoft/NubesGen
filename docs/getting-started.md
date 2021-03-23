@@ -23,3 +23,14 @@ terraform apply
 ```
 
 This should create a new Azure resource group, in the form `rg-<your-project-name>-001`, in which several resources have been created. For example, if you selected Azure App Service and Azure database for MySQL, you should have an App Service plan, App Service instance and MySQL database created in your resource group.
+
+You can go to the [Azure Portal](https://portal.azure.com) to check those resources.
+
+## Using the GitOps option to automate the Terraform configuration
+
+Using the [GitOps option](gitops-overview.md), a specific GitHub Action file will be created, and this will automate:
+
+- Running Terraform to manage the Azure infrastructure
+- Deploying your application code to that infrastructure
+
+To get started with NubesGen and GitOps, [follow this quick start guide](gitops-quick-start.md).
