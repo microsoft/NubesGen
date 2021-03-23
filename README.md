@@ -5,7 +5,7 @@ __GitOps-based Azure infrastructure management__
 
 ➡️ Online instance available at [https://nubesgen.azurewebsites.net/](https://nubesgen.azurewebsites.net/)
 
-➡️ [Full documentation](docs/index.md)
+➡️ [Full documentation](docs/README.md)
 
 ## 1-minute introduction to NubesGen
 
@@ -25,7 +25,7 @@ For advanced users, this Terraform configuration can be modified and tweaked as 
 
 ## Detailed documentation
 
-Are you ready to get started with NubesGen? Our full documentation is available at [here](docs/index.md).
+Are you ready to get started with NubesGen? Our full documentation is available at [here](docs/README.md).
 
 ## Trademarks
 
