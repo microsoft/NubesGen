@@ -26,6 +26,7 @@ For advanced users, this Terraform configuration can be modified and tweaked as 
 ## Detailed documentation
 
 Are you ready to get started with NubesGen? Our full documentation is available at [here](docs/index.md).
+
 ## Trademarks
 
 This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
