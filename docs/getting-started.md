@@ -26,6 +26,8 @@ This should create a new Azure resource group, in the form `rg-<your-project-nam
 
 You can go to the [Azure Portal](https://portal.azure.com) to check those resources.
 
+![Resource group created by NugesGen](assets/azure-resource-group-docker.png "Resource group created by NugesGen")
+
 ## Using the GitOps option to automate the Terraform configuration
 
 Using the [GitOps option](gitops-overview.md), a specific GitHub Action file will be created, and this will automate:
