@@ -4,7 +4,7 @@ Docker is the default option with NubesGen, and allows to run any kind of applic
 
 It comes with two options: "Docker with a Dockerfile" and "Docker with Spring Boot".
 
-## What Azure resources will be created
+## Which Azure resources will be created
 
 NubesGen will generate:
 
@@ -28,8 +28,6 @@ Spring Boot is a Java framework that can use a Dockerfile, but which uses by def
 
 We're going to deploy [https://github.com/jdubois/golang-sample-app](https://github.com/jdubois/golang-sample-app), which is a sample application written in Go.
 
-To follow this tutorial, you need to have [Terraform](https://www.terraform.io/) and the [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) installed. As we will create some Azure resources, you need to be authenticated using the Azure CLI.
-
 1. Clone the project on your computer, and go into the project's directory:
    ```bash
    git clone https://github.com/jdubois/golang-sample-app.git
@@ -44,7 +42,11 @@ To follow this tutorial, you need to have [Terraform](https://www.terraform.io/)
    cd terraform && terraform init && terraform apply -auto-approve
    ```
 4. You can check the newly-created resources in the [Azure Portal](https://portal.azure.com). Go to the Azure Container Registry that was created, 
-   and use the credentials in to login the Docker registry:
+   and use the credentials in the "Access keys" menu item to login the Docker registry: `docker login <name-of-the-azure-container-registry>`.
 5. You can now build the Docker image, push it the Azure Container Registry, and it will be deployed to the Azure App Service instance that was created.
+   ```bash
+   docker build -t <name-of-the-azure-container-registry>/golang-sample-app/golang-sample-app .
+   docker push <name-of-the-azure-container-registry>/golang-sample-app/golang-sample-app
+   ```
 
 If you want to automate steps 3 to 5, have a look at the [GitOps option](../gitops-overview.md) offered by NubesGen.

@@ -7,7 +7,7 @@ This documentation is for running Java applications with NubesGen, and there are
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Java application that you which to deploy.
 
-## What Azure resources will be created
+## Which Azure resources will be created
 
 ## Important configuration options
 
