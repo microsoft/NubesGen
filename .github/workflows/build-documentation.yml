@@ -1,0 +1,25 @@
+name: Build documentation
+
+on:
+  push:
+    branches:
+    - main
+jobs:
+  build-documentation:
+    runs-on: ubuntu-20.04
+    name: Run AsciiDoctor
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Get build container
+      id: adocbuild
+      uses: avattathil/asciidoctor-action@master
+      with:
+          program: "asciidoctor -D docs/build --backend=html5 docs/*.adoc"
+    - name: Deploy HTML documentation
+      uses: peaceiris/actions-gh-pages@v3
+      with: 
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: ./docs/build
+        full_commit_message: ${{ github.event.head_commit.message }}
