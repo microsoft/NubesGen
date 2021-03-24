@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.42"
+      version = ">= 2.52"
     }
   }
   # backend "azurerm" {}
@@ -73,7 +73,7 @@ module "container-registry" {
   application_name = local.application_name
   environment      = local.environment
   location         = var.location
-  
+
   depends_on = [
     azurerm_resource_group.main
   ]
