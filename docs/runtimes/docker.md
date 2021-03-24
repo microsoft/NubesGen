@@ -27,6 +27,9 @@ Using a Dockerfile is the default way to use Docker, so this will work in most s
 
 Spring Boot is a Java framework that can use a Dockerfile, but which uses by default a Maven plugin: this is supported by NubesGen if you select that option, in which case the Docker image will be built using the `mvn spring-boot:build-image` command.
 
+If you have selected Spring Boot, NubesGen will also configure the same configuration properties as the ones described in [Spring Boot with NubesGen](spring-boot.md).
+For example, your database should be automatically configured.
+
 ## Tutorial: running a Go application with NubesGen
 
 We're going to deploy [https://github.com/jdubois/golang-sample-app](https://github.com/jdubois/golang-sample-app), which is a sample application written in Go.
@@ -37,7 +40,7 @@ We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically bu
    ```bash
    git clone https://github.com/<your-github-account>/golang-sample-app.git
    ``` 
-3. In the cloned project (`cd golang-sample-app`), set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done steps 1 & 2 above).
+3. In the cloned project (`cd golang-sample-app`), set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 above).
 4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
    ```bash
    curl "https://nubesgen.azurewebsites.net/<your-unique-name>.tgz?application=app_service.standard&gitops=true" | tar -xzvf -
