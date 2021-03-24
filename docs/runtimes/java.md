@@ -44,34 +44,35 @@ NubesGen will generate some environment variables for your application, dependin
   
 ## Tutorial: running a Java application with NubesGen
 
-1. Create a sample Java Web applicaiton using Maven
+1. Create a sample Java Web application using [https://start.spring.io/](https://start.spring.io/).
    ```bash
-   mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-webapp -DarchetypeVersion=1.4
+   curl https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.4.4.RELEASE&baseDir=java-sample-app&groupId=com.example&artifactId=java-sample-app&name=java-sample-app&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.java-sample-app&packaging=jar&javaVersion=11&dependencies=web | jar xv
    ```
-2. Create a project on GitHub called `java-sample-app`, and push the generated project to that repository:
+2. Create a project on GitHub called `java-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
+   cd java-sample-app
    git init
    git add .
    git commit -m "first commit"
-   git remote add origin https://github.com/jdubois/java-sample-app.git
+   git remote add origin https://github.com/<your-github-account>/java-sample-app.git
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd java-sample-app`), set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done steps 1 & 2 above).
-3. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
+3. In the cloned project, set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done steps 1 & 2 above).
+4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
    ```bash
-   curl "https://nubesgen.azurewebsites.net/<your-unique-name>.tgz?runtime=java&application=app_service.standard&gitops=true" | tar -xzvf -
+   curl "https://nubesgen.azurewebsites.net/<your-unique-name>.zip?runtime=java&application=app_service.standard&gitops=true" | jar xv
    ```
-4. Create a new branch called `env-dev`, and push your code:
+5. Create a new branch called `env-dev`, and push your code:
    ```bash
    git checkout -b env-dev
    git add .
    git commit -m 'Configure GitOps with NubesGen'
    git push --set-upstream origin env-dev
    ```
-5. Go to your GitHub project, and check that the GitHub Action is running.
-6. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
-7. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-<your-unique-name>-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
+6. Go to your GitHub project, and check that the GitHub Action is running.
+7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
+8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-<your-unique-name>-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
 As it is a simple application, it should print by default `Hello, world`.
 9. Once you have finished, you should clean up your resources:
    1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-<your-unique-name>-001`.
