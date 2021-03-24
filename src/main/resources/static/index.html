@@ -833,10 +833,7 @@
                                             </div>
                                         </label>
                                     </div>
-
                                 </div>
-
-
                             </dd>
                         </div>
 
@@ -859,15 +856,15 @@
                                             </div>
                                         </label>
                                     </div>
-
                                 </div>
-
-
                             </dd>
                         </div>
 
-                        <div class="px-4 py-5 sm:px-6">
-                            <!-- <h3 class="text-lg leading-6 font-medium text-gray-900"> -->
+                        <div class="bg-gray-200 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
+
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <button type="button"
                                     class="flex items-center justify-center px-4 py-1 mt-5 ml-2 mr-4 text-center text-white bg-green-600 border border-green-700 rounded-lg focus:outline-none hover:bg-green-700"
                                     @click="download()">
@@ -878,7 +875,6 @@
                                 </svg>
                                 <span class="self-center text-xl font-medium">Download configuration files</span>
                             </button>
-                            <!-- </h3> -->
 
                             <button type="button" class="mt-1 max-w-2xl text-sm text-gray-500 inline-block"
                                     @click="generateScriptUrl()"></p>
@@ -893,8 +889,9 @@
                                                               x-show="copySuccessful === true">Copied!</span>
                                 </div>
                             </button>
-
-
+                            </dd>
+                        </div>
+                        <div class="">
                             <div class="bg-gray-200 border-gray-400 border m-10" x-show="curlScript !== ''">
                                 <div class="m-2 text-sm">
                                     <span class="m-2">cURL with Bash</span>
