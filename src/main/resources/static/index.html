@@ -89,7 +89,7 @@
             {
               this.components.frontApp.size = 'free'
             }
-            else 
+            else
             {
               this.components.frontApp.size = 'consumption'
             }
@@ -98,7 +98,7 @@
           var url = this.generateUrl();
           this.curlScript = `curl "${window.location.protocol}//${window.location.host}/${this.projectSlug}.tgz${url}" | tar -xzvf -`;
           this.poshScript = `Invoke-WebRequest -Uri "${window.location.protocol}//${window.location.host}/${this.projectSlug}.zip${url}" -OutFile ${this.projectSlug}.zip; Expand-Archive ${this.projectSlug}.zip -DestinationPath '.' -Force; Remove-Item ${this.projectSlug}.zip`;
-        
+
         },
         async copyScript(scriptContents) {
           this.copySuccessful = await navigator.clipboard.writeText(scriptContents);
@@ -172,9 +172,9 @@
 
   </script>
 
-  <!-- 
+  <!--
 
-    Custom Plan selection: 
+    Custom Plan selection:
     https://github.com/drehimself/custom-radio-buttons/blob/master/src/components/SelectablePlan.vue
 
     Product features:
@@ -328,7 +328,7 @@
 
                       <!--
                         Select popover, show/hide based on select state.
-                  
+
                         Entering: ""
                           From: ""
                           To: ""
@@ -343,7 +343,7 @@
                           class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                           <!--
                             Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
-                  
+
                             Highlighted: "text-white bg-indigo-600", Not Highlighted: "text-gray-900"
                           -->
 
@@ -360,7 +360,7 @@
 
                               <!--
                                 Checkmark, only display for selected option.
-                    
+
                                 Highlighted: "text-white", Not Highlighted: "text-indigo-600"
                               -->
                               <span x-bind:class="{'inline-block': region2.id == reg.id}"
@@ -856,8 +856,8 @@
               </div>
 
               <div class="bg-green-50">
-                  <div class="text-center text-2xl pt-5 text-green-700">Coming soon</div>                  
-    
+                  <div class="text-center text-2xl pt-5 text-green-700">Coming soon</div>
+
                   <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
                       Security
@@ -875,7 +875,7 @@
                       </div>
                     </dd>
                   </div>
-    
+
                   <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
                       Management & Operations
@@ -888,7 +888,7 @@
                       </div>
                     </dd>
                   </div>
-    
+
                   <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
                       Product & Business metrics
@@ -898,7 +898,7 @@
                         Insights.</p>
                     </dd>
                   </div>
-    
+
                   <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
                       Cost
@@ -907,62 +907,19 @@
                       <!-- <div>
                         <div class="text-gray-500">Expected deployment cost</div>
                         <div class="text-6xl text-blue-700 font-semibold">$54<span class="text-lg text-gray-500">/month</span></div>
-                        <div class="text-gray-500">Pricing vary depending on several factors, including usage. <a class="underline text-blue-500" href="">Open this architecture in Azure Pricing Calculator.</a></div>                    
+                        <div class="text-gray-500">Pricing vary depending on several factors, including usage. <a class="underline text-blue-500" href="">Open this architecture in Azure Pricing Calculator.</a></div>
                       </div> -->
                       <div class="flex row-auto items-center mt-4"> <i class="fa fa-check-circle-o text-gray-400"></i>
                         <span class="ml-3 font-bold text-gray-500">Cost alerts</span>
                         <span class="ml-1 text-gray-500">You'll receive automatic email alerts when actual costs reaches
                           50%, 75%, 100% and 125%.</span>
                       </div>
-    
+
                     </dd>
                   </div>
 
               </div>
 
-
-
-
-
-              <!-- <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500">
-            Attachments
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-              <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                <div class="w-0 flex-1 flex items-center">
-                  <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="ml-2 flex-1 w-0 truncate">
-                    resume_back_end_developer.pdf
-                  </span>
-                </div>
-                <div class="ml-4 flex-shrink-0">
-                  <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                    Download
-                  </a>
-                </div>
-              </li>
-              <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                <div class="w-0 flex-1 flex items-center">
-                  <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="ml-2 flex-1 w-0 truncate">
-                    coverletter_back_end_developer.pdf
-                  </span>
-                </div>
-                <div class="ml-4 flex-shrink-0">
-                  <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                    Download
-                  </a>
-                </div>
-              </li>
-            </ul>
-          </dd>
-        </div> -->
             </dl>
           </div>
 
