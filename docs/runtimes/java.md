@@ -73,7 +73,7 @@ NubesGen will generate some environment variables for your application, dependin
 6. Go to your GitHub project, and check that the GitHub Action is running.
 7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
 8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-<your-unique-name>-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
-As it is a simple application, it should print by default `Hello, world`.
+As it is an empty application, you should get 404 page called `Whitelabel Error Page`.
 9. Once you have finished, you should clean up your resources:
    1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-<your-unique-name>-001`.
    2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group, named ``.
