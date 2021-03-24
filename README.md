@@ -3,7 +3,7 @@
 
 __GitOps-based Azure infrastructure management__
 
-➡️ Online instance available at [https://nubesgen.azurewebsites.net/](https://nubesgen.azurewebsites.net/)
+➡️ Online instance available at [https://nubesgen.com/](https://nubesgen.com/)
 
 ➡️ [Full documentation](docs/README.md)
 

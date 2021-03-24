@@ -67,7 +67,7 @@ We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically bu
 3. In the cloned project (`cd jhipster-sample-app`), set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 above).
 4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
    ```bash
-   curl "https://nubesgen.azurewebsites.net/<your-unique-name>.zip?runtime=spring&application=app_service.standard&database=postgresql&gitops=true" | jar xv
+   curl "https://nubesgen.com/<your-unique-name>.zip?runtime=spring&application=app_service.standard&database=postgresql&gitops=true" | jar xv
    ```
 5. Create a new branch called `env-dev`, and push your code:
    ```bash
@@ -104,7 +104,7 @@ This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this si
 3. In the cloned project, set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 above).
 4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
    ```bash
-   curl "https://nubesgen.azurewebsites.net/<your-unique-name>.zip?runtime=spring&application=app_service.standard&gitops=true" | jar xv
+   curl "https://nubesgen.com/<your-unique-name>.zip?runtime=spring&application=app_service.standard&gitops=true" | jar xv
    ```
 5. Create a new branch called `env-dev`, and push your code:
    ```bash
