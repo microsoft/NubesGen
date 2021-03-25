@@ -88,7 +88,7 @@ NubesGen will configure some environment variables for your application.
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project, set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 above).
+3. In the cloned project, set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 & 2 above).
 4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
    ```bash
    curl "https://nubesgen.com/<your-unique-name>.zip?runtime=nodejs&application=app_service.standard&gitops=true" | jar xv
