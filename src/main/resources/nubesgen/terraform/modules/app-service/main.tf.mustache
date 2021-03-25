@@ -67,10 +67,10 @@ resource "azurerm_app_service" "application" {
   {{#runtimeJava}}
     linux_fx_version          = "JAVA|11-java11"
   {{/runtimeJava}}
-  {{#runtimeDotnet}} 
+  {{#runtimeDotnet}}
     linux_fx_version          = "DOTNETCORE|3.1"
   {{/runtimeDotnet}}
-  {{#runtimeNodejs}} 
+  {{#runtimeNodejs}}
     linux_fx_version          = "NODE|14-lts"
     app_command_line          = "npm run start:prod"
   {{/runtimeNodejs}}
@@ -85,11 +85,12 @@ resource "azurerm_app_service" "application" {
   {{#runtimeJava}}
     linux_fx_version = "JAVA|11-java11"
   {{/runtimeJava}}
-  {{#runtimeDotnet}} 
+  {{#runtimeDotnet}}
     linux_fx_version = "DOTNETCORE|3.1"
   {{/runtimeDotnet}}
-  {{#runtimeNodejs}} 
+  {{#runtimeNodejs}}
     linux_fx_version = "NODE|14-lts"
+    app_command_line = "npm run start:prod"
   {{/runtimeNodejs}}
     always_on        = true
     ftps_state       = "FtpsOnly"
@@ -106,7 +107,7 @@ resource "azurerm_app_service" "application" {
 {{/runtimeDocker}}
 
     # These are app specific environment variables
-{{#runtimeSpring}} 
+{{#runtimeSpring}}
     "SPRING_PROFILES_ACTIVE"     = "prod,azure"
   {{#databaseTypeSqlServer}}
 

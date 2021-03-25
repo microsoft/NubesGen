@@ -33,10 +33,12 @@ If you deploy your Spring Boot application to an Azure Function, NubesGen will g
 
 NubesGen supports both Maven and Gradle, so you can use the build system you prefer.
 
-## Important configuration options
+## Configuration options
 
-NubesGen will generate some environment variables for your application, depending on the database and add-ons that you have selected. Those are standard Spring Boot
-properties, so your Spring Boot application should be automatically configured (for example: your database connection should be working out-of-the-box).
+In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some environment variables
+for your application. Those are standard Spring Boot
+properties, so your Spring Boot application should be automatically configured 
+(for example: your database connection should be working out-of-the-box).
 
 - `SPRING_DATASOURCE_URL`: the JDBC URL to your database
 - `SPRING_DATASOURCE_USERNAME`: the database user name

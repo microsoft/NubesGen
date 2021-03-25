@@ -36,7 +36,7 @@ curl "https://nubesgen.com/myapplication.tgz?region=westeurope&database=mysql"  
 
 | Name  | Description  | Values  | POST example | GET example  |
 |---|---|---|---|---|
-| runtime |  The language and framework used to run the application | DOCKER (default), DOCKER_SPRING, JAVA, JAVA_GRADLE, SPRING, SPRING_GRADLE, DOTNET | `https://nubesgen.com/myapplication.tgz -d '{ "runtime": "JAVA"' -H "Content-Type: application/json"` | `https://nubesgen.com/myapplication.tgz?runtime=java`  |
+| runtime |  The language and framework used to run the application | DOCKER (default), DOCKER_SPRING, JAVA, JAVA_GRADLE, SPRING, SPRING_GRADLE, DOTNET, NODEJS | `https://nubesgen.com/myapplication.tgz -d '{ "runtime": "JAVA"' -H "Content-Type: application/json"` | `https://nubesgen.com/myapplication.tgz?runtime=java`  |
 | application  | Type of application: Web app or serverless  | APP_SERVICE (default), FUNCTION | `https://nubesgen.com/myapplication.tgz -d '{ "application": { "type": "FUNCTION", "tier": "CONSUMPTION"}}' -H "Content-Type: application/json"` | `https://nubesgen.com/myapplication.tgz?application=function`  |
 | region  |  Azure Region where the resource will be located | Run `az account list-locations` | `https://nubesgen.com/myapplication.tgz -d '{ "region": "westeurope"}' -H "Content-Type: application/json"` | `https://nubesgen.com/myapplication.tgz?region=westeurope`  |
 | database  |  The database | NONE (default), SQL_SERVER, MYSQL, POSTGRESQL  | `https://nubesgen.com/myapplication.tgz -d '{ "database": { "type": "MYSQL", "tier": "BASIC"}}' -H "Content-Type: application/json"` | `https://nubesgen.com/myapplication.tgz?database=mysql`  |

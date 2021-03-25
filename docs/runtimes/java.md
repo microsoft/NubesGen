@@ -26,9 +26,10 @@ If you deploy your Java application to an Azure Function, NubesGen will generate
 
 NubesGen supports both Maven and Gradle, so you can use the build system you prefer.
 
-## Important configuration options
+## Configuration options
 
-NubesGen will generate some environment variables for your application, depending on the database and add-ons that you have selected.
+In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some environment variables
+for your application.
 
 - `DATABASE_URL`: the JDBC URL to your database
 - `DATABASE_USERNAME`: the database user name
