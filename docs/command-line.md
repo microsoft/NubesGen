@@ -1,4 +1,4 @@
-[[ << Back to the main documentation page](README.md)]
+[[ << Back to the main documentation page ](README.md)]
 
 # Running NubesGen from the command line
 
@@ -85,4 +85,4 @@ curl "https://nubesgen.com/myapplication.tgz" -d '{ "region": "westeurope", "run
 curl "https://nubesgen.com/myapplication.tgz?region=westeurope&runtime=spring&database=MYSQL&addons=STORAGE_BLOB,REDIS"  | tar -xzvf -
 ```
 
-[[ << Back to the main documentation page](README.md)]
+[[ << Back to the main documentation page ](README.md)]
