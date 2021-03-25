@@ -21,6 +21,7 @@ _Prerequisites_
 
 For this installation method to work, you need to have installed and configured the following tools:
 
+- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
 - [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
