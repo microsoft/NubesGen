@@ -26,7 +26,7 @@ If you deploy your Node.js application to an Azure Function, NubesGen will gener
 In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some variables
 for your application.
 
-### The `app_command_line`
+### The `app_command_line` parameter
 
 In the `site_config` block, NubesGen generates the following configuration:
 
