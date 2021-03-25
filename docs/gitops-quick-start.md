@@ -29,7 +29,7 @@ _Installation_
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
 1. Open up a terminal in the repository you just cloned, and run the following script (or [download it](https://nubesgen.com/gitops/setup.sh)):
     ```bash
-    sh -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
+    bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
 1. Go to [https://nubesgen.com/](https://nubesgen.com/) to create your Terraform configuration, and select the `GitOps` option. Download the generated file and unzip it inside the Git repository you have just cloned.
 1. You can now push the NubesGen code to your repository, for example by typing `git add . && git commit -m 'Configure GitOps with NubesGen' && git push`.
@@ -43,7 +43,7 @@ __Congratulations, you have setup GitOps with NubesGen on your project!__
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
 1. Go to [https://shell.azure.com/](https://shell.azure.com/) and login with the Azure subscription you want to use. In this shell, run the following script (or [download it](https://nubesgen.com/gitops/setup-azure-shell.sh)):
     ```bash
-    sh -c "$(curl -fsSL https://nubesgen.com/gitops/setup-azure-shell.sh)"
+    bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup-azure-shell.sh)"
     ```
 1. The script above generates two variables, `AZURE_CREDENTIALS` and `TF_STORAGE_ACCOUNT`. Go to your GitHub repository's settings, and create two secrets using those names and values.
 1. Go to [https://nubesgen.com/](https://nubesgen.com/) to create your Terraform configuration, and select the `GitOps` option. Download the generated file and unzip it inside the Git repository you have just cloned.
