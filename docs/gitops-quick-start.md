@@ -1,4 +1,4 @@
-[[ << Back to the main documentation page](README.md)]
+[[ << GitOps overview ](gitops-overview.md)] | [ Main documentation page](README.md)] | [ What is being generated >> ](what-is-being-generated.md)]
 
 # GitOps with NubesGen quick start
 
@@ -109,4 +109,4 @@ That environment is an Azure resource group, containing all the resources config
 - The GitHub Action will apply the current Terraform configuration, so that your Azure resource group is synchronized with the configuration store in Git.
 - The GitHub Action will then package and deploy the code stored in the Git branch, so that code runs on the infrastructure that was configured in the previous step.
 
-[[ << Back to the main documentation page](README.md)]
+[[ << GitOps overview ](gitops-overview.md)] | [ Main documentation page](README.md)] | [ What is being generated >> ](what-is-being-generated.md)]

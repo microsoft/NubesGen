@@ -1,4 +1,4 @@
-[[ << Back to the main documentation page](../README.md)]
+[[ << Using .NET with NubesGen ](dot-net.md) | [ Main documentation page](../README.md)] | [ Frequently asked questions >> ](../frequently-asked-questions.md)]
 # Using NodeJS with NubesGen
 
-[[ << Back to the main documentation page](../README.md)]
+[[ << Using .NET with NubesGen ](dot-net.md) | [ Main documentation page](../README.md)] | [ Frequently asked questions >> ](../frequently-asked-questions.md)]
