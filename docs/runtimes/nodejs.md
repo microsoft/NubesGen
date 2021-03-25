@@ -36,7 +36,7 @@ app_command_line = "npm run start:prod"
 
 This command is the one used to run the Node.js application. By default, this command
 is `npm run start:prod`, which is the default with [NestJS](https://nestjs.com/), but this
-should be specifically configured depending ont the framework used.
+should be specifically configured depending on the framework used.
 
 ### The `PORT` environment variable
 
