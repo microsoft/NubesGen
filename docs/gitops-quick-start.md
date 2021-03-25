@@ -27,7 +27,7 @@ For this installation method to work, you need to have installed and configured 
 _Installation_
 
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
-1. Open up a terminal in the repository you just cloned, and run the following script:
+1. Open up a terminal in the repository you just cloned, and run the following script (or [download it](https://nubesgen.com/gitops/setup.sh)):
     ```bash
     sh -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
@@ -41,7 +41,7 @@ __Congratulations, you have setup GitOps with NubesGen on your project!__
 ## Configure GitOps in 6 steps, using your Web browser
 
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
-1. Go to [https://shell.azure.com/](https://shell.azure.com/) and login with the Azure subscription you want to use. In this shell, run the following script:
+1. Go to [https://shell.azure.com/](https://shell.azure.com/) and login with the Azure subscription you want to use. In this shell, run the following script (or [download it](https://nubesgen.com/gitops/setup-azure-shell.sh)):
     ```bash
     sh -c "$(curl -fsSL https://nubesgen.com/gitops/setup-azure-shell.sh)"
     ```
