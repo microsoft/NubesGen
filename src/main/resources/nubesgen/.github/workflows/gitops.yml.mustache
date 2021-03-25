@@ -308,3 +308,43 @@ jobs:
           package: './output'
   <%/applicationTypeFunction%>
 <%/runtimeDotnet%>
+<%#runtimeNodejs%>
+  <%#applicationTypeAppService%>
+  build-and-deploy:
+    needs: manage-infrastructure
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Cache NPM packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install NPM
+        run: npm install
+      - name: Build the application
+        run: npm run build
+      - name: Run tests
+        run: npm run test
+      - name: Set environment variables
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/*/}
+          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: 'Deploy to Azure App Service'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
+          package: '.'
+  <%/applicationTypeAppService%>
+<%/runtimeNodejs%>
