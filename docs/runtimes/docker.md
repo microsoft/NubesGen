@@ -1,4 +1,4 @@
-[[ << Running NubesGen from the command line ](command-line.md) | [ Main documentation page ](../README.md)] | [ Using Java with NubesGen >> ](java.md)]
+[[ << Running NubesGen from the command line ](command-line.md) | [ Main documentation page ](../README.md) |[ Using Java with NubesGen >> ](java.md)]
 
 # Using Docker with NubesGen
 
@@ -60,4 +60,4 @@ As it is a simple application, it should print by default `Hello, world`.
    1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-<your-unique-name>-001`.
    2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group, named ``.
 
-[[ << Running NubesGen from the command line ](command-line.md) | [ Main documentation page ](../README.md)] | [ Using Java with NubesGen >> ](java.md)]
+[[ << Running NubesGen from the command line ](command-line.md) | [ Main documentation page ](../README.md) |[ Using Java with NubesGen >> ](java.md)]

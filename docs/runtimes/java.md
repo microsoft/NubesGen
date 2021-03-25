@@ -1,4 +1,4 @@
-[[ << Using Docker with NubesGen ](docker.md) | [ Main documentation page ](../README.md)] | [ Using Spring Boot with NubesGen >> ](spring-boot.md)]
+[[ << Using Docker with NubesGen ](docker.md) | [ Main documentation page ](../README.md) |[ Using Spring Boot with NubesGen >> ](spring-boot.md)]
 
 # Using Java with NubesGen
 
@@ -78,4 +78,4 @@ As it is an empty application, you should get 404 page called `Whitelabel Error 
    1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-<your-unique-name>-001`.
    2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group, named ``.
 
-[[ << Using Docker with NubesGen ](docker.md) | [ Main documentation page ](../README.md)] | [ Using Spring Boot with NubesGen >> ](spring-boot.md)]
+[[ << Using Docker with NubesGen ](docker.md) | [ Main documentation page ](../README.md) |[ Using Spring Boot with NubesGen >> ](spring-boot.md)]

@@ -1,4 +1,4 @@
-[[ << Main documentation page ](README.md)] | [ Getting started >> ](getting-started.md)]
+[[ << Main documentation page ](README.md) |[ Getting started >> ](getting-started.md)]
 
 # What is NubesGen?
 
@@ -26,4 +26,4 @@ Using [GitOps practices](gitops-overview.md), NubesGen can also fully automate a
 
 NubesGen relies on commonly-used technologies like Terraform and GitHub Actions, so you still have access to the full power of Azure. If you need to update or tweak any configuration that isn't supported by NubesGen, you can still modify those files manually as you would have done without NubesGen.
 
-[[ << Main documentation page ](README.md)] | [ Getting started >> ](getting-started.md)]
+[[ << Main documentation page ](README.md) |[ Getting started >> ](getting-started.md)]
