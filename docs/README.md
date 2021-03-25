@@ -1,5 +1,6 @@
 # NubesGen documentation
 
+- [What is NubesGen?](what-is-nubesgen.md)
 - [Getting started](getting-started.md)
 - GitOps
   - [GitOps overview](gitops-overview.md)

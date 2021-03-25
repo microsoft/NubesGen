@@ -1,4 +1,4 @@
-[[ << Back to the main documentation page](README.md)]
+[[ << What is NubesGen? ](what-is-nubesgen.md) |[ Main documentation page ](README.md) |[ GitOps overview >> ](gitops-overview.md)]
 
 # Getting started with NubesGen
 
@@ -37,6 +37,4 @@ Using the [GitOps option](gitops-overview.md), a specific GitHub Action file wil
 - Running Terraform to manage the Azure infrastructure
 - Deploying your application code to that infrastructure
 
-To get started with NubesGen and GitOps, [follow this quick start guide](gitops-quick-start.md).
-
-[[ << Back to the main documentation page](README.md)]
+[[ << What is NubesGen? ](what-is-nubesgen.md) |[ Main documentation page ](README.md) |[ GitOps overview >> ](gitops-overview.md)]
