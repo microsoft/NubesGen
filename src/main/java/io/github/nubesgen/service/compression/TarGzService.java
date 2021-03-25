@@ -27,6 +27,7 @@ public class TarGzService implements CompressionService {
             archive.closeArchiveEntry();
         }
         archive.finish();
+        archive.close();
         gzOut.finish();
         return baos;
     }
