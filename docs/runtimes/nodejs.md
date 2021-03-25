@@ -6,7 +6,7 @@ This documentation is for running Node.js applications with NubesGen, and there 
 
 - As Node.js applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
 
-NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Java application that you which to deploy.
+NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Node.js application that you which to deploy.
 
 ## Which Azure resources will be created
 
@@ -80,7 +80,7 @@ NubesGen will configure some environment variables for your application.
    ```
 2. Create a project on GitHub called `nodejs-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
-   cd java-sample-app
+   cd nodejs-sample-app
    git init
    git add .
    git commit -m "first commit"
