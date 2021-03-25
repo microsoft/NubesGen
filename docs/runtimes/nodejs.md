@@ -53,7 +53,7 @@ app.listen(process.env.PORT || 3000);
 
 NubesGen will configure some environment variables for your application.
 
-- `DATABASE_URL`: the JDBC URL to your database
+- `DATABASE_URL`: the URL to your database
 - `DATABASE_USERNAME`: the database user name
 - `DATABASE_PASSWORD`: the database password
 - `REDIS_HOST`: the Redis host name

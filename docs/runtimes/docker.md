@@ -26,7 +26,7 @@ for your application.
 
 ### Other options
 
-- `DATABASE_URL`: the JDBC URL to your database
+- `DATABASE_URL`: the URL to your database
 - `DATABASE_USERNAME`: the database user name
 - `DATABASE_PASSWORD`: the database password
 - `REDIS_HOST`: the Redis host name
