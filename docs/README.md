@@ -12,5 +12,5 @@
   - [Using Java with NubesGen](runtimes/java.md)
   - [Using Spring Boot with NubesGen](runtimes/spring-boot.md)
   - [Using .NET with NubesGen](runtimes/dot-net.md)
-  - [Using NodeJS with NubesGen](runtimes/nodejs.md)
+  - [Using Node.js with NubesGen](runtimes/nodejs.md)
 - [Frequently asked questions](frequently-asked-questions.md)
