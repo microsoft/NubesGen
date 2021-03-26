@@ -328,7 +328,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Install NPM
-        run: npm install
+        run: npm ci
       - name: Build the application
         run: npm run build
       - name: Run tests
