@@ -53,49 +53,29 @@ jobs:
           -auto-approve \
           -var="environment=$ENVIRONMENT"
         working-directory: '${{ github.workspace }}/terraform'
-  build:
+  build-and-deploy:
     needs: manage-infrastructure
     runs-on: ubuntu-20.04
-    env:
-      APPLICATION_NAME: 'nubesgen-testapp-app-service-docker'
-      CONTAINER_REGISTRY: 'nubesgentestappappservicedocker'
     steps:
-      - name: Set environment variables
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
-          java-version: 11
-      - name: Cache local Maven repository
+          node-version: '14'
+      - name: Cache NPM packages
         uses: actions/cache@v2
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Build with Maven
-        run: mvn spring-boot:build-image -Pprod,azure -Dspring-boot.build-image.imageName=acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Push to Azure Container Registry
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-        run: |
-          az acr login -n acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io
-          docker push acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}
-  deploy:
-    needs: build
-    runs-on: ubuntu-20.04
-    env:
-      APPLICATION_NAME: 'nubesgen-testapp-app-service-docker'
-      CONTAINER_REGISTRY: 'nubesgentestappappservicedocker'
-    steps:
+            ${{ runner.os }}-node-
+      - name: Install NPM
+        run: npm ci
+      - name: Build the application
+        run: npm run build
+      - name: Run tests
+        run: npm run test
       - name: Set environment variables
         run: |
           TAG_NAME=${GITHUB_REF#refs/*/}
@@ -104,8 +84,8 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Deploy to Azure Web App
+      - name: 'Deploy to Azure App Service'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'app-nubesgen-testapp-app-service-docker-${{ env.ENVIRONMENT }}-001'
-          images: 'acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}'
+          app-name: app-nubesgen-testapp-app-service-nodejs-${{ env.ENVIRONMENT }}-001
+          package: '.'

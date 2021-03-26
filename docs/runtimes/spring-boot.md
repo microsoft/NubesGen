@@ -33,10 +33,12 @@ If you deploy your Spring Boot application to an Azure Function, NubesGen will g
 
 NubesGen supports both Maven and Gradle, so you can use the build system you prefer.
 
-## Important configuration options
+## Configuration options
 
-NubesGen will generate some environment variables for your application, depending on the database and add-ons that you have selected. Those are standard Spring Boot
-properties, so your Spring Boot application should be automatically configured (for example: your database connection should be working out-of-the-box).
+In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some environment variables
+for your application. Those are standard Spring Boot
+properties, so your Spring Boot application should be automatically configured 
+(for example: your database connection should be working out-of-the-box).
 
 - `SPRING_DATASOURCE_URL`: the JDBC URL to your database
 - `SPRING_DATASOURCE_USERNAME`: the database user name
@@ -67,7 +69,7 @@ We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically bu
 3. In the cloned project (`cd jhipster-sample-app`), set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 above).
 4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
    ```bash
-   curl "https://nubesgen.com/<your-unique-name>.zip?runtime=spring&application=app_service.standard&database=postgresql&gitops=true" | jar xv
+   curl "https://nubesgen.com/<your-unique-name>.zip?runtime=spring&application=app_service.standard&database=postgresql&gitops=true" | tar -xvf -
    ```
 5. Create a new branch called `env-dev`, and push your code:
    ```bash
@@ -89,7 +91,7 @@ This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this si
 
 1. Create a sample Java Web application using [https://start.spring.io/](https://start.spring.io/).
    ```bash
-   curl https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.4.4.RELEASE&baseDir=java-sample-app&groupId=com.example&artifactId=java-sample-app&name=java-sample-app&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.java-sample-app&packaging=jar&javaVersion=11&dependencies=web | jar xv
+   curl https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.4.4.RELEASE&baseDir=java-sample-app&groupId=com.example&artifactId=java-sample-app&name=java-sample-app&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.java-sample-app&packaging=jar&javaVersion=11&dependencies=web | tar -xvf -
    ```
 2. Create a project on GitHub called `java-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
@@ -104,7 +106,7 @@ This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this si
 3. In the cloned project, set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 above).
 4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
    ```bash
-   curl "https://nubesgen.com/<your-unique-name>.zip?runtime=spring&application=app_service.standard&gitops=true" | jar xv
+   curl "https://nubesgen.com/<your-unique-name>.zip?runtime=spring&application=app_service.standard&gitops=true" | tar -xvf -
    ```
 5. Create a new branch called `env-dev`, and push your code:
    ```bash

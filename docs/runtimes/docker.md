@@ -14,12 +14,29 @@ NubesGen will generate:
 - An [Azure App Service instance](https://azure.microsoft.com/services/app-service/), configured to run your Docker image.
 - An [Azure Container Registry instance](https://azure.microsoft.com/services/container-registry/) to store your Docker images.
 
-## Important configuration options
+## Configuration options
 
-In the generated `terraform/modules/app-service/main.tf` file, the following options are worth noticing:
+In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some environment variables 
+for your application.
+
+### Important options
 
 - `WEBSITES_PORT` is the port that will be exposed by your Docker image. By default it is set to `8080`, but if your Docker image uses port `1337` instead, you will need to reconfigure this accordingly.
 - `DOCKER_REGISTRY_SERVER_URL`, `DOCKER_REGISTRY_SERVER_USERNAME` and `DOCKER_REGISTRY_SERVER_PASSWORD` are used to access the Docker container registry. If you want to use another registry, you need to modify those variables accordingly.
+
+### Other options
+
+- `DATABASE_URL`: the URL to your database
+- `DATABASE_USERNAME`: the database user name
+- `DATABASE_PASSWORD`: the database password
+- `REDIS_HOST`: the Redis host name
+- `REDIS_PASSWORD`: the Redis password
+- `REDIS_PORT`: the Redis port (by default `6380`)
+- `AZURE_STORAGE_ACCOUNT_NAME`: the storage account name
+- `AZURE_STORAGE_ACCOUNT_KEY`: the storage account key
+- `AZURE_STORAGE_BLOB_ENDPOINT`: the blob storage endpoint
+- `MONGODB_DATABASE`: the MongoDB database name
+- `MONGODB_URI`: the MongoDB database URL
 
 ## Using a Dockerfile vs using Spring Boot
 
@@ -54,8 +71,9 @@ We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically bu
    ```
 6. Go to your GitHub project, and check that the GitHub Action is running.
 7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
-8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-<your-unique-name>-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
-As it is a simple application, it should print by default `Hello, world`.
+8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-<your-unique-name>-dev-001.azurewebsites.net/`, 
+   and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
+   As it is a simple application, it should print by default `Hello, world`.
 9. Once you have finished, you should clean up your resources:
    1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-<your-unique-name>-001`.
    2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group, named ``.

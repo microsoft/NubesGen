@@ -233,11 +233,13 @@ class CodeGeneratorServiceTest {
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.NODEJS);
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
+        properties.setGitops(true);
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
         testGeneratedFiles(properties, "app-service-nodejs", configuration,
                 this.templateListService.listMainTemplates(),
+                this.templateListService.listGitOpsTemplates(),
                 this.templateListService.listAppServiceTemplates());
 
     }
