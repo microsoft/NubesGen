@@ -308,7 +308,6 @@ jobs:
   <%/applicationTypeFunction%>
 <%/runtimeDotnet%>
 <%#runtimeNodejs%>
-  <%#applicationTypeAppService%>
   build-and-deploy:
     needs: manage-infrastructure
     runs-on: ubuntu-20.04
@@ -340,10 +339,18 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+  <%#applicationTypeAppService%>
       - name: 'Deploy to Azure App Service'
         uses: azure/webapps-deploy@v2
         with:
           app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
           package: '.'
   <%/applicationTypeAppService%>
+  <%#applicationTypeFunction%>
+      - name: 'Deploy to Azure Functions'
+        uses: Azure/functions-action@v1
+        with:
+          app-name: func-<% applicationName %>-${{ env.ENVIRONMENT }}-001
+          package: '.'
+  <%/applicationTypeFunction%>
 <%/runtimeNodejs%>
