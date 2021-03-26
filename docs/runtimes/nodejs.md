@@ -73,14 +73,14 @@ NubesGen will configure some environment variables for your application.
    npm i -g @nestjs/cli
    nest new nodejs-sample-app
    ```
-   In the `src/main.ts` file, use the `$PORT` environment variable to bind your application
+   Select the default package manager (`npm`).
+   In the project (`cd nodejs-sample-app`), open the `src/main.ts` file, and use the `$PORT` environment variable to bind your application
    to the correct port: 
    ```javascript
-   app.listen(process.env.PORT || 3000);
+   await app.listen(process.env.PORT || 3000);
    ```
 2. Create a project on GitHub called `nodejs-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
-   cd nodejs-sample-app
    git init
    git add .
    git commit -m "first commit"
@@ -91,7 +91,7 @@ NubesGen will configure some environment variables for your application.
 3. In the cloned project, set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 & 2 above).
 4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
    ```bash
-   curl "https://nubesgen.com/<your-unique-name>.zip?runtime=nodejs&application=app_service.standard&gitops=true" | jar xv
+   curl "https://nubesgen.com/<your-unique-name>.zip?runtime=nodejs&application=app_service.standard&gitops=true" | tar -xvf -
    ```
 5. Create a new branch called `env-dev`, and push your code:
    ```bash

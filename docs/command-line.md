@@ -15,7 +15,7 @@ curl "https://nubesgen.com/nubesgen.tgz" | tar -xzvf -
 or (as a .zip file):
 
 ```bash
-curl "https://nubesgen.com/nubesgen.zip" | jar xv
+curl "https://nubesgen.com/nubesgen.zip" | tar -xvf -
 ```
 
 If you want to pass some parameters in POST:
