@@ -302,7 +302,6 @@ jobs:
   <%#applicationTypeFunction%>
       - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
-        id: fa
         with:
           app-name: func-<% applicationName %>-${{ env.ENVIRONMENT }}-001
           package: './output'
