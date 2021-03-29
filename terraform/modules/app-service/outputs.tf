@@ -1,4 +1,4 @@
 output "application_hostname" {
-  description = "Application Hostname"
+  description = "The Web application URL."
   value       = "https://${azurerm_app_service.application.default_site_hostname}"
 }
