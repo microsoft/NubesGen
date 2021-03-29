@@ -1,54 +1,66 @@
 variable "resource_group" {
+  type        = string
   description = "The resource group"
 }
 
 variable "application_name" {
+  type        = string
   description = "The name of your application"
 }
 
 variable "environment" {
+  type        = string
   description = "The environment (dev, test, prod...)"
   default     = "dev"
 }
 
 variable "location" {
+  type        = string
   description = "The Azure region where all resources in this example should be created"
 }
 {{^databaseTypeNone}}
 
 variable "database_url" {
+  type        = string
   description = "The URL to the database"
 }
 
 variable "database_username" {
+  type        = string
   description = "The database username"
 }
 
 variable "database_password" {
+  type        = string
   description = "The database password"
 }
 {{/databaseTypeNone}}
 {{#addonStorageBlob}}
 
 variable "azure_storage_account_name" {
+  type        = string
   description = "The name of the Azure Storage account"
 }
 
 variable "azure_storage_account_key" {
+  type        = string
   description = "The access key of the Azure Storage account"
 }
 
 variable "azure_storage_blob_endpoint" {
+  type        = string
   description = "The blob endpoint URL of the Azure Storage account"
 }
 {{/addonStorageBlob}}
 {{#addonRedis}}
 
 variable "azure_redis_host" {
+  type        = string
   description = "The Azure Cache for Redis hostname"
 }
 
 variable "azure_redis_password" {
+  type        = string
   description = "The Azure Cache for Redis password"
 }
 {{/addonRedis}}
