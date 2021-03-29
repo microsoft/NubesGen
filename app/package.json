@@ -1,0 +1,22 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "postcss css/tailwind.css -o public/build/tailwind.css",
+    "watch": "postcss css/tailwind.css -o public/build/tailwind.css --watch",
+    "dev": "npm run build && live-server public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.2.1",
+    "autoprefixer": "^10.2.5",
+    "live-server": "^1.2.1",
+    "postcss-cli": "^8.3.1",
+    "postcss-copy": "^7.1.0",
+    "tailwindcss": "^2.0.4"
+  }
+}

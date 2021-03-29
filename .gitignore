@@ -37,3 +37,6 @@ build/
 *.tfstate.backup
 *.tfstate.lock.info
 .terraform/
+.cache
+dist
+node_modules

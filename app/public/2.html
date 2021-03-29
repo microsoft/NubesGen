@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NubesGen App</title>
+
+    <link rel="stylesheet" type="text/css" href="/build/tailwind.css" />
+  </head>
+  <body>
+    <div class="h-screen flex items-center" id="wrapper">
+      <main class="border md:container md:mx-auto md:shadow-xl">
+        <div class="grid grid-cols-3">
+          <div
+            class="bg-gradient-to-b from-brand-50 to-brand-100 col-span-1 py-52 px-16"
+          >
+            <img src="/img/illustrations/setup.png" alt="Setup" />
+            <h3 class="text-2xl text-center text-brand-900 mt-16 mb-6">
+              Let’s get building. <br />
+              Create your app in just few clicks!
+            </h3>
+            <p class="text-center text-lg text-brand-900 opacity-80">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
+              aliquam, purus sit amet luctus venenatis
+            </p>
+          </div>
+          <div
+            class="col-span-2 px-16 pb-6 pt-16 flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex mb-14">
+                <div class="h-2 w-16 bg-brand-800 bg-opacity-40 mr-4"></div>
+                <div class="h-2 w-16 bg-brand-800 bg-opacity-40 mr-4"></div>
+                <div class="h-2 w-16 bg-gray-300 bg-opacity-40 mr-4"></div>
+                <div class="h-2 w-16 bg-gray-300 bg-opacity-40 mr-4"></div>
+                <div class="h-2 w-16 bg-gray-300 bg-opacity-40 mr-4"></div>
+              </div>
+
+              <h3 class="text-xl text-gray-800 mb-6">
+                2. How would you like to deploy?
+              </h3>
+
+              <div class="flex">
+               
+                <div class="shadow-md w-1/4 mr-4 border border-gray-100 p-4 h-56">
+                  <img src="img/icons/github-icon.svg" alt="Azure SQL icon" class="w-10">
+                  <p class="text-gray-800 my-4">
+                    Connect with GitHub
+                  </p>
+                  <p class="text-gray-800 opacity-80">Deploy your app from GitHub</p>
+                </div>
+                <div class="shadow-md w-1/4 mr-4 border border-gray-100 p-4 h-56">
+                  <img src="img/icons/azure.svg" alt="Postgress icon" class="w-10">
+                  <p class="text-gray-800 my-4">
+                    Connect with Azure
+                  </p>
+                  <p class="text-gray-800 opacity-80">Deploy your app using Azure</p>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2">
+              <div class="col-start-1">
+                <a
+                  class="text-xl border border-gray-800 py-2 px-8 rounded"
+                  href="/1.html"
+                  >Back</a
+                >
+              </div>
+              <div class="col-start-2 flex justify-end">
+                <a
+                  class="mr-5 py-2 px-8 bg-brand-800 text-white rounded text-xl"
+                  href="/3.html"
+                  >Next</a
+                >
+                <button class="text-xl text-brand-900 text-opacity-80">
+                  Discard
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

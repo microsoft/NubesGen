@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NubesGen App</title>
+
+    <link rel="stylesheet" type="text/css" href="/build/tailwind.css" />
+  </head>
+  <body>
+    <div class="h-screen flex items-center" id="wrapper">
+      <main class="border md:container md:mx-auto md:shadow-xl">
+        <div class="grid grid-cols-3">
+          <div
+            class="bg-gradient-to-b from-brand-50 to-brand-100 col-span-1 py-52 px-16"
+          >
+            <img src="/img/illustrations/setup.png" alt="Setup" />
+            <h3 class="text-2xl text-center text-brand-900 mt-16 mb-6">
+              Let’s get building. <br />
+              Create your app in just few clicks!
+            </h3>
+            <p class="text-center text-lg text-brand-900 opacity-80">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
+              aliquam, purus sit amet luctus venenatis
+            </p>
+          </div>
+          <div
+            class="col-span-2 px-16 pb-6 pt-16 flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex mb-14">
+                <div class="h-2 w-16 bg-brand-800 bg-opacity-40 mr-4"></div>
+                <div class="h-2 w-16 bg-brand-800 bg-opacity-40 mr-4"></div>
+                <div class="h-2 w-16 bg-gray-300 bg-opacity-40 mr-4"></div>
+                <div class="h-2 w-16 bg-gray-300 bg-opacity-40 mr-4"></div>
+                <div class="h-2 w-16 bg-gray-300 bg-opacity-40 mr-4"></div>
+              </div>
+
+              <h3 class="text-xl text-gray-800 mb-6">
+                2. Choose your app type
+              </h3>
+
+              <form>
+                <div class="shadow-lg p-8 border border-gray-100">
+                  <div class="mb-3 flex items-center content-center">
+                    <input type="radio" class="block w-5 h-5 mt-1" id="web"/>
+
+                    <label
+                      for="web"
+                      class="text-xl text-gray-800 text-opacity-90 block ml-4"
+                      >Web application</label
+                    >
+                  </div>
+                  <p class="text-lg text-gray-800 opacity-80">
+                    Ideal for any web app or container. Supports Docker, .NET,
+                    Java, NodeJS, PHP apps.
+                  </p>
+                  <label
+                    for="framework"
+                    class="text-xl text-gray-800 text-opacity-90 block mb-2 mt-6"
+                    >Select your framework</label
+                  >
+                  <select
+                    name="framework"
+                    id="framework"
+                    class="rounded block w-full text-gray-600"
+                  >
+                    <option>Node.js (JavaScript)</option>
+                  </select>
+                </div>
+
+                <div class="shadow-md p-8 border border-gray-100 mt-14">
+                  <div class="mb-3 flex items-center content-center">
+                    <input type="radio" class="block w-5 h-5 mt-1" id="serverless" />
+
+                    <label
+                      for="serverless"
+                      class="text-xl text-gray-800 text-opacity-90 block ml-4"
+                      >Serverless app</label
+                    >
+                  </div>
+                  <p class="text-lg text-gray-800 opacity-80">
+                    Host event-driven workloads
+                  </p>
+                </div>
+              </form>
+            </div>
+
+            <div class="grid grid-cols-2">
+              <div class="col-start-1">
+                <a
+                  class="text-xl border border-gray-800 py-2 px-8 rounded"
+                  href="/"
+                  >Back</a
+                >
+              </div>
+              <div class="col-start-2 flex justify-end">
+                <a
+                  class="mr-5 py-2 px-8 bg-brand-800 text-white rounded text-xl"
+                  href="/3.html"
+                  >Next</a
+                >
+                <button class="text-xl text-brand-900 text-opacity-80">
+                  Discard
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

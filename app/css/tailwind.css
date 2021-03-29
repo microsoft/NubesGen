@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+
+/* BEGIN FONT FACE */
+
+
+@font-face {
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Segoe UI'), url('fonts/Segoe UI.woff') format('woff');
+  }
+  
+
+  @font-face {
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: italic;
+  src: local('Segoe UI'), url('fonts/Segoe UI Italic.woff') format('woff');
+  }
+  
+
+  @font-face {
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Segoe UI'), url('fonts/Segoe UI Bold.woff') format('woff');
+  }
+  
+
+  /* @font-face {
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Segoe UI'), url('fonts/Segoe UI Bold Italic.woff') format('woff');
+  } */
+
+/* END FONT FACE */
+
+@tailwind utilities;
