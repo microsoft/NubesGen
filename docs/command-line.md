@@ -27,7 +27,7 @@ curl "https://nubesgen.com/myapplication.tgz" -d '{ "region": "westeurope", "dat
 If you want to pass some parameters in GET:
 
 ```bash
-curl "https://nubesgen.com/myapplication.tgz?region=westeurope&database=mysql"  | tar -xzvf -
+curl "https://nubesgen.com/myapplication.tgz?region=westeurope&database=mysql" | tar -xzvf -
 ```
 
 ## Complete parameters list
