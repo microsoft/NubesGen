@@ -20,8 +20,8 @@ locals {
 }
 
 resource "azurerm_resource_group" "main" {
-  name        = local.resource_group
-  location    = var.location
+  name     = local.resource_group
+  location = var.location
   tags = {
     "terraform"   = "true"
     "environment" = local.environment
@@ -29,11 +29,11 @@ resource "azurerm_resource_group" "main" {
 }
 
 module "application" {
-  source            = "./modules/app-service"
-  resource_group    = local.resource_group
-  application_name  = local.application_name
-  environment       = local.environment
-  location          = var.location
+  source           = "./modules/app-service"
+  resource_group   = local.resource_group
+  application_name = local.application_name
+  environment      = local.environment
+  location         = var.location
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
   azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
