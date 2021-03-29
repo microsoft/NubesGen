@@ -35,14 +35,15 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
-    void generateDefaultConfiguration() throws IOException {
+    void generateDefaultSpringConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp");
+        properties.setRuntimeType(RuntimeType.SPRING);
         properties.setRegion("westeurope");
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "default", configuration,
+        testGeneratedFiles(properties, "app-service-spring", configuration,
                 this.templateListService.listMainTemplates(),
                 this.templateListService.listAppServiceTemplates());
     }
@@ -51,6 +52,7 @@ class CodeGeneratorServiceTest {
     void generateGitOpsMavenConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-gitops-testapp");
+        properties.setRuntimeType(RuntimeType.SPRING);
         properties.setRegion("westeurope");
         properties.setGitops(true);
 
@@ -78,11 +80,28 @@ class CodeGeneratorServiceTest {
                 this.templateListService.listAppServiceTemplates());
     }
 
+    @Test
+    void generateGitOpsDockerSpringConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-app-service-docker");
+        properties.setRegion("westeurope");
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.APP_SERVICE, Tier.STANDARD));
+        properties.setRuntimeType(RuntimeType.DOCKER_SPRING);
+        properties.setGitops(true);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "app-service-docker", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listGitOpsTemplates(),
+                this.templateListService.listAppServiceTemplates());
+    }
 
     @Test
-    void generateCosmosDbMongoDbConfiguration() throws IOException {
+    void generateSpringCosmosDbMongoDbConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-mongodb");
+        properties.setRuntimeType(RuntimeType.SPRING);
         properties.setRegion("westeurope");
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
         List<AddonConfiguration> addons = new ArrayList<>();
@@ -102,6 +121,7 @@ class CodeGeneratorServiceTest {
     void generateFunctionMysqlConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-function");
+        properties.setRuntimeType(RuntimeType.SPRING);
         properties.setRegion("westeurope");
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.FUNCTION, Tier.CONSUMPTION));
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC));
@@ -119,6 +139,7 @@ class CodeGeneratorServiceTest {
     void generateMysqlConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-mysql");
+        properties.setRuntimeType(RuntimeType.SPRING);
         properties.setRegion("westeurope");
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC));
 
@@ -135,6 +156,7 @@ class CodeGeneratorServiceTest {
     void generatePostgreSQLConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-postgresql");
+        properties.setRuntimeType(RuntimeType.SPRING);
         properties.setRegion("westeurope");
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC));
 
@@ -151,6 +173,7 @@ class CodeGeneratorServiceTest {
     void generateRedisConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-redis");
+        properties.setRuntimeType(RuntimeType.SPRING);
         properties.setRegion("westeurope");
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
         List<AddonConfiguration> addons = new ArrayList<>();
@@ -170,6 +193,7 @@ class CodeGeneratorServiceTest {
     void generateSqlServerConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-sql-server");
+        properties.setRuntimeType(RuntimeType.SPRING);
         properties.setRegion("westeurope");
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS));
 
@@ -186,6 +210,7 @@ class CodeGeneratorServiceTest {
     void generateStorageBlobConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-storage-blob");
+        properties.setRuntimeType(RuntimeType.SPRING);
         properties.setRegion("westeurope");
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
         List<AddonConfiguration> addons = new ArrayList<>();
@@ -208,11 +233,13 @@ class CodeGeneratorServiceTest {
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.NODEJS);
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
+        properties.setGitops(true);
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
         testGeneratedFiles(properties, "app-service-nodejs", configuration,
                 this.templateListService.listMainTemplates(),
+                this.templateListService.listGitOpsTemplates(),
                 this.templateListService.listAppServiceTemplates());
 
     }

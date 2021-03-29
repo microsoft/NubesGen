@@ -1,5 +1,16 @@
 package io.github.nubesgen.configuration;
 
+/**
+ * Runtimes supported.
+ *
+ * Those can also be grouped in the following categories:
+ *
+ * DOCKER = DOCKER, DOCKER_SPRING
+ * JAVA = DOCKER_SPRING, JAVA, JAVA_GRADLE, SPRING, SPRING_GRADLE
+ * SPRING = DOCKER_SPRING, SPRING, SPRING_GRADLE
+ * MAVEN = DOCKER_SPRING, JAVA, SPRING
+ * GRADLE = JAVA_GRADLE, SPRING_GRADLE
+ */
 public enum RuntimeType {
-    JAVA, JAVA_GRADLE, SPRING, SPRING_GRADLE, DOTNET, NODEJS
+    DOCKER, DOCKER_SPRING, JAVA, JAVA_GRADLE, SPRING, SPRING_GRADLE, DOTNET, NODEJS
 }

@@ -49,7 +49,7 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
-                                                  @RequestParam(defaultValue = "SPRING") String runtime,
+                                                  @RequestParam(defaultValue = "DOCKER") String runtime,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
@@ -74,7 +74,7 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.tgz")
     public @ResponseBody
     ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
-                                                  @RequestParam(defaultValue = "SPRING") String runtime,
+                                                  @RequestParam(defaultValue = "DOCKER") String runtime,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
@@ -108,16 +108,26 @@ public class MainController {
             properties.setRuntimeType(RuntimeType.JAVA);
         } else if (runtime.equals(RuntimeType.JAVA_GRADLE.name())) {
             properties.setRuntimeType(RuntimeType.JAVA_GRADLE);
+        } else if (runtime.equals(RuntimeType.SPRING.name())) {
+            properties.setRuntimeType(RuntimeType.SPRING);
         } else if (runtime.equals(RuntimeType.SPRING_GRADLE.name())) {
             properties.setRuntimeType(RuntimeType.SPRING_GRADLE);
         } else if (runtime.equals(RuntimeType.NODEJS.name())) {
             properties.setRuntimeType(RuntimeType.NODEJS);
+        } else if (runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
+            properties.setRuntimeType(RuntimeType.DOCKER_SPRING);
         } else {
-            properties.setRuntimeType(RuntimeType.SPRING);
+            properties.setRuntimeType(RuntimeType.DOCKER);
         }
         if (application.startsWith(ApplicationType.FUNCTION.name())) {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
             applicationConfiguration.setApplicationType(ApplicationType.FUNCTION);
+            if (runtime.equals(RuntimeType.DOCKER.name()) ||
+                    runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
+
+                log.debug("Docker is not supported for Functions, switching to Spring by default");
+                properties.setRuntimeType(RuntimeType.SPRING);
+            }
             if (application.endsWith(Tier.PREMIUM.name())) {
                 applicationConfiguration.setTier(Tier.PREMIUM);
             } else {

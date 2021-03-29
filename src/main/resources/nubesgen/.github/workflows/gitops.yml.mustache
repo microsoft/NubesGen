@@ -14,7 +14,7 @@ on:
       - 'env-*'
 <%#runtimeDotnet%>
 
-env: 
+env:
   DOTNET_VERSION: '3.1'
   APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
 <%/runtimeDotnet%>
@@ -60,12 +60,79 @@ jobs:
           -auto-approve \
           -var="environment=$ENVIRONMENT"
         working-directory: '${{ github.workspace }}/terraform'
-<%#runtimeSpringOrJava%>
+<%#runtimeDocker%>
+  <%#applicationTypeAppService%>
+  build:
+    needs: manage-infrastructure
+    runs-on: ubuntu-20.04
+    env:
+      APPLICATION_NAME: '<% applicationName %>'
+      CONTAINER_REGISTRY: '<% containerRegistry %>'
+    steps:
+      - name: Set environment variables
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/*/}
+          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
+      - name: Checkout code
+        uses: actions/checkout@v2
+    <%#runtimeSpring%>
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Build with Maven
+        run: mvn spring-boot:build-image -Pprod,azure -Dspring-boot.build-image.imageName=acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}
+    <%/runtimeSpring%>
+    <%^runtimeSpring%>
+      - name: Build with Docker
+        run: docker build -t acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }} .
+    <%/runtimeSpring%>
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Push to Azure Container Registry
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          az acr login -n acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io
+          docker push acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-20.04
+    env:
+      APPLICATION_NAME: '<% applicationName %>'
+      CONTAINER_REGISTRY: '<% containerRegistry %>'
+    steps:
+      - name: Set environment variables
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/*/}
+          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'app-<% applicationName %>-${{ env.ENVIRONMENT }}-001'
+          images: 'acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}'
+  <%/applicationTypeAppService%>
+<%/runtimeDocker%>
+<%#runtimeJava%>
   <%#applicationTypeAppService%>
   build:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
@@ -142,7 +209,8 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
@@ -178,12 +246,13 @@ jobs:
           -DfunctionAppName=func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
     <%/runtimeGradle%>
   <%/applicationTypeFunction%>
-<%/runtimeSpringOrJava%>
+<%/runtimeJava%>
 <%#runtimeDotnet%>
   build:
       runs-on: ubuntu-20.04
       steps:
-        - uses: actions/checkout@v2
+        - name: Checkout code
+          uses: actions/checkout@v2
         - name: Set up .NET ${{ env.DOTNET_VERSION }}
           uses: actions/setup-dotnet@v1
           with:
@@ -199,8 +268,8 @@ jobs:
   <%#applicationTypeFunction%>
         - name: Build .NET app
           working-directory: ${{ env.APP_PACKAGE_PATH }}
-          run: dotnet build --configuration Release -o output 
-  <%/applicationTypeFunction%>                      
+          run: dotnet build --configuration Release -o output
+  <%/applicationTypeFunction%>
         - name: Temporarily save package
           uses: actions/upload-artifact@v2
           with:
@@ -223,21 +292,65 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-<%#applicationTypeAppService%>
+  <%#applicationTypeAppService%>
       - name: 'Deploy to Azure App Service'
         uses: azure/webapps-deploy@v2
         with:
           app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
           package: './output'
-<%/applicationTypeAppService%>
-<%#applicationTypeFunction%>
+  <%/applicationTypeAppService%>
+  <%#applicationTypeFunction%>
       - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
-        id: fa
         with:
           app-name: func-<% applicationName %>-${{ env.ENVIRONMENT }}-001
           package: './output'
-<%/applicationTypeFunction%>            
-  
-
+  <%/applicationTypeFunction%>
 <%/runtimeDotnet%>
+<%#runtimeNodejs%>
+  build-and-deploy:
+    needs: manage-infrastructure
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Cache NPM packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install NPM
+        run: npm ci
+      - name: Build the application
+        run: npm run build
+      - name: Run tests
+        run: npm run test
+      - name: Set environment variables
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/*/}
+          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+  <%#applicationTypeAppService%>
+      - name: 'Deploy to Azure App Service'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
+          package: '.'
+  <%/applicationTypeAppService%>
+  <%#applicationTypeFunction%>
+      - name: 'Deploy to Azure Functions'
+        uses: Azure/functions-action@v1
+        with:
+          app-name: func-<% applicationName %>-${{ env.ENVIRONMENT }}-001
+          package: '.'
+  <%/applicationTypeFunction%>
+<%/runtimeNodejs%>
