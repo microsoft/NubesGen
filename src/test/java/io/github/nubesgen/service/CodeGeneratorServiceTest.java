@@ -244,6 +244,25 @@ class CodeGeneratorServiceTest {
 
     }
 
+    @Test
+    void generateAppServiceDotNetConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-app-service-dotnet");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.DOTNET);
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS));
+        properties.setGitops(true);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "app-service-dotnet", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listGitOpsTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listSqlServerTemplates());
+
+    }
+
     private void testGeneratedFiles(NubesgenConfiguration properties, String testDirectory,
                                     Map<String, String> configuration, List<String>... templateLists)
             throws IOException {
