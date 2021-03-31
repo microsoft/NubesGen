@@ -17,17 +17,18 @@ It uses a PostgreSQL database, so creating the database and connecting to it wil
 
 We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
 
-Prerequisites:
+__Prerequisites:__
 - [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
 - [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
+__Steps:__
 1. Fork the project on your GitHub account.
 2. Clone the fork on your computer. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
    git clone https://github.com/<your-github-account>/jhipster-sample-app.git
    ``` 
-3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)).
+3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
@@ -53,11 +54,12 @@ Prerequisites:
 
 This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this simple Spring Boot application is also a Java application.
 
-Prerequisites:
+__Prerequisites:__
 - [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
 - [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
+__Steps:__
 1. Create a sample Java Web application using [https://start.spring.io/](https://start.spring.io/).
    ```bash
    curl https://start.spring.io/starter.tgz?type=maven-project&language=java&bootVersion=2.4.4.RELEASE&baseDir=java-sample-app&groupId=com.example&artifactId=java-sample-app&name=java-sample-app&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.java-sample-app&packaging=jar&javaVersion=11&dependencies=web | tar -xvf -
@@ -72,7 +74,7 @@ Prerequisites:
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)).
+3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```

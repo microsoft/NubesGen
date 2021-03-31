@@ -11,17 +11,18 @@ It comes with two options: "Docker with a Dockerfile" and "Docker with Spring Bo
 We're going to deploy [https://github.com/jdubois/golang-sample-app](https://github.com/jdubois/golang-sample-app), which is a sample application written in Go.
 We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
 
-Prerequisites:
+__Prerequisites:__
 - [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
 - [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
+__Steps:__
 1. Fork the project on your GitHub account.
 2. Clone the fork on your computer. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
    git clone https://github.com/<your-github-account>/golang-sample-app.git
    ``` 
-3. In the cloned project (`cd golang-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)).
+3. In the cloned project (`cd golang-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```

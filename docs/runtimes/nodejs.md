@@ -10,11 +10,12 @@ NubesGen supports creating Azure App Service instances and Azure Functions insta
 
 ## Tutorial: running a Node.js application with NubesGen
 
-Prerequisites:
+__Prerequisites:__
 - [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
 - [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
+__Steps:__
 1. Create a sample Node.js Web application using [NestJs](https://nestjs.com/).
    We'll follow the beginning of the [NestJs "first steps" guide](https://docs.nestjs.com/first-steps):
    ```bash
@@ -36,7 +37,7 @@ Prerequisites:
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd nodejs-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)).
+3. In the cloned project (`cd nodejs-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
