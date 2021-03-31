@@ -51,6 +51,7 @@ public class NubesgenConfiguration {
         this.region = region;
     }
 
+    @JsonIgnore
     public String getApplicationName() {
         return applicationName;
     }
