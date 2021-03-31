@@ -3,11 +3,15 @@ package io.github.nubesgen.configuration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class NubesgenConfiguration {
+
+    public static final String DEFAULT_APPLICATION_NAME = "demo";
 
     private Date date = new Date();
 
@@ -32,7 +36,7 @@ public class NubesgenConfiguration {
 
     public NubesgenConfiguration() {
         this.region = "eastus";
-        this.applicationName = "sample-nubes-application";
+        this.applicationName = DEFAULT_APPLICATION_NAME;
         this.runtimeType = RuntimeType.DOCKER;
         this.applicationConfiguration = new ApplicationConfiguration();
         this.databaseConfiguration = new DatabaseConfiguration();
@@ -57,7 +61,20 @@ public class NubesgenConfiguration {
     }
 
     public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
+        Random rand = new Random();
+
+        if (applicationName.equals(DEFAULT_APPLICATION_NAME)) {
+            DecimalFormat formater = new DecimalFormat("0000");
+            String random1 = formater.format(Math.random() * (10000));
+            String random2 = formater.format(Math.random() * (10000));
+            String random3 = formater.format(Math.random() * (10000));
+            String random4 = formater.format(Math.random() * (10000));
+            this.applicationName =
+                    DEFAULT_APPLICATION_NAME + "-" + random1 + "-" + random2 + "-" + random3 + "-" + random4;
+
+        } else {
+            this.applicationName = applicationName;
+        }
      }
 
     @JsonIgnore

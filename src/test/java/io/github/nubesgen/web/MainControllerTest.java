@@ -72,6 +72,17 @@ public class MainControllerTest {
     }
 
     @Test
+    public void generateApplicationWithDefaultDemoName() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/demo.zip?gitops=true")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.get("terraform/variables.tf").matches("(?s).*demo-\\d{4}-\\d{4}-\\d{4}-\\d{4}.*"));
+    }
+
+    @Test
     public void generateDefaultSpringApplication() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?runtime=spring&gitops=true")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
