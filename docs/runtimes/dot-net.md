@@ -8,7 +8,53 @@ This documentation is for running .NET applications with NubesGen, and there is 
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of .NET application that you which to deploy.
 
-## Which Azure resources will be created
+## Tutorial: running a .NET application with NubesGen
+
+__Prerequisites:__
+- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
+- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
+- [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
+
+__Steps:__
+1. Create a sample .NET Web application using [the .NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/).
+   We'll follow the beginning of the [official "Get started with ASP.NET Core" tutorial](https://docs.microsoft.com/en-us/aspnet/core/getting-started/):
+   ```bash
+   dotnet new webapp -o dotnet-sample-app -f netcoreapp3.1
+   ```
+2. Create a project on GitHub called `dotnet-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
+   ```bash
+   cd dotnet-sample-app
+   git init
+   git add .
+   git commit -m "first commit"
+   git remote add origin https://github.com/<your-github-account>/dotnet-sample-app.git
+   git branch -M main
+   git push -u origin main
+   ```
+3. In the cloned project (`cd dotnet-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
+   ```bash
+    bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
+    ```
+4. Use the command-line with NubesGen([more information here](../command-line.md)) to generate a NubesGen configuration:
+   ```bash
+   curl "https://nubesgen.com/demo.tgz?runtime=dotnet&application=app_service.standard&gitops=true" | tar -xvf -
+   ```
+5. Create a new branch called `env-dev`, and push your code:
+   ```bash
+   git checkout -b env-dev
+   git add .
+   git commit -m 'Configure GitOps with NubesGen'
+   git push --set-upstream origin env-dev
+   ```
+6. Go to your GitHub project, and check that the GitHub Action is running.
+7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
+8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
+As it is a simple application, it should print by default `Hello, world`.
+9. Once you have finished, you should clean up your resources:
+   1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-demo-XXXX-XXXX-XXXX-XXXX-001`.
+   2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group.
+
+## Which Azure resources are created
 
 If you deploy your .NET application to an Azure App Service instance, NubesGen will generate:
 
@@ -48,42 +94,4 @@ for your application.
 - `MONGODB_DATABASE`: the MongoDB database name
 - `MONGODB_URI`: the MongoDB database URL
   
-## Tutorial: running a .NET application with NubesGen
-
-1. Create a sample .NET Web application using [the .NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/).
-   We'll follow the beginning of the [official "Get started with ASP.NET Core" tutorial](https://docs.microsoft.com/en-us/aspnet/core/getting-started/):
-   ```bash
-   dotnet new webapp -o dotnet-sample-app -f netcoreapp3.1
-   ```
-2. Create a project on GitHub called `dotnet-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
-   ```bash
-   cd dotnet-sample-app
-   git init
-   git add .
-   git commit -m "first commit"
-   git remote add origin https://github.com/<your-github-account>/dotnet-sample-app.git
-   git branch -M main
-   git push -u origin main
-   ```
-3. In the cloned project, set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 above).
-4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
-   ```bash
-   curl "https://nubesgen.com/<your-unique-name>.tgz?runtime=dotnet&application=app_service.standard&gitops=true" | tar -xvf -
-   ```
-5. Create a new branch called `env-dev`, and push your code:
-   ```bash
-   git checkout -b env-dev
-   git add .
-   git commit -m 'Configure GitOps with NubesGen'
-   git push --set-upstream origin env-dev
-   ```
-6. Go to your GitHub project, and check that the GitHub Action is running.
-7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
-8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-<your-unique-name>-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
-As it is a simple application, it should print by default `Hello, world`.
-9. Once you have finished, you should clean up your resources:
-   1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-<your-unique-name>-001`.
-   2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group, named ``.
-
-
 [[ << Using Spring Boot with NubesGen ](spring-boot.md) | [ Main documentation page ](../README.md) |[ Using Node.js with NubesGen >> ](nodejs.md)]
