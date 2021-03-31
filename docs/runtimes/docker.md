@@ -6,7 +6,46 @@ Docker is the default option with NubesGen, and allows to run any kind of applic
 
 It comes with two options: "Docker with a Dockerfile" and "Docker with Spring Boot".
 
-## Which Azure resources will be created
+## Tutorial: running a Docker image with NubesGen
+
+We're going to deploy [https://github.com/jdubois/golang-sample-app](https://github.com/jdubois/golang-sample-app), which is a sample application written in Go.
+We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
+
+Prerequisites:
+- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
+- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
+- [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
+
+1. Fork the project on your GitHub account.
+2. Clone the fork on your computer. Change `<your-github-account>` by the name of your GitHub account:
+   ```bash
+   git clone https://github.com/<your-github-account>/golang-sample-app.git
+   ``` 
+3. In the cloned project (`cd golang-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)).
+   ```bash
+    bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
+    ```
+4. Use the command-line with NubesGen([more information here](../command-line.md)) to generate a NubesGen configuration:
+   ```bash
+   curl "https://nubesgen.com/demo.tgz?application=app_service.standard&gitops=true" | tar -xzvf -
+   ```
+5. Create a new branch called `env-dev`, and push your code:
+   ```bash
+   git checkout -b env-dev
+   git add .
+   git commit -m 'Configure GitOps with NubesGen'
+   git push --set-upstream origin env-dev
+   ```
+6. Go to your GitHub project, and check that the GitHub Action is running.
+7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
+8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, 
+   and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
+   As it is a simple application, it should print by default `Hello, world`.
+9.  Once you have finished, you should clean up your resources:
+   1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-demo-XXXX-XXXX-XXXX-XXXX-001`.
+   2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group.
+
+## Which Azure resources are created
 
 NubesGen will generate:
 
@@ -46,36 +85,5 @@ Spring Boot is a Java framework that can use a Dockerfile, but which uses by def
 
 If you have selected Spring Boot, NubesGen will also configure the same configuration properties as the ones described in [Spring Boot with NubesGen](spring-boot.md).
 For example, your database should be automatically configured.
-
-## Tutorial: running a Go application with NubesGen
-
-We're going to deploy [https://github.com/jdubois/golang-sample-app](https://github.com/jdubois/golang-sample-app), which is a sample application written in Go.
-We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
-
-1. Fork the project on your GitHub account.
-2. Clone the fork on your computer. Change `<your-github-account>` by the name of your GitHub account:
-   ```bash
-   git clone https://github.com/<your-github-account>/golang-sample-app.git
-   ``` 
-3. In the cloned project (`cd golang-sample-app`), set up [GitOps with NubesGen by following this tutorial](../gitops-quick-start.md) (you've already done step 1 above).
-4. Use [the command-line with NubesGen](../command-line.md) to generate a NubesGen configuration. Modify the name of the file (`<your-unique-name>.tgz`) to have a unique name you can use in your Azure subscription.
-   ```bash
-   curl "https://nubesgen.com/<your-unique-name>.tgz?application=app_service.standard&gitops=true" | tar -xzvf -
-   ```
-5. Create a new branch called `env-dev`, and push your code:
-   ```bash
-   git checkout -b env-dev
-   git add .
-   git commit -m 'Configure GitOps with NubesGen'
-   git push --set-upstream origin env-dev
-   ```
-6. Go to your GitHub project, and check that the GitHub Action is running.
-7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
-8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-<your-unique-name>-dev-001.azurewebsites.net/`, 
-   and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
-   As it is a simple application, it should print by default `Hello, world`.
-9. Once you have finished, you should clean up your resources:
-   1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-<your-unique-name>-001`.
-   2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group, named ``.
 
 [[ << Running NubesGen from the command line ](command-line.md) | [ Main documentation page ](../README.md) |[ Using Java with NubesGen >> ](java.md)]
