@@ -21,6 +21,16 @@ If you deploy your .NET application to an Azure Function, NubesGen will generate
 - An [Azure Functions instance](https://azure.microsoft.com/services/functions/), configured to run .NET code natively.
 - An [Azure Storage Account](https://azure.microsoft.com/services/storage/), to store your .NET application.
 
+## .NET version support
+
+NubesGen supports .NET 3.1 by default, as it's the current long term support version. If you want to use .NET 5, you will 
+need to configure it in two places:
+
+- In the generated `terraform/modules/app-service/main.tf`, you need to modify `linux_fx_version = "DOTNETCORE|3.1"` to be
+  `linux_fx_version = "DOTNETCORE|5.0"`
+- If you selected the [GitOps option](../gitops-overview.md), at the beginning of the generated `.github/workflows/gitops.yml` file,
+  there is a specific `DOTNET_VERSION: '3.1'` environment variable that should be modified to `DOTNET_VERSION: '5.0'`
+
 ## Configuration options
 
 In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some environment variables
