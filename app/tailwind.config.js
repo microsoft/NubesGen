@@ -18,13 +18,19 @@ module.exports = {
       zIndex: {
         '-5': '-5',
       },
+      keyframes: {
+        'loader': {
+          '0%': { transform: 'translateX(0px)' },
+          '100%': { transform: 'translateX(280px)' }
+        },
+      },
+      animation: {
+        'left-right': 'loader .7s ease-in-out infinite alternate'
+      }
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ],
-  
+  plugins: [require('@tailwindcss/forms')],
 };
