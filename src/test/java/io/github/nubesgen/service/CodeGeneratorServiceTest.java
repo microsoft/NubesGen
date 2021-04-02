@@ -58,7 +58,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "gitops-maven", configuration,
+        testGeneratedFiles(properties, "app-service-maven-gitops", configuration,
                 this.templateListService.listMainTemplates(),
                 this.templateListService.listGitOpsTemplates(),
                 this.templateListService.listAppServiceTemplates());
@@ -74,7 +74,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "gitops-gradle", configuration,
+        testGeneratedFiles(properties, "app-service-gradle-gitops", configuration,
                 this.templateListService.listMainTemplates(),
                 this.templateListService.listGitOpsTemplates(),
                 this.templateListService.listAppServiceTemplates());
@@ -132,6 +132,24 @@ class CodeGeneratorServiceTest {
                 this.templateListService.listMainTemplates(),
                 this.templateListService.listFunctionTemplates(),
                 this.templateListService.listMysqlTemplates());
+
+    }
+
+    @Test
+    void generateFunctionMavenGitopsConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-function");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setRegion("westeurope");
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.FUNCTION, Tier.CONSUMPTION));
+        properties.setGitops(true);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "function-maven-gitops", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listFunctionTemplates(),
+                this.templateListService.listGitOpsTemplates());
 
     }
 

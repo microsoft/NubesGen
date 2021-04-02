@@ -195,8 +195,7 @@ jobs:
           package: '*'
   <%/applicationTypeAppService%>
   <%#applicationTypeFunction%>
-  build-and-deploy:
-    needs: manage-infrastructure
+  build:
     runs-on: ubuntu-20.04
     env:
       APPLICATION_NAME: '<% applicationName %>'
@@ -205,17 +204,13 @@ jobs:
         run: |
           TAG_NAME=${GITHUB_REF#refs/*/}
           echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
-    <%#runtimeMaven%>
+  <%#runtimeMaven%>
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
@@ -223,13 +218,19 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Build and deploy with Maven
+      - name: Build with Maven
         run: |
-          mvn package azure-functions:deploy -Pprod,azure -DskipTests \
+          mvn package azure-functions:package -Pprod,azure \
           -DfunctionResourceGroup=rg-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001 \
           -DfunctionAppName=func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
-    <%/runtimeMaven%>
-    <%#runtimeGradle%>
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: '${{ github.workspace }}/target/azure-functions/func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001/'
+          retention-days: 1
+  <%/runtimeMaven%>
+  <%#runtimeGradle%>
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -241,10 +242,39 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Build and deploy with Gradle
         run: |
-          gradle build azureFunctionsDeploy -Pprod,azure \
+          gradle build azureFunctionsPackage -Pprod,azure \
           -DfunctionResourceGroup=rg-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001 \
           -DfunctionAppName=func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
-    <%/runtimeGradle%>
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: '${{ github.workspace }}/target/azure-functions/func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001/'
+          retention-days: 1
+  <%/runtimeGradle%>
+  deploy:
+    needs: [manage-infrastructure, build]
+    runs-on: ubuntu-20.04
+    env:
+      APPLICATION_NAME: '<% applicationName %>'
+    steps:
+      - name: Set environment variables
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/*/}
+          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
+      - uses: actions/download-artifact@v2
+        with:
+          name: package
+          path: func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: 'Deploy to Azure App Service'
+        uses: Azure/functions-action@v1
+        with:
+          app-name: func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
+          package: func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
   <%/applicationTypeFunction%>
 <%/runtimeJava%>
 <%#runtimeDotnet%>
