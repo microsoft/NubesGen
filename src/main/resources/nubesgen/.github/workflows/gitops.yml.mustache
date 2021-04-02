@@ -249,7 +249,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: '${{ github.workspace }}/target/azure-functions/func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001/'
+          path: '${{ github.workspace }}/build/azure-functions/func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001/'
           retention-days: 1
   <%/runtimeGradle%>
   deploy:
