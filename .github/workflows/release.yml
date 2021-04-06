@@ -1,0 +1,51 @@
+name: Create a release
+
+#######################################
+# This builds a NubesGen release:
+# - An executable Jar file
+# - A Docker image
+#######################################
+
+on:
+  release:
+    types: [published]
+jobs:
+  build_jar:
+    name: Build and publish Jar file
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11.x'
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Package the application
+        run: mvn package
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/*.jar
+          file_glob: true
+          tag: ${{ github.ref }}
+  build_docker_image:
+    name: Build and publish Docker image to GitHub Packages
+    runs-on: ubuntu-20.04
+    env:
+      DOCKER_IMAGE_NAME: 'docker.pkg.github.com/jdubois/nubesgen'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}
+      - name: Login to GitHub Packages
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+      - name: Push to GitHub Packages
+        run: docker push ${{ env.DOCKER_IMAGE_NAME }}
