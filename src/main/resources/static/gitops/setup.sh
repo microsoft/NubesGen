@@ -127,7 +127,7 @@ if [ $USE_GITHUB_CLI == false ]; then
   msg "${NOFORMAT}In the \"settings\", go to the \"secrets\" tabs and add two new secrets:"
   msg "${YELLOW}\"AZURE_CREDENTIALS\""
   msg "${NOFORMAT}$SERVICE_PRINCIPAL"
-  msg "${YELLOW}\"$TF_STORAGE_ACCOUNT\""
+  msg "${YELLOW}\"TF_STORAGE_ACCOUNT\""
   msg "${NOFORMAT}$TF_STORAGE_ACCOUNT"
   msg "${NOFORMAT}========================================================================"
 fi
