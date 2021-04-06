@@ -22,23 +22,6 @@ CONTAINER_NAME=tfstate
 set -Eeuo pipefail
 trap cleanup SIGINT SIGTERM ERR EXIT
 
-script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
-
-usage() {
-  cat <<EOF
-Usage: $(basename "${BASH_SOURCE[0]}") [-h]
-
-This script sets up GitOps with NubesGen.
-
-Read the documentation at https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md
-
-Available options:
-
--h, --help      Print this help and exit
-EOF
-  exit
-}
-
 cleanup() {
   trap - SIGINT SIGTERM ERR EXIT
   # script cleanup here
@@ -54,13 +37,6 @@ setup_colors() {
 
 msg() {
   echo >&2 -e "${1-}"
-}
-
-die() {
-  local msg=$1
-  local code=${2-1} # default exit status 1
-  msg "$msg"
-  exit "$code"
 }
 
 setup_colors
