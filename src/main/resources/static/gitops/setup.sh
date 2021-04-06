@@ -125,10 +125,11 @@ if [ $USE_GITHUB_CLI == false ]; then
   msg "${GREEN}Using your Web browser to set up secrets..."
   msg "${NOFORMAT}Go to the GitHub repository you want to configure."
   msg "${NOFORMAT}In the \"settings\", go to the \"secrets\" tabs and add two new secrets:"
+  msg "(in ${YELLOW}yellow the secret name and in ${GREEN}green the secret value)"
   msg "${YELLOW}\"AZURE_CREDENTIALS\""
-  msg "${NOFORMAT}$SERVICE_PRINCIPAL"
+  msg "${GREEN}$SERVICE_PRINCIPAL"
   msg "${YELLOW}\"TF_STORAGE_ACCOUNT\""
-  msg "${NOFORMAT}$TF_STORAGE_ACCOUNT"
+  msg "${GREEN}$TF_STORAGE_ACCOUNT"
   msg "${NOFORMAT}========================================================================"
 fi
 msg "${GREEN}Congratulations! You have successfully configured GitOps with NugesGen."
