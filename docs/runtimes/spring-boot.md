@@ -18,9 +18,11 @@ It uses a PostgreSQL database, so creating the database and connecting to it wil
 We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
 
 __Prerequisites:__
+
+_Tip: You can go to [https://shell.azure.com/](https://shell.azure.com/) to have those prerequisites installed, and run the script from a Web browser._
 - [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
-- [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
+- (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
 __Steps:__
 1. Fork the project on your GitHub account.
@@ -55,9 +57,11 @@ __Steps:__
 This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this simple Spring Boot application is also a Java application.
 
 __Prerequisites:__
+
+_Tip: You can go to [https://shell.azure.com/](https://shell.azure.com/) to have those prerequisites installed, and run the script from a Web browser._
 - [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
-- [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
+- (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
 __Steps:__
 1. Create a sample Java Web application using [https://start.spring.io/](https://start.spring.io/).
