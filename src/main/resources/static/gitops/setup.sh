@@ -121,7 +121,7 @@ if $USE_GITHUB_CLI; then
   }
 fi
 if [ $USE_GITHUB_CLI == false ]; then
-  msg "${NOFORMAT}======================MANUAL SETUP====================================="
+  msg "${NOFORMAT}======================MANUAL SETUP======================================"
   msg "${GREEN}Using your Web browser to set up secrets..."
   msg "${NOFORMAT}Go to the GitHub repository you want to configure."
   msg "${NOFORMAT}In the \"settings\", go to the \"secrets\" tab and add two new secrets:"
