@@ -39,7 +39,7 @@ jobs:
     name: Build and publish Docker image to GitHub Packages
     runs-on: ubuntu-20.04
     env:
-      DOCKER_IMAGE_NAME: 'docker.pkg.github.com/jdubois/nubesgen-1'
+      DOCKER_IMAGE_NAME: 'docker.pkg.github.com/jdubois/nubesgen-1/nubesgen'
     steps:
       - name: Set Tag name environment variable
         run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
