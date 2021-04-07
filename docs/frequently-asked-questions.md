@@ -14,6 +14,8 @@ If you want to join the team to add support to another cloud, feel free to conta
 
 ## Is this working with other generators?
 
-You should be able to use other tools like [https://start.spring.io/](https://start.spring.io/) or [https://www.jhipster.tech/](https://www.jhipster.tech/) with NubesGen.
+NubesGen is a set of Terraform configuration files, and (optionally) a GitHub Action, so it should work with most other code generators.
+
+For example, you should be able to use other tools like [https://start.spring.io/](https://start.spring.io/) or [https://www.jhipster.tech/](https://www.jhipster.tech/) with NubesGen.
 
 [[ << Using Node.js with NubesGen ](runtimes/nodejs.md) | [ Main documentation page >> ](README.md)]
