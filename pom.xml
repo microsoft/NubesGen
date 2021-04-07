@@ -82,6 +82,11 @@
 					</layers>
 				</configuration>
 			</plugin>
+			<!--
+				To do a NubesGen release:
+				- mvn release:clean release:prepare
+				- gh release create <TAG_NAME>
+			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
