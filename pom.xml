@@ -14,6 +14,10 @@
 	<name>nubesgen</name>
 	<packaging>jar</packaging>
 	<description>NubesGen REST server</description>
+	<scm>
+		<url>https://github.com/microsoft/NubesGen</url>
+		<connection>scm:git:https://github.com/microsoft/NubesGen.git</connection>
+	</scm>
 
 	<properties>
 		<java.version>11</java.version>
