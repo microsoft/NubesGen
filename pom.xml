@@ -9,14 +9,14 @@
 	</parent>
 	<groupId>io.github.nubesgen</groupId>
 	<artifactId>nubesgen</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>nubesgen</name>
 	<packaging>jar</packaging>
 	<description>NubesGen REST server</description>
 	<scm>
 		<url>https://github.com/microsoft/NubesGen</url>
 		<connection>scm:git:https://github.com/microsoft/NubesGen.git</connection>
-	  <tag>HEAD</tag>
+	  <tag>v0.0.2</tag>
   </scm>
 
 	<properties>
