@@ -17,18 +17,26 @@ This is the default option with NubesGen: you will need to apply the Terraform c
 2. Either using the [Web interface](https://nubesgen.com/) or the [command line](command-line.md), generate a NubesGen package (either a `.tgz` or `zip` file). The configuration selected in NubesGen should match what is needed for your project to run (for example, if your project needs a MySQL database, select a MySQL database in NubesGen).
 3. Uncompress that file in your project's directory. You should have a new `terraform` directory inside your project's root folder.
 4. Log into Azure using the Azure CLI, for example by typing `az login`.
-5. Go into the new `terraform` folder, initialize Terraform and apply its configuration:
+5. Go into the new `terraform` folder, initialize Terraform, display the dry run of changes and apply its configuration:
 ```bash
 cd terraform
 terraform init
-terraform apply
+terraform plan -out app.tfplan
+terraform apply app.tfplan
 ```
 
-This should create a new Azure resource group, in the form `rg-<your-project-name>-001`, in which several resources have been created. For example, if you selected Azure App Service and Azure database for MySQL, you should have an App Service plan, App Service instance and MySQL database created in your resource group.
+This should create a new Azure resource group, in the form `rg-<your-project-name>-<unique-string>`, in which several resources have been created. For example, if you selected Azure App Service and Azure database for MySQL, you should have an App Service plan, App Service instance and MySQL database created in your resource group.
 
 You can go to the [Azure Portal](https://portal.azure.com) to check those resources.
 
 ![Resource group created by NugesGen](assets/azure-resource-group-docker.png "Resource group created by NugesGen")
+
+> For destroy provisionned resources run the following commands:
+```bash
+cd terraform
+terraform init
+terraform destroy
+```
 
 ## Using the GitOps option to automate the Terraform configuration
 

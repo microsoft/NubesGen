@@ -13,46 +13,42 @@ provider "azurerm" {
 }
 
 locals {
-  // If an environment is set up (dev, test, prod...), it is used in the application name
-  environment      = var.environment == "" ? "dev" : var.environment
-  application_name = var.environment == "" ? var.application_name : "${var.application_name}-${local.environment}"
-  resource_group   = "rg-${local.application_name}-001"
+  application_name = var.environment == "dev" ? var.application_name : "${var.application_name}-${var.environment}"
+  resource_group   = "rg-${local.application_name}"
 }
 
-resource "azurerm_resource_group" "main" {
-  name     = local.resource_group
+resource "random_id" "random" {
+  byte_length = 5
+}
+
+resource "azurerm_resource_group" "rg" {
+  name     = "${local.resource_group}-${lower(random_id.random.hex)}"
   location = var.location
   tags = {
     "terraform"   = "true"
-    "environment" = local.environment
+    "environment" = var.environment
   }
 }
 
 module "application" {
-  source           = "./modules/app-service"
-  resource_group   = local.resource_group
-  application_name = local.application_name
-  environment      = local.environment
-  location         = var.location
+  source             = "./modules/app-service"
+  resource_group     = azurerm_resource_group.rg.name
+  application_name   = local.application_name
+  unique_suffix_name = lower(random_id.random.hex)
+  location           = azurerm_resource_group.rg.location
+
+  tags = azurerm_resource_group.rg.tags
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
   azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
   azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
-
-  depends_on = [
-    module.storage-blob,
-    azurerm_resource_group.main
-  ]
 }
 
 module "storage-blob" {
-  source           = "./modules/storage-blob"
-  resource_group   = local.resource_group
-  application_name = local.application_name
-  environment      = local.environment
-  location         = var.location
-
-  depends_on = [
-    azurerm_resource_group.main
-  ]
+  source             = "./modules/storage-blob"
+  resource_group     = azurerm_resource_group.rg.name
+  unique_suffix_name = lower(random_id.random.hex)
+  application_name   = local.application_name
+  location           = azurerm_resource_group.rg.location
+  tags               = azurerm_resource_group.rg.tags
 }

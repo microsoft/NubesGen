@@ -10,14 +10,18 @@ variable "application_name" {
   default     = ""
 }
 
-variable "environment" {
+variable "unique_suffix_name" {
   type        = string
-  description = "The environment (dev, test, prod...)"
-  default     = "dev"
+  description = "Unique random suffix"
 }
 
 variable "location" {
   type        = string
   description = "The Azure region where all resources in this example should be created"
   default     = ""
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags of the storage"
 }

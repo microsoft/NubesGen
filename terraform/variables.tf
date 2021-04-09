@@ -1,13 +1,12 @@
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = "nubesgen"
 }
 
 variable "environment" {
   type        = string
   description = "The environment (dev, test, prod...)"
-  default     = ""
+  default     = "dev"
 }
 
 variable "location" {

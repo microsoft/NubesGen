@@ -8,12 +8,6 @@ variable "application_name" {
   description = "The name of your application"
 }
 
-variable "environment" {
-  type        = string
-  description = "The environment (dev, test, prod...)"
-  default     = "dev"
-}
-
 variable "location" {
   type        = string
   description = "The Azure region where all resources in this example should be created"
@@ -44,4 +38,14 @@ variable "azure_storage_account_key" {
 variable "azure_storage_blob_endpoint" {
   type        = string
   description = "The blob endpoint URL of the Azure Storage account"
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags of the resource"
+}
+
+variable "unique_suffix_name" {
+  type        = string
+  description = "Unique random suffix"
 }
