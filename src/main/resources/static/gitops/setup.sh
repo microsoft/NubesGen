@@ -43,6 +43,22 @@ setup_colors
 
 msg "${GREEN}Setting up GitOps with NubesGen..."
 
+# get default location if not set at the beginning of this file
+if [ "$LOCATION" == '' ] ; then
+    {
+      az config get defaults.location --only-show-errors > /dev/null 2>&1
+      LOCATION_DEFAULTS_SETUP=$?
+    } || {
+      LOCATION_DEFAULTS_SETUP=0
+    }
+    # if no default location is set, fallback to "eastus"
+    if [ "$LOCATION_DEFAULTS_SETUP" -eq 1 ]; then
+      LOCATION=eastus
+    else
+      LOCATION=$(az config get defaults.location --only-show-errors | jq -r .value)
+    fi
+fi
+
 # Check AZ CLI status
 msg "${GREEN}(1/8) Checking Azure CLI status...${NOFORMAT}"
 {
