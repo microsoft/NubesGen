@@ -21,3 +21,8 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
   default     = ""
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags of storage account"
+}

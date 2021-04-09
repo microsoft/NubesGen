@@ -7,9 +7,7 @@ resource "azurerm_app_service_plan" "application" {
   kind     = "Linux"
   reserved = true
 
-  tags = {
-    "environment" = var.environment
-  }
+  tags = var.tags
 
   sku {
     tier = var.sku_tier
@@ -25,9 +23,7 @@ resource "azurerm_app_service" "application" {
   app_service_plan_id = azurerm_app_service_plan.application.id
   https_only          = true
 
-  tags = {
-    "environment" = var.environment
-  }
+  tags = var.tags
 
   site_config {
     ftps_state       = "FtpsOnly"

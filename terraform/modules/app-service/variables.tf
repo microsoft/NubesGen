@@ -45,3 +45,8 @@ variable "azure_storage_blob_endpoint" {
   type        = string
   description = "The blob endpoint URL of the Azure Storage account"
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags of app service"
+}
