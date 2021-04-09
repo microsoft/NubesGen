@@ -43,5 +43,16 @@ resource "azurerm_app_service" "application" {
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
     "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.insight.instrumentation_key
   }
+}
+
+# create application insight for monitoring the app service
+resource "azurerm_application_insights" "insight" {
+  name                = "nubesgen"
+  resource_group_name = var.resource_group
+  location            = var.location
+  application_type    = "web"
+  tags                = var.tags
 }
