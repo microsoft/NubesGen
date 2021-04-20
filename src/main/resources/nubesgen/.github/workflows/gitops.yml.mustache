@@ -24,9 +24,20 @@ env:
   NODEJS_VERSION: '14'
   APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
 <%/runtimeNodejs%>
+<%#runtimeDocker%>
+
+env:
+  APPLICATION_NAME: '<% applicationName %>'
+  CONTAINER_REGISTRY: '<% containerRegistry %>'
+<%/runtimeDocker%>
 
 jobs:
+<%#runtimeDocker%>
+  build-and-deploy:
+<%/runtimeDocker%>
+<%^runtimeDocker%>
   manage-infrastructure:
+<%/runtimeDocker%>
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -68,19 +79,6 @@ jobs:
         working-directory: '${{ github.workspace }}/terraform'
 <%#runtimeDocker%>
   <%#applicationTypeAppService%>
-  build:
-    needs: manage-infrastructure
-    runs-on: ubuntu-20.04
-    env:
-      APPLICATION_NAME: '<% applicationName %>'
-      CONTAINER_REGISTRY: '<% containerRegistry %>'
-    steps:
-      - name: Set environment variables
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-      - name: Checkout code
-        uses: actions/checkout@v2
     <%#runtimeSpring%>
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -110,21 +108,6 @@ jobs:
         run: |
           az acr login -n acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io
           docker push acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}
-  deploy:
-    needs: build
-    runs-on: ubuntu-20.04
-    env:
-      APPLICATION_NAME: '<% applicationName %>'
-      CONTAINER_REGISTRY: '<% containerRegistry %>'
-    steps:
-      - name: Set environment variables
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
