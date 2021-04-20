@@ -12,6 +12,10 @@ on:
     branches:
       - 'env-*'
 
+env:
+  NODEJS_VERSION: '14'
+  APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+
 jobs:
   manage-infrastructure:
     runs-on: ubuntu-20.04
@@ -54,15 +58,14 @@ jobs:
           -var="environment=$ENVIRONMENT"
         working-directory: '${{ github.workspace }}/terraform'
   build-and-deploy:
-    needs: manage-infrastructure
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Use Node.js
+      - name: Use Node.js ${{ env.NODEJS_VERSION }}
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: ${{ env.NODEJS_VERSION }}
       - name: Cache NPM packages
         uses: actions/cache@v2
         with:
@@ -70,16 +73,39 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Install NPM
+      - name: Install NPM packages
         run: npm ci
       - name: Build the application
-        run: npm run build
+        run: npm run build --if-present
       - name: Run tests
-        run: npm run test
+        run: npm run test --if-present
+      - name: Package application
+        run: |
+          PKG_FILE=$(npm pack ${{ env.APP_PACKAGE_PATH }} | tail -n1)
+          tar -xvf $PKG_FILE
+          cp -f ${{ env.APP_PACKAGE_PATH }}/package-lock.json package/
+          cd package
+          npm ci --production
+          zip -r package.zip *
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: './package'
+          retention-days: 1
+  deploy:
+    needs: [manage-infrastructure, build]
+    runs-on: ubuntu-20.04
+    steps:
       - name: Set environment variables
         run: |
           TAG_NAME=${GITHUB_REF#refs/*/}
           echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
+      - name: Get built package
+        uses: actions/download-artifact@v2
+        with:
+          name: package
+          path: ./package
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -88,4 +114,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: app-nubesgen-testapp-app-service-nodejs-${{ env.ENVIRONMENT }}-001
-          package: '.'
+          package: './package/package.zip'
