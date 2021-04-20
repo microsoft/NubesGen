@@ -57,7 +57,7 @@ jobs:
           -auto-approve \
           -var="environment=$ENVIRONMENT"
         working-directory: '${{ github.workspace }}/terraform'
-  build-and-deploy:
+  build:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -78,7 +78,7 @@ jobs:
       - name: Build the application
         run: npm run build --if-present
       - name: Run tests
-        run: npm run test --if-present
+        run: npm test --if-present
       - name: Package application
         run: |
           PKG_FILE=$(npm pack ${{ env.APP_PACKAGE_PATH }} | tail -n1)
