@@ -13,9 +13,7 @@ resource "azurerm_app_service_plan" "application" {
 {{/applicationTierPremium}}
   reserved = true
 
-  tags = {
-    "environment" = var.environment
-  }
+  tags = var.tags
 
   sku {
 {{#applicationTierConsumption}}
@@ -44,9 +42,7 @@ resource "azurerm_storage_account" "application" {
   enable_https_traffic_only = true
   allow_blob_public_access  = false
 
-  tags = {
-    "environment" = var.environment
-  }
+  tags = var.tags
 }
 
 # This creates the service definition
@@ -61,9 +57,7 @@ resource "azurerm_function_app" "application" {
   https_only                 = true
   version                    = "~3"
 
-  tags = {
-    "environment" = var.environment
-  }
+  tags = var.tags
 
   site_config {
 {{#runtimeJava}}

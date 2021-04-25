@@ -34,6 +34,7 @@ module "application" {
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
+  tags              = azurerm_resource_group.main.tags
 
   depends_on = [
     azurerm_resource_group.main

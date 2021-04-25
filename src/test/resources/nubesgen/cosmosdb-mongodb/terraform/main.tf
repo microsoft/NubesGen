@@ -34,6 +34,7 @@ module "application" {
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
+  tags              = azurerm_resource_group.main.tags
 
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
   azure_cosmosdb_mongodb_uri      = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
