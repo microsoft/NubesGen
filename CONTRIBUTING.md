@@ -23,3 +23,20 @@ Once you have the project cloned on your machine, open the VS Code command palet
 | `./mvnw package`                 | Generates .jar package in `/target` folder      |
 | `./mvnw test`                    | Runs tests                                      |
 | `java -jar target/nubesgen*.jar` | Starts NubesGen server on http://localhost:8080 |
+
+## Doing a release
+
+Releases are managed using the [Maven Release Plugin](https://maven.apache.org/maven-release/maven-release-plugin/), which
+will automatically increase the version number in the `pom.xml` and tag the repository.
+
+To do a release:
+- Update the version number and tag the repository: `./mvnw release:clean release:prepare`
+- Use the GitHub CLI to create the release: `gh release create <TAG_NAME>` (replace `<TAG_NAME>` by the name of the tag created 
+  by the Maven Release Plugin)
+  
+Creating the GitHub release will trigger the [Release GitHub Action](https://github.com/microsoft/NubesGen/blob/main/.github/workflows/release.yml), 
+which will create two artefacts:
+- An executable Jar file
+- A Docker image
+
+Those artefacts will be automatically added to the GitHub release, once the GitHub Action completes.
