@@ -35,6 +35,7 @@ module "application" {
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
+  tags              = azurerm_resource_group.main.tags
 
   database_url      = module.database.database_url
   database_username = module.database.database_username

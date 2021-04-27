@@ -34,6 +34,7 @@ module "application" {
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
+  tags              = azurerm_resource_group.main.tags
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
   azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key

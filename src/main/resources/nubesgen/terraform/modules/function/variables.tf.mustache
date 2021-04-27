@@ -18,6 +18,12 @@ variable "location" {
   type        = string
   description = "The Azure region where all resources in this example should be created"
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags of the services"
+}
+
 {{^databaseTypeNone}}
 
 variable "database_url" {
