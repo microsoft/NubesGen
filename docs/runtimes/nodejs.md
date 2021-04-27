@@ -23,12 +23,19 @@ __Steps:__
    ```bash
    npm i -g @nestjs/cli
    nest new nodejs-sample-app
+   cd nodejs-sample-app
    ```
    Select the default package manager (`npm`).
-   In the project (`cd nodejs-sample-app`), open the `src/main.ts` file, and use the `$PORT` environment variable to bind your application
+   In the project, open the `src/main.ts` file, and use the `$PORT` environment variable to bind your application
    to the correct port: 
    ```javascript
    await app.listen(process.env.PORT || 3000);
+   ```
+   Open `package.json` file, and add the `files` entry to tell NPM how to package your app:
+   ```json
+   "files": [
+      "dist"
+   ]
    ```
 2. Create a project on GitHub called `nodejs-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
