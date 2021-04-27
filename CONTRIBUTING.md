@@ -40,3 +40,9 @@ which will create two artifacts:
 - A Docker image
 
 Those artifacts will be automatically added to the GitHub release, once the GitHub Action completes.
+
+## Deploying to production
+
+You should only deploy to production a release that was tagged in the previous section.
+
+To deploy to production, push the code to the `prod` branch. This will trigger the [Continuous Deployment GitHub Action](https://github.com/microsoft/NubesGen/blob/main/.github/workflows/continuous-deployment.yml), which will execute the deployment process.
