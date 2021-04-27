@@ -35,8 +35,8 @@ To do a release:
   by the Maven Release Plugin)
   
 Creating the GitHub release will trigger the [Release GitHub Action](https://github.com/microsoft/NubesGen/blob/main/.github/workflows/release.yml), 
-which will create two artefacts:
+which will create two artifacts:
 - An executable Jar file
 - A Docker image
 
-Those artefacts will be automatically added to the GitHub release, once the GitHub Action completes.
+Those artifacts will be automatically added to the GitHub release, once the GitHub Action completes.
