@@ -61,7 +61,6 @@ public class MainController {
     }
 
 
-
     @PostMapping("/{applicationName}.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,

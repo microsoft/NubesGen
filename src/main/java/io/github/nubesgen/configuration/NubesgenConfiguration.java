@@ -13,7 +13,7 @@ public class NubesgenConfiguration {
 
     public static final String DEFAULT_APPLICATION_NAME = "demo";
 
-    private Date date = new Date();
+    private final Date date = new Date();
 
     private String region;
 
@@ -75,7 +75,7 @@ public class NubesgenConfiguration {
         } else {
             this.applicationName = applicationName;
         }
-     }
+    }
 
     @JsonIgnore
     public String getContainerRegistry() {
