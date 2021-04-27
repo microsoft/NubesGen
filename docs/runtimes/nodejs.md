@@ -45,7 +45,7 @@ __Steps:__
     ```
 4. Use the command-line with NubesGen([more information here](../command-line.md)) to generate a NubesGen configuration:
    ```bash
-   curl "https://nubesgen.com/demo.tgz?runtime=nodejs&application=app_service.standard&gitops=true" | tar -xvf -
+   curl "https://nubesgen.com/demo.tgz?runtime=nodejs&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
 5. Create a new branch called `env-dev`, and push your code:
    ```bash
