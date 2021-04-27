@@ -30,7 +30,7 @@ resource "azurerm_resource_group" "main" {
 
 module "application" {
   source            = "./modules/app-service"
-  resource_group    = local.resource_group
+  resource_group    = azurerm_resource_group.main.name
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
@@ -38,21 +38,12 @@ module "application" {
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
   azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
   azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
-
-  depends_on = [
-    module.storage-blob,
-    azurerm_resource_group.main
-  ]
 }
 
 module "storage-blob" {
   source           = "./modules/storage-blob"
-  resource_group   = local.resource_group
+  resource_group   = azurerm_resource_group.main.name
   application_name = local.application_name
   environment      = local.environment
   location         = var.location
-
-  depends_on = [
-    azurerm_resource_group.main
-  ]
 }

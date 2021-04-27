@@ -35,9 +35,7 @@ public class TelemetryService {
                 .getBlobAsyncClient(blobName)
                 .upload(flux, null)
                 .doOnError(
-                        throwable -> {
-                            log.info("Telemetry error", throwable);
-                        }
+                        throwable -> log.info("Telemetry error", throwable)
                 )
                 .subscribe();
     }

@@ -31,12 +31,8 @@ resource "azurerm_resource_group" "main" {
 
 module "application" {
   source            = "./modules/function"
-  resource_group    = local.resource_group
+  resource_group    = azurerm_resource_group.main.name
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
-
-  depends_on = [
-    azurerm_resource_group.main
-  ]
 }
