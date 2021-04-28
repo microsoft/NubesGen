@@ -66,7 +66,7 @@ If you deploy your .NET application to an Azure App Service instance, NubesGen w
 If you deploy your .NET application to an Azure Function, NubesGen will generate:
 
 - An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of Azure Functions instance you will use.
-- An [Azure Functions instance](https://azure.microsoft.com/services/functions/), configured to run .NET code natively.
+- An [Azure Functions instance](https://aka.ms/nubesgen-functions), configured to run .NET code natively.
 - An [Azure Storage Account](https://azure.microsoft.com/services/storage/), to store your .NET application.
 
 ## .NET version support
