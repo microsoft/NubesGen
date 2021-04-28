@@ -52,7 +52,7 @@ __Steps:__
 
 NubesGen will generate:
 
-- An [Azure App Service plan](https://docs.microsoft.com/azure/app-service/overview-hosting-plans) to define the type of App Service instance you will use.
+- An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of App Service instance you will use.
 - An [Azure App Service instance](https://azure.microsoft.com/services/app-service/), configured to run your Docker image.
 - An [Azure Container Registry instance](https://azure.microsoft.com/services/container-registry/) to store your Docker images.
 
