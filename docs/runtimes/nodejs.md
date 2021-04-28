@@ -75,7 +75,7 @@ __Steps:__
 If you deploy your Node.js application to an Azure App Service instance, NubesGen will generate:
 
 - An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of App Service instance you will use.
-- An [Azure App Service instance](https://azure.microsoft.com/services/app-service/), configured to run Node.js code natively.
+- An [Azure App Service instance](https://aka.ms/nubesgen-app-service), configured to run Node.js code natively.
 
 If you deploy your Node.js application to an Azure Function, NubesGen will generate:
 
