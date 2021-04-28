@@ -65,7 +65,7 @@ msg "${GREEN}(1/8) Checking Azure CLI status...${NOFORMAT}"
   az > /dev/null
 } || {
   msg "${RED}Azure CLI is not installed."
-  msg "${GREEN}Go to https://docs.microsoft.com/cli/azure/install-azure-cli to install Azure CLI."
+  msg "${GREEN}Go to https://aka.ms/nubesgen-install-az-cli to install Azure CLI."
   exit 1;
 }
 {
