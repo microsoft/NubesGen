@@ -18,7 +18,7 @@ _Tip: You can go to [https://shell.azure.com/](https://shell.azure.com/) to have
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
 __Steps:__
-1. Create a sample .NET Web application using [the .NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/).
+1. Create a sample .NET Web application using [the .NET CLI](https://aka.ms/nubesgen-install-dotnet-cli).
    We'll follow the beginning of the [official "Get started with ASP.NET Core" tutorial](https://docs.microsoft.com/en-us/aspnet/core/getting-started/):
    ```bash
    dotnet new webapp -o dotnet-sample-app -f netcoreapp3.1
