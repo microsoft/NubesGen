@@ -86,12 +86,12 @@ jobs:
           cp -f ${{ env.APP_PACKAGE_PATH }}/package-lock.json package/
           cd package
           npm ci --production
-          zip -r package.zip *
+          zip -r ../package.zip *
       - name: Temporarily save package
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: './package'
+          path: './package.zip'
           retention-days: 1
   deploy:
     needs: [manage-infrastructure, build]
@@ -105,7 +105,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: package
-          path: ./package
+          path: .
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -114,4 +114,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: app-nubesgen-testapp-app-service-nodejs-${{ env.ENVIRONMENT }}-001
-          package: './package/package.zip'
+          package: './package.zip'

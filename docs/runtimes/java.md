@@ -21,7 +21,7 @@ _Tip: You can go to [https://shell.azure.com/](https://shell.azure.com/) to have
 __Steps:__
 1. Create a sample Java Web application using [https://start.spring.io/](https://start.spring.io/).
    ```bash
-   curl https://start.spring.io/starter.tgz?type=maven-project&language=java&bootVersion=2.4.4.RELEASE&baseDir=java-sample-app&groupId=com.example&artifactId=java-sample-app&name=java-sample-app&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.java-sample-app&packaging=jar&javaVersion=11&dependencies=web | tar -xvf -
+   curl https://start.spring.io/starter.tgz?type=maven-project&language=java&bootVersion=2.4.4.RELEASE&baseDir=java-sample-app&groupId=com.example&artifactId=java-sample-app&name=java-sample-app&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.java-sample-app&packaging=jar&javaVersion=11&dependencies=web | tar -xzvf -
    ```
 2. Create a project on GitHub called `java-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
@@ -39,7 +39,7 @@ __Steps:__
     ```
 4. Use the command-line with NubesGen([more information here](../command-line.md)) to generate a NubesGen configuration:
    ```bash
-   curl "https://nubesgen.com/demo.tgz?runtime=java&application=app_service.standard&gitops=true" | tar -xvf -
+   curl "https://nubesgen.com/demo.tgz?runtime=java&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
 5. Create a new branch called `env-dev`, and push your code:
    ```bash

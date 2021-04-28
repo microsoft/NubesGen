@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.54"
+      version = ">= 2.56"
     }
   }
 {{#gitops}}
@@ -38,7 +38,7 @@ module "application" {
 {{#applicationTypeFunction}}
   source            = "./modules/function"
 {{/applicationTypeFunction}}
-  resource_group    = local.resource_group
+  resource_group    = azurerm_resource_group.main.name
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
@@ -64,22 +64,6 @@ module "application" {
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
   azure_cosmosdb_mongodb_uri      = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
 {{/addonCosmosdbMongodb}}
-
-  depends_on = [
-{{^databaseTypeNone}}
-    module.database,
-{{/databaseTypeNone}}
-{{#addonRedis}}
-    module.redis,
-{{/addonRedis}}
-{{#addonStorageBlob}}
-    module.storage-blob,
-{{/addonStorageBlob}}
-{{#addonCosmosdbMongodb}}
-    module.cosmosdb-mongodb,
-{{/addonCosmosdbMongodb}}
-    azurerm_resource_group.main
-  ]
 }
 {{^databaseTypeNone}}
 
@@ -93,55 +77,39 @@ module "database" {
   {{#databaseTypePostgresql}}
   source           = "./modules/postgresql"
   {{/databaseTypePostgresql}}
-  resource_group   = local.resource_group
+  resource_group   = azurerm_resource_group.main.name
   application_name = local.application_name
   environment      = local.environment
   location         = var.location
-
-  depends_on = [
-    azurerm_resource_group.main
-  ]
 }
 {{/databaseTypeNone}}
 {{#addonRedis}}
 
 module "redis" {
   source            = "./modules/redis"
-  resource_group    = local.resource_group
+  resource_group    = azurerm_resource_group.main.name
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
-
-  depends_on = [
-    azurerm_resource_group.main
-  ]
 }
 {{/addonRedis}}
 {{#addonStorageBlob}}
 
 module "storage-blob" {
   source           = "./modules/storage-blob"
-  resource_group   = local.resource_group
+  resource_group   = azurerm_resource_group.main.name
   application_name = local.application_name
   environment      = local.environment
   location         = var.location
-
-  depends_on = [
-    azurerm_resource_group.main
-  ]
 }
 {{/addonStorageBlob}}
 {{#addonCosmosdbMongodb}}
 
 module "cosmosdb-mongodb" {
   source           = "./modules/cosmosdb-mongodb"
-  resource_group   = local.resource_group
+  resource_group   = azurerm_resource_group.main.name
   application_name = local.application_name
   environment      = local.environment
   location         = var.location
-
-  depends_on = [
-    azurerm_resource_group.main
-  ]
 }
 {{/addonCosmosdbMongodb}}

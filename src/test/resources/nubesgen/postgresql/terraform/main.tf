@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.54"
+      version = ">= 2.56"
     }
   }
 }
@@ -30,7 +30,7 @@ resource "azurerm_resource_group" "main" {
 
 module "application" {
   source            = "./modules/app-service"
-  resource_group    = local.resource_group
+  resource_group    = azurerm_resource_group.main.name
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
@@ -38,21 +38,12 @@ module "application" {
   database_url      = module.database.database_url
   database_username = module.database.database_username
   database_password = module.database.database_password
-
-  depends_on = [
-    module.database,
-    azurerm_resource_group.main
-  ]
 }
 
 module "database" {
   source           = "./modules/postgresql"
-  resource_group   = local.resource_group
+  resource_group   = azurerm_resource_group.main.name
   application_name = local.application_name
   environment      = local.environment
   location         = var.location
-
-  depends_on = [
-    azurerm_resource_group.main
-  ]
 }

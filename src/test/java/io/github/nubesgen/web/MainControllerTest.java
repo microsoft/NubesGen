@@ -31,28 +31,27 @@ public class MainControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @TestConfiguration
-    static class AdditionalConfig {
+    private static Map<String, String> extractZipEntries(byte[] content) throws IOException {
+        Map<String, String> entries = new HashMap<>();
 
-        @Bean
-        public TemplateListService templateListService() {
-            return new TemplateListService();
+        ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(content));
+        boolean hasMoreEntries = true;
+        while (hasMoreEntries) {
+            ZipEntry entry = zipStream.getNextEntry();
+            if (entry != null) {
+                StringBuilder s = new StringBuilder();
+                byte[] buffer = new byte[1024];
+                int read = 0;
+                while ((read = zipStream.read(buffer, 0, 1024)) >= 0) {
+                    s.append(new String(buffer, 0, read));
+                }
+                entries.put(entry.getName(), s.toString());
+            } else {
+                hasMoreEntries = false;
+            }
         }
-
-        @Bean
-        public CodeGeneratorService codeGeneratorService() throws IOException {
-            return new CodeGeneratorService(templateListService());
-        }
-
-        @Bean
-        public TarGzService tarGzService() {
-            return new TarGzService();
-        }
-
-        @Bean
-        public ZipService zipService() {
-            return new ZipService();
-        }
+        zipStream.close();
+        return entries;
     }
 
     @Test
@@ -232,26 +231,27 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/mysql/main.tf").contains("sku_name                          = \"GP_Gen5_2\""));
     }
 
-    private static Map<String, String> extractZipEntries(byte[] content) throws IOException {
-        Map<String, String> entries = new HashMap<>();
+    @TestConfiguration
+    static class AdditionalConfig {
 
-        ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(content));
-        boolean hasMoreEntries = true;
-        while (hasMoreEntries) {
-            ZipEntry entry = zipStream.getNextEntry();
-            if (entry != null) {
-                StringBuilder s = new StringBuilder();
-                byte[] buffer = new byte[1024];
-                int read = 0;
-                while ((read = zipStream.read(buffer, 0, 1024)) >= 0) {
-                    s.append(new String(buffer, 0, read));
-                }
-                entries.put(entry.getName(), s.toString());
-            } else {
-                hasMoreEntries = false;
-            }
+        @Bean
+        public TemplateListService templateListService() {
+            return new TemplateListService();
         }
-        zipStream.close();
-        return entries;
+
+        @Bean
+        public CodeGeneratorService codeGeneratorService() throws IOException {
+            return new CodeGeneratorService(templateListService());
+        }
+
+        @Bean
+        public TarGzService tarGzService() {
+            return new TarGzService();
+        }
+
+        @Bean
+        public ZipService zipService() {
+            return new ZipService();
+        }
     }
 }

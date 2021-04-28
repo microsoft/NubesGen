@@ -18,7 +18,7 @@ public class TelemetryService {
 
     private final Logger log = LoggerFactory.getLogger(TelemetryService.class);
 
-    private BlobServiceAsyncClient blobServiceAsyncClient;
+    private final BlobServiceAsyncClient blobServiceAsyncClient;
 
     public TelemetryService(BlobServiceClientBuilder blobServiceClientBuilder) {
         blobServiceAsyncClient = blobServiceClientBuilder.buildAsyncClient();
@@ -35,9 +35,7 @@ public class TelemetryService {
                 .getBlobAsyncClient(blobName)
                 .upload(flux, null)
                 .doOnError(
-                        throwable -> {
-                            log.info("Telemetry error", throwable);
-                        }
+                        throwable -> log.info("Telemetry error", throwable)
                 )
                 .subscribe();
     }
