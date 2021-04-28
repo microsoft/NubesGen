@@ -21,7 +21,7 @@ mandatory prerequisites below (Bash and Azure CLI).
 
 For this installation method to work, you need to have installed and configured the following tools:
 
-- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
+- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
 - [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`. This will automate creating the GitHub secrets for you, otherwise you will need to do it
 manually.

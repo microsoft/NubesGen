@@ -20,7 +20,7 @@ We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically bu
 __Prerequisites:__
 
 _Tip: You can go to [https://shell.azure.com/](https://shell.azure.com/) to have those prerequisites installed, and run the script from a Web browser._
-- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
+- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
 - [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
@@ -59,7 +59,7 @@ This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this si
 __Prerequisites:__
 
 _Tip: You can go to [https://shell.azure.com/](https://shell.azure.com/) to have those prerequisites installed, and run the script from a Web browser._
-- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
+- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
 - [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
