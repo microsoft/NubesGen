@@ -39,7 +39,7 @@ curl "https://nubesgen.com/my-wonderful-application.tgz" | tar -xzvf -
 ```
 
 - The application name would be `my-wonderful-application` in this example.
-- As a result, all Azure resources will use that name, following the [Recommended abbreviations for Azure resource types](https://docs.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations).
+- As a result, all Azure resources will use that name, following the [Recommended abbreviations for Azure resource types](https://aka.ms/nubesgen-recommended-abbreviations).
   For example, those resources will be created in a resource group named `rg-my-wonderful-application-01`.
 - If you use the `.tgz` suffix, your application will be downloaded as a gzipped tar file, that you can uncompress with the `tar -xzvf my-wonderful-application.tgz` command.
 - If you use the `.zip` suffix, your application will be downloaded as a zip file, that you can uncompress with the `unzip my-wonderful-application.zip` command.
