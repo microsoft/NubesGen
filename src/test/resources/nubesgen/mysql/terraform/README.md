@@ -18,7 +18,7 @@ you need to install and run Terraform manually.
 - In the current directory, initialize Terraform: `terraform init`
 - Apply the current Terraform configuration: `terraform apply`
 
-Once your Terraform configuration has been applied, you can go to the [Azure Portal](https://portal.azure.com) to check your resources.
+Once your Terraform configuration has been applied, you can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check your resources.
 
 ## Resources
 

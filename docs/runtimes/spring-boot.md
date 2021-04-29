@@ -46,7 +46,7 @@ __Steps:__
    git push --set-upstream origin env-dev
    ```
 6. Go to your GitHub project, and check that the GitHub Action is running.
-7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
+7. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
 8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
 9. Once you have finished, you should clean up your resources:
    1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-XXXX-XXXX-XXXX-XXXX-001`.
@@ -94,7 +94,7 @@ __Steps:__
    git push --set-upstream origin env-dev
    ```
 6. Go to your GitHub project, and check that the GitHub Action is running.
-7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
+7. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
 8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
 As it is an empty application, you should get 404 page called `Whitelabel Error Page`.
 9. Once you have finished, you should clean up your resources:
