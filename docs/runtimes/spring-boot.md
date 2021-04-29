@@ -13,7 +13,7 @@ NubesGen supports creating Azure App Service instances and Azure Functions insta
 
 We're going to deploy [https://github.com/jhipster/jhipster-sample-app](https://github.com/jhipster/jhipster-sample-app), which is the default [JHipster](https://www.jhipster.tech/) application.
 
-It uses a PostgreSQL database, so creating the database and connecting to it will also be managed by NugesGen.
+It uses a PostgreSQL database, so creating the database and connecting to it will also be managed by NubesGen.
 
 We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
 
