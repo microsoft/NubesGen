@@ -16,7 +16,7 @@ The following steps will guide you through creating those resources, and authori
 
 _Prerequisites_
 
-__Tip:__ You can use to [https://shell.azure.com/](https://shell.azure.com/) and login with the Azure subscription you want to use. This will provide you with the 
+__Tip:__ You can use to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) and login with the Azure subscription you want to use. This will provide you with the 
 mandatory prerequisites below (Bash and Azure CLI).
 
 For this installation method to work, you need to have installed and configured the following tools:

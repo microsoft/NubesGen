@@ -13,7 +13,7 @@ NubesGen supports creating Azure App Service instances and Azure Functions insta
 
 __Prerequisites:__
 
-_Tip: You can go to [https://shell.azure.com/](https://shell.azure.com/) to have those prerequisites installed, and run the script from a Web browser._
+_Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) to have those prerequisites installed, and run the script from a Web browser._
 - [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
 - [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
