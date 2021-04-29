@@ -124,4 +124,4 @@ if [ $USE_GITHUB_CLI == false ]; then
   msg "${GREEN}$TF_STORAGE_ACCOUNT"
   msg "${NOFORMAT}========================================================================"
 fi
-msg "${GREEN}Congratulations! You have successfully configured GitOps with NugesGen."
+msg "${GREEN}Congratulations! You have successfully configured GitOps with NubesGen."
