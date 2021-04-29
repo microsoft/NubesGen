@@ -81,7 +81,7 @@ If you deploy your Node.js application to an Azure Function, NubesGen will gener
 
 - An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of Azure Functions instance you will use.
 - An [Azure Functions instance](https://aka.ms/nubesgen-functions), configured to run Node.js code natively.
-- An [Azure Storage Account](https://azure.microsoft.com/services/storage/), to store your Node.js application.
+- An [Azure Storage Account](https://aka.ms/nubesgen-storage), to store your Node.js application.
 
 ## Configuration options
 
