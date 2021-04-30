@@ -33,6 +33,9 @@
     <link href="./css/asciinema-player.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/9c869dd423.js" crossorigin="anonymous"></script>
     <style type="text/css">
+    	[x-cloak] {
+			display: none;
+		}
         #main-section {
             background: #0079D4;
             background: -webkit-linear-gradient(top, #0079D4, #3C2AA8);
@@ -101,12 +104,14 @@
                     this.poshScript = `Invoke-WebRequest -Uri "${window.location.protocol}//${window.location.host}/${this.projectSlug}.zip${url}" -OutFile ${this.projectSlug}.zip; Expand-Archive ${this.projectSlug}.zip -DestinationPath '.' -Force; Remove-Item ${this.projectSlug}.zip`;
 
                 },
-                async copyScript(scriptContents) {
+                async copyScript(scriptContents, $dispatch) {
                     this.copySuccessful = await navigator.clipboard.writeText(scriptContents);
+                    $dispatch('downloadpackage', { hasGitops: this.gitops});
                 },
-                download() {
+                download($dispatch) {
                     var url = `${this.projectSlug}.zip${this.generateUrl()}`;
                     window.open(url, '_blank');
+                    $dispatch('downloadpackage', { hasGitops: this.gitops});
                 },
                 generateUrl() {
                     if (this.projectSlug.trim() === '') {
@@ -295,7 +300,9 @@
 
     </div>
 
-    <section id="main-section" class="content-center py-12 w-full " x-data="nubesGen()">
+    <section id="main-section" class="content-center py-12 w-full " 
+        x-data="nubesGen()"
+        >
         <a id="generator-form"></a>
         <div class="w-full mx-auto">
             <div class="bg-white w-full md:w-9/12 shadow mx-auto  overflow-hidden sm:rounded-lg">
@@ -859,7 +866,7 @@
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <button type="button"
                                     class="flex items-center justify-center px-4 py-1 mt-5 ml-2 mr-4 text-center text-white bg-green-600 border border-green-700 rounded-lg focus:outline-none hover:bg-green-700"
-                                    @click="download()">
+                                    @click="download($dispatch)">
                                 <svg class="w-5 h-5 mr-1" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                      stroke-width="2"
                                      viewBox="0 0 24 24" stroke="currentColor">
@@ -889,7 +896,7 @@
                                     <span class="m-2">cURL with Bash</span>
                                     <div class="inline-flex float-right hover:bg-gray-600">
                   <span class="w-6 h-6"
-                        @click="copyScript(curlScript)"
+                        @click="copyScript(curlScript, $dispatch)"
                   >
                     <svg fill="#1A1A1A" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                          version="1.1" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;"
@@ -909,7 +916,7 @@
                                     <span class="m-2">PowerShell</span>
                                     <div class="inline-flex float-right hover:bg-gray-600">
                   <span class="w-6 h-6"
-                        @click="copyScript(poshScript)"
+                        @click="copyScript(poshScript, $dispatch)"
                   >
                     <svg fill="#1A1A1A" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                          version="1.1" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;"
@@ -1005,6 +1012,67 @@
         <p><a href="https://github.com/microsoft/NubesGen/graphs/contributors">Made with ❤️ by people at Microsoft Developer Relations and friends.</a></p>
     </div>
 </footer>
+
+
+<!-- Modal - post-generation instructions -->
+
+<div x-data="{ isOpen: false, hasGitops: false, show(gitOps) { console.log('open modal'); this.isOpen = true; this.hasGitops = gitOps; console.log(this.isOpen);}}"
+
+>
+
+    <div
+        x-show="isOpen"
+        x-cloak
+        x-on:keydown.escape.window="isOpen = false"
+        class="z-500 items-center justify-center fixed left-0 bottom-0 w-full h-full overflow-auto flex" style="background-color: rgba(0, 0, 0, 0.4);"
+        @downloadpackage.window="show($event.detail.hasGitops);"
+        role="alert"
+        >
+        <div class="bg-white rounded-lg w-1/2">
+            <div class="flex flex-col items-start p-4">
+              <div class="flex items-center w-full">
+                <div class="text-gray-900 font-medium text-lg">Next step: deploy your infrastructure 🚀</div>
+                <svg 
+                class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"
+                @click="isOpen = false"
+                >
+                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/>
+                 </svg>
+              </div>
+              <hr>
+              <div class="">
+                  We have generated your infrastructure as code configuration. Now it's time to deploy it!
+              </div>
+              <div x-show="hasGitops">As you've added GitOps to your configuration, all the deployment will happen through your CI/CD pipeline.
+                  Head over to <a class="text-blue-700 underline cursor-pointer" href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md">our documentation</a> to configure it.
+              </div>
+              <div x-show="!hasGitops">If you're familiar with Terraform, go ahead and deploy your infrastructure.<br/>If not, you can checkout the quick start in our documentation.</div>
+              <hr>
+              <div class="ml-auto gap-2">
+                <a 
+                    x-show="hasGitops"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
+                    href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md"
+                    >
+                  Go to the documentation
+                </a>
+                <a 
+                    x-show="!hasGitops"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
+                    href="https://github.com/microsoft/NubesGen/blob/main/docs/getting-started.md"
+                    >
+                  Go to the quick start
+                </a>
+                <a
+                    @click="isOpen = false"
+                    class="bg-transparent hover:bg-gray-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded cursor-pointer">
+                  Close
+                </a>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 <script src="js/asciinema-player.js"></script>
