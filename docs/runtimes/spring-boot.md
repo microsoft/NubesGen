@@ -13,15 +13,15 @@ NubesGen supports creating Azure App Service instances and Azure Functions insta
 
 We're going to deploy [https://github.com/jhipster/jhipster-sample-app](https://github.com/jhipster/jhipster-sample-app), which is the default [JHipster](https://www.jhipster.tech/) application.
 
-It uses a PostgreSQL database, so creating the database and connecting to it will also be managed by NugesGen.
+It uses a PostgreSQL database, so creating the database and connecting to it will also be managed by NubesGen.
 
 We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
 
 __Prerequisites:__
 
-_Tip: You can go to [https://shell.azure.com/](https://shell.azure.com/) to have those prerequisites installed, and run the script from a Web browser._
-- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
-- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
+_Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) to have those prerequisites installed, and run the script from a Web browser._
+- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
+- [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
 __Steps:__
@@ -46,7 +46,7 @@ __Steps:__
    git push --set-upstream origin env-dev
    ```
 6. Go to your GitHub project, and check that the GitHub Action is running.
-7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
+7. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
 8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
 9. Once you have finished, you should clean up your resources:
    1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-XXXX-XXXX-XXXX-XXXX-001`.
@@ -58,9 +58,9 @@ This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this si
 
 __Prerequisites:__
 
-_Tip: You can go to [https://shell.azure.com/](https://shell.azure.com/) to have those prerequisites installed, and run the script from a Web browser._
-- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://docs.microsoft.com/windows/wsl/install-win10).
-- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli). To login, use `az login`.
+_Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) to have those prerequisites installed, and run the script from a Web browser._
+- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
+- [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
 __Steps:__
@@ -94,7 +94,7 @@ __Steps:__
    git push --set-upstream origin env-dev
    ```
 6. Go to your GitHub project, and check that the GitHub Action is running.
-7. You can go to the [Azure Portal](https://portal.azure.com) to check the created resources.
+7. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
 8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
 As it is an empty application, you should get 404 page called `Whitelabel Error Page`.
 9. Once you have finished, you should clean up your resources:
@@ -105,14 +105,14 @@ As it is an empty application, you should get 404 page called `Whitelabel Error 
 
 If you deploy your Spring Boot application to an Azure App Service instance, NubesGen will generate:
 
-- An [Azure App Service plan](https://docs.microsoft.com/azure/app-service/overview-hosting-plans) to define the type of App Service instance you will use.
-- An [Azure App Service instance](https://azure.microsoft.com/services/app-service/), configured to run Java code natively.
+- An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of App Service instance you will use.
+- An [Azure App Service instance](https://aka.ms/nubesgen-app-service), configured to run Java code natively.
 
 If you deploy your Spring Boot application to an Azure Function, NubesGen will generate:
 
-- An [Azure App Service plan](https://docs.microsoft.com/azure/app-service/overview-hosting-plans) to define the type of Azure Functions instance you will use.
-- An [Azure Functions instance](https://azure.microsoft.com/services/functions/), configured to run Java code natively.
-- An [Azure Storage Account](https://azure.microsoft.com/services/storage/), to store your Java application.
+- An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of Azure Functions instance you will use.
+- An [Azure Functions instance](https://aka.ms/nubesgen-functions), configured to run Java code natively.
+- An [Azure Storage Account](https://aka.ms/nubesgen-storage), to store your Java application.
 
 ## Maven vs Gradle
 

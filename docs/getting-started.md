@@ -26,9 +26,9 @@ terraform apply
 
 This should create a new Azure resource group, in the form `rg-<your-project-name>-001`, in which several resources have been created. For example, if you selected Azure App Service and Azure database for MySQL, you should have an App Service plan, App Service instance and MySQL database created in your resource group.
 
-You can go to the [Azure Portal](https://portal.azure.com) to check those resources.
+You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check those resources.
 
-![Resource group created by NugesGen](assets/azure-resource-group-docker.png "Resource group created by NugesGen")
+![Resource group created by NubesGen](assets/azure-resource-group-docker.png "Resource group created by NubesGen")
 
 ## Using the GitOps option to automate the Terraform configuration
 
