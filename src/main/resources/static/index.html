@@ -1046,7 +1046,7 @@
               <div x-show="hasGitops">As you've added GitOps to your configuration, all the deployment will happen through your CI/CD pipeline.
                   Head over to <a class="text-blue-700 underline cursor-pointer" href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md">our documentation</a> to configure it.
               </div>
-              <div x-show="!hasGitops">If you're familiar with Terraform, go ahead and deploy your infrastructure.<br/>If not, you can checkout the Quick start in our documentation.</div>
+              <div x-show="!hasGitops">If you're familiar with Terraform, go ahead and deploy your infrastructure.<br/>If not, you can checkout the quick start in our documentation.</div>
               <hr>
               <div class="ml-auto gap-2">
                 <a 
@@ -1054,14 +1054,14 @@
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
                     href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md"
                     >
-                  Go to documentation
+                  Go to the documentation
                 </a>
                 <a 
                     x-show="!hasGitops"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
                     href="https://github.com/microsoft/NubesGen/blob/main/docs/getting-started.md"
                     >
-                  Go to the Quick Start
+                  Go to the quick start
                 </a>
                 <a
                     @click="isOpen = false"
