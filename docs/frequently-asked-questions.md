@@ -1,4 +1,4 @@
-[[ << Using Node.js with NubesGen ](runtimes/nodejs.md) | [ Main documentation page >> ](README.md)]
+[[ << Using Node.js with NubesGen ](runtimes/nodejs.md) | [ Troubleshooting >> ](troubleshooting.md)]
 
 # Frequently asked questions about NubesGen
 
@@ -18,4 +18,4 @@ NubesGen is a set of Terraform configuration files, and (optionally) a GitHub Ac
 
 For example, you should be able to use other tools like [https://start.spring.io/](https://start.spring.io/) or [https://www.jhipster.tech/](https://www.jhipster.tech/) with NubesGen.
 
-[[ << Using Node.js with NubesGen ](runtimes/nodejs.md) | [ Main documentation page >> ](README.md)]
+[[ << Using Node.js with NubesGen ](runtimes/nodejs.md) | [ Troubleshooting >> ](troubleshooting.md)]
