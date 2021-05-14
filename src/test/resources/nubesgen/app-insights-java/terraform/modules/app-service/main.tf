@@ -38,7 +38,9 @@ resource "azurerm_app_service" "application" {
 
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
-    "APPINSIGHTS_INSTRUMENTATIONKEY"      = var.azure_application_insights_instrumentation_key
+
+    // Monitoring with Azure Application Insights
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = var.azure_application_insights_instrumentation_key
 
     # These are app specific environment variables
   }

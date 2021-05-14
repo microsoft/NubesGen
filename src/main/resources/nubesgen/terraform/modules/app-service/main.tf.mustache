@@ -109,6 +109,11 @@ resource "azurerm_app_service" "application" {
     "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.container-registry.admin_password
     "WEBSITES_PORT"                       = "8080"
 {{/runtimeDocker}}
+{{#addonApplicationInsights}}
+
+    // Monitoring with Azure Application Insights
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = var.azure_application_insights_instrumentation_key
+{{/addonApplicationInsights}}
 
     # These are app specific environment variables
 {{#runtimeSpring}}

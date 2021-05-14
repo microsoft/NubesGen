@@ -89,6 +89,11 @@ resource "azurerm_function_app" "application" {
 {{#runtimeNodejs}} 
     "FUNCTIONS_WORKER_RUNTIME"    = "node"
 {{/runtimeNodejs}}
+{{#addonApplicationInsights}}
+
+    // Monitoring with Azure Application Insights
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = var.azure_application_insights_instrumentation_key
+{{/addonApplicationInsights}}
 
     # These are app specific environment variables
 {{#runtimeSpring}} 

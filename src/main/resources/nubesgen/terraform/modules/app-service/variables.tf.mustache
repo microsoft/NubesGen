@@ -35,18 +35,13 @@ variable "database_password" {
   description = "The database password"
 }
 {{/databaseTypeNone}}
-{{#addonRedis}}
+{{#addonApplicationInsights}}
 
-variable "azure_redis_host" {
+variable "azure_application_insights_instrumentation_key" {
   type        = string
-  description = "The Azure Cache for Redis hostname"
+  description = "The Azure Application Insights instrumentation key"
 }
-
-variable "azure_redis_password" {
-  type        = string
-  description = "The Azure Cache for Redis password"
-}
-{{/addonRedis}}
+{{/addonApplicationInsights}}
 {{#addonStorageBlob}}
 
 variable "azure_storage_account_name" {
@@ -64,6 +59,18 @@ variable "azure_storage_blob_endpoint" {
   description = "The blob endpoint URL of the Azure Storage account"
 }
 {{/addonStorageBlob}}
+{{#addonRedis}}
+
+variable "azure_redis_host" {
+  type        = string
+  description = "The Azure Cache for Redis hostname"
+}
+
+variable "azure_redis_password" {
+  type        = string
+  description = "The Azure Cache for Redis password"
+}
+{{/addonRedis}}
 {{#addonCosmosdbMongodb}}
 
 variable "azure_cosmosdb_mongodb_database" {
