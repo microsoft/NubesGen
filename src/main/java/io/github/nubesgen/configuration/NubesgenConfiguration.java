@@ -31,6 +31,9 @@ public class NubesgenConfiguration {
     @JsonProperty("gitops")
     private boolean gitops;
 
+    @JsonProperty("iac")
+    private IaCToolType iaCTool;
+
     @JsonProperty("addons")
     private List<AddonConfiguration> addons = new ArrayList<>();
 
@@ -40,6 +43,7 @@ public class NubesgenConfiguration {
         this.runtimeType = RuntimeType.DOCKER;
         this.applicationConfiguration = new ApplicationConfiguration();
         this.databaseConfiguration = new DatabaseConfiguration();
+        this.iaCTool = IaCToolType.TERRAFORM;
         this.gitops = false;
     }
 
@@ -125,6 +129,14 @@ public class NubesgenConfiguration {
 
     public void setAddons(List<AddonConfiguration> addons) {
         this.addons = addons;
+    }
+
+    public void setIaCTool(IaCToolType iaCTool) {
+        this.iaCTool = iaCTool;
+    }
+
+    public IaCToolType getIaCTool() {
+        return iaCTool;
     }
 
     @JsonIgnore

@@ -1,9 +1,11 @@
 package io.github.nubesgen.web;
 
 import io.github.nubesgen.service.CodeGeneratorService;
-import io.github.nubesgen.service.TemplateListService;
 import io.github.nubesgen.service.compression.TarGzService;
 import io.github.nubesgen.service.compression.ZipService;
+import io.github.nubesgen.service.terraform.TerraformCodeGeneratorService;
+import io.github.nubesgen.service.terraform.TerraformTemplateListService;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -235,13 +237,13 @@ public class MainControllerTest {
     static class AdditionalConfig {
 
         @Bean
-        public TemplateListService templateListService() {
-            return new TemplateListService();
+        public TerraformTemplateListService templateListService() {
+            return new TerraformTemplateListService();
         }
 
         @Bean
         public CodeGeneratorService codeGeneratorService() throws IOException {
-            return new CodeGeneratorService(templateListService());
+            return new TerraformCodeGeneratorService(templateListService());
         }
 
         @Bean

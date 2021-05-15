@@ -1,6 +1,7 @@
-package io.github.nubesgen.service;
+package io.github.nubesgen.service.terraform;
 
 import io.github.nubesgen.configuration.*;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +26,13 @@ class CodeGeneratorServiceTest {
 
     private final Logger log = LoggerFactory.getLogger(CodeGeneratorServiceTest.class);
 
-    private final CodeGeneratorService codeGeneratorService;
-    private final TemplateListService templateListService;
+    private final TerraformCodeGeneratorService codeGeneratorService;
+    private final TerraformTemplateListService templateListService;
 
     @Autowired
-    public CodeGeneratorServiceTest(CodeGeneratorService codeGeneratorService, TemplateListService templateListService) {
+    public CodeGeneratorServiceTest(
+            TerraformCodeGeneratorService codeGeneratorService, 
+            TerraformTemplateListService templateListService) {
         this.codeGeneratorService = codeGeneratorService;
         this.templateListService = templateListService;
     }

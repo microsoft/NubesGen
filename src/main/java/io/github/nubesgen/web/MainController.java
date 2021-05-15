@@ -3,7 +3,7 @@ package io.github.nubesgen.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.nubesgen.configuration.*;
-import io.github.nubesgen.service.CodeGeneratorService;
+import io.github.nubesgen.service.Generator;
 import io.github.nubesgen.service.TelemetryService;
 import io.github.nubesgen.service.compression.CompressionService;
 import io.github.nubesgen.service.compression.TarGzService;
@@ -28,7 +28,7 @@ public class MainController {
 
     private final Logger log = LoggerFactory.getLogger(MainController.class);
 
-    private final CodeGeneratorService codeGeneratorService;
+    private final Generator generator;
 
     private final TarGzService tarGzService;
 
@@ -39,8 +39,8 @@ public class MainController {
     @Autowired(required = false)
     private TelemetryService telemetryService;
 
-    public MainController(CodeGeneratorService codeGeneratorService, TarGzService tarGzService, ZipService zipService, ObjectMapper objectMapper) {
-        this.codeGeneratorService = codeGeneratorService;
+    public MainController(Generator generator, TarGzService tarGzService, ZipService zipService, ObjectMapper objectMapper) {
+        this.generator = generator;
         this.tarGzService = tarGzService;
         this.zipService = zipService;
         this.objectMapper = objectMapper;
@@ -54,9 +54,10 @@ public class MainController {
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
                                                   @RequestParam(defaultValue = "false") boolean gitops,
+                                                  @RequestParam(defaultValue = "TERRAFORM") String iac,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, gitops, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, gitops, addons, iac);
         return generateZipApplication(applicationName, properties);
     }
 
@@ -78,9 +79,10 @@ public class MainController {
                                                   @RequestParam(defaultValue = "eastus") String region,
                                                   @RequestParam(defaultValue = "NONE") String database,
                                                   @RequestParam(defaultValue = "false") boolean gitops,
+                                                  @RequestParam(defaultValue = "TERRAFORM") String iac,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, gitops, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, gitops, addons, iac);
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -94,7 +96,7 @@ public class MainController {
     }
 
     private NubesgenConfiguration generateNubesgenConfiguration(String runtime, String application, String region,
-                                                                String database, boolean gitops, String addons) {
+                                                                String database, boolean gitops, String addons, String iaCTool) {
 
         runtime = runtime.toUpperCase();
         application = application.toUpperCase();
@@ -190,6 +192,11 @@ public class MainController {
             }
             properties.setAddons(addonConfigurations);
         }
+        if (iaCTool.equals(IaCToolType.PULUMI.name())) {
+            properties.setIaCTool(IaCToolType.PULUMI);
+        } else {
+            properties.setIaCTool(IaCToolType.TERRAFORM);
+        }
         return properties;
     }
 
@@ -207,7 +214,7 @@ public class MainController {
         stopWatch.start();
         ByteArrayOutputStream zippedApplication;
         try {
-            Map<String, String> generatedFiles = this.codeGeneratorService.generateAzureConfiguration(properties);
+            Map<String, String> generatedFiles = this.generator.generateAzureConfiguration(properties);
             zippedApplication = compressionService.compressApplication(generatedFiles);
         } catch (Exception e) {
             log.error("Error generating application", e);

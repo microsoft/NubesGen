@@ -1,4 +1,4 @@
-package io.github.nubesgen.service;
+package io.github.nubesgen.service.terraform;
 
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class TemplateListService {
+public class TerraformTemplateListService {
 
     private final List<String> gitOpsList = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class TemplateListService {
 
     private final List<String> cosmosdbMongodbList = new ArrayList<>();
 
-    public TemplateListService() {
+    public TerraformTemplateListService() {
         // GitOps files
         gitOpsList.add(".github/workflows/gitops.yml");
         // Main files
