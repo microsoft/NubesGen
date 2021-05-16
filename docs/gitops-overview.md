@@ -42,9 +42,9 @@ When choosing the `GitOps` option, NubesGen generates a GitHub Action next to it
 
 Once committed into Git, this GitHub Action works in the following way:
 
-- When a new branch is created, with a name starting with `env-` (like `env-alice` in our previous example), the GitHub Actions runs the Terraform configuration, using the environment name.
+- When a new branch is created, with a name starting with `env-` (like `env-alice` in our previous example), the GitHub Action runs the Terraform configuration, using the environment name.
 - As a result, a specific resource group is created, with specific resources inside: they all use the environment name inside their name, and they are also tagged with it.
-- When someone pushes code to the `env-` branch, the Terraform configuration is applied again, so the cloud resources are updated accordingly.`
+- When someone pushes code to the `env-` branch, the Terraform configuration is applied again, so the cloud resources are updated accordingly.
 - After creating the cloud resources, the GitHub Action then builds the application and deploys it to the cloud.
 
 ## What happens if something goes bad?
