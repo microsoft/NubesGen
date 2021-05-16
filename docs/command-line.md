@@ -75,8 +75,8 @@ Application types and databases have different tiers.
 
 - Each resource type have its own specific tiers.
 - NubesGen provides the main available tiers for running development and production workloads.
-- For each of those tiers, NubesGen configures the less expensive options possible. If you want to upgrade your resource, you'll need to modify the Terraform configuration (our recommended solution) or modify the resource using the Azure portal.
-- If no tier is provided, NubesGen will use the less expensive one.
+- For each of those tiers, NubesGen configures the least expensive option possible. If you want to upgrade your resource, you'll need to modify the Terraform configuration (our recommended solution) or modify the resource using the Azure portal.
+- If no tier is provided, NubesGen will use the least expensive one.
 
 We provide the following tiers per resource type:
 
