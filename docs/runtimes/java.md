@@ -4,10 +4,10 @@
 
 This documentation is for running Java applications with NubesGen. There are two other options that might interest you:
 
-- You can also use [Spring Boot with NubesGen](spring-boot.md), which is similar to Java, but using the specific Spring Boot application properties.
+- You can also use [Spring Boot with NubesGen](spring-boot.md), which is similar to Java, but uses the specific Spring Boot application properties.
 - As Java applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
 
-NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Java application that you which to deploy.
+NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Java application that you wish to deploy.
 
 ## Tutorial: running a Java application with NubesGen
 
@@ -23,7 +23,7 @@ __Steps:__
    ```bash
    curl https://start.spring.io/starter.tgz?type=maven-project&language=java&bootVersion=2.4.4.RELEASE&baseDir=java-sample-app&groupId=com.example&artifactId=java-sample-app&name=java-sample-app&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.java-sample-app&packaging=jar&javaVersion=11&dependencies=web | tar -xzvf -
    ```
-2. Create a project on GitHub called `java-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
+2. Create a project on GitHub called `java-sample-app`, and push the generated project to that repository. Change `<your-github-account>` to the name of your GitHub account:
    ```bash
    cd java-sample-app
    git init
@@ -37,7 +37,7 @@ __Steps:__
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
-4. Use the command-line with NubesGen([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=java&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
