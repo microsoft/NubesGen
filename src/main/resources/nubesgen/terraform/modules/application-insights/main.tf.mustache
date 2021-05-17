@@ -10,10 +10,10 @@ resource "azurerm_application_insights" "insights" {
   application_type    = "java"
 {{/runtimeJava}}
 {{#runtimeDotnet}}
-  application_type    = "Node.JS"
+  application_type    = "web"
 {{/runtimeDotnet}}
 {{#runtimeNodejs}}
-  application_type    = "java"
+  application_type    = "Node.JS"
 {{/runtimeNodejs}}
 
   tags = {
