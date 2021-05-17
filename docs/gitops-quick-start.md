@@ -38,7 +38,7 @@ _Installation_
 1. To use the new GitOps features, follow [GitOps overview](gitops-overview.md) and create a specific branch, for example
    `git checkout -b env-test && git push --set-upstream origin env-test`
 
-__Congratulations, you have setup GitOps with NubesGen on your project!__
+__Congratulations, you have set up GitOps with NubesGen on your project!__
 
 ## Using the GitOps workflow
 
