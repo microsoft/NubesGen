@@ -73,7 +73,7 @@ _In a GET request, parameters can be in uppercase or lowercase, for example `dat
 
 Application types and databases have different tiers.
 
-- Each resource type have its own specific tiers.
+- Each resource type has its own specific tiers.
 - NubesGen provides the main available tiers for running development and production workloads.
 - For each of those tiers, NubesGen configures the least expensive option possible. If you want to upgrade your resource, you'll need to modify the Terraform configuration (our recommended solution) or modify the resource using the Azure portal.
 - If no tier is provided, NubesGen will use the least expensive one.
