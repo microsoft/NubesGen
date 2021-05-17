@@ -20,7 +20,7 @@ The best way to describe it is through an example:
 - Alice creates a new branch, called `env-alice`.
 - As soon as her branch is pushed, Alice automatically has a working environment: cloud resources have been correctly created for her, her code has been deployed and is running.
 - If Alice wants to modify the cloud resources, for example upgrading the database to another tier, the only command to do is `git push` and the environment is automatically updated.
-- If Alice modifies any business code, it is also automatically built and deployed to the cloud after a `git push.
+- If Alice modifies any business code, it is also automatically built and deployed to the cloud after a `git push`.
 
 ## What are the benefits of GitOps with NubesGen?
 
