@@ -14,3 +14,4 @@
   - [Using .NET with NubesGen](runtimes/dot-net.md)
   - [Using Node.js with NubesGen](runtimes/nodejs.md)
 - [Frequently asked questions](frequently-asked-questions.md)
+- [Troubleshooting](troubleshooting.md)
