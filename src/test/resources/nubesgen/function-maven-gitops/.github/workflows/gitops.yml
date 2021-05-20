@@ -104,7 +104,7 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: 'Deploy to Azure App Service'
+      - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
         with:
           app-name: func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
