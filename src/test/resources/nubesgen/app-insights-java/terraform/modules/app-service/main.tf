@@ -13,8 +13,8 @@ resource "azurerm_app_service_plan" "application" {
   }
 
   sku {
-    tier = "Free"
-    size = "F1"
+    tier = "Basic"
+    size = "B1"
   }
 }
 
@@ -31,17 +31,16 @@ resource "azurerm_app_service" "application" {
   }
 
   site_config {
-    linux_fx_version          = "NODE|14-lts"
-    app_command_line          = "npm run start:prod"
-    always_on                 = false
-    use_32_bit_worker_process = true
-    ftps_state                = "FtpsOnly"
+    linux_fx_version = "JAVA|11-java11"
+    always_on        = true
+    ftps_state       = "FtpsOnly"
   }
 
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
-    "WEBSITE_RUN_FROM_PACKAGE"            = "1"
-    "WEBSITE_NODE_DEFAULT_VERSION"        = "~14"
+
+    // Monitoring with Azure Application Insights
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = var.azure_application_insights_instrumentation_key
 
     # These are app specific environment variables
   }

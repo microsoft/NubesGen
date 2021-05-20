@@ -16,4 +16,3 @@ resource "azurerm_redis_cache" "redis" {
   redis_configuration {
   }
 }
-

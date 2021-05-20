@@ -247,6 +247,12 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isAddonApplicationInsights() {
+        return this.getAddons().stream()
+                .anyMatch(addon -> AddonType.APPLICATION_INSIGHTS.equals(addon.getAddonType()));
+    }
+
+    @JsonIgnore
     public boolean isAddonStorageBlob() {
         return this.getAddons().stream()
                 .anyMatch(addon -> AddonType.STORAGE_BLOB.equals(addon.getAddonType()));

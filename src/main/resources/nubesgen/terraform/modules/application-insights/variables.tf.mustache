@@ -21,9 +21,3 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
   default     = ""
 }
-
-variable "sku_tier" {
-  type        = string
-  description = "The Azure Cache for Redis tier"
-  default     = "Basic"
-}
