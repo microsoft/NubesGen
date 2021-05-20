@@ -1,0 +1,22 @@
+
+resource "azurerm_application_insights" "insights" {
+  name                = "appi-${var.application_name}-001"
+  location            = var.location
+  resource_group_name = var.resource_group
+{{#runtimeDocker}}
+  application_type    = "other"
+{{/runtimeDocker}}
+{{#runtimeJava}}
+  application_type    = "java"
+{{/runtimeJava}}
+{{#runtimeDotnet}}
+  application_type    = "web"
+{{/runtimeDotnet}}
+{{#runtimeNodejs}}
+  application_type    = "Node.JS"
+{{/runtimeNodejs}}
+
+  tags = {
+    "environment" = var.environment
+  }
+}

@@ -2,12 +2,12 @@
 
 # Using Spring Boot with NubesGen
 
-This documentation is for running Spring Boot applications with NubesGen, and there are two other options that might interest you:
+This documentation is for running Spring Boot applications with NubesGen. There are two other options that might interest you:
 
-- You can also use [Java with NubesGen](java.md), which is similar to Spring Boot, but without using the specific Spring Boot application properties.
+- You can also use [Java with NubesGen](java.md), which is similar to Spring Boot, but does not use the specific Spring Boot application properties.
 - As Spring Boot applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
 
-NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Spring Boot application that you which to deploy.
+NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Spring Boot application that you wish to deploy.
 
 ## Tutorial 1: running a full stack Spring Boot application generated with JHipster
 
@@ -26,7 +26,7 @@ _Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesge
 
 __Steps:__
 1. Fork the project on your GitHub account.
-2. Clone the fork on your computer. Change `<your-github-account>` by the name of your GitHub account:
+2. Clone the fork on your computer. Change `<your-github-account>` to the name of your GitHub account:
    ```bash
    git clone https://github.com/<your-github-account>/jhipster-sample-app.git
    ``` 
@@ -34,7 +34,7 @@ __Steps:__
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
-4. Use the command-line with NubesGen([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=spring&application=app_service.standard&database=postgresql&gitops=true" | tar -xzvf -
    ```
@@ -82,7 +82,7 @@ __Steps:__
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
-4. Use the command-line with NubesGen([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo-XXXX-XXXX-XXXX-XXXX.tgz?runtime=spring&application=app_service.standard&gitops=true" | tar -xzvf -
    ```

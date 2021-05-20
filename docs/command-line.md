@@ -73,10 +73,10 @@ _In a GET request, parameters can be in uppercase or lowercase, for example `dat
 
 Application types and databases have different tiers.
 
-- Each resource type have its own specific tiers.
+- Each resource type has its own specific tiers.
 - NubesGen provides the main available tiers for running development and production workloads.
-- For each of those tiers, NubesGen configures the less expensive options possible. If you want to upgrade your resource, you'll need to modify the Terraform configuration (our recommended solution) or modify the resource using the Azure portal.
-- If no tier is provided, NubesGen will use the less expensive one.
+- For each of those tiers, NubesGen configures the least expensive option possible. If you want to upgrade your resource, you'll need to modify the Terraform configuration (our recommended solution) or modify the resource using the Azure portal.
+- If no tier is provided, NubesGen will use the least expensive one.
 
 We provide the following tiers per resource type:
 
@@ -94,6 +94,7 @@ You can add "addons", which are specific technologies added to your stack:
 
 | Name  | Description  | POST example | GET example  |
 |---|---|---|---|
+| APPLICATION_INSIGHTS  | Add support for Azure Application Insights  | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope", "addons": [{ "type": "APPLICATION_INSIGHTS", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?addons=application_insights`  |
 | STORAGE_BLOB  | Add support for Azure Blob Storage  | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope", "addons": [{ "type": "STORAGE_BLOB", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?addons=storage_blob`  |
 | REDIS  | Add support for Azure Cache for Redis  | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope", "addons": [{ "type": "REDIS", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?addons=redis`  |
 | COSMOSDB_MONGODB  | Add support for Cosmos DB with the MongoDB API  | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope", "addons": [{ "type": "COSMOSDB_MONGODB", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?addons=cosmosdb_mongodb`  |

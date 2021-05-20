@@ -31,6 +31,8 @@ public class TemplateListService {
 
     private final List<String> cosmosdbMongodbList = new ArrayList<>();
 
+    private final List<String> applicationInsightsList = new ArrayList<>();
+
     public TemplateListService() {
         // GitOps files
         gitOpsList.add(".github/workflows/gitops.yml");
@@ -80,6 +82,11 @@ public class TemplateListService {
         cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/outputs.tf");
         cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/README.md");
         cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/variables.tf");
+        // Application Insights module
+        applicationInsightsList.add("terraform/modules/application-insights/main.tf");
+        applicationInsightsList.add("terraform/modules/application-insights/outputs.tf");
+        applicationInsightsList.add("terraform/modules/application-insights/README.md");
+        applicationInsightsList.add("terraform/modules/application-insights/variables.tf");
     }
 
     public List<String> listGitOpsTemplates() {
@@ -122,9 +129,13 @@ public class TemplateListService {
         return cosmosdbMongodbList;
     }
 
+    public List<String> listApplicationInsightsTemplates() {
+        return applicationInsightsList;
+    }
+
     public List<String> listAllTemplates() {
         return Stream.of(gitOpsList, mainList, appServiceList, functionList, sqlServerList, mysqlList, postgresqlList, redisList,
-                storageBlobList, cosmosdbMongodbList)
+                storageBlobList, cosmosdbMongodbList, applicationInsightsList)
                 .flatMap(Collection::stream).collect(Collectors.toList());
     }
 }
