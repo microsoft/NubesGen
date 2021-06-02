@@ -300,7 +300,7 @@
 
     </div>
 
-    <section id="main-section" class="content-center py-12 w-full " 
+    <section id="main-section" class="content-center py-12 w-full "
         x-data="nubesGen()"
         >
         <a id="generator-form"></a>
@@ -798,6 +798,18 @@
                                 <div class="grid grid-rows-1 mt-4 gap-4">
 
                                     <div class="border bg-white rounded flex content-center py-2 px-4"
+                                         x-bind:class="{'bg-blue-200': addons.includes('application_insights')}">
+                                        <label class="inline-flex items-center text-xl">
+                                            <input type="checkbox" value="application_insights"
+                                                   class="form-checkbox h-5 w-5 mr-2"
+                                                   x-model="addons">Application Insights
+                                            <div>
+                                                <span class="ml-3 font-normal text-base text-gray-500">Monitoring</span>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <div class="border bg-white rounded flex content-center py-2 px-4"
                                          x-bind:class="{'bg-blue-200': addons.includes('storage_blob')}">
                                         <label class="inline-flex items-center text-xl">
                                             <input type="checkbox" value="storage_blob"
@@ -1032,7 +1044,7 @@
             <div class="flex flex-col items-start p-4">
               <div class="flex items-center w-full">
                 <div class="text-gray-900 font-medium text-lg">Next step: deploy your infrastructure 🚀</div>
-                <svg 
+                <svg
                 class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"
                 @click="isOpen = false"
                 >
@@ -1049,14 +1061,14 @@
               <div x-show="!hasGitops">If you're familiar with Terraform, go ahead and deploy your infrastructure.<br/>If not, you can checkout the quick start in our documentation.</div>
               <hr>
               <div class="ml-auto gap-2">
-                <a 
+                <a
                     x-show="hasGitops"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
                     href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md"
                     >
                   Go to the documentation
                 </a>
-                <a 
+                <a
                     x-show="!hasGitops"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
                     href="https://github.com/microsoft/NubesGen/blob/main/docs/getting-started.md"

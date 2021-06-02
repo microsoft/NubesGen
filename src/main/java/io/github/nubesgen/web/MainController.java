@@ -180,7 +180,9 @@ public class MainController {
             List<AddonConfiguration> addonConfigurations = new ArrayList<>();
             for (String addon : addons.split(",")) {
                 log.debug("Configuring addon: {}", addon);
-                if (addon.startsWith(AddonType.REDIS.name())) {
+                if (addon.startsWith(AddonType.APPLICATION_INSIGHTS.name())) {
+                    addonConfigurations.add(new AddonConfiguration(AddonType.APPLICATION_INSIGHTS, Tier.BASIC));
+                } else if (addon.startsWith(AddonType.REDIS.name())) {
                     addonConfigurations.add(new AddonConfiguration(AddonType.REDIS, Tier.BASIC));
                 } else if (addon.startsWith(AddonType.STORAGE_BLOB.name())) {
                     addonConfigurations.add(new AddonConfiguration(AddonType.STORAGE_BLOB, Tier.BASIC));

@@ -208,6 +208,26 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    void generateAppInsightsConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-appinsights-java");
+        properties.setRuntimeType(RuntimeType.JAVA);
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.APP_SERVICE, Tier.BASIC));
+        properties.setRegion("westeurope");
+        List<AddonConfiguration> addons = new ArrayList<>();
+        addons.add(new AddonConfiguration(AddonType.APPLICATION_INSIGHTS, Tier.BASIC));
+        properties.setAddons(addons);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "app-insights-java", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listApplicationInsightsTemplates());
+
+    }
+
+    @Test
     void generateSqlServerConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-sql-server");

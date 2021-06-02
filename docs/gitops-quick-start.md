@@ -16,7 +16,7 @@ The following steps will guide you through creating those resources, and authori
 
 _Prerequisites_
 
-__Tip:__ You can use to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) and login with the Azure subscription you want to use. This will provide you with the 
+__Tip:__ You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) and login with the Azure subscription you want to use. This will provide you with the 
 mandatory prerequisites below (Bash and Azure CLI).
 
 For this installation method to work, you need to have installed and configured the following tools:
@@ -38,7 +38,7 @@ _Installation_
 1. To use the new GitOps features, follow [GitOps overview](gitops-overview.md) and create a specific branch, for example
    `git checkout -b env-test && git push --set-upstream origin env-test`
 
-__Congratulations, you have setup GitOps with NubesGen on your project!__
+__Congratulations, you have set up GitOps with NubesGen on your project!__
 
 ## Using the GitOps workflow
 

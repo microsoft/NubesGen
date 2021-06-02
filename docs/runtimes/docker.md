@@ -28,7 +28,7 @@ __Steps:__
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
-4. Use the command-line with NubesGen([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?application=app_service.standard&gitops=true" | tar -xzvf -
    ```

@@ -78,6 +78,9 @@ public class CodeGeneratorService {
 
         // Add Ons
         for (AddonConfiguration addon : configuration.getAddons()) {
+            if (AddonType.APPLICATION_INSIGHTS.equals(addon.getAddonType())) {
+                generateFileList(configuration, templateListService.listApplicationInsightsTemplates(), result);
+            }
             if (AddonType.REDIS.equals(addon.getAddonType())) {
                 generateFileList(configuration, templateListService.listRedisTemplates(), result);
             }

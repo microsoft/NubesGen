@@ -27,4 +27,3 @@ variable "sku_tier" {
   description = "The Azure Cache for Redis tier"
   default     = "Basic"
 }
-
