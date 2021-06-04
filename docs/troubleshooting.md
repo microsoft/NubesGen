@@ -60,4 +60,26 @@ To refresh the list of subscriptions, execute the following command:
 $ az account list --refresh
 ```
 
+## Logging is not enabled for this container
+
+If you deploy your application with NubesGen on Azure and something goes wrong, you want to check the logs.
+For that, you go to the Azure console, and click on the menus _Monitoring -> Log Stream_ (the URL of the log stream looks like `https://<url of the app service>/logStream`).
+But in certain cases, you will not see the logs of your application.
+Instead you will get the following message:
+
+```
+INFO  - Logging is not enabled for this container.Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+```
+
+To see the logs of your application, from the Azure console, you need to follow the menus _Development Tools -> Advanced Tools -> Go -> Current Docker logs_.
+You will reach a page displaying JSON with several URLs pointing at several log files.
+This JSON looks like this:
+
+```
+[{"machineName":"ABCD_default","size":198155,"href":"https://myapp-001.scm.azurewebsites.net/api/vfs/LogFiles/2021_06_04_ABCD_default_docker.log"},
+{"machineName":"EFGH","size":277263,"href":"https://myapp-001.scm.azurewebsites.net/api/vfs/LogFiles/2021_06_04_EFGH_docker.log"}]
+```
+
+To see the logs, just follow the link displayed on the JSON (eg. `https://myapp-001.scm.azurewebsites.net/api/vfs/LogFiles/2021_06_04_ABCD_default_docker.log`).
+
 [[ << Frequently asked questions ](frequently-asked-questions.md) | [ Main documentation page >> ](README.md)]
