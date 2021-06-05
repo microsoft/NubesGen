@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -68,6 +69,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOCKER|"));
         assertTrue(entries.get(".github/workflows/gitops.yml").contains("GitOps"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
@@ -94,7 +96,8 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("GitOps"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
@@ -110,6 +113,7 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/variables.tf"));
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
@@ -126,6 +130,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("\"SPRING_DATASOURCE_URL\"      = \"jdbc:postgresql://${var.database_url}\""));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
@@ -175,6 +180,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/redis/main.tf").contains("azurerm_redis_cache"));
         assertTrue(entries.containsKey("terraform/modules/storage-blob/main.tf"));
         assertTrue(entries.get("terraform/modules/storage-blob/main.tf").contains("azurerm_storage_account"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
@@ -229,6 +235,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("size = \"S1\""));
         assertTrue(entries.containsKey("terraform/modules/mysql/main.tf"));
         assertTrue(entries.get("terraform/modules/mysql/main.tf").contains("sku_name                          = \"GP_Gen5_2\""));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @TestConfiguration

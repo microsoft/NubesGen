@@ -155,7 +155,7 @@ resource "azurerm_app_service" "application" {
     "SPRING_DATA_MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
   {{/addonCosmosdbMongodb}}
 {{/runtimeSpring}}
-{{^runtimeSpring}}
+{{#runtimeDefault}}
   {{#databaseTypeSqlServer}}
 
     "DATABASE_URL"      = var.database_url
@@ -191,6 +191,6 @@ resource "azurerm_app_service" "application" {
     "MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
     "MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
   {{/addonCosmosdbMongodb}}
-{{/runtimeSpring}}
+{{/runtimeDefault}}
   }
 }
