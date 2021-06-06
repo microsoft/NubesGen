@@ -68,7 +68,7 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOCKER|"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("GitOps"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: docker build"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
