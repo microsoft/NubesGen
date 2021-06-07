@@ -171,6 +171,11 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isRuntimeDefault() {
+        return !isRuntimeSpring();
+    }
+
+    @JsonIgnore
     public boolean isApplicationTypeAppService() {
         return ApplicationType.APP_SERVICE.equals(this.getApplicationConfiguration().getApplicationType());
     }
