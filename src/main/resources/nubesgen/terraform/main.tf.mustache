@@ -52,6 +52,10 @@ module "application" {
 
   azure_application_insights_instrumentation_key = module.application-insights.azure_application_insights_instrumentation_key
 {{/addonApplicationInsights}}
+{{#addonKeyVault}}
+
+  vault_id = module.key-vault.vault_id
+{{/addonKeyVault}}
 {{#addonRedis}}
 
   azure_redis_host       = module.redis.azure_redis_host
@@ -97,6 +101,33 @@ module "application-insights" {
   location          = var.location
 }
 {{/addonApplicationInsights}}
+{{#addonKeyVault}}
+
+module "key-vault" {
+  source           = "./modules/key-vault"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = local.application_name
+  environment      = local.environment
+  location         = var.location
+  {{^databaseTypeNone}}
+
+  database_username = module.database.database_username
+  database_password = module.database.database_password
+  {{/databaseTypeNone}}
+  {{#addonRedis}}
+
+  redis_password = module.redis.azure_redis_password
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+
+  storage_account_key=module.storage-blob.azurerm_storage_account_key
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+
+  cosmosdb_mongodb_uri=module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
+  {{/addonCosmosdbMongodb}}
+}
+{{/addonKeyVault}}
 {{#addonRedis}}
 
 module "redis" {
