@@ -1,8 +1,13 @@
 
+resource "random_string" "key_vault" {
+  length           = 20
+  special          = false
+}
+
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "application" {
-  name                = "kv-${var.application_name}-001"
+  name                = "kv-${random_string.key_vault.result}"
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -16,11 +21,11 @@ resource "azurerm_key_vault" "application" {
     object_id = data.azurerm_client_config.current.object_id
 
     secret_permissions = [
-      "set",
-      "get",
-      "delete",
-      "purge",
-      "recover"
+      "Set",
+      "Get",
+      "Delete",
+      "Purge",
+      "Recover"
     ]
   }
 
@@ -29,20 +34,14 @@ resource "azurerm_key_vault" "application" {
   }
 }
 
-resource "azurerm_key_vault_secret" "database" {
-  name         = "database_url"
-  value        = var.database_url
-  key_vault_id = azurerm_key_vault.application.id
-}
-
-resource "azurerm_key_vault_secret" "database" {
-  name         = "database_username"
+resource "azurerm_key_vault_secret" "database_username" {
+  name         = "database-username"
   value        = var.database_username
   key_vault_id = azurerm_key_vault.application.id
 }
 
-resource "azurerm_key_vault_secret" "database" {
-  name         = "database_password"
+resource "azurerm_key_vault_secret" "database_password" {
+  name         = "database-password"
   value        = var.database_password
   key_vault_id = azurerm_key_vault.application.id
 }

@@ -36,6 +36,10 @@ resource "azurerm_app_service" "application" {
     ftps_state       = "FtpsOnly"
   }
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 
@@ -46,4 +50,17 @@ resource "azurerm_app_service" "application" {
     "SPRING_DATASOURCE_USERNAME" = var.database_username
     "SPRING_DATASOURCE_PASSWORD" = var.database_password
   }
+}
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault_access_policy" "application" {
+  key_vault_id   = var.vault_id
+  tenant_id      = data.azurerm_client_config.current.tenant_id
+  object_id      = azurerm_app_service.application.identity[0].principal_id
+
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
 }

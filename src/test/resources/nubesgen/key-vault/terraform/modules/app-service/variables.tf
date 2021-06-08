@@ -38,8 +38,3 @@ variable "vault_id" {
   type        = string
   description = "The Azure Key Vault ID"
 }
-
-variable "vault_uri" {
-  type        = string
-  description = "The Azure Key Vault URI"
-}

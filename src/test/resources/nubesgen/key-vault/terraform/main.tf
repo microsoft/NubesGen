@@ -36,11 +36,10 @@ module "application" {
   location          = var.location
 
   database_url      = module.database.database_url
-  database_username = module.database.database_username
-  database_password = module.database.database_password
+  database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
+  database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
 
   vault_id  = module.key-vault.vault_id
-  vault_uri = module.key-vault.vault_uri
 }
 
 module "database" {
@@ -57,4 +56,7 @@ module "key-vault" {
   application_name  = local.application_name
   environment       = local.environment
   location          = var.location
+
+  database_username = module.database.database_username
+  database_password = module.database.database_password
 }
