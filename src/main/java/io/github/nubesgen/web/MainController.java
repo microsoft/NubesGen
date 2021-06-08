@@ -111,6 +111,8 @@ public class MainController {
             properties.setRuntimeType(RuntimeType.SPRING);
         } else if (runtime.equals(RuntimeType.SPRING_GRADLE.name())) {
             properties.setRuntimeType(RuntimeType.SPRING_GRADLE);
+        } else if (runtime.equals(RuntimeType.QUARKUS.name())) {
+            properties.setRuntimeType(RuntimeType.QUARKUS);
         } else if (runtime.equals(RuntimeType.NODEJS.name())) {
             properties.setRuntimeType(RuntimeType.NODEJS);
         } else if (runtime.equals(RuntimeType.DOCKER_SPRING.name())) {

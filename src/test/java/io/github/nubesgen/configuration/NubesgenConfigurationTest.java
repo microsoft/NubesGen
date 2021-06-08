@@ -18,6 +18,7 @@ public class NubesgenConfigurationTest {
 
         assertFalse(properties.isRuntimeJava());
         assertFalse(properties.isRuntimeSpring());
+        assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeMaven());
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeDotnet());
@@ -34,6 +35,7 @@ public class NubesgenConfigurationTest {
 
         assertFalse(properties.isRuntimeJava());
         assertFalse(properties.isRuntimeSpring());
+        assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeMaven());
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeDotnet());
@@ -51,6 +53,24 @@ public class NubesgenConfigurationTest {
 
         assertFalse(properties.isRuntimeDefault());
         assertFalse(properties.isRuntimeDocker());
+        assertFalse(properties.isRuntimeQuarkus());
+        assertFalse(properties.isRuntimeGradle());
+        assertFalse(properties.isRuntimeDotnet());
+        assertFalse(properties.isRuntimeNodejs());
+    }
+
+    @Test
+    void checkConfigurationQuarkusRuntime() {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setRuntimeType(RuntimeType.QUARKUS);
+
+        assertTrue(properties.isRuntimeQuarkus());
+        assertTrue(properties.isRuntimeJava());
+        assertTrue(properties.isRuntimeMaven());
+
+        assertFalse(properties.isRuntimeDefault());
+        assertFalse(properties.isRuntimeSpring());
+        assertFalse(properties.isRuntimeDocker());
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
@@ -66,6 +86,7 @@ public class NubesgenConfigurationTest {
         assertTrue(properties.isRuntimeDefault());
 
         assertFalse(properties.isRuntimeSpring());
+        assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeDocker());
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeDotnet());
@@ -82,6 +103,7 @@ public class NubesgenConfigurationTest {
         assertTrue(properties.isRuntimeGradle());
 
         assertFalse(properties.isRuntimeSpring());
+        assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeMaven());
         assertFalse(properties.isRuntimeDocker());
         assertFalse(properties.isRuntimeDotnet());
@@ -98,6 +120,7 @@ public class NubesgenConfigurationTest {
         assertTrue(properties.isRuntimeGradle());
 
         assertFalse(properties.isRuntimeDefault());
+        assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeMaven());
         assertFalse(properties.isRuntimeDocker());
         assertFalse(properties.isRuntimeDotnet());
@@ -113,6 +136,7 @@ public class NubesgenConfigurationTest {
         assertTrue(properties.isRuntimeDocker());
 
         assertFalse(properties.isRuntimeGradle());
+        assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeDefault());
         assertFalse(properties.isRuntimeJava());
         assertFalse(properties.isRuntimeMaven());
@@ -128,6 +152,7 @@ public class NubesgenConfigurationTest {
         assertTrue(properties.isRuntimeDotnet());
         assertTrue(properties.isRuntimeDefault());
 
+        assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeJava());
         assertFalse(properties.isRuntimeMaven());
         assertFalse(properties.isRuntimeSpring());
@@ -145,6 +170,7 @@ public class NubesgenConfigurationTest {
         assertTrue(properties.isRuntimeDefault());
 
         assertFalse(properties.isRuntimeDotnet());
+        assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeJava());
         assertFalse(properties.isRuntimeMaven());
         assertFalse(properties.isRuntimeSpring());

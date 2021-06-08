@@ -116,6 +116,46 @@ resource "azurerm_app_service" "application" {
 {{/addonApplicationInsights}}
 
     # These are app specific environment variables
+{{#runtimeQuarkus}}
+    "QUARKUS_HTTP_PORT"           = 80
+    "QUARKUS_PROFILE"             = "prod"
+  {{#databaseTypeSqlServer}}
+
+    "QUARKUS_DATASOURCE_JDBC_URL" = "jdbc:sqlserver://${var.database_url}"
+    "QUARKUS_DATASOURCE_USERNAME" = var.database_username
+    "QUARKUS_DATASOURCE_PASSWORD" = var.database_password
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+
+    "QUARKUS_DATASOURCE_JDBC_URL" = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+    "QUARKUS_DATASOURCE_USERNAME" = var.database_username
+    "QUARKUS_DATASOURCE_PASSWORD" = var.database_password
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+
+    "QUARKUS_DATASOURCE_JDBC_URL" = "jdbc:postgresql://${var.database_url}"
+    "QUARKUS_DATASOURCE_USERNAME" = var.database_username
+    "QUARKUS_DATASOURCE_PASSWORD" = var.database_password
+  {{/databaseTypePostgresql}}
+  {{!#addonRedis}}
+  {{! TODO ADD REDIS SUPPORT FOR QUARKUS }}
+    {{!"SPRING_REDIS_HOST"          = var.azure_redis_host }}
+    {{!"SPRING_REDIS_PASSWORD"      = var.azure_redis_password }}
+    {{!"SPRING_REDIS_PORT"          = "6380" }}
+    {{!"SPRING_REDIS_SSL"           = "true" }}
+  {{!/addonRedis}}
+  {{#addonStorageBlob}}
+
+    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
+    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
+    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+
+    "QUARKUS_MONGODB_DATABASE"     = var.azure_cosmosdb_mongodb_database
+    "QUARKUS_MONGODB_HOSTS"        = var.azure_cosmosdb_mongodb_uri
+  {{/addonCosmosdbMongodb}}
+{{/runtimeQuarkus}}
 {{#runtimeSpring}}
     "SPRING_PROFILES_ACTIVE"     = "prod,azure"
   {{#databaseTypeSqlServer}}

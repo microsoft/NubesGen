@@ -135,7 +135,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Build with Maven
+        <%#runtimeQuarkus%>
+        run: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar
+        <%/runtimeQuarkus%>
+        <%^runtimeQuarkus%>
         run: mvn package -Pprod,azure
+        <%/runtimeQuarkus%>
       - name: Temporarily save package
         uses: actions/upload-artifact@v2
         with:

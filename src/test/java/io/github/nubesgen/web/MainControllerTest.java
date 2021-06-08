@@ -70,6 +70,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOCKER|"));
         assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: docker build"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+        assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
     }
 
     @Test
@@ -98,6 +99,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
         assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+        assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
     }
 
     @Test
@@ -134,8 +136,42 @@ public class MainControllerTest {
     }
 
     @Test
+    public void generateDefaultQuarkusApplication() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?runtime=quarkus&gitops=true")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+    }
+
+    @Test
+    public void generateQuarkusApplicationWithPostgresql() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=quarkus&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("\"QUARKUS_DATASOURCE_JDBC_URL\" = \"jdbc:postgresql://${var.database_url}\""));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+    }
+
+    @Test
     public void generateApplicationWithDotnetRuntime() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=dotnet&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=dotnet&database=POSTGRESQL&gitops=true")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -147,11 +183,12 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOTNETCORE|"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("DOTNET_VERSION"));
     }
 
     @Test
     public void generateApplicationWithJavaRuntime() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=java&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=java&database=POSTGRESQL&gitops=true")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -163,6 +200,8 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure"));
+        assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
     }
 
     @Test
