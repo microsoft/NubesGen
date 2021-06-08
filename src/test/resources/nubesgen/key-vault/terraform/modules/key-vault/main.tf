@@ -2,6 +2,7 @@
 resource "random_string" "key_vault" {
   length           = 20
   special          = false
+  upper = false
 }
 
 data "azurerm_client_config" "current" {}
