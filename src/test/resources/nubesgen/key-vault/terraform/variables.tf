@@ -1,7 +1,7 @@
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = "nubesgen-appinsights-java"
+  default     = "nubesgen-key-vault"
 }
 
 variable "environment" {
