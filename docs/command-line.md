@@ -95,6 +95,7 @@ You can add "addons", which are specific technologies added to your stack:
 | Name  | Description  | POST example | GET example  |
 |---|---|---|---|
 | APPLICATION_INSIGHTS  | Add support for Azure Application Insights  | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope", "addons": [{ "type": "APPLICATION_INSIGHTS", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?addons=application_insights`  |
+| KEY_VAULT  | Add support for Azure Key Vault  | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope", "addons": [{ "type": "KEY_VAULT", "tier": "STANDARD"}]}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?addons=key_vault`  |
 | STORAGE_BLOB  | Add support for Azure Blob Storage  | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope", "addons": [{ "type": "STORAGE_BLOB", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?addons=storage_blob`  |
 | REDIS  | Add support for Azure Cache for Redis  | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope", "addons": [{ "type": "REDIS", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?addons=redis`  |
 | COSMOSDB_MONGODB  | Add support for Cosmos DB with the MongoDB API  | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope", "addons": [{ "type": "COSMOSDB_MONGODB", "tier": "BASIC"}]}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?addons=cosmosdb_mongodb`  |
