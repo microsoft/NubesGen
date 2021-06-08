@@ -234,6 +234,7 @@ class CodeGeneratorServiceTest {
         properties.setRuntimeType(RuntimeType.SPRING);
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.APP_SERVICE, Tier.STANDARD));
         properties.setRegion("westeurope");
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC));
         List<AddonConfiguration> addons = new ArrayList<>();
         addons.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.BASIC));
         properties.setAddons(addons);
@@ -243,7 +244,8 @@ class CodeGeneratorServiceTest {
         testGeneratedFiles(properties, "key-vault", configuration,
                 this.templateListService.listMainTemplates(),
                 this.templateListService.listAppServiceTemplates(),
-                this.templateListService.listApplicationInsightsTemplates());
+                this.templateListService.listPostgresqlTemplates(),
+                this.templateListService.listKeyVaultTemplates());
 
     }
 

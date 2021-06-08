@@ -29,11 +29,11 @@ resource "azurerm_resource_group" "main" {
 }
 
 module "application" {
-  source            = "./modules/app-service"
-  resource_group    = azurerm_resource_group.main.name
-  application_name  = local.application_name
-  environment       = local.environment
-  location          = var.location
+  source           = "./modules/app-service"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = local.application_name
+  environment      = local.environment
+  location         = var.location
 
   database_url      = module.database.database_url
   database_username = module.database.database_username
