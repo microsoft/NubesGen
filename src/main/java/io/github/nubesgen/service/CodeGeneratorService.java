@@ -81,6 +81,9 @@ public class CodeGeneratorService {
             if (AddonType.APPLICATION_INSIGHTS.equals(addon.getAddonType())) {
                 generateFileList(configuration, templateListService.listApplicationInsightsTemplates(), result);
             }
+            if (AddonType.KEY_VAULT.equals(addon.getAddonType())) {
+                generateFileList(configuration, templateListService.listKeyVaultTemplates(), result);
+            }
             if (AddonType.REDIS.equals(addon.getAddonType())) {
                 generateFileList(configuration, templateListService.listRedisTemplates(), result);
             }

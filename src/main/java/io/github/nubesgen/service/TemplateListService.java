@@ -33,6 +33,8 @@ public class TemplateListService {
 
     private final List<String> applicationInsightsList = new ArrayList<>();
 
+    private final List<String> keyVaultList = new ArrayList<>();
+
     public TemplateListService() {
         // GitOps files
         gitOpsList.add(".github/workflows/gitops.yml");
@@ -87,6 +89,11 @@ public class TemplateListService {
         applicationInsightsList.add("terraform/modules/application-insights/outputs.tf");
         applicationInsightsList.add("terraform/modules/application-insights/README.md");
         applicationInsightsList.add("terraform/modules/application-insights/variables.tf");
+        // Key Vault module
+        keyVaultList.add("terraform/modules/key-vault/main.tf");
+        keyVaultList.add("terraform/modules/key-vault/outputs.tf");
+        keyVaultList.add("terraform/modules/key-vault/README.md");
+        keyVaultList.add("terraform/modules/key-vault/variables.tf");
     }
 
     public List<String> listGitOpsTemplates() {
@@ -133,9 +140,13 @@ public class TemplateListService {
         return applicationInsightsList;
     }
 
+    public List<String> listKeyVaultTemplates() {
+        return keyVaultList;
+    }
+
     public List<String> listAllTemplates() {
         return Stream.of(gitOpsList, mainList, appServiceList, functionList, sqlServerList, mysqlList, postgresqlList, redisList,
-                storageBlobList, cosmosdbMongodbList, applicationInsightsList)
+                storageBlobList, cosmosdbMongodbList, applicationInsightsList, keyVaultList)
                 .flatMap(Collection::stream).collect(Collectors.toList());
     }
 }
