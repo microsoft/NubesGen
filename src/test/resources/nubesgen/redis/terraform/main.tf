@@ -35,8 +35,8 @@ module "application" {
   environment      = local.environment
   location         = var.location
 
-  azure_redis_host       = module.redis.azure_redis_host
-  azure_redis_password   = module.redis.azure_redis_password
+  azure_redis_host     = module.redis.azure_redis_host
+  azure_redis_password = module.redis.azure_redis_password
 }
 
 module "redis" {

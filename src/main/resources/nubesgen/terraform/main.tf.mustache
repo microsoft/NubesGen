@@ -45,8 +45,14 @@ module "application" {
 {{^databaseTypeNone}}
 
   database_url      = module.database.database_url
+  {{^addonKeyVault}}
   database_username = module.database.database_username
   database_password = module.database.database_password
+  {{/addonKeyVault}}
+  {{#addonKeyVault}}
+  database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
+  database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
+  {{/addonKeyVault}}
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
 
@@ -58,19 +64,34 @@ module "application" {
 {{/addonKeyVault}}
 {{#addonRedis}}
 
-  azure_redis_host       = module.redis.azure_redis_host
-  azure_redis_password   = module.redis.azure_redis_password
+  azure_redis_host     = module.redis.azure_redis_host
+  {{^addonKeyVault}}
+  azure_redis_password = module.redis.azure_redis_password
+  {{/addonKeyVault}}
+  {{#addonKeyVault}}
+  azure_redis_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/redis-password)"
+  {{/addonKeyVault}}
 {{/addonRedis}}
 {{#addonStorageBlob}}
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
-  azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
   azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
+  {{^addonKeyVault}}
+  azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
+  {{/addonKeyVault}}
+  {{#addonKeyVault}}
+  azure_storage_account_key   = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/storage-account-key)"
+  {{/addonKeyVault}}
 {{/addonStorageBlob}}
 {{#addonCosmosdbMongodb}}
 
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
+  {{^addonKeyVault}}
   azure_cosmosdb_mongodb_uri      = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
+  {{/addonKeyVault}}
+  {{#addonKeyVault}}
+  azure_cosmosdb_mongodb_uri      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-uri)"
+  {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
 }
 {{^databaseTypeNone}}

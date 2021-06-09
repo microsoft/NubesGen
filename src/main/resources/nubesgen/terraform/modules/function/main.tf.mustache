@@ -118,16 +118,16 @@ resource "azurerm_function_app" "application" {
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
 
-    "SPRING_REDIS_HOST"          = var.azure_redis_host
-    "SPRING_REDIS_PASSWORD"      = var.azure_redis_password
-    "SPRING_REDIS_PORT"          = "6380"
-    "SPRING_REDIS_SSL"           = "true"
+    "SPRING_REDIS_HOST"     = var.azure_redis_host
+    "SPRING_REDIS_PASSWORD" = var.azure_redis_password
+    "SPRING_REDIS_PORT"     = "6380"
+    "SPRING_REDIS_SSL"      = "true"
   {{/addonRedis}}
   {{#addonStorageBlob}}
 
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
-    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
 
@@ -163,8 +163,8 @@ resource "azurerm_function_app" "application" {
   {{#addonStorageBlob}}
 
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
-    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
 

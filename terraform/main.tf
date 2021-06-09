@@ -36,8 +36,8 @@ module "application" {
   location         = var.location
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
-  azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
   azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
+  azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
 }
 
 module "storage-blob" {
