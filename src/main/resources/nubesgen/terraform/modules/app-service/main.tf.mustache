@@ -137,13 +137,10 @@ resource "azurerm_app_service" "application" {
     "QUARKUS_DATASOURCE_USERNAME" = var.database_username
     "QUARKUS_DATASOURCE_PASSWORD" = var.database_password
   {{/databaseTypePostgresql}}
-  {{!#addonRedis}}
-  {{! TODO ADD REDIS SUPPORT FOR QUARKUS }}
-    {{!"SPRING_REDIS_HOST"          = var.azure_redis_host }}
-    {{!"SPRING_REDIS_PASSWORD"      = var.azure_redis_password }}
-    {{!"SPRING_REDIS_PORT"          = "6380" }}
-    {{!"SPRING_REDIS_SSL"           = "true" }}
-  {{!/addonRedis}}
+  {{#addonRedis}}
+
+    "QUARKUS_REDIS_HOSTS"         = "redis://${var.azure_redis_password}@${var.azure_redis_host}:6380"
+  {{/addonRedis}}
   {{#addonStorageBlob}}
 
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name

@@ -136,6 +136,22 @@ public class MainControllerTest {
     }
 
     @Test
+    public void generateSpringApplicationWithRedisAddons() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?runtime=spring&addons=REDIS")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/redis"));
+        assertTrue(entries.containsKey("terraform/modules/redis/main.tf"));
+        assertTrue(entries.get("terraform/modules/redis/main.tf").contains("azurerm_redis_cache"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("SPRING_REDIS_HOST"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+    }
+
+    @Test
     public void generateDefaultQuarkusApplication() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?runtime=quarkus&gitops=true")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
@@ -149,6 +165,22 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
         assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+    }
+
+    @Test
+    public void generateQuarkusApplicationWithRedisAddons() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?runtime=quarkus&addons=REDIS")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/redis"));
+        assertTrue(entries.containsKey("terraform/modules/redis/main.tf"));
+        assertTrue(entries.get("terraform/modules/redis/main.tf").contains("azurerm_redis_cache"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("QUARKUS_REDIS_HOSTS"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
@@ -219,6 +251,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/redis/main.tf").contains("azurerm_redis_cache"));
         assertTrue(entries.containsKey("terraform/modules/storage-blob/main.tf"));
         assertTrue(entries.get("terraform/modules/storage-blob/main.tf").contains("azurerm_storage_account"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("REDIS_HOST"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
