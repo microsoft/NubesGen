@@ -76,6 +76,12 @@ resource "azurerm_function_app" "application" {
     linux_fx_version = "Node|14"
 {{/runtimeNodejs}}
   }
+{{#addonKeyVault}}
+
+  identity {
+    type = "SystemAssigned"
+  }
+{{/addonKeyVault}}
 
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE"    = "1"
@@ -174,3 +180,18 @@ resource "azurerm_function_app" "application" {
 {{/runtimeSpring}}
   }
 }
+{{#addonKeyVault}}
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault_access_policy" "application" {
+  key_vault_id   = var.vault_id
+  tenant_id      = data.azurerm_client_config.current.tenant_id
+  object_id      = azurerm_function_app.application.identity[0].principal_id
+
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
+}
+{{/addonKeyVault}}
