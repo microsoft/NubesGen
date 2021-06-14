@@ -137,6 +137,7 @@ public class NubesgenConfiguration {
     public boolean isRuntimeJava() {
         return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
                 RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
+                RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
                 RuntimeType.JAVA.equals(this.getRuntimeType()) ||
                 RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType());
     }
@@ -149,8 +150,14 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isRuntimeQuarkus() {
+        return RuntimeType.QUARKUS.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
     public boolean isRuntimeMaven() {
         return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+                RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
                 RuntimeType.JAVA.equals(this.getRuntimeType());
     }
 
@@ -172,7 +179,7 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isRuntimeDefault() {
-        return !isRuntimeSpring();
+        return !isRuntimeSpring() && !isRuntimeQuarkus();
     }
 
     @JsonIgnore

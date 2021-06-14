@@ -49,6 +49,20 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    void generateDefaultQuarkusConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp");
+        properties.setRuntimeType(RuntimeType.QUARKUS);
+        properties.setRegion("westeurope");
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "app-service-quarkus", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates());
+    }
+
+    @Test
     void generateGitOpsMavenConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-gitops-testapp");
@@ -168,6 +182,22 @@ class CodeGeneratorServiceTest {
                 this.templateListService.listAppServiceTemplates(),
                 this.templateListService.listMysqlTemplates());
 
+    }
+
+    @Test
+    void generateMysqlQuarkusConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-mysql-quarkus");
+        properties.setRuntimeType(RuntimeType.QUARKUS);
+        properties.setRegion("westeurope");
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC));
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "mysql-quarkus", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listMysqlTemplates());
     }
 
     @Test
