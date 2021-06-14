@@ -42,6 +42,13 @@ variable "azure_application_insights_instrumentation_key" {
   description = "The Azure Application Insights instrumentation key"
 }
 {{/addonApplicationInsights}}
+{{#addonKeyVault}}
+
+variable "vault_id" {
+  type        = string
+  description = "The Azure Key Vault ID"
+}
+{{/addonKeyVault}}
 {{#addonStorageBlob}}
 
 variable "azure_storage_account_name" {

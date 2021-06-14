@@ -258,6 +258,12 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isAddonKeyVault() {
+        return this.getAddons().stream()
+                .anyMatch(addon -> AddonType.KEY_VAULT.equals(addon.getAddonType()));
+    }
+
+    @JsonIgnore
     public boolean isAddonStorageBlob() {
         return this.getAddons().stream()
                 .anyMatch(addon -> AddonType.STORAGE_BLOB.equals(addon.getAddonType()));

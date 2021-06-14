@@ -13,8 +13,8 @@ resource "azurerm_app_service_plan" "application" {
   }
 
   sku {
-    tier = "Free"
-    size = "F1"
+    tier = "Standard"
+    size = "S1"
   }
 }
 
@@ -31,10 +31,13 @@ resource "azurerm_app_service" "application" {
   }
 
   site_config {
-    linux_fx_version          = "JAVA|11-java11"
-    always_on                 = false
-    use_32_bit_worker_process = true
-    ftps_state                = "FtpsOnly"
+    linux_fx_version = "JAVA|11-java11"
+    always_on        = true
+    ftps_state       = "FtpsOnly"
+  }
+
+  identity {
+    type = "SystemAssigned"
   }
 
   app_settings = {
@@ -43,9 +46,21 @@ resource "azurerm_app_service" "application" {
     # These are app specific environment variables
     "SPRING_PROFILES_ACTIVE"     = "prod,azure"
 
-    "SPRING_REDIS_HOST"     = var.azure_redis_host
-    "SPRING_REDIS_PASSWORD" = var.azure_redis_password
-    "SPRING_REDIS_PORT"     = "6380"
-    "SPRING_REDIS_SSL"      = "true"
+    "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
+    "SPRING_DATASOURCE_USERNAME" = var.database_username
+    "SPRING_DATASOURCE_PASSWORD" = var.database_password
   }
+}
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault_access_policy" "application" {
+  key_vault_id   = var.vault_id
+  tenant_id      = data.azurerm_client_config.current.tenant_id
+  object_id      = azurerm_app_service.application.identity[0].principal_id
+
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
 }

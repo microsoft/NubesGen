@@ -182,6 +182,8 @@ public class MainController {
                 log.debug("Configuring addon: {}", addon);
                 if (addon.startsWith(AddonType.APPLICATION_INSIGHTS.name())) {
                     addonConfigurations.add(new AddonConfiguration(AddonType.APPLICATION_INSIGHTS, Tier.BASIC));
+                } else if (addon.startsWith(AddonType.KEY_VAULT.name())) {
+                    addonConfigurations.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.STANDARD));
                 } else if (addon.startsWith(AddonType.REDIS.name())) {
                     addonConfigurations.add(new AddonConfiguration(AddonType.REDIS, Tier.BASIC));
                 } else if (addon.startsWith(AddonType.STORAGE_BLOB.name())) {

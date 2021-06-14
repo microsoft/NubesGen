@@ -228,6 +228,28 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    void generateKeyVaultConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-key-vault");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.APP_SERVICE, Tier.STANDARD));
+        properties.setRegion("westeurope");
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC));
+        List<AddonConfiguration> addons = new ArrayList<>();
+        addons.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.BASIC));
+        properties.setAddons(addons);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "key-vault", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listPostgresqlTemplates(),
+                this.templateListService.listKeyVaultTemplates());
+
+    }
+
+    @Test
     void generateSqlServerConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-sql-server");
