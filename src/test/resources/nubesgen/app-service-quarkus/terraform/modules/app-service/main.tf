@@ -41,7 +41,7 @@ resource "azurerm_app_service" "application" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 
     # These are app specific environment variables
-    "QUARKUS_HTTP_PORT"           = 80
-    "QUARKUS_PROFILE"             = "prod"
+    "QUARKUS_HTTP_PORT" = 80
+    "QUARKUS_PROFILE"   = "prod"
   }
 }
