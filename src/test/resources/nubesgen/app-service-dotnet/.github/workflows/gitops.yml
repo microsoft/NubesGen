@@ -12,6 +12,8 @@ on:
     branches:
       - 'env-*'
 
+concurrency: manage-infrastructure-${{ github.ref }}
+
 env:
   DOTNET_VERSION: '3.1'
   APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root

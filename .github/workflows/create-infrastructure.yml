@@ -3,7 +3,7 @@ name: Create Infrastructure
 ###
 # Create infrastructure GitHub Action
 #
-# See https://github.com/microsoft/NubesGen/blob/main/docs/gitops-overview.md 
+# See https://github.com/microsoft/NubesGen/blob/main/docs/gitops-overview.md
 # for more information about using GitOps with NubesGen.
 ###
 
@@ -11,6 +11,8 @@ on:
   create:
     branches:
       - 'env-*'
+
+concurrency: manage-infrastructure-${{ github.ref }}
 
 jobs:
   terraform:

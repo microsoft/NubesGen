@@ -12,6 +12,8 @@ on:
   push:
     branches:
       - 'env-*'
+
+concurrency: manage-infrastructure-${{ github.ref }}
 <%#runtimeDotnet%>
 
 env:

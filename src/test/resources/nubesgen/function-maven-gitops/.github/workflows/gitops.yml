@@ -12,6 +12,8 @@ on:
     branches:
       - 'env-*'
 
+concurrency: manage-infrastructure-${{ github.ref }}
+
 jobs:
   manage-infrastructure:
     runs-on: ubuntu-20.04

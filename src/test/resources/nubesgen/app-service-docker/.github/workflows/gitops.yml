@@ -12,6 +12,8 @@ on:
     branches:
       - 'env-*'
 
+concurrency: manage-infrastructure-${{ github.ref }}
+
 env:
   APPLICATION_NAME: 'nubesgen-testapp-app-service-docker'
   CONTAINER_REGISTRY: 'nubesgentestappappservicedocker'
