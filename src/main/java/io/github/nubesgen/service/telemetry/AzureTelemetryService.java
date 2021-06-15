@@ -1,4 +1,4 @@
-package io.github.nubesgen.service;
+package io.github.nubesgen.service.telemetry;
 
 import com.azure.storage.blob.BlobServiceAsyncClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
@@ -14,16 +14,17 @@ import java.util.UUID;
 
 @Service
 @Profile("azure")
-public class TelemetryService {
+public class AzureTelemetryService implements TelemetryService {
 
-    private final Logger log = LoggerFactory.getLogger(TelemetryService.class);
+    private final Logger log = LoggerFactory.getLogger(AzureTelemetryService.class);
 
     private final BlobServiceAsyncClient blobServiceAsyncClient;
 
-    public TelemetryService(BlobServiceClientBuilder blobServiceClientBuilder) {
+    public AzureTelemetryService(BlobServiceClientBuilder blobServiceClientBuilder) {
         blobServiceAsyncClient = blobServiceClientBuilder.buildAsyncClient();
     }
 
+    @Override
     public void storeConfiguration(String configuration) {
         log.info("Sending telemetry data...");
         UUID uuid = UUID.randomUUID();

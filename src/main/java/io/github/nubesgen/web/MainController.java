@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.nubesgen.configuration.*;
 import io.github.nubesgen.service.CodeGeneratorService;
-import io.github.nubesgen.service.TelemetryService;
+import io.github.nubesgen.service.telemetry.TelemetryService;
 import io.github.nubesgen.service.compression.CompressionService;
 import io.github.nubesgen.service.compression.TarGzService;
 import io.github.nubesgen.service.compression.ZipService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,14 +35,19 @@ public class MainController {
 
     private final ObjectMapper objectMapper;
 
-    @Autowired(required = false)
-    private TelemetryService telemetryService;
+    private final TelemetryService telemetryService;
 
-    public MainController(CodeGeneratorService codeGeneratorService, TarGzService tarGzService, ZipService zipService, ObjectMapper objectMapper) {
+    public MainController(CodeGeneratorService codeGeneratorService,
+                          TarGzService tarGzService,
+                          ZipService zipService,
+                          ObjectMapper objectMapper,
+                          TelemetryService telemetryService) {
+
         this.codeGeneratorService = codeGeneratorService;
         this.tarGzService = tarGzService;
         this.zipService = zipService;
         this.objectMapper = objectMapper;
+        this.telemetryService = telemetryService;
     }
 
     @GetMapping(value = "/{applicationName}.zip")
@@ -203,9 +207,7 @@ public class MainController {
         try {
             String jsonConfiguration = objectMapper.writeValueAsString(properties);
             log.info("Generating cloud configuration\n{}", jsonConfiguration);
-            if (telemetryService != null) {
-                this.telemetryService.storeConfiguration(jsonConfiguration);
-            }
+            this.telemetryService.storeConfiguration(jsonConfiguration);
         } catch (JsonProcessingException e) {
             log.error("Nubesgen configuration could not be mapped to JSON", e);
         }
