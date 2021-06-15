@@ -49,6 +49,8 @@
             <groupId>com.azure</groupId>
             <artifactId>azure-graalvm-support</artifactId>
             <version>1.0.0-beta.1</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/azure-graalvm-support-1.0.0-beta.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
