@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.nubesgen.configuration.*;
 import io.github.nubesgen.service.CodeGeneratorService;
-import io.github.nubesgen.service.telemetry.TelemetryService;
+import io.github.nubesgen.service.TelemetryService;
 import io.github.nubesgen.service.compression.CompressionService;
 import io.github.nubesgen.service.compression.TarGzService;
 import io.github.nubesgen.service.compression.ZipService;

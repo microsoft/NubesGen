@@ -35,26 +35,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-storage-blob</artifactId>
+            <version>12.12.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.experimental</groupId>
             <artifactId>spring-native</artifactId>
             <version>${spring-native.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-boot-starter-storage</artifactId>
-            <version>3.5.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-graalvm-support</artifactId>
             <version>1.0.0-beta.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-storage-blob</artifactId>
-            <version>12.12.0</version>
-        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
