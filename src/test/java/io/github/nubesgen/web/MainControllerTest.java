@@ -1,14 +1,9 @@
 package io.github.nubesgen.web;
 
-import io.github.nubesgen.service.CodeGeneratorService;
-import io.github.nubesgen.service.TemplateListService;
-import io.github.nubesgen.service.compression.TarGzService;
-import io.github.nubesgen.service.compression.ZipService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -26,7 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MainController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class MainControllerTest {
 
     @Autowired
@@ -42,7 +38,7 @@ public class MainControllerTest {
             if (entry != null) {
                 StringBuilder s = new StringBuilder();
                 byte[] buffer = new byte[1024];
-                int read = 0;
+                int read;
                 while ((read = zipStream.read(buffer, 0, 1024)) >= 0) {
                     s.append(new String(buffer, 0, read));
                 }
@@ -308,29 +304,5 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/mysql/main.tf"));
         assertTrue(entries.get("terraform/modules/mysql/main.tf").contains("sku_name                          = \"GP_Gen5_2\""));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
-    }
-
-    @TestConfiguration
-    static class AdditionalConfig {
-
-        @Bean
-        public TemplateListService templateListService() {
-            return new TemplateListService();
-        }
-
-        @Bean
-        public CodeGeneratorService codeGeneratorService() throws IOException {
-            return new CodeGeneratorService(templateListService());
-        }
-
-        @Bean
-        public TarGzService tarGzService() {
-            return new TarGzService();
-        }
-
-        @Bean
-        public ZipService zipService() {
-            return new ZipService();
-        }
     }
 }

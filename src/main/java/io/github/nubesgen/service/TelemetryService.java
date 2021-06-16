@@ -4,27 +4,55 @@ import com.azure.storage.blob.BlobServiceAsyncClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import javax.annotation.PostConstruct;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @Service
-@Profile("azure")
 public class TelemetryService {
 
     private final Logger log = LoggerFactory.getLogger(TelemetryService.class);
 
-    private final BlobServiceAsyncClient blobServiceAsyncClient;
+    @Value("${azure.storage.account-name}")
+    private String storageAccountName;
 
-    public TelemetryService(BlobServiceClientBuilder blobServiceClientBuilder) {
-        blobServiceAsyncClient = blobServiceClientBuilder.buildAsyncClient();
+    @Value("${azure.storage.account-key}")
+    private String storageAccountKey;
+
+    @Value("${azure.storage.blob-endpoint}")
+    private String blobStorageEndpoint;
+
+    private boolean telemetryEnabled;
+
+    private BlobServiceAsyncClient blobServiceAsyncClient;
+
+    @PostConstruct
+    public void init() {
+        if (storageAccountName == null || storageAccountKey.isEmpty() || storageAccountKey == null || storageAccountKey.isEmpty()) {
+            log.warn("Telemetry is disabled, as it was not configured");
+            telemetryEnabled = false;
+        } else {
+            log.warn("Telemetry is enabled");
+            telemetryEnabled = true;
+            blobServiceAsyncClient = new BlobServiceClientBuilder()
+                    .connectionString("DefaultEndpointsProtocol=https;AccountName=" +
+                            storageAccountName +
+                            ";AccountKey=" +
+                            storageAccountKey +
+                            ";EndpointSuffix=core.windows.net")
+                    .buildAsyncClient();
+        }
     }
 
     public void storeConfiguration(String configuration) {
+        if (!telemetryEnabled) {
+            return;
+        }
         log.info("Sending telemetry data...");
         UUID uuid = UUID.randomUUID();
         String blobName = uuid + ".json";
