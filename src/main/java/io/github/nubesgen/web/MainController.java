@@ -10,7 +10,6 @@ import io.github.nubesgen.service.compression.TarGzService;
 import io.github.nubesgen.service.compression.ZipService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,14 +35,19 @@ public class MainController {
 
     private final ObjectMapper objectMapper;
 
-    @Autowired(required = false)
-    private TelemetryService telemetryService;
+    private final TelemetryService telemetryService;
 
-    public MainController(CodeGeneratorService codeGeneratorService, TarGzService tarGzService, ZipService zipService, ObjectMapper objectMapper) {
+    public MainController(CodeGeneratorService codeGeneratorService,
+                          TarGzService tarGzService,
+                          ZipService zipService,
+                          ObjectMapper objectMapper,
+                          TelemetryService telemetryService) {
+
         this.codeGeneratorService = codeGeneratorService;
         this.tarGzService = tarGzService;
         this.zipService = zipService;
         this.objectMapper = objectMapper;
+        this.telemetryService = telemetryService;
     }
 
     @GetMapping(value = "/{applicationName}.zip")
@@ -111,6 +115,8 @@ public class MainController {
             properties.setRuntimeType(RuntimeType.SPRING);
         } else if (runtime.equals(RuntimeType.SPRING_GRADLE.name())) {
             properties.setRuntimeType(RuntimeType.SPRING_GRADLE);
+        } else if (runtime.equals(RuntimeType.QUARKUS.name())) {
+            properties.setRuntimeType(RuntimeType.QUARKUS);
         } else if (runtime.equals(RuntimeType.NODEJS.name())) {
             properties.setRuntimeType(RuntimeType.NODEJS);
         } else if (runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
@@ -182,6 +188,8 @@ public class MainController {
                 log.debug("Configuring addon: {}", addon);
                 if (addon.startsWith(AddonType.APPLICATION_INSIGHTS.name())) {
                     addonConfigurations.add(new AddonConfiguration(AddonType.APPLICATION_INSIGHTS, Tier.BASIC));
+                } else if (addon.startsWith(AddonType.KEY_VAULT.name())) {
+                    addonConfigurations.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.STANDARD));
                 } else if (addon.startsWith(AddonType.REDIS.name())) {
                     addonConfigurations.add(new AddonConfiguration(AddonType.REDIS, Tier.BASIC));
                 } else if (addon.startsWith(AddonType.STORAGE_BLOB.name())) {
@@ -199,9 +207,7 @@ public class MainController {
         try {
             String jsonConfiguration = objectMapper.writeValueAsString(properties);
             log.info("Generating cloud configuration\n{}", jsonConfiguration);
-            if (telemetryService != null) {
-                this.telemetryService.storeConfiguration(jsonConfiguration);
-            }
+            this.telemetryService.storeConfiguration(jsonConfiguration);
         } catch (JsonProcessingException e) {
             log.error("Nubesgen configuration could not be mapped to JSON", e);
         }

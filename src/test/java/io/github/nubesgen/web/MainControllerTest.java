@@ -1,14 +1,9 @@
 package io.github.nubesgen.web;
 
-import io.github.nubesgen.service.CodeGeneratorService;
-import io.github.nubesgen.service.TemplateListService;
-import io.github.nubesgen.service.compression.TarGzService;
-import io.github.nubesgen.service.compression.ZipService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -19,13 +14,15 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MainController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class MainControllerTest {
 
     @Autowired
@@ -41,7 +38,7 @@ public class MainControllerTest {
             if (entry != null) {
                 StringBuilder s = new StringBuilder();
                 byte[] buffer = new byte[1024];
-                int read = 0;
+                int read;
                 while ((read = zipStream.read(buffer, 0, 1024)) >= 0) {
                     s.append(new String(buffer, 0, read));
                 }
@@ -67,7 +64,9 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOCKER|"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("GitOps"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: docker build"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+        assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
     }
 
     @Test
@@ -94,7 +93,9 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("GitOps"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+        assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
     }
 
     @Test
@@ -110,6 +111,7 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/variables.tf"));
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
@@ -126,11 +128,78 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("\"SPRING_DATASOURCE_URL\"      = \"jdbc:postgresql://${var.database_url}\""));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+    }
+
+    @Test
+    public void generateSpringApplicationWithRedisAddons() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?runtime=spring&addons=REDIS")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/redis"));
+        assertTrue(entries.containsKey("terraform/modules/redis/main.tf"));
+        assertTrue(entries.get("terraform/modules/redis/main.tf").contains("azurerm_redis_cache"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("SPRING_REDIS_HOST"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+    }
+
+    @Test
+    public void generateDefaultQuarkusApplication() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?runtime=quarkus&gitops=true")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+    }
+
+    @Test
+    public void generateQuarkusApplicationWithRedisAddons() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?runtime=quarkus&addons=REDIS")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/redis"));
+        assertTrue(entries.containsKey("terraform/modules/redis/main.tf"));
+        assertTrue(entries.get("terraform/modules/redis/main.tf").contains("azurerm_redis_cache"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("QUARKUS_REDIS_HOSTS"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+    }
+
+    @Test
+    public void generateQuarkusApplicationWithPostgresql() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=quarkus&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
+        assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("\"QUARKUS_DATASOURCE_JDBC_URL\" = \"jdbc:postgresql://${var.database_url}\""));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
     public void generateApplicationWithDotnetRuntime() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=dotnet&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=dotnet&database=POSTGRESQL&gitops=true")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -142,11 +211,12 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOTNETCORE|"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("DOTNET_VERSION"));
     }
 
     @Test
     public void generateApplicationWithJavaRuntime() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=java&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=java&database=POSTGRESQL&gitops=true")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -158,6 +228,8 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure"));
+        assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
     }
 
     @Test
@@ -175,6 +247,8 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/redis/main.tf").contains("azurerm_redis_cache"));
         assertTrue(entries.containsKey("terraform/modules/storage-blob/main.tf"));
         assertTrue(entries.get("terraform/modules/storage-blob/main.tf").contains("azurerm_storage_account"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("REDIS_HOST"));
+        assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
@@ -229,29 +303,6 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("size = \"S1\""));
         assertTrue(entries.containsKey("terraform/modules/mysql/main.tf"));
         assertTrue(entries.get("terraform/modules/mysql/main.tf").contains("sku_name                          = \"GP_Gen5_2\""));
-    }
-
-    @TestConfiguration
-    static class AdditionalConfig {
-
-        @Bean
-        public TemplateListService templateListService() {
-            return new TemplateListService();
-        }
-
-        @Bean
-        public CodeGeneratorService codeGeneratorService() throws IOException {
-            return new CodeGeneratorService(templateListService());
-        }
-
-        @Bean
-        public TarGzService tarGzService() {
-            return new TarGzService();
-        }
-
-        @Bean
-        public ZipService zipService() {
-            return new ZipService();
-        }
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 }

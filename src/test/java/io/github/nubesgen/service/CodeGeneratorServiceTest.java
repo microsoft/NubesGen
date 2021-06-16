@@ -49,6 +49,20 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    void generateDefaultQuarkusConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp");
+        properties.setRuntimeType(RuntimeType.QUARKUS);
+        properties.setRegion("westeurope");
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "app-service-quarkus", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates());
+    }
+
+    @Test
     void generateGitOpsMavenConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-gitops-testapp");
@@ -171,6 +185,22 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    void generateMysqlQuarkusConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-mysql-quarkus");
+        properties.setRuntimeType(RuntimeType.QUARKUS);
+        properties.setRegion("westeurope");
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC));
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "mysql-quarkus", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listMysqlTemplates());
+    }
+
+    @Test
     void generatePostgreSQLConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-postgresql");
@@ -224,6 +254,28 @@ class CodeGeneratorServiceTest {
                 this.templateListService.listMainTemplates(),
                 this.templateListService.listAppServiceTemplates(),
                 this.templateListService.listApplicationInsightsTemplates());
+
+    }
+
+    @Test
+    void generateKeyVaultConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-key-vault");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.APP_SERVICE, Tier.STANDARD));
+        properties.setRegion("westeurope");
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC));
+        List<AddonConfiguration> addons = new ArrayList<>();
+        addons.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.BASIC));
+        properties.setAddons(addons);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "key-vault", configuration,
+                this.templateListService.listMainTemplates(),
+                this.templateListService.listAppServiceTemplates(),
+                this.templateListService.listPostgresqlTemplates(),
+                this.templateListService.listKeyVaultTemplates());
 
     }
 

@@ -137,6 +137,7 @@ public class NubesgenConfiguration {
     public boolean isRuntimeJava() {
         return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
                 RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
+                RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
                 RuntimeType.JAVA.equals(this.getRuntimeType()) ||
                 RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType());
     }
@@ -149,8 +150,14 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isRuntimeQuarkus() {
+        return RuntimeType.QUARKUS.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
     public boolean isRuntimeMaven() {
         return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+                RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
                 RuntimeType.JAVA.equals(this.getRuntimeType());
     }
 
@@ -168,6 +175,11 @@ public class NubesgenConfiguration {
     @JsonIgnore
     public boolean isRuntimeNodejs() {
         return RuntimeType.NODEJS.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
+    public boolean isRuntimeDefault() {
+        return !isRuntimeSpring() && !isRuntimeQuarkus();
     }
 
     @JsonIgnore
@@ -250,6 +262,12 @@ public class NubesgenConfiguration {
     public boolean isAddonApplicationInsights() {
         return this.getAddons().stream()
                 .anyMatch(addon -> AddonType.APPLICATION_INSIGHTS.equals(addon.getAddonType()));
+    }
+
+    @JsonIgnore
+    public boolean isAddonKeyVault() {
+        return this.getAddons().stream()
+                .anyMatch(addon -> AddonType.KEY_VAULT.equals(addon.getAddonType()));
     }
 
     @JsonIgnore

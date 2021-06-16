@@ -33,40 +33,65 @@ resource "azurerm_resource_group" "main" {
 
 module "application" {
 {{#applicationTypeAppService}}
-  source            = "./modules/app-service"
+  source           = "./modules/app-service"
 {{/applicationTypeAppService}}
 {{#applicationTypeFunction}}
-  source            = "./modules/function"
+  source           = "./modules/function"
 {{/applicationTypeFunction}}
-  resource_group    = azurerm_resource_group.main.name
-  application_name  = local.application_name
-  environment       = local.environment
-  location          = var.location
+  resource_group   = azurerm_resource_group.main.name
+  application_name = local.application_name
+  environment      = local.environment
+  location         = var.location
 {{^databaseTypeNone}}
 
   database_url      = module.database.database_url
+  {{^addonKeyVault}}
   database_username = module.database.database_username
   database_password = module.database.database_password
+  {{/addonKeyVault}}
+  {{#addonKeyVault}}
+  database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
+  database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
+  {{/addonKeyVault}}
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
 
   azure_application_insights_instrumentation_key = module.application-insights.azure_application_insights_instrumentation_key
 {{/addonApplicationInsights}}
+{{#addonKeyVault}}
+
+  vault_id = module.key-vault.vault_id
+{{/addonKeyVault}}
 {{#addonRedis}}
 
-  azure_redis_host       = module.redis.azure_redis_host
-  azure_redis_password   = module.redis.azure_redis_password
+  azure_redis_host     = module.redis.azure_redis_host
+  {{^addonKeyVault}}
+  azure_redis_password = module.redis.azure_redis_password
+  {{/addonKeyVault}}
+  {{#addonKeyVault}}
+  azure_redis_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/redis-password)"
+  {{/addonKeyVault}}
 {{/addonRedis}}
 {{#addonStorageBlob}}
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
-  azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
   azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
+  {{^addonKeyVault}}
+  azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
+  {{/addonKeyVault}}
+  {{#addonKeyVault}}
+  azure_storage_account_key   = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/storage-account-key)"
+  {{/addonKeyVault}}
 {{/addonStorageBlob}}
 {{#addonCosmosdbMongodb}}
 
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
+  {{^addonKeyVault}}
   azure_cosmosdb_mongodb_uri      = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
+  {{/addonKeyVault}}
+  {{#addonKeyVault}}
+  azure_cosmosdb_mongodb_uri      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-uri)"
+  {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
 }
 {{^databaseTypeNone}}
@@ -97,6 +122,33 @@ module "application-insights" {
   location          = var.location
 }
 {{/addonApplicationInsights}}
+{{#addonKeyVault}}
+
+module "key-vault" {
+  source           = "./modules/key-vault"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = local.application_name
+  environment      = local.environment
+  location         = var.location
+  {{^databaseTypeNone}}
+
+  database_username = module.database.database_username
+  database_password = module.database.database_password
+  {{/databaseTypeNone}}
+  {{#addonRedis}}
+
+  redis_password = module.redis.azure_redis_password
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+
+  storage_account_key=module.storage-blob.azurerm_storage_account_key
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+
+  cosmosdb_mongodb_uri=module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
+  {{/addonCosmosdbMongodb}}
+}
+{{/addonKeyVault}}
 {{#addonRedis}}
 
 module "redis" {

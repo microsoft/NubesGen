@@ -161,6 +161,7 @@
                     {id: 'JAVA_GRADLE', name: 'Java with Gradle'},
                     {id: 'SPRING', name: 'Spring Boot (Java) with Maven'},
                     {id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle'},
+                    {id: 'QUARKUS', name: 'Quarkus (Java) with Maven'},
                     {id: 'DOTNET', name: '.NET'},
                     {id: 'NODEJS', name: 'Node.js (JavaScript)'}
                 ],
@@ -805,6 +806,18 @@
                                                    x-model="addons">Application Insights
                                             <div>
                                                 <span class="ml-3 font-normal text-base text-gray-500">Monitoring</span>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <div class="border bg-white rounded flex content-center py-2 px-4"
+                                         x-bind:class="{'bg-blue-200': addons.includes('key_vault')}">
+                                        <label class="inline-flex items-center text-xl">
+                                            <input type="checkbox" value="key_vault"
+                                                   class="form-checkbox h-5 w-5 mr-2"
+                                                   x-model="addons">Key Vault
+                                            <div>
+                                                <span class="ml-3 font-normal text-base text-gray-500">Store secrets in a secure vault</span>
                                             </div>
                                         </label>
                                     </div>
