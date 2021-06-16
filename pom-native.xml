@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+This specific pom.xml file is for building NubesGen with GraalVM (to have a "native" image).
+
+To build this image, a specific library called "com.azure:azure-graalvm-support" is needed, which isn't publicly available.
+
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -45,6 +52,10 @@
             <artifactId>spring-native</artifactId>
             <version>${spring-native.version}</version>
         </dependency>
+        <!--
+        This dependency isn't publicly available yet! This is an internal experiment inside Microsoft,
+        to support GraalVM within the Azure SDK.
+        -->
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-graalvm-support</artifactId>
