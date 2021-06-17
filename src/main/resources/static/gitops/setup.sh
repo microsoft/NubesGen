@@ -95,7 +95,7 @@ if [ $(az group exists --name $RESOURCE_GROUP_NAME) = false ]; then
   az group create --name $RESOURCE_GROUP_NAME --location $LOCATION -o none
 fi
 msg "${GREEN}(4/8) Create storage account \"$TF_STORAGE_ACCOUNT\""
-az storage account create --resource-group $RESOURCE_GROUP_NAME --name $TF_STORAGE_ACCOUNT --sku Standard_LRS --encryption-services blob -o none
+az storage account create --resource-group $RESOURCE_GROUP_NAME --name $TF_STORAGE_ACCOUNT --sku Standard_LRS --allow-blob-public-access false --encryption-services blob -o none
 msg "${GREEN}(5/8) Get storage account key"
 ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $TF_STORAGE_ACCOUNT --query '[0].value' -o tsv)
 msg "${GREEN}(6/8) Create blob container"
