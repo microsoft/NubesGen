@@ -55,12 +55,14 @@ resource "azurerm_app_service" "application" {
 
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
-    "DOCKER_REGISTRY_SERVER_URL"          = "https://${azurerm_container_registry.container-registry.name}.azurecr.io"
-    "DOCKER_REGISTRY_SERVER_USERNAME"     = azurerm_container_registry.container-registry.admin_username
-    "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.container-registry.admin_password
-    "WEBSITES_PORT"                       = "8080"
+
+    "DOCKER_REGISTRY_SERVER_URL"      = "https://${azurerm_container_registry.container-registry.name}.azurecr.io"
+    "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.container-registry.admin_username
+    "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.container-registry.admin_password
+    "WEBSITES_PORT"                   = "8080"
 
     # These are app specific environment variables
-    "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+    "SPRING_PROFILES_ACTIVE" = "prod,azure"
+    "SPRING_SERVER_PORT"     = 80
   }
 }

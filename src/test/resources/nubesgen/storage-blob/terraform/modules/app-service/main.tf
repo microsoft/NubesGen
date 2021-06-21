@@ -41,7 +41,8 @@ resource "azurerm_app_service" "application" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 
     # These are app specific environment variables
-    "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+    "SPRING_PROFILES_ACTIVE" = "prod,azure"
+    "SPRING_SERVER_PORT"     = 80
 
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint

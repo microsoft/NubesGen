@@ -41,7 +41,8 @@ resource "azurerm_app_service" "application" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 
     # These are app specific environment variables
-    "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+    "SPRING_PROFILES_ACTIVE" = "prod,azure"
+    "SPRING_SERVER_PORT"     = 80
 
     "SPRING_REDIS_HOST"     = var.azure_redis_host
     "SPRING_REDIS_PASSWORD" = var.azure_redis_password
