@@ -110,10 +110,11 @@ resource "azurerm_app_service" "application" {
     "WEBSITE_NODE_DEFAULT_VERSION"        = "~14"
 {{/runtimeNodejs}}
 {{#runtimeDocker}}
-    "DOCKER_REGISTRY_SERVER_URL"          = "https://${azurerm_container_registry.container-registry.name}.azurecr.io"
-    "DOCKER_REGISTRY_SERVER_USERNAME"     = azurerm_container_registry.container-registry.admin_username
-    "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.container-registry.admin_password
-    "WEBSITES_PORT"                       = "8080"
+
+    "DOCKER_REGISTRY_SERVER_URL"      = "https://${azurerm_container_registry.container-registry.name}.azurecr.io"
+    "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.container-registry.admin_username
+    "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.container-registry.admin_password
+    "WEBSITES_PORT"                   = "8080"
 {{/runtimeDocker}}
 {{#addonApplicationInsights}}
 
@@ -123,8 +124,8 @@ resource "azurerm_app_service" "application" {
 
     # These are app specific environment variables
 {{#runtimeQuarkus}}
-    "QUARKUS_HTTP_PORT" = 80
     "QUARKUS_PROFILE"   = "prod"
+    "QUARKUS_HTTP_PORT" = 80
   {{#databaseTypeSqlServer}}
 
     "QUARKUS_DATASOURCE_JDBC_URL" = "jdbc:sqlserver://${var.database_url}"

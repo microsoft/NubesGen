@@ -41,8 +41,8 @@ resource "azurerm_app_service" "application" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 
     # These are app specific environment variables
-    "QUARKUS_HTTP_PORT" = 80
     "QUARKUS_PROFILE"   = "prod"
+    "QUARKUS_HTTP_PORT" = 80
 
     "QUARKUS_DATASOURCE_JDBC_URL" = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
     "QUARKUS_DATASOURCE_USERNAME" = var.database_username
