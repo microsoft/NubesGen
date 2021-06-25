@@ -44,7 +44,7 @@ public class CodeGeneratorService {
     }
 
     public Map<String, String> generateAzureConfiguration(NubesgenConfiguration configuration) {
-        log.info("Generate Azure configuation");
+        log.info("Generate Azure configuration");
         Map<String, String> result = new HashMap<>();
 
         // GitOps templates
