@@ -17,7 +17,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen</artifactId>
     <!-- Do not modify this version manually, read https://github.com/microsoft/NubesGen/blob/main/CONTRIBUTING.md#doing-a-release -->
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.2.1-SNAPSHOT</version>
     <name>nubesgen</name>
     <packaging>jar</packaging>
     <description>NubesGen REST server</description>
