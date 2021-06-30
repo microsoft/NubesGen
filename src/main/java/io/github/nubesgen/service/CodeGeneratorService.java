@@ -84,10 +84,12 @@ public class CodeGeneratorService {
     }
 
     private void generateFileList(NubesgenConfiguration configuration, String templatePack, String moduleName, Map<String, String> result) {
-        Optional<List<String>> fileList = templateListService.listModuleTemplates(templatePack, moduleName);
-        if (fileList.isPresent()) {
-            for (String key : fileList.get()) {
-                result.put(key, this.generateFile(key, configuration));
+        Optional<List<String>> templatesList = templateListService.listModuleTemplates(templatePack, moduleName);
+        if (templatesList.isPresent()) {
+            for (String template : templatesList.get()) {
+                // The generated file as the same name as the template, without the ".mustache" suffix
+                String filename = template.substring(0, template.length() - ".mustache".length());
+                result.put(filename, this.generateFile(template, configuration));
             }
         }
     }
