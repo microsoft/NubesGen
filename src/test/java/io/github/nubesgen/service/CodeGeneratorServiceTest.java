@@ -362,22 +362,22 @@ class CodeGeneratorServiceTest {
             if (templateList.isPresent()) {
                 numberOfGeneratedFiles += templateList.get().size();
                 for (String template : templateList.get()) {
-                    // The generated file as the same name as the template, without the ".mustache" suffix
-                    String filename = template.substring(0, template.length() - ".mustache".length());
-                    this.generateAndTestOneFile(properties, testDirectory, filename);
+                    this.generateAndTestOneFile(properties, testDirectory, template);
                 }
             }
         }
         assertEquals(numberOfGeneratedFiles, configuration.size());
     }
 
-    private void generateAndTestOneFile(NubesgenConfiguration properties, String testDirectory, String filename) throws IOException {
-        if ("terraform/.gitignore".equals(filename)) {
+    private void generateAndTestOneFile(NubesgenConfiguration properties, String testDirectory, String template) throws IOException {
+        if ("terraform/.gitignore.mustache".equals(template)) {
             // GitHub Actions uses the GitHub REST API and not git, so .gitignore files are missing and can't be tested
             return;
         }
-        log.info("Validating {}", filename);
-        String result = this.codeGeneratorService.generateFile(filename, properties);
+        log.info("Validating {}", template);
+        String result = this.codeGeneratorService.generateFile(template, properties);
+        // The generated file as the same name as the template, without the ".mustache" suffix
+        String filename = template.substring(0, template.length() - ".mustache".length());
         File testFile = new ClassPathResource("nubesgen/" + testDirectory + "/" + filename).getFile();
         String test = new String(
                 Files.readAllBytes(testFile.toPath()));
