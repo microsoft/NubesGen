@@ -64,11 +64,13 @@ public class CodeGeneratorService {
                 result);
 
         // Database templates
-        generateFileList(
-                configuration,
-                "terraform",
-                configuration.getDatabaseConfiguration().getDatabaseType().name(),
-                result);
+        if (!configuration.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.NONE)) {
+            generateFileList(
+                    configuration,
+                    "terraform",
+                    configuration.getDatabaseConfiguration().getDatabaseType().name(),
+                    result);
+        }
 
         // Add Ons
         for (AddonConfiguration addon : configuration.getAddons()) {
