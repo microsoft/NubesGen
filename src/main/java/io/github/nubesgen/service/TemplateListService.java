@@ -29,40 +29,42 @@ public class TemplateListService {
         // App Service module
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-        Resource[] resources = resolver.getResources("classpath*:nubesgen/terraform/modules/**");
-        int rootDirectoryLength = Arrays
-                .stream(resolver.getResources("classpath*:nubesgen/"))
+        Resource[] resources = resolver.getResources("classpath*:nubesgen/**");
+        String absolutePath = Arrays
+                .stream(resolver.getResources("classpath*:nubesgen/README.md"))
                 .findFirst()
                 .get()
                 .getFile()
-                .getAbsolutePath()
-                .length();
+                .getAbsolutePath();
+        int rootDirectoryLength = absolutePath
+                .length() - (File.separator + "README.md").length();
 
         for (Resource resource : resources) {
             if (Objects.requireNonNull(resource.getFilename()).endsWith(".mustache")) {
                 String fullTemplateName = resource.getFile().getAbsolutePath()
                         .substring(rootDirectoryLength);
 
-                String templatePackName = fullTemplateName.substring(0, fullTemplateName.indexOf(File.pathSeparator));
+                int endIndex = fullTemplateName.indexOf(File.separator);
+                String templatePackName = fullTemplateName.substring(0, endIndex);
                 if (!templates.containsKey(templatePackName)) {
                     templates.put(templatePackName, new HashMap<>());
                 }
                 Map<String, List<String>> templatePack = templates.get(templatePackName);
-                String templateName = fullTemplateName.substring((templatePackName + File.pathSeparator).length());
+                String templateName = fullTemplateName.substring((templatePackName + File.separator).length());
                 if (!templateName.startsWith("modules")) {
-                    if (templatePack.containsKey(ROOT_DIRECTORY)) {
+                    if (!templatePack.containsKey(ROOT_DIRECTORY)) {
                         templatePack.put(ROOT_DIRECTORY, new ArrayList<>());
                     }
                     templatePack.get(ROOT_DIRECTORY).add(templateName);
                 } else {
                     String moduleAndTemplateName = templateName
-                            .substring(("modules" + File.pathSeparator).length());
+                            .substring(("modules" + File.separator).length());
                     String moduleName = moduleAndTemplateName
-                            .substring(0, moduleAndTemplateName.indexOf(File.pathSeparator));
+                            .substring(0, moduleAndTemplateName.indexOf(File.separator));
                     String normalizedModuleName = moduleName
                             .toUpperCase(Locale.ROOT)
                             .replaceAll("-", "_");
-                    if (templatePack.containsKey(normalizedModuleName)) {
+                    if (!templatePack.containsKey(normalizedModuleName)) {
                         templatePack.put(normalizedModuleName, new ArrayList<>());
                     }
                     templatePack.get(normalizedModuleName).add(templateName);
