@@ -37,7 +37,7 @@ public class TemplateListService {
                 .getFile()
                 .getAbsolutePath();
         int rootDirectoryLength = absolutePath
-                .length() - (File.separator + "README.md").length();
+                .length() - ("README.md").length();
 
         for (Resource resource : resources) {
             if (Objects.requireNonNull(resource.getFilename()).endsWith(".mustache")) {
@@ -55,7 +55,7 @@ public class TemplateListService {
                     if (!templatePack.containsKey(ROOT_DIRECTORY)) {
                         templatePack.put(ROOT_DIRECTORY, new ArrayList<>());
                     }
-                    templatePack.get(ROOT_DIRECTORY).add(templateName);
+                    templatePack.get(ROOT_DIRECTORY).add(fullTemplateName);
                 } else {
                     String moduleAndTemplateName = templateName
                             .substring(("modules" + File.separator).length());
@@ -67,7 +67,7 @@ public class TemplateListService {
                     if (!templatePack.containsKey(normalizedModuleName)) {
                         templatePack.put(normalizedModuleName, new ArrayList<>());
                     }
-                    templatePack.get(normalizedModuleName).add(templateName);
+                    templatePack.get(normalizedModuleName).add(fullTemplateName);
                 }
             }
         }

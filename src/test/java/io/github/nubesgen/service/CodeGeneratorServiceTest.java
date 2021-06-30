@@ -361,7 +361,9 @@ class CodeGeneratorServiceTest {
         for (Optional<List<String>> templateList : templateLists) {
             if (templateList.isPresent()) {
                 numberOfGeneratedFiles += templateList.get().size();
-                for (String filename : templateList.get()) {
+                for (String template : templateList.get()) {
+                    // The generated file as the same name as the template, without the ".mustache" suffix
+                    String filename = template.substring(0, template.length() - ".mustache".length());
                     this.generateAndTestOneFile(properties, testDirectory, filename);
                 }
             }
