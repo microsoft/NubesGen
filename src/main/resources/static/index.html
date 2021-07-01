@@ -76,8 +76,8 @@
                 region2: {id: 'eastus', name: 'USA - East (Virginia)', flag: './img/us.svg'},
                 regionName: 'USA - East',
                 regionFlag: './img/us.svg',
-                iaCTool: 'TERRAFORM',
-                iaCTool2: { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },                
+                iaCToolId: 'TERRAFORM',
+                iaCTool: { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
                 iaCToolName: 'Terraform',
                 iaCToolFlag: './img/terraform.png',
                 components: {frontApp: {type: 'APP_SERVICE', size: 'free'}, database: {type: 'NONE', size: 'free'}},
@@ -123,7 +123,7 @@
                         return;
                     }
                     this.updatePageParameters();
-                    var url = `?iac=${this.iaCTool}&region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
+                    var url = `?iactool=${this.iaCToolId}&region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
 
                     if (this.addons.length > 0) {
                         url += `&addons=${this.addons.join(",")}`;
@@ -186,13 +186,13 @@
                 allIaCTools: [
                         { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
                         { id: 'PULUMI', name: 'Pulumi (TypeScript)', flag: './img/pulumi.svg' },
-                    ],          
+                    ],
                 selectIaCTool(selectedIaCTool) {
-                    this.iaCTool2 = selectedIaCTool;
-                    this.iaCTool = selectedIaCTool.id;
+                    this.iaCTool = selectedIaCTool;
+                    this.iaCToolId = selectedIaCTool.id;
                     this.iaCToolSelectorOpened = false;
-                },                    
-                iaCToolSelectorOpened: false,      
+                },
+                iaCToolSelectorOpened: false,
             }
         }
 
@@ -334,15 +334,15 @@
                                 IaC Tool
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        
+
                                 <div>
                                     <div class="mt-1 relative">
                                         <button type="button" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label"
                                             class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                             x-on:click="iaCToolSelectorOpened = true">
                                             <span class="flex items-center">
-                                                <img :src="iaCTool2.flag" alt="" class="flex-shrink-0 h-12 w-12 rounded">
-                                                <span x-text="iaCTool2.name" class="ml-3 block text-xl truncate">
+                                                <img :src="iaCTool.flag" alt="" class="flex-shrink-0 h-12 w-12 rounded">
+                                                <span x-text="iaCTool.name" class="ml-3 block text-xl truncate">
                                                 </span>
                                             </span>
                                             <span class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -355,10 +355,10 @@
                                                 </svg>
                                             </span>
                                         </button>
-                        
+
                                         <!--
                                                                                                                   Select popover, show/hide based on select state.
-                                                                        
+
                                                                                                                   Entering: ""
                                                                                                                     From: ""
                                                                                                                     To: ""
@@ -373,10 +373,10 @@
                                                 class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                                 <!--
                                                                                                                           Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
-                                                                        
+
                                                                                                                           Highlighted: "text-white bg-indigo-600", Not Highlighted: "text-gray-900"
                                                                                                                         -->
-                        
+
                                                 <template x-for="iac in allIaCTools" :key="iac.id">
                                                     <li id="listbox-item-0" role="option"
                                                         class="text-gray-900 hover:bg-blue-100 cursor-default select-none relative py-2 pl-3 pr-9"
@@ -387,13 +387,13 @@
                                                             <span x-text="iac.name" class="ml-3 block font-normal truncate">
                                                             </span>
                                                         </div>
-                        
+
                                                         <!--
                                                                                                                                   Checkmark, only display for selected option.
-                                                                        
+
                                                                                                                                   Highlighted: "text-white", Not Highlighted: "text-indigo-600"
                                                                                                                                 -->
-                                                        <span x-bind:class="{'inline-block': iaCTool2.id == iac.id}"
+                                                        <span x-bind:class="{'inline-block': iaCTool.id == iac.id}"
                                                             class="hidden absolute inset-y-0 right-0 flex items-center pr-4">
                                                             <!-- Heroicon name: check -->
                                                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -405,8 +405,8 @@
                                                         </span>
                                                     </li>
                                                 </template>
-                        
-                        
+
+
                                                 <!-- More items... -->
                                             </ul>
                                         </div>
