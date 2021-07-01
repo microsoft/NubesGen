@@ -19,6 +19,9 @@ public class NubesgenConfiguration {
 
     private String applicationName;
 
+    @JsonProperty("iactool")
+    private IaCTool iaCTool;
+
     @JsonProperty("runtime")
     private RuntimeType runtimeType;
 
@@ -37,6 +40,7 @@ public class NubesgenConfiguration {
     public NubesgenConfiguration() {
         this.region = "eastus";
         this.applicationName = DEFAULT_APPLICATION_NAME;
+        this.iaCTool = IaCTool.TERRAFORM;
         this.runtimeType = RuntimeType.DOCKER;
         this.applicationConfiguration = new ApplicationConfiguration();
         this.databaseConfiguration = new DatabaseConfiguration();
@@ -85,6 +89,14 @@ public class NubesgenConfiguration {
         // so this will probably won't be correct for longer names, when using an environment
         int maxLength = (containerRegistryWithNoHyphens.length() < 46) ? containerRegistryWithNoHyphens.length() : 46;
         return containerRegistryWithNoHyphens.replace("-", "").substring(0, maxLength);
+    }
+
+    public IaCTool getIaCTool() {
+        return iaCTool;
+    }
+
+    public void setIaCTool(IaCTool iaCTool) {
+        this.iaCTool = iaCTool;
     }
 
     public RuntimeType getRuntimeType() {
