@@ -54,12 +54,11 @@ public class CodeGeneratorService {
         }
 
         // Main templates
-        generateFileList(configuration, "terraform", templateListService.ROOT_DIRECTORY, result);
+        generateFileList(configuration, templateListService.ROOT_DIRECTORY, result);
 
         // Application templates
         generateFileList(
                 configuration,
-                "terraform",
                 configuration.getApplicationConfiguration().getApplicationType().name(),
                 result);
 
@@ -67,7 +66,6 @@ public class CodeGeneratorService {
         if (!configuration.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.NONE)) {
             generateFileList(
                     configuration,
-                    "terraform",
                     configuration.getDatabaseConfiguration().getDatabaseType().name(),
                     result);
         }
@@ -76,11 +74,14 @@ public class CodeGeneratorService {
         for (AddonConfiguration addon : configuration.getAddons()) {
             generateFileList(
                     configuration,
-                    "terraform",
                     addon.getAddonType().name(),
                     result);
         }
         return result;
+    }
+
+    private void generateFileList(NubesgenConfiguration configuration, String moduleName, Map<String, String> result) {
+        this.generateFileList(configuration, configuration.getIaCTool().name().toLowerCase(), moduleName, result);
     }
 
     private void generateFileList(NubesgenConfiguration configuration, String templatePack, String moduleName, Map<String, String> result) {
