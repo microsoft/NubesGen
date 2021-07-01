@@ -34,14 +34,14 @@ public class TemplateListService {
                 .stream(resolver.getResources("classpath*:nubesgen/README.md"))
                 .findFirst()
                 .get()
-                .getFile()
-                .getAbsolutePath();
+                .getURL()
+                .getPath();
         int rootDirectoryLength = absolutePath
                 .length() - ("README.md").length();
 
         for (Resource resource : resources) {
             if (Objects.requireNonNull(resource.getFilename()).endsWith(".mustache")) {
-                String fullTemplateName = resource.getFile().getAbsolutePath()
+                String fullTemplateName = resource.getURL().getPath()
                         .substring(rootDirectoryLength);
 
                 int endIndex = fullTemplateName.indexOf(File.separator);
