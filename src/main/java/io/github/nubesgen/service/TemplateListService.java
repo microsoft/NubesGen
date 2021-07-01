@@ -82,6 +82,6 @@ public class TemplateListService {
     }
 
     public Optional<List<String>> listModuleTemplates(String templatePack, String moduleName) {
-        return Optional.of(this.templates.get(templatePack).get(moduleName));
+        return Optional.ofNullable(this.templates.get(templatePack).get(moduleName));
     }
 }
