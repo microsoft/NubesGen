@@ -1,152 +1,87 @@
 package io.github.nubesgen.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class TemplateListService {
 
-    private final List<String> gitOpsList = new ArrayList<>();
+    public static final String ROOT_DIRECTORY = "ROOT_DIRECTORY";
 
-    private final List<String> mainList = new ArrayList<>();
+    private final Logger log = LoggerFactory.getLogger(TemplateListService.class);
 
-    private final List<String> appServiceList = new ArrayList<>();
+    /*
+    Templates are stored:
+    - Per template pack, like "terraform"
+    - Per type of technology, like "mysql"
+     */
+    private Map<String, Map<String, List<String>>> templates = new HashMap<>();
 
-    private final List<String> functionList = new ArrayList<>();
-
-    private final List<String> sqlServerList = new ArrayList<>();
-
-    private final List<String> mysqlList = new ArrayList<>();
-
-    private final List<String> postgresqlList = new ArrayList<>();
-
-    private final List<String> redisList = new ArrayList<>();
-
-    private final List<String> storageBlobList = new ArrayList<>();
-
-    private final List<String> cosmosdbMongodbList = new ArrayList<>();
-
-    private final List<String> applicationInsightsList = new ArrayList<>();
-
-    private final List<String> keyVaultList = new ArrayList<>();
-
-    public TemplateListService() {
-        // GitOps files
-        gitOpsList.add(".github/workflows/gitops.yml");
-        // Main files
-        mainList.add("terraform/.gitignore");
-        mainList.add("terraform/main.tf");
-        mainList.add("terraform/outputs.tf");
-        mainList.add("terraform/README.md");
-        mainList.add("terraform/variables.tf");
+    public TemplateListService() throws IOException {
         // App Service module
-        appServiceList.add("terraform/modules/app-service/main.tf");
-        appServiceList.add("terraform/modules/app-service/outputs.tf");
-        appServiceList.add("terraform/modules/app-service/README.md");
-        appServiceList.add("terraform/modules/app-service/variables.tf");
-        // Azure Functions module
-        functionList.add("terraform/modules/function/main.tf");
-        functionList.add("terraform/modules/function/outputs.tf");
-        functionList.add("terraform/modules/function/README.md");
-        functionList.add("terraform/modules/function/variables.tf");
-        // SQL Server module
-        sqlServerList.add("terraform/modules/sql-server/main.tf");
-        sqlServerList.add("terraform/modules/sql-server/outputs.tf");
-        sqlServerList.add("terraform/modules/sql-server/README.md");
-        sqlServerList.add("terraform/modules/sql-server/variables.tf");
-        // MySQL module
-        mysqlList.add("terraform/modules/mysql/main.tf");
-        mysqlList.add("terraform/modules/mysql/outputs.tf");
-        mysqlList.add("terraform/modules/mysql/README.md");
-        mysqlList.add("terraform/modules/mysql/variables.tf");
-        // PostgreSQL module
-        postgresqlList.add("terraform/modules/postgresql/main.tf");
-        postgresqlList.add("terraform/modules/postgresql/outputs.tf");
-        postgresqlList.add("terraform/modules/postgresql/README.md");
-        postgresqlList.add("terraform/modules/postgresql/variables.tf");
-        // Redis module
-        redisList.add("terraform/modules/redis/main.tf");
-        redisList.add("terraform/modules/redis/outputs.tf");
-        redisList.add("terraform/modules/redis/README.md");
-        redisList.add("terraform/modules/redis/variables.tf");
-        // Storage Blob module
-        storageBlobList.add("terraform/modules/storage-blob/main.tf");
-        storageBlobList.add("terraform/modules/storage-blob/outputs.tf");
-        storageBlobList.add("terraform/modules/storage-blob/README.md");
-        storageBlobList.add("terraform/modules/storage-blob/variables.tf");
-        // Cosmos DB MongoDB module
-        cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/main.tf");
-        cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/outputs.tf");
-        cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/README.md");
-        cosmosdbMongodbList.add("terraform/modules/cosmosdb-mongodb/variables.tf");
-        // Application Insights module
-        applicationInsightsList.add("terraform/modules/application-insights/main.tf");
-        applicationInsightsList.add("terraform/modules/application-insights/outputs.tf");
-        applicationInsightsList.add("terraform/modules/application-insights/README.md");
-        applicationInsightsList.add("terraform/modules/application-insights/variables.tf");
-        // Key Vault module
-        keyVaultList.add("terraform/modules/key-vault/main.tf");
-        keyVaultList.add("terraform/modules/key-vault/outputs.tf");
-        keyVaultList.add("terraform/modules/key-vault/README.md");
-        keyVaultList.add("terraform/modules/key-vault/variables.tf");
-    }
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-    public List<String> listGitOpsTemplates() {
-        return gitOpsList;
-    }
+        Resource[] resources = resolver.getResources("classpath*:nubesgen/**");
+        String absolutePath = Arrays
+                .stream(resolver.getResources("classpath*:nubesgen/README.md"))
+                .findFirst()
+                .get()
+                .getURL()
+                .getPath();
+        int rootDirectoryLength = absolutePath
+                .length() - ("README.md").length();
 
-    public List<String> listMainTemplates() {
-        return mainList;
-    }
+        for (Resource resource : resources) {
+            if (Objects.requireNonNull(resource.getFilename()).endsWith(".mustache")) {
+                String fullTemplateName = resource.getURL().getPath()
+                        .substring(rootDirectoryLength);
 
-    public List<String> listAppServiceTemplates() {
-        return appServiceList;
-    }
-
-    public List<String> listFunctionTemplates() {
-        return functionList;
-    }
-
-    public List<String> listSqlServerTemplates() {
-        return sqlServerList;
-    }
-
-    public List<String> listMysqlTemplates() {
-        return mysqlList;
-    }
-
-    public List<String> listPostgresqlTemplates() {
-        return postgresqlList;
-    }
-
-    public List<String> listRedisTemplates() {
-        return redisList;
-    }
-
-    public List<String> listStorageBlobTemplates() {
-        return storageBlobList;
-    }
-
-    public List<String> listCosmosdbMongodbTemplates() {
-        return cosmosdbMongodbList;
-    }
-
-    public List<String> listApplicationInsightsTemplates() {
-        return applicationInsightsList;
-    }
-
-    public List<String> listKeyVaultTemplates() {
-        return keyVaultList;
+                int endIndex = fullTemplateName.indexOf(File.separator);
+                String templatePackName = fullTemplateName.substring(0, endIndex);
+                if (!templates.containsKey(templatePackName)) {
+                    templates.put(templatePackName, new HashMap<>());
+                }
+                Map<String, List<String>> templatePack = templates.get(templatePackName);
+                String templateName = fullTemplateName.substring((templatePackName + File.separator).length());
+                if (!templateName.startsWith("modules")) {
+                    if (!templatePack.containsKey(ROOT_DIRECTORY)) {
+                        templatePack.put(ROOT_DIRECTORY, new ArrayList<>());
+                    }
+                    templatePack.get(ROOT_DIRECTORY).add(fullTemplateName);
+                } else {
+                    String moduleAndTemplateName = templateName
+                            .substring(("modules" + File.separator).length());
+                    String moduleName = moduleAndTemplateName
+                            .substring(0, moduleAndTemplateName.indexOf(File.separator));
+                    String normalizedModuleName = moduleName
+                            .toUpperCase(Locale.ROOT)
+                            .replaceAll("-", "_");
+                    if (!templatePack.containsKey(normalizedModuleName)) {
+                        templatePack.put(normalizedModuleName, new ArrayList<>());
+                    }
+                    templatePack.get(normalizedModuleName).add(fullTemplateName);
+                }
+            }
+        }
     }
 
     public List<String> listAllTemplates() {
-        return Stream.of(gitOpsList, mainList, appServiceList, functionList, sqlServerList, mysqlList, postgresqlList, redisList,
-                storageBlobList, cosmosdbMongodbList, applicationInsightsList, keyVaultList)
-                .flatMap(Collection::stream).collect(Collectors.toList());
+        List<String> allTemplates = new ArrayList<>();
+        this.templates.values().forEach(map -> {
+            map.values().forEach(allTemplates::addAll);
+        });
+        return allTemplates;
+    }
+
+    public Optional<List<String>> listModuleTemplates(String templatePack, String moduleName) {
+        return Optional.ofNullable(this.templates.get(templatePack).get(moduleName));
     }
 }

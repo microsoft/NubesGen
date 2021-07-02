@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -53,6 +54,7 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.zip")
     public @ResponseBody
     ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
+                                                  @RequestParam(defaultValue = "TERRAFORM") String iactool,
                                                   @RequestParam(defaultValue = "DOCKER") String runtime,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
@@ -60,7 +62,7 @@ public class MainController {
                                                   @RequestParam(defaultValue = "false") boolean gitops,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, gitops, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(iactool, runtime, application, region, database, gitops, addons);
         return generateZipApplication(applicationName, properties);
     }
 
@@ -77,6 +79,7 @@ public class MainController {
     @GetMapping(value = "/{applicationName}.tgz")
     public @ResponseBody
     ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
+                                                  @RequestParam(defaultValue = "TERRAFORM") String iactool,
                                                   @RequestParam(defaultValue = "DOCKER") String runtime,
                                                   @RequestParam(defaultValue = "APP_SERVICE") String application,
                                                   @RequestParam(defaultValue = "eastus") String region,
@@ -84,7 +87,7 @@ public class MainController {
                                                   @RequestParam(defaultValue = "false") boolean gitops,
                                                   @RequestParam(defaultValue = "") String addons) {
 
-        NubesgenConfiguration properties = generateNubesgenConfiguration(runtime, application, region, database, gitops, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(iactool, runtime, application, region, database, gitops, addons);
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -97,14 +100,22 @@ public class MainController {
         return this.generateApplication(properties, this.tarGzService);
     }
 
-    private NubesgenConfiguration generateNubesgenConfiguration(String runtime, String application, String region,
+    private NubesgenConfiguration generateNubesgenConfiguration(String iactool, String runtime, String application, String region,
                                                                 String database, boolean gitops, String addons) {
 
+        iactool = iactool.toUpperCase();
         runtime = runtime.toUpperCase();
         application = application.toUpperCase();
         database = database.toUpperCase();
         addons = addons.toUpperCase();
         NubesgenConfiguration properties = new NubesgenConfiguration();
+        if (iactool.equals(IaCTool.BICEP.name())) {
+            properties.setIaCTool(IaCTool.BICEP);
+        } else if (iactool.equals(IaCTool.PULUMI.name())) {
+            properties.setIaCTool(IaCTool.PULUMI);
+        } else {
+            properties.setIaCTool(IaCTool.TERRAFORM);
+        }
         if (runtime.equals(RuntimeType.DOTNET.name())) {
             properties.setRuntimeType(RuntimeType.DOTNET);
         } else if (runtime.equals(RuntimeType.JAVA.name())) {
