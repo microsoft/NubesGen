@@ -305,4 +305,19 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/mysql/main.tf").contains("sku_name                          = \"GP_Gen5_2\""));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
+
+    @Test
+    public void generateApplicationWithBicep() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?iactool=bicep&region=westeurope&application=app_service.standard")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertFalse(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.containsKey("bicep/main.bicep"));
+        assertTrue(entries.get("bicep/main.bicep").contains("modules/app-service/main.bicep"));
+        assertTrue(entries.containsKey("bicep/modules/app-service/main.bicep"));
+        assertTrue(entries.get("bicep/modules/app-service/main.bicep").contains("Microsoft.Web/serverFarms"));
+    }
 }
