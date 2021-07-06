@@ -44,7 +44,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "app-service-spring", configuration,
+        testGeneratedFiles(properties, "terraform/app-service-spring", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()));
     }
@@ -58,7 +58,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "app-service-quarkus", configuration,
+        testGeneratedFiles(properties, "terraform/app-service-quarkus", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()));
     }
@@ -73,7 +73,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "app-service-maven-gitops", configuration,
+        testGeneratedFiles(properties, "terraform/app-service-maven-gitops", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()));
@@ -89,7 +89,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "app-service-gradle-gitops", configuration,
+        testGeneratedFiles(properties, "terraform/app-service-gradle-gitops", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()));
@@ -106,7 +106,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "app-service-docker", configuration,
+        testGeneratedFiles(properties, "terraform/app-service-docker", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()));
@@ -125,7 +125,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "cosmosdb-mongodb", configuration,
+        testGeneratedFiles(properties, "terraform/cosmosdb-mongodb", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", AddonType.COSMOSDB_MONGODB.name()));
@@ -143,7 +143,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "function-mysql", configuration,
+        testGeneratedFiles(properties, "terraform/function-mysql", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.FUNCTION.name()),
                 this.templateListService.listModuleTemplates("terraform", DatabaseType.MYSQL.name()));
@@ -161,7 +161,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "function-maven-gitops", configuration,
+        testGeneratedFiles(properties, "terraform/function-maven-gitops", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.FUNCTION.name()));
@@ -178,7 +178,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "mysql", configuration,
+        testGeneratedFiles(properties, "terraform/mysql", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", DatabaseType.MYSQL.name()));
@@ -195,7 +195,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "mysql-quarkus", configuration,
+        testGeneratedFiles(properties, "terraform/mysql-quarkus", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", DatabaseType.MYSQL.name()));
@@ -211,7 +211,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "postgresql", configuration,
+        testGeneratedFiles(properties, "terraform/postgresql", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()));
@@ -231,7 +231,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "redis", configuration,
+        testGeneratedFiles(properties, "terraform/redis", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", AddonType.REDIS.name()));
@@ -251,7 +251,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "app-insights-java", configuration,
+        testGeneratedFiles(properties, "terraform/app-insights-java", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", AddonType.APPLICATION_INSIGHTS.name()));
@@ -272,7 +272,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "key-vault", configuration,
+        testGeneratedFiles(properties, "terraform/key-vault", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
@@ -290,7 +290,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "sql-server", configuration,
+        testGeneratedFiles(properties, "terraform/sql-server", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", DatabaseType.SQL_SERVER.name()));
@@ -310,7 +310,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "storage-blob", configuration,
+        testGeneratedFiles(properties, "terraform/storage-blob", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", AddonType.STORAGE_BLOB.name()));
@@ -328,7 +328,7 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "app-service-nodejs", configuration,
+        testGeneratedFiles(properties, "terraform/app-service-nodejs", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()));
@@ -346,11 +346,26 @@ class CodeGeneratorServiceTest {
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
-        testGeneratedFiles(properties, "app-service-dotnet", configuration,
+        testGeneratedFiles(properties, "terraform/app-service-dotnet", configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", DatabaseType.SQL_SERVER.name()));
+    }
+
+    @Test
+    void generateAppServiceWithBicep() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-app-service-bicep");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setIaCTool(IaCTool.BICEP);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "bicep/app-service-spring", configuration,
+                this.templateListService.listModuleTemplates("bicep", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("bicep", ApplicationType.APP_SERVICE.name()));
     }
 
     private void testGeneratedFiles(NubesgenConfiguration properties, String testDirectory,
