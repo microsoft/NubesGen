@@ -353,6 +353,21 @@ class CodeGeneratorServiceTest {
                 this.templateListService.listModuleTemplates("terraform", DatabaseType.SQL_SERVER.name()));
     }
 
+    @Test
+    void generateAppServiceWithBicep() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-app-service-bicep");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setIaCTool(IaCTool.BICEP);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(properties, "bicep/app-service-spring", configuration,
+                this.templateListService.listModuleTemplates("bicep", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("bicep", ApplicationType.APP_SERVICE.name()));
+    }
+
     private void testGeneratedFiles(NubesgenConfiguration properties, String testDirectory,
                                     Map<String, String> configuration, Optional<List<String>>... templateLists)
             throws IOException {
