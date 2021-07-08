@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CodeGeneratorService {
@@ -30,7 +31,7 @@ public class CodeGeneratorService {
         for (String key : templateListService.listAllTemplates()) {
             log.info("Compiling template key \"{}\"", key);
             ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-            Resource[] resources = resolver.getResources("classpath*:nubesgen/" + key + ".mustache");
+            Resource[] resources = resolver.getResources("classpath*:nubesgen/" + key);
             try {
                 InputStream inputStream = resources[0].getInputStream();
                 String templateString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -44,62 +45,53 @@ public class CodeGeneratorService {
     }
 
     public Map<String, String> generateAzureConfiguration(NubesgenConfiguration configuration) {
-        log.info("Generate Azure configuation");
+        log.info("Generate Azure configuration");
         Map<String, String> result = new HashMap<>();
 
         // GitOps templates
         if (configuration.isGitops()) {
-            generateFileList(configuration, templateListService.listGitOpsTemplates(), result);
+            generateFileList(configuration, ".github", templateListService.ROOT_DIRECTORY, result);
         }
 
         // Main templates
-        generateFileList(configuration, templateListService.listMainTemplates(), result);
+        generateFileList(configuration, templateListService.ROOT_DIRECTORY, result);
 
         // Application templates
-        if (ApplicationType.FUNCTION.equals(configuration.getApplicationConfiguration().getApplicationType())) {
-            // Functions templates
-            generateFileList(configuration, templateListService.listFunctionTemplates(), result);
-        } else {
-            // App Services templates (default template)
-            generateFileList(configuration, templateListService.listAppServiceTemplates(), result);
-        }
+        generateFileList(
+                configuration,
+                configuration.getApplicationConfiguration().getApplicationType().name(),
+                result);
 
         // Database templates
-        if (DatabaseType.SQL_SERVER.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
-            // SQL Server templates
-            generateFileList(configuration, templateListService.listSqlServerTemplates(), result);
-        } else if (DatabaseType.MYSQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
-            // MySQL templates
-            generateFileList(configuration, templateListService.listMysqlTemplates(), result);
-        } else if (DatabaseType.POSTGRESQL.equals(configuration.getDatabaseConfiguration().getDatabaseType())) {
-            // PostgreSQL templates
-            generateFileList(configuration, templateListService.listPostgresqlTemplates(), result);
+        if (!configuration.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.NONE)) {
+            generateFileList(
+                    configuration,
+                    configuration.getDatabaseConfiguration().getDatabaseType().name(),
+                    result);
         }
 
         // Add Ons
         for (AddonConfiguration addon : configuration.getAddons()) {
-            if (AddonType.APPLICATION_INSIGHTS.equals(addon.getAddonType())) {
-                generateFileList(configuration, templateListService.listApplicationInsightsTemplates(), result);
-            }
-            if (AddonType.KEY_VAULT.equals(addon.getAddonType())) {
-                generateFileList(configuration, templateListService.listKeyVaultTemplates(), result);
-            }
-            if (AddonType.REDIS.equals(addon.getAddonType())) {
-                generateFileList(configuration, templateListService.listRedisTemplates(), result);
-            }
-            if (AddonType.STORAGE_BLOB.equals(addon.getAddonType())) {
-                generateFileList(configuration, templateListService.listStorageBlobTemplates(), result);
-            }
-            if (AddonType.COSMOSDB_MONGODB.equals(addon.getAddonType())) {
-                generateFileList(configuration, templateListService.listCosmosdbMongodbTemplates(), result);
-            }
+            generateFileList(
+                    configuration,
+                    addon.getAddonType().name(),
+                    result);
         }
         return result;
     }
 
-    private void generateFileList(NubesgenConfiguration configuration, List<String> fileList, Map<String, String> result) {
-        for (String key : fileList) {
-            result.put(key, this.generateFile(key, configuration));
+    private void generateFileList(NubesgenConfiguration configuration, String moduleName, Map<String, String> result) {
+        this.generateFileList(configuration, configuration.getIaCTool().name().toLowerCase(), moduleName, result);
+    }
+
+    private void generateFileList(NubesgenConfiguration configuration, String templatePack, String moduleName, Map<String, String> result) {
+        Optional<List<String>> templatesList = templateListService.listModuleTemplates(templatePack, moduleName);
+        if (templatesList.isPresent()) {
+            for (String template : templatesList.get()) {
+                // The generated file as the same name as the template, without the ".mustache" suffix
+                String filename = template.substring(0, template.length() - ".mustache".length());
+                result.put(filename, this.generateFile(template, configuration));
+            }
         }
     }
 

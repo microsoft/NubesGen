@@ -76,6 +76,10 @@
                 region2: {id: 'eastus', name: 'USA - East (Virginia)', flag: './img/us.svg'},
                 regionName: 'USA - East',
                 regionFlag: './img/us.svg',
+                iaCToolId: 'TERRAFORM',
+                iaCTool: { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
+                iaCToolName: 'Terraform',
+                iaCToolFlag: './img/terraform.png',
                 components: {frontApp: {type: 'APP_SERVICE', size: 'free'}, database: {type: 'NONE', size: 'free'}},
                 addons: [],
                 runtime: "DOCKER",
@@ -119,7 +123,7 @@
                         return;
                     }
                     this.updatePageParameters();
-                    var url = `?region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
+                    var url = `?iactool=${this.iaCToolId}&region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
 
                     if (this.addons.length > 0) {
                         url += `&addons=${this.addons.join(",")}`;
@@ -178,7 +182,18 @@
                     this.region2 = selectedRegion;
                     this.region = selectedRegion.id;
                     this.regionSelectorOpened = false;
-                }
+                },
+                allIaCTools: [
+                        { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
+                        { id: 'BICEP', name: 'Bicep', flag: './img/bicep.png' },
+                        { id: 'PULUMI', name: 'Pulumi (TypeScript)', flag: './img/pulumi.svg' },
+                    ],
+                selectIaCTool(selectedIaCTool) {
+                    this.iaCTool = selectedIaCTool;
+                    this.iaCToolId = selectedIaCTool.id;
+                    this.iaCToolSelectorOpened = false;
+                },
+                iaCToolSelectorOpened: false,
             }
         }
 
@@ -315,6 +330,7 @@
                 </div>
                 <div class="border-t border-b border-gray-200">
                     <dl>
+
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 Project name <span class="text-red-600">*</span>
@@ -339,7 +355,6 @@
                                 Region
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-
                                 <div>
                                     <div class="mt-1 relative">
                                         <button type="button" aria-haspopup="listbox" aria-expanded="true"
@@ -430,7 +445,6 @@
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div class="container sm:mx-auto py-4 px-3">
-
                                     <div class="text-lg font-bold">Hosting type</div>
                                     <hr/>
                                     <div class="grid grid-cols-3 gap-6 mt-4">
@@ -640,6 +654,7 @@
                                         </div>
 
                                     </div>
+                                </div>
                             </dd>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -901,7 +916,7 @@
                             </button>
 
                             <button type="button" class="mt-1 max-w-2xl text-sm text-gray-500 inline-block"
-                                    @click="generateScriptUrl()"></p>
+                                    @click="generateScriptUrl()">
                                 <div class="flex flex-row px-2 py-1 bg-gray-100 border border-gray-600 border-1 rounded hover:bg-gray-400">
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                                          viewBox="0 0 24 24"
@@ -976,20 +991,6 @@
                                     <div class="flex row-auto items-center mt-4">
                                         <span class="ml-3 text-gray-700 font-semibold">Coming soon</span>
                                         <span class="ml-2 text-gray-500">Network isolation, Web Application Firewall, Advanced DDOS</span>
-                                    </div>
-                                </dd>
-                            </div>
-
-                            <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-gray-500">
-                                    Management & Operations
-                                </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    <div class="flex row-auto items-center mt-4"><i
-                                            class="fa fa-check-circle-o text-gray-400"></i>
-                                        <span class="ml-3 font-bold text-gray-500">Monitoring</span>
-                                        <span class="ml-1 text-gray-500">All your compute resources tracing available through Application
-                          Insights.</span>
                                     </div>
                                 </dd>
                             </div>
