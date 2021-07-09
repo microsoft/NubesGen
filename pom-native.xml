@@ -30,7 +30,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
     <properties>
         <java.version>11</java.version>
         <repackage.classifier/>
-        <spring-native.version>0.10.0</spring-native.version>
+        <spring-native.version>0.10.1</spring-native.version>
     </properties>
 
     <dependencies>
