@@ -90,6 +90,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
                         <name>nubesgen/nubesgen-native</name>
                         <env>
                             <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+                            <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--initialize-at-run-time=io.netty.internal.tcnative.AsyncSSLPrivateKeyMethod</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
                         </env>
                     </image>
                     <layers>
