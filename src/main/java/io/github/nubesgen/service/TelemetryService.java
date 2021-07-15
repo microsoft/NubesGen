@@ -32,7 +32,7 @@ public class TelemetryService {
 
     @PostConstruct
     public void init() {
-        if (storageAccountName == null || storageAccountKey.isEmpty() || storageAccountKey == null || storageAccountKey.isEmpty()) {
+        if (storageAccountName == null || storageAccountName.isEmpty() || storageAccountKey == null || storageAccountKey.isEmpty()) {
             log.warn("Telemetry is disabled, as it was not configured");
             telemetryEnabled = false;
         } else {
