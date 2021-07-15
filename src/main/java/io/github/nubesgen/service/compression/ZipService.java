@@ -1,12 +1,11 @@
 package io.github.nubesgen.service.compression;
 
-import org.springframework.stereotype.Service;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ZipService implements CompressionService {

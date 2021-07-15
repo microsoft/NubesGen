@@ -38,9 +38,6 @@ public class DatabaseConfiguration {
 
     @Override
     public String toString() {
-        return "DatabaseConfiguration{" +
-                "databaseType=" + databaseType +
-                ", tier=" + tier +
-                '}';
+        return ("DatabaseConfiguration{" + "databaseType=" + databaseType + ", tier=" + tier + '}');
     }
 }
