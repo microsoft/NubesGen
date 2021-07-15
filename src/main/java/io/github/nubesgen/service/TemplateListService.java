@@ -1,15 +1,14 @@
 package io.github.nubesgen.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
 
 @Service
 public class TemplateListService {
@@ -30,19 +29,12 @@ public class TemplateListService {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
         Resource[] resources = resolver.getResources("classpath*:nubesgen/**");
-        String absolutePath = Arrays
-                .stream(resolver.getResources("classpath*:nubesgen/README.md"))
-                .findFirst()
-                .get()
-                .getURL()
-                .getPath();
-        int rootDirectoryLength = absolutePath
-                .length() - ("README.md").length();
+        String absolutePath = Arrays.stream(resolver.getResources("classpath*:nubesgen/README.md")).findFirst().get().getURL().getPath();
+        int rootDirectoryLength = absolutePath.length() - ("README.md").length();
 
         for (Resource resource : resources) {
             if (Objects.requireNonNull(resource.getFilename()).endsWith(".mustache")) {
-                String fullTemplateName = resource.getURL().getPath()
-                        .substring(rootDirectoryLength);
+                String fullTemplateName = resource.getURL().getPath().substring(rootDirectoryLength);
 
                 int endIndex = fullTemplateName.indexOf(File.separator);
                 String templatePackName = fullTemplateName.substring(0, endIndex);
@@ -57,13 +49,9 @@ public class TemplateListService {
                     }
                     templatePack.get(ROOT_DIRECTORY).add(fullTemplateName);
                 } else {
-                    String moduleAndTemplateName = templateName
-                            .substring(("modules" + File.separator).length());
-                    String moduleName = moduleAndTemplateName
-                            .substring(0, moduleAndTemplateName.indexOf(File.separator));
-                    String normalizedModuleName = moduleName
-                            .toUpperCase(Locale.ROOT)
-                            .replaceAll("-", "_");
+                    String moduleAndTemplateName = templateName.substring(("modules" + File.separator).length());
+                    String moduleName = moduleAndTemplateName.substring(0, moduleAndTemplateName.indexOf(File.separator));
+                    String normalizedModuleName = moduleName.toUpperCase(Locale.ROOT).replaceAll("-", "_");
                     if (!templatePack.containsKey(normalizedModuleName)) {
                         templatePack.put(normalizedModuleName, new ArrayList<>());
                     }
@@ -75,9 +63,12 @@ public class TemplateListService {
 
     public List<String> listAllTemplates() {
         List<String> allTemplates = new ArrayList<>();
-        this.templates.values().forEach(map -> {
-            map.values().forEach(allTemplates::addAll);
-        });
+        this.templates.values()
+            .forEach(
+                map -> {
+                    map.values().forEach(allTemplates::addAll);
+                }
+            );
         return allTemplates;
     }
 

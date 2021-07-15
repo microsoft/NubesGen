@@ -13,5 +13,13 @@ package io.github.nubesgen.configuration;
  * QUARKUS = QUARKUS
  */
 public enum RuntimeType {
-    DOCKER, DOCKER_SPRING, JAVA, JAVA_GRADLE, SPRING, SPRING_GRADLE, QUARKUS, DOTNET, NODEJS
+    DOCKER,
+    DOCKER_SPRING,
+    JAVA,
+    JAVA_GRADLE,
+    SPRING,
+    SPRING_GRADLE,
+    QUARKUS,
+    DOTNET,
+    NODEJS,
 }

@@ -2,7 +2,6 @@ package io.github.nubesgen.configuration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,9 +72,7 @@ public class NubesgenConfiguration {
             String random2 = formater.format(Math.random() * (10000));
             String random3 = formater.format(Math.random() * (10000));
             String random4 = formater.format(Math.random() * (10000));
-            this.applicationName =
-                    DEFAULT_APPLICATION_NAME + "-" + random1 + "-" + random2 + "-" + random3 + "-" + random4;
-
+            this.applicationName = DEFAULT_APPLICATION_NAME + "-" + random1 + "-" + random2 + "-" + random3 + "-" + random4;
         } else {
             this.applicationName = applicationName;
         }
@@ -141,24 +138,27 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isRuntimeDocker() {
-        return RuntimeType.DOCKER.equals(this.getRuntimeType()) ||
-                RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType());
+        return (RuntimeType.DOCKER.equals(this.getRuntimeType()) || RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()));
     }
 
     @JsonIgnore
     public boolean isRuntimeJava() {
-        return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
-                RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
-                RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
-                RuntimeType.JAVA.equals(this.getRuntimeType()) ||
-                RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType());
+        return (
+            RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+            RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
+            RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
+            RuntimeType.JAVA.equals(this.getRuntimeType()) ||
+            RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType())
+        );
     }
 
     @JsonIgnore
     public boolean isRuntimeSpring() {
-        return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
-                RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
-                RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType());
+        return (
+            RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+            RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType())
+        );
     }
 
     @JsonIgnore
@@ -168,15 +168,16 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isRuntimeMaven() {
-        return RuntimeType.SPRING.equals(this.getRuntimeType()) ||
-                RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
-                RuntimeType.JAVA.equals(this.getRuntimeType());
+        return (
+            RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+            RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
+            RuntimeType.JAVA.equals(this.getRuntimeType())
+        );
     }
 
     @JsonIgnore
     public boolean isRuntimeGradle() {
-        return RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
-                RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType());
+        return (RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) || RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType()));
     }
 
     @JsonIgnore
@@ -266,43 +267,48 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isAddonRedis() {
-        return this.getAddons().stream()
-                .anyMatch(addon -> AddonType.REDIS.equals(addon.getAddonType()));
+        return this.getAddons().stream().anyMatch(addon -> AddonType.REDIS.equals(addon.getAddonType()));
     }
 
     @JsonIgnore
     public boolean isAddonApplicationInsights() {
-        return this.getAddons().stream()
-                .anyMatch(addon -> AddonType.APPLICATION_INSIGHTS.equals(addon.getAddonType()));
+        return this.getAddons().stream().anyMatch(addon -> AddonType.APPLICATION_INSIGHTS.equals(addon.getAddonType()));
     }
 
     @JsonIgnore
     public boolean isAddonKeyVault() {
-        return this.getAddons().stream()
-                .anyMatch(addon -> AddonType.KEY_VAULT.equals(addon.getAddonType()));
+        return this.getAddons().stream().anyMatch(addon -> AddonType.KEY_VAULT.equals(addon.getAddonType()));
     }
 
     @JsonIgnore
     public boolean isAddonStorageBlob() {
-        return this.getAddons().stream()
-                .anyMatch(addon -> AddonType.STORAGE_BLOB.equals(addon.getAddonType()));
+        return this.getAddons().stream().anyMatch(addon -> AddonType.STORAGE_BLOB.equals(addon.getAddonType()));
     }
 
     @JsonIgnore
     public boolean isAddonCosmosdbMongodb() {
-        return this.getAddons().stream()
-                .anyMatch(addon -> AddonType.COSMOSDB_MONGODB.equals(addon.getAddonType()));
+        return this.getAddons().stream().anyMatch(addon -> AddonType.COSMOSDB_MONGODB.equals(addon.getAddonType()));
     }
 
     @Override
     public String toString() {
-        return "NubesgenConfiguration{" +
-                "region='" + region + '\'' +
-                ", applicationName='" + applicationName + '\'' +
-                ", runtimeType=" + runtimeType +
-                ", applicationConfiguration=" + applicationConfiguration +
-                ", databaseConfiguration=" + databaseConfiguration +
-                ", addons=" + addons +
-                '}';
+        return (
+            "NubesgenConfiguration{" +
+            "region='" +
+            region +
+            '\'' +
+            ", applicationName='" +
+            applicationName +
+            '\'' +
+            ", runtimeType=" +
+            runtimeType +
+            ", applicationConfiguration=" +
+            applicationConfiguration +
+            ", databaseConfiguration=" +
+            databaseConfiguration +
+            ", addons=" +
+            addons +
+            '}'
+        );
     }
 }

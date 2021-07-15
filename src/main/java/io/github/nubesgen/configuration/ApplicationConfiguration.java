@@ -38,9 +38,6 @@ public class ApplicationConfiguration {
 
     @Override
     public String toString() {
-        return "ApplicationConfiguration{" +
-                "applicationType=" + applicationType +
-                ", tier=" + tier +
-                '}';
+        return ("ApplicationConfiguration{" + "applicationType=" + applicationType + ", tier=" + tier + '}');
     }
 }

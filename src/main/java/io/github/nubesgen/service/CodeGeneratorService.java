@@ -3,13 +3,6 @@ package io.github.nubesgen.service;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.github.nubesgen.configuration.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CodeGeneratorService {
@@ -57,25 +56,16 @@ public class CodeGeneratorService {
         generateFileList(configuration, templateListService.ROOT_DIRECTORY, result);
 
         // Application templates
-        generateFileList(
-                configuration,
-                configuration.getApplicationConfiguration().getApplicationType().name(),
-                result);
+        generateFileList(configuration, configuration.getApplicationConfiguration().getApplicationType().name(), result);
 
         // Database templates
         if (!configuration.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.NONE)) {
-            generateFileList(
-                    configuration,
-                    configuration.getDatabaseConfiguration().getDatabaseType().name(),
-                    result);
+            generateFileList(configuration, configuration.getDatabaseConfiguration().getDatabaseType().name(), result);
         }
 
         // Add Ons
         for (AddonConfiguration addon : configuration.getAddons()) {
-            generateFileList(
-                    configuration,
-                    addon.getAddonType().name(),
-                    result);
+            generateFileList(configuration, addon.getAddonType().name(), result);
         }
         return result;
     }

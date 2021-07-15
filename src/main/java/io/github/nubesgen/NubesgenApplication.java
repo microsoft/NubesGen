@@ -9,5 +9,4 @@ public class NubesgenApplication {
     public static void main(String[] args) {
         SpringApplication.run(NubesgenApplication.class, args);
     }
-
 }
