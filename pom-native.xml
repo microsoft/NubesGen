@@ -64,7 +64,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.20</version>
+            <version>1.21</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
