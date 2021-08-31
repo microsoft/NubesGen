@@ -1,14 +1,13 @@
 package io.github.nubesgen.service.compression;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Map;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.springframework.stereotype.Service;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Map;
 
 @Service
 public class TarGzService implements CompressionService {

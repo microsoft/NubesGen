@@ -2,16 +2,15 @@ package io.github.nubesgen.service;
 
 import com.azure.storage.blob.BlobServiceAsyncClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
-
-import javax.annotation.PostConstruct;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 @Service
 public class TelemetryService {
@@ -33,18 +32,21 @@ public class TelemetryService {
 
     @PostConstruct
     public void init() {
-        if (storageAccountName == null || storageAccountKey.isEmpty() || storageAccountKey == null || storageAccountKey.isEmpty()) {
+        if (storageAccountName == null || storageAccountName.isEmpty() || storageAccountKey == null || storageAccountKey.isEmpty()) {
             log.warn("Telemetry is disabled, as it was not configured");
             telemetryEnabled = false;
         } else {
             log.warn("Telemetry is enabled");
             telemetryEnabled = true;
-            blobServiceAsyncClient = new BlobServiceClientBuilder()
-                    .connectionString("DefaultEndpointsProtocol=https;AccountName=" +
-                            storageAccountName +
-                            ";AccountKey=" +
-                            storageAccountKey +
-                            ";EndpointSuffix=core.windows.net")
+            blobServiceAsyncClient =
+                new BlobServiceClientBuilder()
+                    .connectionString(
+                        "DefaultEndpointsProtocol=https;AccountName=" +
+                        storageAccountName +
+                        ";AccountKey=" +
+                        storageAccountKey +
+                        ";EndpointSuffix=core.windows.net"
+                    )
                     .buildAsyncClient();
         }
     }
@@ -59,12 +61,10 @@ public class TelemetryService {
         ByteBuffer data = StandardCharsets.UTF_8.encode(configuration);
         Flux<ByteBuffer> flux = Flux.just(data);
         blobServiceAsyncClient
-                .getBlobContainerAsyncClient("stblobnubesgen001")
-                .getBlobAsyncClient(blobName)
-                .upload(flux, null)
-                .doOnError(
-                        throwable -> log.info("Telemetry error", throwable)
-                )
-                .subscribe();
+            .getBlobContainerAsyncClient("stblobnubesgen001")
+            .getBlobAsyncClient(blobName)
+            .upload(flux, null)
+            .doOnError(throwable -> log.info("Telemetry error", throwable))
+            .subscribe();
     }
 }

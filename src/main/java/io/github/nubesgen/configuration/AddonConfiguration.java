@@ -10,8 +10,7 @@ public class AddonConfiguration {
     @JsonProperty("tier")
     private Tier tier;
 
-    public AddonConfiguration() {
-    }
+    public AddonConfiguration() {}
 
     public AddonConfiguration(AddonType addonType, Tier tier) {
         this.addonType = addonType;
@@ -51,9 +50,6 @@ public class AddonConfiguration {
 
     @Override
     public String toString() {
-        return "AddonConfiguration{" +
-                "addonType=" + addonType +
-                ", tier=" + tier +
-                '}';
+        return ("AddonConfiguration{" + "addonType=" + addonType + ", tier=" + tier + '}');
     }
 }

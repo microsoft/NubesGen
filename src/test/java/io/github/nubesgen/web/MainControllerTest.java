@@ -1,11 +1,11 @@
 package io.github.nubesgen.web;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,13 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,7 +52,10 @@ public class MainControllerTest {
 
     @Test
     public void generateDefaultApplication() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?gitops=true")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/nubesgen.zip?gitops=true"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -71,7 +73,10 @@ public class MainControllerTest {
 
     @Test
     public void generateApplicationWithDefaultDemoName() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/demo.zip?gitops=true")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/demo.zip?gitops=true"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -82,7 +87,10 @@ public class MainControllerTest {
 
     @Test
     public void generateDefaultSpringApplication() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?runtime=spring&gitops=true")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/nubesgen.zip?runtime=spring&gitops=true"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -100,7 +108,10 @@ public class MainControllerTest {
 
     @Test
     public void generateApplicationWithPostgresql() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&database=POSTGRESQL"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -116,7 +127,10 @@ public class MainControllerTest {
 
     @Test
     public void generateApplicationWithSpringRuntime() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=spring&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=spring&database=POSTGRESQL"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -127,13 +141,20 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("\"SPRING_DATASOURCE_URL\"      = \"jdbc:postgresql://${var.database_url}\""));
+        assertTrue(
+            entries
+                .get("terraform/modules/app-service/main.tf")
+                .contains("\"SPRING_DATASOURCE_URL\"      = \"jdbc:postgresql://${var.database_url}\"")
+        );
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
     public void generateSpringApplicationWithRedisAddons() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?runtime=spring&addons=REDIS")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?runtime=spring&addons=REDIS"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -149,7 +170,10 @@ public class MainControllerTest {
 
     @Test
     public void generateDefaultQuarkusApplication() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/nubesgen.zip?runtime=quarkus&gitops=true")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/nubesgen.zip?runtime=quarkus&gitops=true"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -166,7 +190,10 @@ public class MainControllerTest {
 
     @Test
     public void generateQuarkusApplicationWithRedisAddons() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?runtime=quarkus&addons=REDIS")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?runtime=quarkus&addons=REDIS"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -182,7 +209,10 @@ public class MainControllerTest {
 
     @Test
     public void generateQuarkusApplicationWithPostgresql() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=quarkus&database=POSTGRESQL")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=quarkus&database=POSTGRESQL"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -193,13 +223,20 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("\"QUARKUS_DATASOURCE_JDBC_URL\" = \"jdbc:postgresql://${var.database_url}\""));
+        assertTrue(
+            entries
+                .get("terraform/modules/app-service/main.tf")
+                .contains("\"QUARKUS_DATASOURCE_JDBC_URL\" = \"jdbc:postgresql://${var.database_url}\"")
+        );
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
     @Test
     public void generateApplicationWithDotnetRuntime() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=dotnet&database=POSTGRESQL&gitops=true")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=dotnet&database=POSTGRESQL&gitops=true"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -216,7 +253,10 @@ public class MainControllerTest {
 
     @Test
     public void generateApplicationWithJavaRuntime() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=java&database=POSTGRESQL&gitops=true")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&runtime=java&database=POSTGRESQL&gitops=true"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -234,7 +274,10 @@ public class MainControllerTest {
 
     @Test
     public void generateApplicationWithAddons() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?addons=STORAGE_BLOB,REDIS")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?addons=STORAGE_BLOB,REDIS"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -253,7 +296,10 @@ public class MainControllerTest {
 
     @Test
     public void generateFunctionWithCosmosdb() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?application=function&addons=cosmosdb_mongodb")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?application=function&addons=cosmosdb_mongodb"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -270,7 +316,10 @@ public class MainControllerTest {
 
     @Test
     public void generateFunctionWithPremiumTier() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?application=function.premium")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?application=function.premium"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -286,7 +335,12 @@ public class MainControllerTest {
 
     @Test
     public void generateApplicationWithStandardTier() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=app_service.standard&database=mysql.general_purpose")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(
+                    get("/myapplication.zip?region=westeurope&application=app_service.standard&database=mysql.general_purpose")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
@@ -308,7 +362,10 @@ public class MainControllerTest {
 
     @Test
     public void generateApplicationWithBicep() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/myapplication.zip?iactool=bicep&region=westeurope&application=app_service.standard")).andDo(print()).andExpect(status().isOk())
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?iactool=bicep&region=westeurope&application=app_service.standard"))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 

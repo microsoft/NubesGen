@@ -8,6 +8,11 @@ import io.github.nubesgen.service.TelemetryService;
 import io.github.nubesgen.service.compression.CompressionService;
 import io.github.nubesgen.service.compression.TarGzService;
 import io.github.nubesgen.service.compression.ZipService;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -15,12 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -38,12 +37,13 @@ public class MainController {
 
     private final TelemetryService telemetryService;
 
-    public MainController(CodeGeneratorService codeGeneratorService,
-                          TarGzService tarGzService,
-                          ZipService zipService,
-                          ObjectMapper objectMapper,
-                          TelemetryService telemetryService) {
-
+    public MainController(
+        CodeGeneratorService codeGeneratorService,
+        TarGzService tarGzService,
+        ZipService zipService,
+        ObjectMapper objectMapper,
+        TelemetryService telemetryService
+    ) {
         this.codeGeneratorService = codeGeneratorService;
         this.tarGzService = tarGzService;
         this.zipService = zipService;
@@ -52,57 +52,62 @@ public class MainController {
     }
 
     @GetMapping(value = "/{applicationName}.zip")
-    public @ResponseBody
-    ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
-                                                  @RequestParam(defaultValue = "TERRAFORM") String iactool,
-                                                  @RequestParam(defaultValue = "DOCKER") String runtime,
-                                                  @RequestParam(defaultValue = "APP_SERVICE") String application,
-                                                  @RequestParam(defaultValue = "eastus") String region,
-                                                  @RequestParam(defaultValue = "NONE") String database,
-                                                  @RequestParam(defaultValue = "false") boolean gitops,
-                                                  @RequestParam(defaultValue = "") String addons) {
-
+    public @ResponseBody ResponseEntity<byte[]> generateZipApplication(
+        @PathVariable String applicationName,
+        @RequestParam(defaultValue = "TERRAFORM") String iactool,
+        @RequestParam(defaultValue = "DOCKER") String runtime,
+        @RequestParam(defaultValue = "APP_SERVICE") String application,
+        @RequestParam(defaultValue = "eastus") String region,
+        @RequestParam(defaultValue = "NONE") String database,
+        @RequestParam(defaultValue = "false") boolean gitops,
+        @RequestParam(defaultValue = "") String addons
+    ) {
         NubesgenConfiguration properties = generateNubesgenConfiguration(iactool, runtime, application, region, database, gitops, addons);
         return generateZipApplication(applicationName, properties);
     }
 
-
     @PostMapping("/{applicationName}.zip")
-    public @ResponseBody
-    ResponseEntity<byte[]> generateZipApplication(@PathVariable String applicationName,
-                                                  @RequestBody NubesgenConfiguration properties) {
-
+    public @ResponseBody ResponseEntity<byte[]> generateZipApplication(
+        @PathVariable String applicationName,
+        @RequestBody NubesgenConfiguration properties
+    ) {
         properties.setApplicationName(applicationName);
         return this.generateApplication(properties, this.zipService);
     }
 
     @GetMapping(value = "/{applicationName}.tgz")
-    public @ResponseBody
-    ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
-                                                  @RequestParam(defaultValue = "TERRAFORM") String iactool,
-                                                  @RequestParam(defaultValue = "DOCKER") String runtime,
-                                                  @RequestParam(defaultValue = "APP_SERVICE") String application,
-                                                  @RequestParam(defaultValue = "eastus") String region,
-                                                  @RequestParam(defaultValue = "NONE") String database,
-                                                  @RequestParam(defaultValue = "false") boolean gitops,
-                                                  @RequestParam(defaultValue = "") String addons) {
-
+    public @ResponseBody ResponseEntity<byte[]> generateTgzApplication(
+        @PathVariable String applicationName,
+        @RequestParam(defaultValue = "TERRAFORM") String iactool,
+        @RequestParam(defaultValue = "DOCKER") String runtime,
+        @RequestParam(defaultValue = "APP_SERVICE") String application,
+        @RequestParam(defaultValue = "eastus") String region,
+        @RequestParam(defaultValue = "NONE") String database,
+        @RequestParam(defaultValue = "false") boolean gitops,
+        @RequestParam(defaultValue = "") String addons
+    ) {
         NubesgenConfiguration properties = generateNubesgenConfiguration(iactool, runtime, application, region, database, gitops, addons);
         return generateTgzApplication(applicationName, properties);
     }
 
     @PostMapping("/{applicationName}.tgz")
-    public @ResponseBody
-    ResponseEntity<byte[]> generateTgzApplication(@PathVariable String applicationName,
-                                                  @RequestBody NubesgenConfiguration properties) {
-
+    public @ResponseBody ResponseEntity<byte[]> generateTgzApplication(
+        @PathVariable String applicationName,
+        @RequestBody NubesgenConfiguration properties
+    ) {
         properties.setApplicationName(applicationName);
         return this.generateApplication(properties, this.tarGzService);
     }
 
-    private NubesgenConfiguration generateNubesgenConfiguration(String iactool, String runtime, String application, String region,
-                                                                String database, boolean gitops, String addons) {
-
+    private NubesgenConfiguration generateNubesgenConfiguration(
+        String iactool,
+        String runtime,
+        String application,
+        String region,
+        String database,
+        boolean gitops,
+        String addons
+    ) {
         iactool = iactool.toUpperCase();
         runtime = runtime.toUpperCase();
         application = application.toUpperCase();
@@ -138,9 +143,7 @@ public class MainController {
         if (application.startsWith(ApplicationType.FUNCTION.name())) {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
             applicationConfiguration.setApplicationType(ApplicationType.FUNCTION);
-            if (runtime.equals(RuntimeType.DOCKER.name()) ||
-                    runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
-
+            if (runtime.equals(RuntimeType.DOCKER.name()) || runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
                 log.debug("Docker is not supported for Functions, switching to Spring by default");
                 properties.setRuntimeType(RuntimeType.SPRING);
             }
@@ -162,9 +165,11 @@ public class MainController {
             }
             properties.setApplicationConfiguration(applicationConfiguration);
         }
-        log.debug("Application is of type: {} with tier: {}",
-                properties.getApplicationConfiguration().getApplicationType(),
-                properties.getApplicationConfiguration().getTier());
+        log.debug(
+            "Application is of type: {} with tier: {}",
+            properties.getApplicationConfiguration().getApplicationType(),
+            properties.getApplicationConfiguration().getTier()
+        );
 
         properties.setRegion(region);
         if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {

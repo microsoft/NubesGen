@@ -1,4 +1,4 @@
-[[ << Frequently asked questions ](frequently-asked-questions.md) | [ Main documentation page >> ](README.md)]
+[[ << Frequently asked questions ](frequently-asked-questions.md) | [ References >> ](references.md)]
 
 # Troubleshooting
 
@@ -82,4 +82,4 @@ This JSON looks like this:
 
 To see the logs, just follow the link displayed on the JSON (eg. `https://myapp-001.scm.azurewebsites.net/api/vfs/LogFiles/2021_06_04_ABCD_default_docker.log`).
 
-[[ << Frequently asked questions ](frequently-asked-questions.md) | [ Main documentation page >> ](README.md)]
+[[ << Frequently asked questions ](frequently-asked-questions.md) | [ References >> ](references.md)]

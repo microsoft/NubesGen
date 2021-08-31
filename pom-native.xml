@@ -11,13 +11,13 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.2</version>
+        <version>2.5.3</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen</artifactId>
     <!-- Do not modify this version manually, read https://github.com/microsoft/NubesGen/blob/main/CONTRIBUTING.md#doing-a-release -->
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.3.1-SNAPSHOT</version>
     <name>nubesgen</name>
     <packaging>jar</packaging>
     <description>NubesGen REST server</description>
@@ -30,7 +30,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
     <properties>
         <java.version>11</java.version>
         <repackage.classifier/>
-        <spring-native.version>0.10.0</spring-native.version>
+        <spring-native.version>0.10.1</spring-native.version>
     </properties>
 
     <dependencies>
@@ -64,7 +64,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.20</version>
+            <version>1.21</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -90,6 +90,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
                         <name>nubesgen/nubesgen-native</name>
                         <env>
                             <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+                            <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--initialize-at-run-time=io.netty.internal.tcnative.AsyncSSLPrivateKeyMethod</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
                         </env>
                     </image>
                     <layers>
