@@ -1,7 +1,29 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
+
+resource "azurecaf_name" "app_service_plan" {
+  name            = var.application_name
+  resource_type   = "azurerm_app_service_plan"
+  suffixes        = [var.environment, "001"]
+  random_length   = 5
+}
+
+resource "azurecaf_name" "app_service" {
+  name            = var.application_name
+  resource_type   = "azurerm_app_service"
+  suffixes        = [var.environment, "001"]
+  random_length   = 5
+}
 
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "application" {
-  name                = "plan-${var.application_name}-001"
+  name                = azurecaf_name.app_service_plan.result
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -20,7 +42,7 @@ resource "azurerm_app_service_plan" "application" {
 
 # This creates the service definition
 resource "azurerm_app_service" "application" {
-  name                = "app-${var.application_name}-001"
+  name                = azurecaf_name.app_service.result
   resource_group_name = var.resource_group
   location            = var.location
   app_service_plan_id = azurerm_app_service_plan.application.id
