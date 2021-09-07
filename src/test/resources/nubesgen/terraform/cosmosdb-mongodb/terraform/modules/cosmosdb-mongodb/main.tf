@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
 locals {
   // A CosmosDB account is limited to 50 characters long
   cosmos-account-name = substr(var.application_name, 0, 35)

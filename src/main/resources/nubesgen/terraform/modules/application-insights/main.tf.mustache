@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
 
 resource "azurerm_application_insights" "insights" {
   name                = "appi-${var.application_name}-001"

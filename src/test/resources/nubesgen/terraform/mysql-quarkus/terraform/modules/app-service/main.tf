@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
 
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "application" {

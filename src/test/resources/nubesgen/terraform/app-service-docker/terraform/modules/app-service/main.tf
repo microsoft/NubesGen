@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
 
 locals {
   // An Azure Container Registry name cannot contain hyphens, and is limited to 50 characters long

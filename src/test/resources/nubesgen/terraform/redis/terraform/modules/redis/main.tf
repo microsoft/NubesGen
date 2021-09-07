@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
 
 resource "azurerm_redis_cache" "redis" {
   name                = var.application_name

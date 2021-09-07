@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
 
 locals {
   // A storage blob account cannot contain hyphens, and is limited to 23 characters long
