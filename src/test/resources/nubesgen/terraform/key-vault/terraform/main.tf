@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = ">= 2.75"
     }
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
   }
 }
 
@@ -14,24 +18,30 @@ provider "azurerm" {
 locals {
   // If an environment is set up (dev, test, prod...), it is used in the application name
   environment      = var.environment == "" ? "dev" : var.environment
-  application_name = var.environment == "" ? var.application_name : "${var.application_name}-${local.environment}"
-  resource_group   = "rg-${local.application_name}-001"
+}
+
+resource "azurecaf_name" "resource_group" {
+  name            = var.application_name
+  resource_type   = "azurerm_resource_group"
+  suffixes        = [local.environment, "001"]
+  random_length   = 5
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = local.resource_group
+  name     = azurecaf_name.resource_group.result
   location = var.location
 
   tags = {
-    "terraform"   = "true"
-    "environment" = local.environment
+    "terraform"        = "true"
+    "environment"      = local.environment
+    "application-name" = var.application_name
   }
 }
 
 module "application" {
   source           = "./modules/app-service"
   resource_group   = azurerm_resource_group.main.name
-  application_name = local.application_name
+  application_name = var.application_name
   environment      = local.environment
   location         = var.location
 
@@ -45,7 +55,7 @@ module "application" {
 module "database" {
   source           = "./modules/postgresql"
   resource_group   = azurerm_resource_group.main.name
-  application_name = local.application_name
+  application_name = var.application_name
   environment      = local.environment
   location         = var.location
 }
@@ -53,7 +63,7 @@ module "database" {
 module "key-vault" {
   source           = "./modules/key-vault"
   resource_group   = azurerm_resource_group.main.name
-  application_name = local.application_name
+  application_name = var.application_name
   environment      = local.environment
   location         = var.location
 
