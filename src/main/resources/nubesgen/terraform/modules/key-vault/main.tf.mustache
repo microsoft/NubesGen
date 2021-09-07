@@ -7,16 +7,17 @@ terraform {
   }
 }
 
-resource "random_string" "key_vault" {
-  length  = 20
-  special = false
-  upper   = false
+resource "azurecaf_name" "key_vault" {
+  name          = var.application_name
+  resource_type = "azurerm_key_vault"
+  suffixes      = [var.environment, "001"]
+  random_length = 5
 }
 
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "application" {
-  name                = "kv-${random_string.key_vault.result}"
+  name                = azurecaf_name.key_vault.result
   resource_group_name = var.resource_group
   location            = var.location
 
