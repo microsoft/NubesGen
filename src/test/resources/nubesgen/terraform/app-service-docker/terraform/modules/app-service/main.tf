@@ -7,17 +7,19 @@ terraform {
   }
 }
 
-locals {
-  // An Azure Container Registry name cannot contain hyphens, and is limited to 50 characters long
-  azure-container-registry-name = substr(replace(var.application_name, "-", ""), 0, 46)
+resource "azurecaf_name" "container_registry" {
+  name          = var.application_name
+  resource_type = "azurerm_container_registry"
+  suffixes      = [var.environment, "001"]
+  random_length = 5
 }
 
 resource "azurerm_container_registry" "container-registry" {
-  name                     = "acr${local.azure-container-registry-name}001"
-  resource_group_name      = var.resource_group
-  location                 = var.location
-  admin_enabled            = true
-  sku                      = "Basic"
+  name                = azurecaf_name.container_registry.result
+  resource_group_name = var.resource_group
+  location            = var.location
+  admin_enabled       = true
+  sku                 = "Basic"
 
   tags = {
     "environment"      = var.environment
@@ -28,13 +30,6 @@ resource "azurerm_container_registry" "container-registry" {
 resource "azurecaf_name" "app_service_plan" {
   name            = var.application_name
   resource_type   = "azurerm_app_service_plan"
-  suffixes        = [var.environment, "001"]
-  random_length   = 5
-}
-
-resource "azurecaf_name" "app_service" {
-  name            = var.application_name
-  resource_type   = "azurerm_app_service"
   suffixes        = [var.environment, "001"]
   random_length   = 5
 }
@@ -57,6 +52,13 @@ resource "azurerm_app_service_plan" "application" {
     tier = "Standard"
     size = "S1"
   }
+}
+
+resource "azurecaf_name" "app_service" {
+  name            = var.application_name
+  resource_type   = "azurerm_app_service"
+  suffixes        = [var.environment, "001"]
+  random_length   = 5
 }
 
 # This creates the service definition
