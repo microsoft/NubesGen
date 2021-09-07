@@ -18,7 +18,8 @@ resource "azurerm_redis_cache" "redis" {
   minimum_tls_version = "1.2"
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   redis_configuration {

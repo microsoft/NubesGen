@@ -20,7 +20,8 @@ resource "azurerm_storage_account" "storage-blob" {
   account_replication_type = "LRS"
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 }
 

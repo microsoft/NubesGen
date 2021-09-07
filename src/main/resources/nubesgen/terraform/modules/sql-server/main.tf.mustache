@@ -23,7 +23,8 @@ resource "azurerm_mssql_server" "database" {
   administrator_login_password = random_password.password.result
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 }
 

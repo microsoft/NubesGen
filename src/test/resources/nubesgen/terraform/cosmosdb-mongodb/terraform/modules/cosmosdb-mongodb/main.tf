@@ -6,6 +6,7 @@ terraform {
     }
   }
 }
+
 locals {
   // A CosmosDB account is limited to 50 characters long
   cosmos-account-name = substr(var.application_name, 0, 35)
@@ -20,7 +21,8 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   enable_free_tier    = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   consistency_policy {

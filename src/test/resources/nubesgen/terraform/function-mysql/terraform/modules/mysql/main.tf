@@ -33,7 +33,8 @@ resource "azurerm_mysql_server" "database" {
   ssl_minimal_tls_version_enforced  = "TLS1_2"
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 }
 

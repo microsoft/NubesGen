@@ -4,6 +4,6 @@ output "application_hostname" {
 }
 
 output "resource_group" {
-  value       = local.resource_group
+  value       = azurecaf_name.resource_group.name
   description = "The resource group."
 }

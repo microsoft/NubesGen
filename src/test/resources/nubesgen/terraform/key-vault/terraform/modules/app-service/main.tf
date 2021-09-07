@@ -7,9 +7,23 @@ terraform {
   }
 }
 
+resource "azurecaf_name" "app_service_plan" {
+  name            = var.application_name
+  resource_type   = "azurerm_app_service_plan"
+  suffixes        = [var.environment, "001"]
+  random_length   = 5
+}
+
+resource "azurecaf_name" "app_service" {
+  name            = var.application_name
+  resource_type   = "azurerm_app_service"
+  suffixes        = [var.environment, "001"]
+  random_length   = 5
+}
+
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "application" {
-  name                = "plan-${var.application_name}-001"
+  name                = azurecaf_name.app_service_plan.result
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -17,7 +31,8 @@ resource "azurerm_app_service_plan" "application" {
   reserved = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   sku {
@@ -28,14 +43,15 @@ resource "azurerm_app_service_plan" "application" {
 
 # This creates the service definition
 resource "azurerm_app_service" "application" {
-  name                = "app-${var.application_name}-001"
+  name                = azurecaf_name.app_service.result
   resource_group_name = var.resource_group
   location            = var.location
   app_service_plan_id = azurerm_app_service_plan.application.id
   https_only          = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   site_config {

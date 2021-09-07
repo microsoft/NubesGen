@@ -14,6 +14,7 @@ resource "azurerm_application_insights" "insights" {
   application_type    = "java"
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 }

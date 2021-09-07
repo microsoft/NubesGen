@@ -30,7 +30,8 @@ resource "azurerm_postgresql_server" "database" {
   ssl_enforcement_enabled      = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 }
 
