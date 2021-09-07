@@ -14,13 +14,6 @@ resource "azurecaf_name" "app_service_plan" {
   random_length   = 5
 }
 
-resource "azurecaf_name" "app_service" {
-  name            = var.application_name
-  resource_type   = "azurerm_app_service"
-  suffixes        = [var.environment, "001"]
-  random_length   = 5
-}
-
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "application" {
   name                = azurecaf_name.app_service_plan.result
@@ -39,6 +32,13 @@ resource "azurerm_app_service_plan" "application" {
     tier = "Free"
     size = "F1"
   }
+}
+
+resource "azurecaf_name" "app_service" {
+  name            = var.application_name
+  resource_type   = "azurerm_app_service"
+  suffixes        = [var.environment, "001"]
+  random_length   = 5
 }
 
 # This creates the service definition
