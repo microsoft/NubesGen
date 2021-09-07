@@ -7,6 +7,13 @@ terraform {
   }
 }
 
+resource "azurecaf_name" "mssql_server" {
+  name          = var.application_name
+  resource_type = "azurerm_mssql_server"
+  suffixes      = [var.environment, "001"]
+  random_length = 5
+}
+
 resource "random_password" "password" {
   length           = 32
   special          = true
@@ -14,7 +21,7 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_mssql_server" "database" {
-  name                          = "sql-${var.application_name}-001"
+  name                          = azurecaf_name.mssql_server.result
   resource_group_name           = var.resource_group
   location                      = var.location
   version                       = "12.0"
@@ -28,8 +35,15 @@ resource "azurerm_mssql_server" "database" {
   }
 }
 
+resource "azurecaf_name" "mssql_database" {
+  name          = var.application_name
+  resource_type = "azurerm_mssql_database"
+  suffixes      = [var.environment, "001"]
+  random_length = 5
+}
+
 resource "azurerm_mssql_database" "database" {
-  name                = "sqldb-${var.application_name}-001"
+  name                = azurecaf_name.mssql_database.result
   server_id           = azurerm_mssql_server.database.id
   collation           = "SQL_Latin1_General_CP1_CI_AS"
 
@@ -38,9 +52,16 @@ resource "azurerm_mssql_database" "database" {
   auto_pause_delay_in_minutes = 60
 }
 
+resource "azurecaf_name" "sql_firewall_rule" {
+  name          = var.application_name
+  resource_type = "azurerm_sql_firewall_rule"
+  suffixes      = [var.environment, "001"]
+  random_length = 5
+}
+
 # This rule is to enable the 'Allow access to Azure services' checkbox
 resource "azurerm_sql_firewall_rule" "database" {
-  name                = "sqlfw-${var.application_name}-001"
+  name                = azurecaf_name.sql_firewall_rule.result
   resource_group_name = var.resource_group
   server_name         = azurerm_mssql_server.database.name
   start_ip_address    = "0.0.0.0"
