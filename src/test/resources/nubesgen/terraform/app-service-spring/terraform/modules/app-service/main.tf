@@ -31,7 +31,8 @@ resource "azurerm_app_service_plan" "application" {
   reserved = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   sku {
@@ -49,7 +50,8 @@ resource "azurerm_app_service" "application" {
   https_only          = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   site_config {
