@@ -51,7 +51,7 @@ module "application" {
 module "application-insights" {
   source            = "./modules/application-insights"
   resource_group    = azurerm_resource_group.main.name
-  application_name  = local.application_name
+  application_name  = var.application_name
   environment       = local.environment
   location          = var.location
 }
