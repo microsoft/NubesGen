@@ -7,8 +7,15 @@ terraform {
   }
 }
 
+resource "azurecaf_name" "redis_cache" {
+  name          = var.application_name
+  resource_type = "azurerm_redis_cache"
+  suffixes      = [var.environment, "001"]
+  random_length = 5
+}
+
 resource "azurerm_redis_cache" "redis" {
-  name                = var.application_name
+  name                = azurecaf_name.redis_cache.result
   resource_group_name = var.resource_group
   location            = var.location
   capacity            = 0
