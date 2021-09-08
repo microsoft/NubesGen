@@ -90,10 +90,16 @@ jobs:
       - name: Build with Maven
         run: mvn spring-boot:build-image -Pprod,azure -Dspring-boot.build-image.imageName=acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}
     <%/runtimeSpring%>
-    <%^runtimeSpring%>
+    <%#runtimeQuarkus%>
+      - name: Build with Maven
+        run: mvn package -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true
+      - name: Build with Docker
+        run: docker build -f src/main/docker/Dockerfile.native -t acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }} .
+    <%/runtimeQuarkus%>
+    <%#runtimeDefault%>
       - name: Build with Docker
         run: docker build -t acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }} .
-    <%/runtimeSpring%>
+    <%/runtimeDefault%>
       - name: Login to Azure
         uses: azure/login@v1
         with:
