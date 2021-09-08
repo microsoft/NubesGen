@@ -9,7 +9,7 @@ This documentation is for running Quarkus applications with NubesGen. There are 
 
 NubesGen supports deploying Quarkus applications both using the JVM and using the native image compilation (GraalVM).
 
-## Tutorial 1: running a Quarkus application on the JVM
+## Tutorial: running a Quarkus application on the JVM and as a native image
 
 __Prerequisites:__
 
@@ -58,6 +58,8 @@ As it is an empty application, you should get the standard Quarkus welcome page.
 
 ## Tutorial 2: running a native Quarkus application (using GraalVM)
 
+The only difference with the previous tutorial is that we use a different NubesGen parameter, `quarkus_native`, instead of `quarkus`.
+
 __Prerequisites:__
 
 _Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) to have those prerequisites installed, and run the script from a Web browser._
@@ -84,7 +86,7 @@ __Steps:__
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration. If you followed the first tutorial, please note the `quarkus_native` parameter.
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=quarkus_native&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
@@ -110,7 +112,7 @@ If you deploy your Quarkus application to an Azure App Service instance, NubesGe
 - An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of App Service instance you will use.
 - An [Azure App Service instance](https://aka.ms/nubesgen-app-service), configured to run Java code natively.
 
-If you use Quarkus on the JVM, the Azure App Service instance will be configured with Java. And if you use Quarkus in native mode, the Azure App Service instance will 
+If you use Quarkus on the JVM, the Azure App Service instance will be configured with Java. And if you use Quarkus in native mode, the Azure App Service instance will
 be configured with Docker.
 
 ## Configuration options
