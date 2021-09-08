@@ -137,7 +137,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: package
+          <%#runtimeQuarkus%>
+          path: '${{ github.workspace }}/target/*-runner.jar'
+          <%/runtimeQuarkus%>
+          <%^runtimeQuarkus%>
           path: '${{ github.workspace }}/target/*.[j,w]ar'
+          <%/runtimeQuarkus%>
           retention-days: 1
     <%/runtimeMaven%>
     <%#runtimeGradle%>
@@ -148,7 +153,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: package
+          <%#runtimeQuarkus%>
+          path: '${{ github.workspace }}/build/libs/*-runner.jar'
+          <%/runtimeQuarkus%>
+          <%^runtimeQuarkus%>
           path: '${{ github.workspace }}/build/libs/*.[j,w]ar'
+          <%/runtimeQuarkus%>
           retention-days: 1
     <%/runtimeGradle%>
   deploy:
