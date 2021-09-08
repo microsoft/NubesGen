@@ -1,21 +1,15 @@
-[[ << Using Java with NubesGen ](java.md) | [ Main documentation page ](../README.md) |[ Using Quarkus with NubesGen >> ](quarkus.md)]
+[[ << Using Spring Boot with NubesGen ](spring-boot.md) | [ Main documentation page ](../README.md) |[ Using .NET with NubesGen >> ](dot-net.md)]
 
-# Using Spring Boot with NubesGen
+# Using Quarkus with NubesGen
 
-This documentation is for running Spring Boot applications with NubesGen. There are two other options that might interest you:
+This documentation is for running Quarkus applications with NubesGen. There are two other options that might interest you:
 
-- You can also use [Java with NubesGen](java.md), which is similar to Spring Boot, but does not use the specific Spring Boot application properties.
-- As Spring Boot applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- You can also use [Java with NubesGen](java.md), which is similar to Quarkus, but does not use the specific Quarkus application properties.
+- As Quarkus applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
 
-NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Spring Boot application that you wish to deploy.
+NubesGen supports deploying Quarkus applications both using the JVM and using the native image compilation (GraalVM).
 
-## Tutorial 1: running a full stack Spring Boot application generated with JHipster
-
-We're going to deploy [https://github.com/jhipster/jhipster-sample-app](https://github.com/jhipster/jhipster-sample-app), which is the default [JHipster](https://www.jhipster.tech/) application.
-
-It uses a PostgreSQL database, so creating the database and connecting to it will also be managed by NubesGen.
-
-We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
+## Tutorial 1: running a Quarkus application on the JVM
 
 __Prerequisites:__
 
@@ -25,66 +19,27 @@ _Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesge
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
 __Steps:__
-1. Fork the project on your GitHub account.
-2. Clone the fork on your computer. Change `<your-github-account>` to the name of your GitHub account:
+1. Create a sample Quarkus Web application using [https://code.quarkus.io/](https://code.quarkus.io/).
    ```bash
-   git clone https://github.com/<your-github-account>/jhipster-sample-app.git
-   ``` 
-3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
-   ```bash
-    bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
-    ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
-   ```bash
-   curl "https://nubesgen.com/demo.tgz?runtime=spring&application=app_service.standard&database=postgresql&gitops=true" | tar -xzvf -
+   curl https://code.quarkus.io/d?e=resteasy-jackson&e=resteasy&cn=code.quarkus.io | tar -xzvf -
    ```
-5. Create a new branch called `env-dev`, and push your code:
+2. Create a project on GitHub called `code-with-quarkus`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
-   git checkout -b env-dev
-   git add .
-   git commit -m 'Configure GitOps with NubesGen'
-   git push --set-upstream origin env-dev
-   ```
-6. Go to your GitHub project, and check that the GitHub Action is running.
-7. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
-8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
-9. Once you have finished, you should clean up your resources:
-   1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-XXXX-XXXX-XXXX-XXXX-001`.
-   2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group.
-
-## Tutorial 2: running a Spring Intializr project with NubesGen
-
-This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this simple Spring Boot application is also a Java application.
-
-__Prerequisites:__
-
-_Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) to have those prerequisites installed, and run the script from a Web browser._
-- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
-- [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
-- (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
-
-__Steps:__
-1. Create a sample Java Web application using [https://start.spring.io/](https://start.spring.io/).
-   ```bash
-   curl https://start.spring.io/starter.tgz?type=maven-project&language=java&bootVersion=2.5.4.RELEASE&baseDir=java-sample-app&groupId=com.example&artifactId=java-sample-app&name=java-sample-app&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.java-sample-app&packaging=jar&javaVersion=11&dependencies=web | tar -xzvf -
-   ```
-2. Create a project on GitHub called `java-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
-   ```bash
-   cd java-sample-app
+   cd code-with-quarkus
    git init
    git add .
    git commit -m "first commit"
-   git remote add origin https://github.com/<your-github-account>/java-sample-app.git
+   git remote add origin https://github.com/<your-github-account>/code-with-quarkus.git
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
    ```bash
     bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
     ```
 4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
    ```bash
-   curl "https://nubesgen.com/demo.tgz?runtime=spring&application=app_service.standard&gitops=true" | tar -xzvf -
+   curl "https://nubesgen.com/demo.tgz?runtime=quarkus&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
 5. Create a new branch called `env-dev`, and push your code:
    ```bash
@@ -96,27 +51,67 @@ __Steps:__
 6. Go to your GitHub project, and check that the GitHub Action is running.
 7. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
 8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
-As it is an empty application, you should get 404 page called `Whitelabel Error Page`.
+As it is an empty application, you should get the standard Quarkus welcome page.
+9. Once you have finished, you should clean up your resources:
+   1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-demo-XXXX-XXXX-XXXX-XXXX-001`.
+   2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group.
+
+## Tutorial 2: running a native Quarkus application (using GraalVM)
+
+__Prerequisites:__
+
+_Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) to have those prerequisites installed, and run the script from a Web browser._
+- [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
+- [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
+- (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
+
+__Steps:__
+1. Create a sample Quarkus Web application using [https://code.quarkus.io/](https://code.quarkus.io/).
+   ```bash
+   curl https://code.quarkus.io/d?e=resteasy-jackson&e=resteasy&cn=code.quarkus.io | tar -xzvf -
+   ```
+2. Create a project on GitHub called `code-with-quarkus`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
+   ```bash
+   cd code-with-quarkus
+   git init
+   git add .
+   git commit -m "first commit"
+   git remote add origin https://github.com/<your-github-account>/code-with-quarkus.git
+   git branch -M main
+   git push -u origin main
+   ```
+3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
+   ```bash
+    bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
+    ```
+4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
+   ```bash
+   curl "https://nubesgen.com/demo.tgz?runtime=quarkus_native&application=app_service.standard&gitops=true" | tar -xzvf -
+   ```
+5. Create a new branch called `env-dev`, and push your code:
+   ```bash
+   git checkout -b env-dev
+   git add .
+   git commit -m 'Configure GitOps with NubesGen'
+   git push --set-upstream origin env-dev
+   ```
+6. Go to your GitHub project, and check that the GitHub Action is running.
+7. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
+8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
+As it is an empty application, you should get the standard Quarkus welcome page.
 9. Once you have finished, you should clean up your resources:
    1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-demo-XXXX-XXXX-XXXX-XXXX-001`.
    2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group.
 
 ## Which Azure resources will be created
 
-If you deploy your Spring Boot application to an Azure App Service instance, NubesGen will generate:
+If you deploy your Quarkus application to an Azure App Service instance, NubesGen will generate:
 
 - An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of App Service instance you will use.
 - An [Azure App Service instance](https://aka.ms/nubesgen-app-service), configured to run Java code natively.
 
-If you deploy your Spring Boot application to an Azure Function, NubesGen will generate:
-
-- An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of Azure Functions instance you will use.
-- An [Azure Functions instance](https://aka.ms/nubesgen-functions), configured to run Java code natively.
-- An [Azure Storage Account](https://aka.ms/nubesgen-storage), to store your Java application.
-
-## Maven vs Gradle
-
-NubesGen supports both Maven and Gradle, so you can use the build system you prefer.
+If you use Quarkus on the JVM, the Azure App Service instance will be configured with Java. And if you use Quarkus in native mode, the Azure App Service instance will 
+be configured with Docker.
 
 ## Configuration options
 
@@ -125,17 +120,14 @@ for your application. Those are standard Spring Boot
 properties, so your Spring Boot application should be automatically configured 
 (for example: your database connection should be working out-of-the-box).
 
-- `SPRING_DATASOURCE_URL`: the JDBC URL to your database
-- `SPRING_DATASOURCE_USERNAME`: the database user name
-- `SPRING_DATASOURCE_PASSWORD`: the database password
-- `SPRING_REDIS_HOST`: the Redis host name
-- `SPRING_REDIS_PASSWORD`: the Redis password
-- `SPRING_REDIS_PORT`: the Redis port (by default `6380`)
-- `SPRING_REDIS_SSL`: if Redis uses SSL (by default `true`)
+- `QUARKUS_DATASOURCE_JDBC_URL`: the JDBC URL to your database
+- `QUARKUS_DATASOURCE_USERNAME`: the database user name
+- `QUARKUS_DATASOURCE_PASSWORD`: the database password
+- `QUARKUS_REDIS_HOSTS`: the Redis host configuration, including the password (in the form: "redis://$PASSWORD@$HOST:6380")
+- `QUARKUS_MONGODB_DATABASE`: the MongoDB database name
+- `QUARKUS_MONGODB_HOSTS`: the MongoDB URI
 - `AZURE_STORAGE_ACCOUNT_NAME`: the storage account name
 - `AZURE_STORAGE_ACCOUNT_KEY`: the storage account key
 - `AZURE_STORAGE_BLOB_ENDPOINT`: the blob storage endpoint
-- `SPRING_DATA_MONGODB_DATABASE`: the MongoDB database name
-- `SPRING_DATA_MONGODB_URI`: the MongoDB database URL
 
-[[ << Using Java with NubesGen ](java.md) | [ Main documentation page ](../README.md) |[ Using Quarkus with NubesGen >> ](quarkus.md)]
+[[ << Using Spring Boot with NubesGen ](spring-boot.md) | [ Main documentation page ](../README.md) |[ Using .NET with NubesGen >> ](dot-net.md)]
