@@ -1,4 +1,4 @@
-[[ << Using Java with NubesGen ](java.md) | [ Main documentation page ](../README.md) |[ Using .NET with NubesGen >> ](dot-net.md)]
+[[ << Using Java with NubesGen ](java.md) | [ Main documentation page ](../README.md) |[ Using Quarkus with NubesGen >> ](quarkus.md)]
 
 # Using Spring Boot with NubesGen
 
@@ -138,4 +138,4 @@ properties, so your Spring Boot application should be automatically configured
 - `SPRING_DATA_MONGODB_DATABASE`: the MongoDB database name
 - `SPRING_DATA_MONGODB_URI`: the MongoDB database URL
 
-[[ << Using Java with NubesGen ](java.md) | [ Main documentation page ](../README.md) |[ Using .NET with NubesGen >> ](dot-net.md)]
+[[ << Using Java with NubesGen ](java.md) | [ Main documentation page ](../README.md) |[ Using Quarkus with NubesGen >> ](quarkus.md)]

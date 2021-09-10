@@ -138,7 +138,9 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isRuntimeDocker() {
-        return (RuntimeType.DOCKER.equals(this.getRuntimeType()) || RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()));
+        return (RuntimeType.DOCKER.equals(this.getRuntimeType()) ||
+                RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()) ||
+                RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType()));
     }
 
     @JsonIgnore
@@ -163,7 +165,8 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isRuntimeQuarkus() {
-        return RuntimeType.QUARKUS.equals(this.getRuntimeType());
+        return RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
+               RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType());
     }
 
     @JsonIgnore
@@ -171,6 +174,7 @@ public class NubesgenConfiguration {
         return (
             RuntimeType.SPRING.equals(this.getRuntimeType()) ||
             RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
+            RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType()) ||
             RuntimeType.JAVA.equals(this.getRuntimeType())
         );
     }
