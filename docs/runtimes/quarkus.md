@@ -9,7 +9,7 @@ This documentation is for running Quarkus applications with NubesGen. There are 
 
 NubesGen supports deploying Quarkus applications both using the JVM and using the native image compilation (GraalVM).
 
-## Tutorial 1: running a Quarkus application on the JVM and as a native image
+## Tutorial 1: running a Quarkus application on the JVM
 
 __Prerequisites:__
 
