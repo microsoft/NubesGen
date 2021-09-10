@@ -20,6 +20,7 @@ public enum RuntimeType {
     SPRING,
     SPRING_GRADLE,
     QUARKUS,
+    QUARKUS_NATIVE,
     DOTNET,
     NODEJS,
 }

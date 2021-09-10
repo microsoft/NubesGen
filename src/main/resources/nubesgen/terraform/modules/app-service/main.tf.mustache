@@ -123,7 +123,12 @@ resource "azurerm_app_service" "application" {
 
     # These are app specific environment variables
 {{#runtimeQuarkus}}
+  {{#runtimeDocker}}
+    "QUARKUS_HTTP_PORT" = 8080
+  {{/runtimeDocker}}
+  {{#runtimeJava}}
     "QUARKUS_HTTP_PORT" = 80
+  {{/runtimeJava}}
     "QUARKUS_PROFILE"   = "prod"
   {{#databaseTypeSqlServer}}
 
