@@ -20,7 +20,23 @@ param environmentVariables array
 @description('A list of tags to apply to the resources')
 param resourceTags object
 
-var appServicePlanName = 'plan-${applicationName}-001'
+var appServicePlanName = 'plan-${applicationName}-${instanceNumber}'
+{{#runtimeDocker}}
+var acrName = 'acr${applicationName}${instanceNumber}'
+
+// Azure Container Registry - https://docs.microsoft.com/en-us/azure/templates/microsoft.containerregistry/registries?tabs=bicep
+resource containerRegistry 'Microsoft.ContainerRegistry/registries@2020-11-01-preview' = {
+  name: acrName
+  location: location
+  tags: resourceTags
+  sku: {
+    name: 'Basic'
+  }
+  properties: {
+    adminUserEnabled: true
+  }
+}
+{{/runtimeDocker}}
 
 resource appServicePlan 'Microsoft.Web/serverFarms@2020-12-01' = {
   name: appServicePlanName
@@ -58,7 +74,7 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
     siteConfig: {
 {{#applicationTierFree}}
   {{#runtimeDocker}}
-      linuxFxVersion: 'DOCKER|${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}:latest'
+      linuxFxVersion: 'DOCKER|${containerRegistry.name}.azurecr.io/${applicationName}/${applicationName}:latest'
   {{/runtimeDocker}}
   {{#runtimeJava}}
       linuxFxVersion: 'JAVA|11-java11'
@@ -76,7 +92,7 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
 {{/applicationTierFree}}
 {{^applicationTierFree}}
   {{#runtimeDocker}}
-      linuxFxVersion: 'DOCKER|${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}:latest'
+      linuxFxVersion: 'DOCKER|${containerRegistry.name}.azurecr.io/${applicationName}/${applicationName}:latest'
   {{/runtimeDocker}}
   {{#runtimeJava}}
       linuxFxVersion: 'JAVA|11-java11'
@@ -109,6 +125,24 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
           value: '~14'
         }
 {{/runtimeNodejs}}
+{{#runtimeDocker}}
+        {
+          name: 'DOCKER_REGISTRY_SERVER_URL'
+          value: 'https://${containerRegistry.name}.azurecr.io'
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_USERNAME'
+          value: '${containerRegistry.name}'
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_PASSWORD'
+          value: listCredentials(containerRegistry.id, containerRegistry.apiVersion).passwords[0].value
+        }
+        {
+          name: 'WEBSITES_PORT'
+          value: '8080'
+        }
+{{/runtimeDocker}}
         ])
       }
     }
@@ -117,10 +151,6 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
     type: 'SystemAssigned'
   }
 {{/addonKeyVault}}
-
-  dependsOn: [
-    appServicePlan
-  ]
 }
 
 // TODO AddonKeyVault - Access policy
