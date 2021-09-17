@@ -85,13 +85,14 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
+    <%#runtimeMaven%>
       - name: Build a Java function using Maven
         uses: jdubois/nubesgen-actions/gitops-build-function-java-maven@main
-  <%/runtimeMaven%>
-  <%#runtimeGradle%>
+    <%/runtimeMaven%>
+    <%#runtimeGradle%>
       - name: Build a Java function using Gradle
         uses: jdubois/nubesgen-actions/gitops-build-function-java-gradle@main
-  <%/runtimeGradle%>
+    <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
