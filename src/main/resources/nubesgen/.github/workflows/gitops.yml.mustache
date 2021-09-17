@@ -24,12 +24,6 @@ env:
   NODEJS_VERSION: '14'
   APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
 <%/runtimeNodejs%>
-<%#runtimeDocker%>
-
-env:
-  APPLICATION_NAME: '<% applicationName %>'
-  CONTAINER_REGISTRY: '<% containerRegistry %>'
-<%/runtimeDocker%>
 
 jobs:
 <%#runtimeDocker%>
@@ -82,68 +76,21 @@ jobs:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
-      - name: Set environment variables
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-      - uses: actions/download-artifact@v2
+      - name: Deploy a Java application to Azure App Service
+        uses: jdubois/nubesgen-actions/gitops-deploy-to-app-service-java@main
         with:
-          name: package
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: 'Deploy to Azure App Service'
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
-          package: '*'
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeAppService%>
   <%#applicationTypeFunction%>
   build:
     runs-on: ubuntu-20.04
-    env:
-      APPLICATION_NAME: '<% applicationName %>'
     steps:
-      - name: Set environment variables
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: 11
-          check-latest: false
-  <%#runtimeMaven%>
-          cache: 'maven'
-      - name: Build with Maven
-        run: |
-          mvn package azure-functions:package -Pprod,azure \
-          -DfunctionResourceGroup=rg-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001 \
-          -DfunctionAppName=func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
-      - name: Temporarily save package
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: '${{ github.workspace }}/target/azure-functions/func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001/'
-          retention-days: 1
+      - name: Build a Java function using Maven
+        uses: jdubois/nubesgen-actions/gitops-build-function-java-maven@main
   <%/runtimeMaven%>
   <%#runtimeGradle%>
-          cache: 'gradle'
-      - name: Build and deploy with Gradle
-        run: |
-          gradle build azureFunctionsPackage -Pprod,azure \
-          -DfunctionResourceGroup=rg-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001 \
-          -DfunctionAppName=func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
-      - name: Temporarily save package
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: '${{ github.workspace }}/build/azure-functions/func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001/'
-          retention-days: 1
+      - name: Build a Java function using Gradle
+        uses: jdubois/nubesgen-actions/gitops-build-function-java-gradle@main
   <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]
