@@ -103,21 +103,21 @@ jobs:
 <%/runtimeJava%>
 <%#runtimeDotnet%>
   build:
-      runs-on: ubuntu-20.04
-      steps:
+    runs-on: ubuntu-20.04
+    steps:
   <%#applicationTypeAppService%>
-        - name: Build a .NET application
-          uses: jdubois/nubesgen-actions/gitops-build-dotnet@main
-          with:
-            application_package_path: ${{ env.APP_PACKAGE_PATH }}
-            dotnet_version: ${{ env.DOTNET_VERSION }}
+      - name: Build a .NET application
+        uses: jdubois/nubesgen-actions/gitops-build-dotnet@main
+        with:
+          application_package_path: ${{ env.APP_PACKAGE_PATH }}
+          dotnet_version: ${{ env.DOTNET_VERSION }}
   <%/applicationTypeAppService%>
   <%#applicationTypeFunction%>
-        - name: Build a .NET serverless function
-          uses: jdubois/nubesgen-actions/gitops-build-function-dotnet@main
-          with:
-            application_package_path: ${{ env.APP_PACKAGE_PATH }}
-            dotnet_version: ${{ env.DOTNET_VERSION }}
+      - name: Build a .NET serverless function
+        uses: jdubois/nubesgen-actions/gitops-build-function-dotnet@main
+        with:
+          application_package_path: ${{ env.APP_PACKAGE_PATH }}
+          dotnet_version: ${{ env.DOTNET_VERSION }}
   <%/applicationTypeFunction%>
   deploy:
     needs: [manage-infrastructure, build]
