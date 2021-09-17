@@ -105,31 +105,20 @@ jobs:
   build:
       runs-on: ubuntu-20.04
       steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-        - name: Set up .NET ${{ env.DOTNET_VERSION }}
-          uses: actions/setup-dotnet@v1
-          with:
-            dotnet-version: ${{ env.DOTNET_VERSION }}
   <%#applicationTypeAppService%>
-        - name: Build .NET app
-          working-directory: ${{ env.APP_PACKAGE_PATH }}
-          run: dotnet build --configuration Release
-        - name: Publish .NET app
-          run: dotnet publish -c Release -o output
-          working-directory: ${{ env.APP_PACKAGE_PATH }}
+        - name: Build a .NET application
+          uses: jdubois/nubesgen-actions/gitops-build-dotnet@main
+          with:
+            application_package_path: ${{ env.APP_PACKAGE_PATH }}
+            dotnet_version: ${{ env.DOTNET_VERSION }}
   <%/applicationTypeAppService%>
   <%#applicationTypeFunction%>
-        - name: Build .NET app
-          working-directory: ${{ env.APP_PACKAGE_PATH }}
-          run: dotnet build --configuration Release -o output
-  <%/applicationTypeFunction%>
-        - name: Temporarily save package
-          uses: actions/upload-artifact@v2
+        - name: Build a .NET serverless function
+          uses: jdubois/nubesgen-actions/gitops-build-function-dotnet@main
           with:
-            name: package
-            path: '${{ env.APP_PACKAGE_PATH }}/output'
-            retention-days: 1
+            application_package_path: ${{ env.APP_PACKAGE_PATH }}
+            dotnet_version: ${{ env.DOTNET_VERSION }}
+  <%/applicationTypeFunction%>
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
