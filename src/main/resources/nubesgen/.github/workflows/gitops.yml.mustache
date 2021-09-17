@@ -40,75 +40,25 @@ jobs:
 <%/runtimeDocker%>
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set environment variables
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-          echo "ARM_CLIENT_ID=$(echo $AZURE_CREDENTIALS | jq -r .clientId)" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=$(echo $AZURE_CREDENTIALS | jq -r .subscriptionId)" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=$(echo $AZURE_CREDENTIALS | jq -r .tenantId)" >> $GITHUB_ENV
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-      - name: Initialize Terraform
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          TF_STORAGE_ACCOUNT: ${{ secrets.TF_STORAGE_ACCOUNT }}
-        run: |
-          export ARM_CLIENT_SECRET=$(echo $AZURE_CREDENTIALS | jq -r .clientSecret)
-          terraform init \
-          -input=false \
-          -backend-config="resource_group_name=rg-terraform-001" \
-          -backend-config="storage_account_name=$TF_STORAGE_ACCOUNT" \
-          -backend-config="container_name=tfstate" \
-          -backend-config="key=$ENVIRONMENT.terraform.tfstate"
-        working-directory: '${{ github.workspace }}/terraform'
-      - name: Apply Terraform
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          TF_STORAGE_ACCOUNT: ${{ secrets.TF_STORAGE_ACCOUNT }}
-        run: |
-          export ARM_CLIENT_SECRET=$(echo $AZURE_CREDENTIALS | jq -r .clientSecret)
-          terraform apply \
-          -input=false \
-          -auto-approve \
-          -var="environment=$ENVIRONMENT"
-        working-directory: '${{ github.workspace }}/terraform'
+      - name: Apply Terraform configuration
+        uses: jdubois/nubesgen-actions/gitops-apply-terraform@main
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
 <%#runtimeDocker%>
   <%#applicationTypeAppService%>
     <%#runtimeSpring%>
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
+      - name: Build and deploy a Docker image of a Spring Boot project
+        uses: jdubois/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker-spring@main
         with:
-          distribution: 'temurin'
-          java-version: 11
-          check-latest: false
-          cache: 'maven'
-      - name: Build with Maven
-        run: mvn spring-boot:build-image -Pprod,azure -Dspring-boot.build-image.imageName=acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     <%/runtimeSpring%>
     <%^runtimeSpring%>
-      - name: Build with Docker
-        run: docker build -t acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }} .
+      - name: Build and deploy a Docker image of a Spring Boot project
+        uses: jdubois/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker@main
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     <%/runtimeSpring%>
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Push to Azure Container Registry
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-        run: |
-          az acr login -n acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io
-          docker push acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'app-<% applicationName %>-${{ env.ENVIRONMENT }}-001'
-          images: 'acr${{ env.CONTAINER_REGISTRY }}${{ env.ENVIRONMENT }}001.azurecr.io/${{ env.APPLICATION_NAME }}/${{ env.APPLICATION_NAME }}:${{ github.sha }}'
   <%/applicationTypeAppService%>
 <%/runtimeDocker%>
 <%#runtimeJava%>
@@ -116,40 +66,17 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: 11
-          check-latest: false
     <%#runtimeMaven%>
-          cache: 'maven'
-      - name: Build with Maven
-        <%#runtimeQuarkus%>
-        run: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar
-        <%/runtimeQuarkus%>
-        <%^runtimeQuarkus%>
-        run: mvn package -Pprod,azure
-        <%/runtimeQuarkus%>
-      - name: Temporarily save package
-        uses: actions/upload-artifact@v2
+      - name: Build a Java project using Maven
+        uses: jdubois/nubesgen-actions/gitops-build-java-maven@main
+      <%#runtimeQuarkus%>
         with:
-          name: package
-          path: '${{ github.workspace }}/target/*.[j,w]ar'
-          retention-days: 1
+          build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar
+      <%/runtimeQuarkus%>
     <%/runtimeMaven%>
     <%#runtimeGradle%>
-          cache: 'gradle'
-      - name: Build with Gradle
-        run: gradle build -Pprod,azure
-      - name: Temporarily save package
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: '${{ github.workspace }}/build/libs/*.[j,w]ar'
-          retention-days: 1
+      - name: Build a Java project using Gradle
+        uses: jdubois/nubesgen-actions/gitops-build-java-gradle@main
     <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]
