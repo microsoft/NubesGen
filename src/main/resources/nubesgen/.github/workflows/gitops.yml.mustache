@@ -123,31 +123,17 @@ jobs:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
-      - name: Set environment variables
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-      - uses: actions/download-artifact@v2
-        with:
-          name: package
-          path: ./output
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
   <%#applicationTypeAppService%>
-      - name: 'Deploy to Azure App Service'
-        uses: azure/webapps-deploy@v2
+      - name: Deploy a .NET application to Azure App Service
+        uses: jdubois/nubesgen-actions/gitops-deploy-to-app-service-dotnet@main
         with:
-          app-name: app-<% applicationName %>-${{ env.ENVIRONMENT }}-001
-          package: './output'
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeAppService%>
   <%#applicationTypeFunction%>
-      - name: 'Deploy to Azure Functions'
-        uses: Azure/functions-action@v1
+      - name: Deploy a .NET function to Azure Functions
+        uses: jdubois/nubesgen-actions/gitops-deploy-to-function-dotnet@main
         with:
-          app-name: func-<% applicationName %>-${{ env.ENVIRONMENT }}-001
-          package: './output'
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeFunction%>
 <%/runtimeDotnet%>
 <%#runtimeNodejs%>
