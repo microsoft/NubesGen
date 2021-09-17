@@ -95,26 +95,9 @@ jobs:
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
-    env:
-      APPLICATION_NAME: '<% applicationName %>'
     steps:
-      - name: Set environment variables
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-      - uses: actions/download-artifact@v2
-        with:
-          name: package
-          path: func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: 'Deploy to Azure Functions'
-        uses: Azure/functions-action@v1
-        with:
-          app-name: func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
-          package: func-${{ env.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-001
+      - name: Deploy a Java function to Azure Functions
+        uses: jdubois/nubesgen-actions/gitops-deploy-to-function-java@main
   <%/applicationTypeFunction%>
 <%/runtimeJava%>
 <%#runtimeDotnet%>
