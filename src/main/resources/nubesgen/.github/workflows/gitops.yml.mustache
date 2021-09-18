@@ -48,7 +48,7 @@ jobs:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     <%/runtimeSpring%>
     <%^runtimeSpring%>
-      - name: Build and deploy a Docker image of a Spring Boot project
+      - name: Build and deploy a Docker image
         uses: jdubois/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker@main
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}

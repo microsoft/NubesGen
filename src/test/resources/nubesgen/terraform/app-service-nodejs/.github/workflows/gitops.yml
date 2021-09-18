@@ -20,98 +20,24 @@ jobs:
   manage-infrastructure:
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set environment variables
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-          echo "ARM_CLIENT_ID=$(echo $AZURE_CREDENTIALS | jq -r .clientId)" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=$(echo $AZURE_CREDENTIALS | jq -r .subscriptionId)" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=$(echo $AZURE_CREDENTIALS | jq -r .tenantId)" >> $GITHUB_ENV
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-      - name: Initialize Terraform
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          TF_STORAGE_ACCOUNT: ${{ secrets.TF_STORAGE_ACCOUNT }}
-        run: |
-          export ARM_CLIENT_SECRET=$(echo $AZURE_CREDENTIALS | jq -r .clientSecret)
-          terraform init \
-          -input=false \
-          -backend-config="resource_group_name=rg-terraform-001" \
-          -backend-config="storage_account_name=$TF_STORAGE_ACCOUNT" \
-          -backend-config="container_name=tfstate" \
-          -backend-config="key=$ENVIRONMENT.terraform.tfstate"
-        working-directory: '${{ github.workspace }}/terraform'
-      - name: Apply Terraform
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          TF_STORAGE_ACCOUNT: ${{ secrets.TF_STORAGE_ACCOUNT }}
-        run: |
-          export ARM_CLIENT_SECRET=$(echo $AZURE_CREDENTIALS | jq -r .clientSecret)
-          terraform apply \
-          -input=false \
-          -auto-approve \
-          -var="environment=$ENVIRONMENT"
-        working-directory: '${{ github.workspace }}/terraform'
+      - name: Apply Terraform configuration
+        uses: jdubois/nubesgen-actions/gitops-apply-terraform@main
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
   build:
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Use Node.js ${{ env.NODEJS_VERSION }}
-        uses: actions/setup-node@v2
+      - name: Build a NodeJS project
+        uses: jdubois/nubesgen-actions/gitops-build-nodejs@main
         with:
-          node-version: ${{ env.NODEJS_VERSION }}
-      - name: Cache NPM packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Install NPM packages
-        run: npm ci
-      - name: Build the application
-        run: npm run build --if-present
-      - name: Run tests
-        run: npm test --if-present
-      - name: Package application
-        run: |
-          PKG_FILE=$(npm pack ${{ env.APP_PACKAGE_PATH }} | tail -n1)
-          tar -xvf $PKG_FILE
-          cp -f ${{ env.APP_PACKAGE_PATH }}/package-lock.json package/
-          cd package
-          npm ci --production
-          zip -r ../package.zip *
-      - name: Temporarily save package
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: './package.zip'
-          retention-days: 1
+          nodejs_version: ${{ env.NODEJS_VERSION }}
+          application_package_path: ${{ env.APP_PACKAGE_PATH }}
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
-      - name: Set environment variables
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-      - name: Get built package
-        uses: actions/download-artifact@v2
+      - name: Deploy a NodeJS application to Azure App Service
+        uses: jdubois/nubesgen-actions/gitops-deploy-to-app-service-nodejs@main
         with:
-          name: package
-          path: .
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: 'Deploy to Azure App Service'
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: app-nubesgen-testapp-app-service-nodejs-${{ env.ENVIRONMENT }}-001
-          package: './package.zip'
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}

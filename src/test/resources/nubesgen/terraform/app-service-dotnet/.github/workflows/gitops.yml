@@ -20,82 +20,24 @@ jobs:
   manage-infrastructure:
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set environment variables
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-          echo "ARM_CLIENT_ID=$(echo $AZURE_CREDENTIALS | jq -r .clientId)" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=$(echo $AZURE_CREDENTIALS | jq -r .subscriptionId)" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=$(echo $AZURE_CREDENTIALS | jq -r .tenantId)" >> $GITHUB_ENV
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-      - name: Initialize Terraform
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          TF_STORAGE_ACCOUNT: ${{ secrets.TF_STORAGE_ACCOUNT }}
-        run: |
-          export ARM_CLIENT_SECRET=$(echo $AZURE_CREDENTIALS | jq -r .clientSecret)
-          terraform init \
-          -input=false \
-          -backend-config="resource_group_name=rg-terraform-001" \
-          -backend-config="storage_account_name=$TF_STORAGE_ACCOUNT" \
-          -backend-config="container_name=tfstate" \
-          -backend-config="key=$ENVIRONMENT.terraform.tfstate"
-        working-directory: '${{ github.workspace }}/terraform'
-      - name: Apply Terraform
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          TF_STORAGE_ACCOUNT: ${{ secrets.TF_STORAGE_ACCOUNT }}
-        run: |
-          export ARM_CLIENT_SECRET=$(echo $AZURE_CREDENTIALS | jq -r .clientSecret)
-          terraform apply \
-          -input=false \
-          -auto-approve \
-          -var="environment=$ENVIRONMENT"
-        working-directory: '${{ github.workspace }}/terraform'
+      - name: Apply Terraform configuration
+        uses: jdubois/nubesgen-actions/gitops-apply-terraform@main
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
   build:
-      runs-on: ubuntu-20.04
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-        - name: Set up .NET ${{ env.DOTNET_VERSION }}
-          uses: actions/setup-dotnet@v1
-          with:
-            dotnet-version: ${{ env.DOTNET_VERSION }}
-        - name: Build .NET app
-          working-directory: ${{ env.APP_PACKAGE_PATH }}
-          run: dotnet build --configuration Release
-        - name: Publish .NET app
-          run: dotnet publish -c Release -o output
-          working-directory: ${{ env.APP_PACKAGE_PATH }}
-        - name: Temporarily save package
-          uses: actions/upload-artifact@v2
-          with:
-            name: package
-            path: '${{ env.APP_PACKAGE_PATH }}/output'
-            retention-days: 1
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Build a .NET application
+        uses: jdubois/nubesgen-actions/gitops-build-dotnet@main
+        with:
+          dotnet_version: ${{ env.DOTNET_VERSION }}
+          application_package_path: ${{ env.APP_PACKAGE_PATH }}
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
-      - name: Set environment variables
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/*/}
-          echo "ENVIRONMENT=${TAG_NAME:4}" >> $GITHUB_ENV
-      - uses: actions/download-artifact@v2
+      - name: Deploy a .NET application to Azure App Service
+        uses: jdubois/nubesgen-actions/gitops-deploy-to-app-service-dotnet@main
         with:
-          name: package
-          path: ./output
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: 'Deploy to Azure App Service'
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: app-nubesgen-testapp-app-service-dotnet-${{ env.ENVIRONMENT }}-001
-          package: './output'
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
