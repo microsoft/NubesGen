@@ -71,8 +71,8 @@ jobs:
         uses: microsoft/nubesgen-actions/gitops-build-java-maven@main
       <%#runtimeQuarkus%>
         with:
-          build_command: 'mvn package -Pprod,azure -Dquarkus.package.type=uber-jar'
-          package_path: '${{ github.workspace }}/target/*.[j,w]ar'
+          build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar
+          package_path: ${{ github.workspace }}/target/*.[j,w]ar
       <%/runtimeQuarkus%>
     <%/runtimeMaven%>
     <%#runtimeGradle%>
@@ -80,8 +80,8 @@ jobs:
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@main
       <%#runtimeQuarkus%>
         with:
-          build_command: 'gradle quarkusBuild -Dquarkus.package.type=uber-jar'
-          package_path: '${{ github.workspace }}/build/libs/*-runner.jar'
+          build_command: gradle quarkusBuild -Dquarkus.package.type=uber-jar
+          package_path: ${{ github.workspace }}/build/libs/*-runner.jar
       <%/runtimeQuarkus%>
     <%/runtimeGradle%>
   deploy:
