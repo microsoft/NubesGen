@@ -1,3 +1,17 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
+
+resource "azurecaf_name" "mysql_server" {
+  name          = var.application_name
+  resource_type = "azurerm_mysql_server"
+  suffixes      = [var.environment]
+}
 
 resource "random_password" "password" {
   length           = 32
@@ -6,7 +20,7 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_mysql_server" "database" {
-  name                = "mysql-${var.application_name}-001"
+  name                = azurecaf_name.mysql_server.result
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -25,21 +39,34 @@ resource "azurerm_mysql_server" "database" {
   ssl_minimal_tls_version_enforced  = "TLS1_2"
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 }
 
+resource "azurecaf_name" "mysql_database" {
+  name          = var.application_name
+  resource_type = "azurerm_mysql_database"
+  suffixes      = [var.environment]
+}
+
 resource "azurerm_mysql_database" "database" {
-  name                = "mysqldb-${var.application_name}-001"
+  name                = azurecaf_name.mysql_database.result
   resource_group_name = var.resource_group
   server_name         = azurerm_mysql_server.database.name
   charset             = "utf8"
   collation           = "utf8_unicode_ci"
 }
 
+resource "azurecaf_name" "mysql_firewall_rule" {
+  name          = var.application_name
+  resource_type = "azurerm_mysql_firewall_rule"
+  suffixes      = [var.environment]
+}
+
 # This rule is to enable the 'Allow access to Azure services' checkbox
 resource "azurerm_mysql_firewall_rule" "database" {
-  name                = "mysqlfw-${var.application_name}-001"
+  name                = azurecaf_name.mysql_firewall_rule.result
   resource_group_name = var.resource_group
   server_name         = azurerm_mysql_server.database.name
   start_ip_address    = "0.0.0.0"

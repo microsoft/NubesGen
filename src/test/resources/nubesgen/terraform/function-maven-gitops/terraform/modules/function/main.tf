@@ -1,7 +1,21 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
+
+resource "azurecaf_name" "app_service_plan" {
+  name          = var.application_name
+  resource_type = "azurerm_app_service_plan"
+  suffixes      = [var.environment]
+}
 
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "application" {
-  name                = "plan-${var.application_name}-001"
+  name                = azurecaf_name.app_service_plan.result
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -9,7 +23,8 @@ resource "azurerm_app_service_plan" "application" {
   reserved = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   sku {
@@ -18,13 +33,14 @@ resource "azurerm_app_service_plan" "application" {
   }
 }
 
-locals {
-  // A storage blob cannot contain hyphens, and is limited to 23 characters long
-  storage-app-blob-name = substr(replace(var.application_name, "-", ""), 0, 16)
+resource "azurecaf_name" "storage_account" {
+  name          = var.application_name
+  resource_type = "azurerm_storage_account"
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_storage_account" "application" {
-  name                      = "stapp${local.storage-app-blob-name}001"
+  name                      = azurecaf_name.storage_account.result
   resource_group_name       = var.resource_group
   location                  = var.location
   account_tier              = "Standard"
@@ -33,13 +49,20 @@ resource "azurerm_storage_account" "application" {
   allow_blob_public_access  = false
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
+}
+
+resource "azurecaf_name" "function_app" {
+  name          = var.application_name
+  resource_type = "azurerm_function_app"
+  suffixes      = [var.environment]
 }
 
 # This creates the service definition
 resource "azurerm_function_app" "application" {
-  name                       = "func-${var.application_name}-001"
+  name                       = azurecaf_name.function_app.result
   resource_group_name        = var.resource_group
   location                   = var.location
   app_service_plan_id        = azurerm_app_service_plan.application.id
@@ -50,7 +73,8 @@ resource "azurerm_function_app" "application" {
   version                    = "~3"
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   site_config {

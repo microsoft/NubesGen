@@ -1,3 +1,17 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
+
+resource "azurecaf_name" "postgresql_server" {
+  name          = var.application_name
+  resource_type = "azurerm_postgresql_server"
+  suffixes      = [var.environment]
+}
 
 resource "random_password" "password" {
   length           = 32
@@ -6,7 +20,7 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_postgresql_server" "database" {
-  name                = "psql-${var.application_name}-001"
+  name                = azurecaf_name.postgresql_server.result
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -22,21 +36,34 @@ resource "azurerm_postgresql_server" "database" {
   ssl_enforcement_enabled      = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 }
 
+resource "azurecaf_name" "postgresql_database" {
+  name          = var.application_name
+  resource_type = "azurerm_postgresql_database"
+  suffixes      = [var.environment]
+}
+
 resource "azurerm_postgresql_database" "database" {
-  name                = "psqldb-${var.application_name}-001"
+  name                = azurecaf_name.postgresql_database.result
   resource_group_name = var.resource_group
   server_name         = azurerm_postgresql_server.database.name
   charset             = "UTF8"
   collation           = "English_United States.1252"
 }
 
+resource "azurecaf_name" "postgresql_firewall_rule" {
+  name          = var.application_name
+  resource_type = "azurerm_postgresql_firewall_rule"
+  suffixes      = [var.environment]
+}
+
 # This rule is to enable the 'Allow access to Azure services' checkbox
 resource "azurerm_postgresql_firewall_rule" "database" {
-  name                = "psqlfw-${var.application_name}-001"
+  name                = azurecaf_name.postgresql_firewall_rule.result
   resource_group_name = var.resource_group
   server_name         = azurerm_postgresql_server.database.name
   start_ip_address    = "0.0.0.0"
