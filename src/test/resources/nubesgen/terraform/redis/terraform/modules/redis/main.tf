@@ -10,8 +10,7 @@ terraform {
 resource "azurecaf_name" "redis_cache" {
   name          = var.application_name
   resource_type = "azurerm_redis_cache"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_redis_cache" "redis" {

@@ -10,8 +10,7 @@ terraform {
 resource "azurecaf_name" "storage_account" {
   name          = var.application_name
   resource_type = "azurerm_storage_account"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_storage_account" "storage-blob" {
@@ -30,8 +29,7 @@ resource "azurerm_storage_account" "storage-blob" {
 resource "azurecaf_name" "storage_container" {
   name          = var.application_name
   resource_type = "azurerm_storage_container"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_storage_container" "storage-blob" {

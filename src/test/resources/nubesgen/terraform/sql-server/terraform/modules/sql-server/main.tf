@@ -10,8 +10,7 @@ terraform {
 resource "azurecaf_name" "mssql_server" {
   name          = var.application_name
   resource_type = "azurerm_mssql_server"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 resource "random_password" "password" {
@@ -38,8 +37,7 @@ resource "azurerm_mssql_server" "database" {
 resource "azurecaf_name" "mssql_database" {
   name          = var.application_name
   resource_type = "azurerm_mssql_database"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_mssql_database" "database" {
@@ -55,8 +53,7 @@ resource "azurerm_mssql_database" "database" {
 resource "azurecaf_name" "sql_firewall_rule" {
   name          = var.application_name
   resource_type = "azurerm_sql_firewall_rule"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 # This rule is to enable the 'Allow access to Azure services' checkbox

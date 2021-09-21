@@ -10,8 +10,7 @@ terraform {
 resource "azurecaf_name" "cosmosdb_account" {
   name          = var.application_name
   resource_type = "azurerm_cosmosdb_account"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_cosmosdb_account" "cosmosdb" {

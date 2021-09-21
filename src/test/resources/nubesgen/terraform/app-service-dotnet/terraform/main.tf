@@ -24,8 +24,7 @@ locals {
 resource "azurecaf_name" "resource_group" {
   name            = var.application_name
   resource_type   = "azurerm_resource_group"
-  suffixes        = [local.environment, "001"]
-  random_length   = 5
+  suffixes        = [local.environment]
 }
 
 resource "azurerm_resource_group" "main" {

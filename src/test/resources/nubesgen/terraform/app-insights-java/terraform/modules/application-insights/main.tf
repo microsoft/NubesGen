@@ -10,8 +10,7 @@ terraform {
 resource "azurecaf_name" "application_insights" {
   name          = var.application_name
   resource_type = "azurerm_application_insights"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_application_insights" "application_insights" {

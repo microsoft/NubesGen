@@ -10,8 +10,7 @@ terraform {
 resource "azurecaf_name" "app_service_plan" {
   name          = var.application_name
   resource_type = "azurerm_app_service_plan"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 # This creates the plan that the service use
@@ -49,8 +48,7 @@ resource "azurerm_app_service_plan" "application" {
 resource "azurecaf_name" "storage_account" {
   name          = var.application_name
   resource_type = "azurerm_storage_account"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_storage_account" "application" {
@@ -71,8 +69,7 @@ resource "azurerm_storage_account" "application" {
 resource "azurecaf_name" "function_app" {
   name          = var.application_name
   resource_type = "azurerm_function_app"
-  suffixes      = [var.environment, "001"]
-  random_length = 5
+  suffixes      = [var.environment]
 }
 
 # This creates the service definition
@@ -96,10 +93,10 @@ resource "azurerm_function_app" "application" {
 {{#runtimeJava}}
     linux_fx_version = "java|11"
 {{/runtimeJava}}
-{{#runtimeDotnet}} 
+{{#runtimeDotnet}}
     linux_fx_version = "dotnet|3.1"
-{{/runtimeDotnet}}    
-{{#runtimeNodejs}} 
+{{/runtimeDotnet}}
+{{#runtimeNodejs}}
     linux_fx_version = "Node|14"
 {{/runtimeNodejs}}
   }
@@ -116,10 +113,10 @@ resource "azurerm_function_app" "application" {
 {{#runtimeJava}}
     "FUNCTIONS_WORKER_RUNTIME"    = "java"
 {{/runtimeJava}}
-{{#runtimeDotnet}} 
+{{#runtimeDotnet}}
     "FUNCTIONS_WORKER_RUNTIME"    = "dotnet"
 {{/runtimeDotnet}}
-{{#runtimeNodejs}} 
+{{#runtimeNodejs}}
     "FUNCTIONS_WORKER_RUNTIME"    = "node"
 {{/runtimeNodejs}}
 {{#addonApplicationInsights}}
@@ -129,7 +126,7 @@ resource "azurerm_function_app" "application" {
 {{/addonApplicationInsights}}
 
     # These are app specific environment variables
-{{#runtimeSpring}} 
+{{#runtimeSpring}}
     "SPRING_PROFILES_ACTIVE"     = "prod,azure"
   {{#databaseTypeSqlServer}}
 

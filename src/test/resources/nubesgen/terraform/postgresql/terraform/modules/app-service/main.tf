@@ -10,8 +10,7 @@ terraform {
 resource "azurecaf_name" "app_service_plan" {
   name            = var.application_name
   resource_type   = "azurerm_app_service_plan"
-  suffixes        = [var.environment, "001"]
-  random_length   = 5
+  suffixes        = [var.environment]
 }
 
 # This creates the plan that the service use
@@ -37,8 +36,7 @@ resource "azurerm_app_service_plan" "application" {
 resource "azurecaf_name" "app_service" {
   name            = var.application_name
   resource_type   = "azurerm_app_service"
-  suffixes        = [var.environment, "001"]
-  random_length   = 5
+  suffixes        = [var.environment]
 }
 
 # This creates the service definition
