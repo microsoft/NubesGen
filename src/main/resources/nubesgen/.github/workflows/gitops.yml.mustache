@@ -47,12 +47,18 @@ jobs:
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     <%/runtimeSpring%>
-    <%^runtimeSpring%>
+    <%#runtimeQuarkus%>
+      - name: Build and deploy a Docker image of a Quarkus native project
+        uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker-quarkus-native@main
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+    <%/runtimeQuarkus%>
+    <%#runtimeDefault%>
       - name: Build and deploy a Docker image
         uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker@main
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
-    <%/runtimeSpring%>
+    <%/runtimeDefault%>
   <%/applicationTypeAppService%>
 <%/runtimeDocker%>
 <%#runtimeJava%>
@@ -65,12 +71,18 @@ jobs:
         uses: microsoft/nubesgen-actions/gitops-build-java-maven@main
       <%#runtimeQuarkus%>
         with:
-          build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar
+          build_command: 'mvn package -Pprod,azure -Dquarkus.package.type=uber-jar'
+          package_path: '${{ github.workspace }}/target/*.[j,w]ar'
       <%/runtimeQuarkus%>
     <%/runtimeMaven%>
     <%#runtimeGradle%>
       - name: Build a Java project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@main
+      <%#runtimeQuarkus%>
+        with:
+          build_command: 'gradle quarkusBuild -Dquarkus.package.type=uber-jar'
+          package_path: '${{ github.workspace }}/build/libs/*-runner.jar'
+      <%/runtimeQuarkus%>
     <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]

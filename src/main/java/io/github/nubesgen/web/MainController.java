@@ -133,6 +133,8 @@ public class MainController {
             properties.setRuntimeType(RuntimeType.SPRING_GRADLE);
         } else if (runtime.equals(RuntimeType.QUARKUS.name())) {
             properties.setRuntimeType(RuntimeType.QUARKUS);
+        } else if (runtime.equals(RuntimeType.QUARKUS_NATIVE.name())) {
+            properties.setRuntimeType(RuntimeType.QUARKUS_NATIVE);
         } else if (runtime.equals(RuntimeType.NODEJS.name())) {
             properties.setRuntimeType(RuntimeType.NODEJS);
         } else if (runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
