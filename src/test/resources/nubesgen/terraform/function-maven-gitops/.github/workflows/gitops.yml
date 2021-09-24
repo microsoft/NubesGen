@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Apply Terraform configuration
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@main
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.1.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -25,10 +25,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Build a Java function using Maven
-        uses: microsoft/nubesgen-actions/gitops-build-function-java-maven@main
+        uses: microsoft/nubesgen-actions/gitops-build-function-java-maven@v0.1.0
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java function to Azure Functions
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-function-java@main
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-function-java@v0.1.0
