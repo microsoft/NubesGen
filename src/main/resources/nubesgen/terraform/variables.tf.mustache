@@ -3,6 +3,14 @@ variable "application_name" {
   description = "The name of your application"
   default     = "{{applicationName}}"
 }
+{{#gitops}}
+
+variable "terraform_storage_account" {
+  type        = string
+  description = "When using an Azure back-end, the name of the Azure Storage Account that stores the Terraform state"
+  default     = ""
+}
+{{/gitops}}
 
 variable "environment" {
   type        = string
