@@ -1,23 +1,39 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
 
-locals {
-  // A storage blob account cannot contain hyphens, and is limited to 23 characters long
-  storage-blob-name = substr(replace(var.application_name, "-", ""), 0, 19)
+resource "azurecaf_name" "storage_account" {
+  name          = var.application_name
+  resource_type = "azurerm_storage_account"
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_storage_account" "storage-blob" {
-  name                     = "st${local.storage-blob-name}001"
+  name                     = azurecaf_name.storage_account.result
   resource_group_name      = var.resource_group
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 }
 
+resource "azurecaf_name" "storage_container" {
+  name          = var.application_name
+  resource_type = "azurerm_storage_container"
+  suffixes      = [var.environment]
+}
+
 resource "azurerm_storage_container" "storage-blob" {
-  name                  = "stblob${local.storage-blob-name}001"
+  name                  = azurecaf_name.storage_container.result
   storage_account_name  = azurerm_storage_account.storage-blob.name
   container_access_type = "private"
 }

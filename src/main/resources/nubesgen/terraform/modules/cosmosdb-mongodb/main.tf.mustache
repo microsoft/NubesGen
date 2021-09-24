@@ -1,10 +1,20 @@
-locals {
-  // A CosmosDB account is limited to 50 characters long
-  cosmos-account-name = substr(var.application_name, 0, 35)
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
+
+resource "azurecaf_name" "cosmosdb_account" {
+  name          = var.application_name
+  resource_type = "azurerm_cosmosdb_account"
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_cosmosdb_account" "cosmosdb" {
-  name                = "cosmosacct-${local.cosmos-account-name}-001"
+  name                = azurecaf_name.cosmosdb_account.result
   resource_group_name = var.resource_group
   location            = var.location
   offer_type          = "Standard"
@@ -12,7 +22,8 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   enable_free_tier    = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   consistency_policy {
@@ -25,6 +36,7 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   }
 }
 
+# azurerm_cosmosdb_mongo_database isn't implemented yet in azurecaf_name
 resource "azurerm_cosmosdb_mongo_database" "cosmosdb" {
   name                = "cosmos-${var.application_name}-001"
   resource_group_name = azurerm_cosmosdb_account.cosmosdb.resource_group_name

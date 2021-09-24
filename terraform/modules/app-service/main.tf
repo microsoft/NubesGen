@@ -1,6 +1,18 @@
+resource "azurecaf_name" "app_service_plan" {
+  name            = var.application_name
+  resource_type   = "azurerm_app_service_plan"
+  suffixes        = [var.environment]
+}
+
+resource "azurecaf_name" "app_service" {
+  name            = var.application_name
+  resource_type   = "azurerm_app_service"
+  suffixes        = [var.environment]
+}
+
 # This creates the plan that the service use
 resource "azurerm_app_service_plan" "application" {
-  name                = "plan-${var.application_name}-001"
+  name                = azurecaf_name.app_service_plan.result
   resource_group_name = var.resource_group
   location            = var.location
 
@@ -8,7 +20,8 @@ resource "azurerm_app_service_plan" "application" {
   reserved = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   sku {
@@ -26,7 +39,8 @@ resource "azurerm_app_service" "application" {
   https_only          = true
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   site_config {

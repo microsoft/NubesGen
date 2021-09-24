@@ -66,7 +66,7 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOCKER|"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: docker build"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("name: Build and deploy a Docker image"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
         assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
     }
@@ -101,7 +101,7 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("name: Build a Java project using Maven"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
         assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
     }
@@ -184,7 +184,7 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
@@ -268,7 +268,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("run: mvn package -Pprod,azure"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("name: Build a Java project using Maven"));
         assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
     }
 

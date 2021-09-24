@@ -1,6 +1,20 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+      version = "1.2.6"
+    }
+  }
+}
+
+resource "azurecaf_name" "redis_cache" {
+  name          = var.application_name
+  resource_type = "azurerm_redis_cache"
+  suffixes      = [var.environment]
+}
 
 resource "azurerm_redis_cache" "redis" {
-  name                = var.application_name
+  name                = azurecaf_name.redis_cache.result
   resource_group_name = var.resource_group
   location            = var.location
   capacity            = 0
@@ -10,7 +24,8 @@ resource "azurerm_redis_cache" "redis" {
   minimum_tls_version = "1.2"
 
   tags = {
-    "environment" = var.environment
+    "environment"      = var.environment
+    "application-name" = var.application_name
   }
 
   redis_configuration {
