@@ -432,6 +432,28 @@ class CodeGeneratorServiceTest {
         );
     }
 
+    @Test
+    void generateSpringCloudWithTerraform() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.BASIC));
+        properties.setIaCTool(IaCTool.TERRAFORM);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/asc-public-java",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name())
+        );
+
+    }
+
     private void testGeneratedFiles(
         NubesgenConfiguration properties,
         String testDirectory,

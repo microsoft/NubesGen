@@ -52,6 +52,9 @@ module "application" {
 {{#applicationTypeFunction}}
   source           = "./modules/function"
 {{/applicationTypeFunction}}
+{{#applicationTypeSpringCloud}}
+  source           = "./modules/spring-cloud"
+{{/applicationTypeSpringCloud}}
   resource_group   = azurerm_resource_group.main.name
   application_name = var.application_name
   environment      = local.environment

@@ -205,6 +205,11 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isApplicationTypeSpringCloud() {
+        return ApplicationType.SPRING_CLOUD.equals(this.getApplicationConfiguration().getApplicationType());
+    }
+
+    @JsonIgnore
     public boolean isApplicationTierFree() {
         return Tier.FREE.equals(this.getApplicationConfiguration().getTier());
     }

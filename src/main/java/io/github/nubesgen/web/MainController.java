@@ -155,6 +155,15 @@ public class MainController {
                 applicationConfiguration.setTier(Tier.CONSUMPTION);
             }
             properties.setApplicationConfiguration(applicationConfiguration);
+        } else if (application.startsWith(ApplicationType.SPRING_CLOUD.name())){
+            ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
+            applicationConfiguration.setApplicationType(ApplicationType.SPRING_CLOUD);
+            if (application.endsWith(Tier.BASIC.name())) {
+                applicationConfiguration.setTier(Tier.BASIC);
+            } else {
+                applicationConfiguration.setTier(Tier.STANDARD);
+            } 
+            properties.setApplicationConfiguration(applicationConfiguration);
         } else {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
             applicationConfiguration.setApplicationType(ApplicationType.APP_SERVICE);

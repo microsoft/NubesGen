@@ -98,8 +98,10 @@
                     this.components.frontApp.type = appType;
                     if (appType === 'APP_SERVICE') {
                         this.components.frontApp.size = 'free'
-                    } else {
+                    } else if (appType === 'FUNCTION') {
                         this.components.frontApp.size = 'consumption'
+                    } else {
+                        this.components.frontApp.size = 'basic'
                     }
                 },
                 generateScriptUrl() {
@@ -177,6 +179,11 @@
                     {id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle'},
                     {id: 'DOTNET', name: '.NET'},
                     {id: 'NODEJS', name: 'Node.js (JavaScript)'}
+                ],
+                ascRuntimes:[
+                    {id: 'SPRING', name: 'Spring Boot (Java) with Maven'},
+                    {id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle'},
+                    {id: 'DOTNET', name: '.NET Steeltoe'},
                 ],
                 regionSelectorOpened: false,
                 selectRegion(selectedRegion) {
@@ -576,6 +583,25 @@
                                             </div>
                                         </div>
 
+                                        <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
+                                             @click="updateAppType('SPRING_CLOUD')"
+                                             :class="components.frontApp.type==='SPRING_CLOUD' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
+                                            <img class="w-8 h-8" src="img/10370-icon-service-Azure-Spring-Cloud.svg"></img>
+                                            <div class="text-lg font-semibold">
+                                                Azure Spring Cloud
+                                                <p class="text-sm font-normal text-gray-500">Supports Java Spring Boot, .Net Steeltoe</p>
+                                                <div x-show="components.frontApp.type==='SPRING_CLOUD'">
+                                                    <p class="font-normal text-gray-500 text-sm mt-4">Select your
+                                                        framework:</p>
+                                                    <select class="text-sm" x-model="runtime">
+                                                        <template x-for="rt in ascRuntimes" :key="rt.id">
+                                                            <option x-bind:value="rt.id" x-text="rt.name"/>
+                                                        </template>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <!-- <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
                                           <img class="w-8 h-8" src="img/01007-icon-Static Apps-Preview.svg"></img>
                                           <div class="text-lg font-semibold">
@@ -736,6 +762,74 @@
                                             </div>
 
                                         </div>
+
+                                        <!-- Azure Spring Cloud Tiers -->
+                                        <div class="p-3 border bg-white rounded px-5 py-6"
+                                             :class="components.frontApp.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                                             x-show="components.frontApp.type==='SPRING_CLOUD'">
+                                            <span class="text-2xl">Basic</span>
+                                            <p class="mt-4">For dedicated dev/test</p>
+                                            <div class="flex row-auto items-center mt-4"><i
+                                                    class="fa fa-check-circle-o "></i>
+                                                <span class="ml-3 ">Dedicated compute</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-2"><i
+                                                    class="fa fa-check-circle-o"></i>
+                                                <span class="ml-3">Max app instance size 1vCPU, 2GB</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-2"><i
+                                                    class="fa fa-check-circle-o"></i>
+                                                <span class="ml-3">Up to 25 instances</span>
+                                            </div>
+                                            <div class="mt-5  align-bottom"
+                                                 x-show="components.frontApp.size==='basic' ? false:true;">
+                                                <button @click="components.frontApp.size='basic'"
+                                                        class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">
+                                                    Choose
+                                                    plan
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="p-3 border bg-white rounded px-5 py-6"
+                                             :class="components.frontApp.size==='standard' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                                             x-show="components.frontApp.type==='SPRING_CLOUD'">
+                                            <span class="text-2xl">Standard</span>
+                                            <p class="mt-4">Run production workloads</p>
+                                            <div class="flex row-auto items-center mt-4"><i
+                                                    class="fa fa-check-circle-o "></i>
+                                                <span class="ml-3 ">Dedicated compute</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-2"><i
+                                                class="fa fa-check-circle-o"></i>
+                                            <span class="ml-3">Max app instance size 4vCPU, 8GB</span>
+                                        </div>
+                                        <div class="flex row-auto items-center mt-2"><i
+                                                class="fa fa-check-circle-o"></i>
+                                            <span class="ml-3">Up to 500 instances</span>
+                                        </div>
+                                            <div class="flex row-auto items-center mt-2"><i
+                                                    class="fa fa-check-circle-o"></i>
+                                                <span class="ml-3">Custom domains/SSL</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-2"><i
+                                                    class="fa fa-check-circle-o"></i>
+                                                <span class="ml-3">VNET integration</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-2"><i
+                                                    class="fa fa-check-circle-o"></i>
+                                                <span class="ml-3">Blue/Green deployment</span>
+                                            </div>
+                                            <div class="mt-5  align-bottom"
+                                                 x-show="components.frontApp.size==='standard' ? false:true;">
+                                                <button @click="components.frontApp.size='standard'"
+                                                        class="border-2 border-blue-900 p-2 px-9 rounded text-blue-900 hover:shadow hover:bg-blue-900 hover:text-white">
+                                                    Choose
+                                                    plan
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
 
                                     </div>
                                 </div>
