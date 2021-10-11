@@ -59,6 +59,13 @@ module "application" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+{{#databaseTypeMysql}}
+{{#applicationTypeSpringCloud}}
+
+  azure_database_id   = module.database.database_id
+  azure_database_name = module.database.database_name
+{{/applicationTypeSpringCloud}}
+{{/databaseTypeMysql}}
 {{^databaseTypeNone}}
 
   database_url      = module.database.database_url
@@ -67,8 +74,14 @@ module "application" {
   database_password = module.database.database_password
   {{/addonKeyVault}}
   {{#addonKeyVault}}
+  {{^applicationTypeSpringCloud}}
   database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
   database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
+  {{/applicationTypeSpringCloud}}
+  {{#applicationTypeSpringCloud}}
+  database_username = module.database.database_username
+  database_password = module.database.database_password
+  {{/applicationTypeSpringCloud}}
   {{/addonKeyVault}}
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}

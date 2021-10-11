@@ -8,6 +8,9 @@ locals {
   {{#addonRedis}}
   redis_association_name    = "${var.application_name}-redis"
   {{/addonRedis}}
+  {{#databaseTypeMysql}}
+  mysql_association_name    = "${var.application_name}-mysql"
+  {{/databaseTypeMysql}}
 }
 
 # This creates the plan that the service use
@@ -63,6 +66,18 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
     "AZURE_STORAGE_ACCOUNT_KEY"   : var.azure_storage_account_key
     "AZURE_STORAGE_BLOB_ENDPOINT" : var.azure_storage_blob_endpoint
     {{/addonStorageBlob}}
+    {{#databaseTypeSqlServer}}
+
+    "SPRING_DATASOURCE_URL"      : "jdbc:sqlserver://${var.database_url}"
+    "SPRING_DATASOURCE_USERNAME" : var.database_username
+    "SPRING_DATASOURCE_PASSWORD" : var.database_password
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypePostgresql}}
+
+    "SPRING_DATASOURCE_URL"      : "jdbc:postgresql://${var.database_url}"
+    "SPRING_DATASOURCE_USERNAME" : var.database_username
+    "SPRING_DATASOURCE_PASSWORD" : var.database_password
+  {{/databaseTypePostgresql}}
   }
   {{/runtimeJava}}
 }
@@ -101,3 +116,14 @@ resource "azurerm_spring_cloud_app_redis_association" "redis_app_association" {
   redis_access_key    = var.azure_redis_password
 }
 {{/addonRedis}}
+{{#databaseTypeMysql}}
+
+resource "azurerm_spring_cloud_app_mysql_association" "mysql_app_association" {
+  name                = local.mysql_association_name
+  spring_cloud_app_id = azurerm_spring_cloud_app.application.id
+  mysql_server_id     = var.azure_database_id
+  database_name       = var.azure_database_name
+  username            = var.database_username
+  password            = var.database_password
+}
+{{/databaseTypeMysql}}
