@@ -43,39 +43,19 @@ resource "azurerm_key_vault" "application" {
     "application-name" = var.application_name
   }
 }
-{{^databaseTypeNone}}
-
-resource "azurerm_key_vault_secret" "database_username" {
-  name         = "database-username"
-  value        = var.database_username
-  key_vault_id = azurerm_key_vault.application.id
-}
-
-resource "azurerm_key_vault_secret" "database_password" {
-  name         = "database-password"
-  value        = var.database_password
-  key_vault_id = azurerm_key_vault.application.id
-}
-{{/databaseTypeNone}}
-{{#addonRedis}}
 
 resource "azurerm_key_vault_secret" "redis_password" {
   name         = "redis-password"
   value        = var.redis_password
   key_vault_id = azurerm_key_vault.application.id
 }
-{{/addonRedis}}
-{{#addonStorageBlob}}
 
 resource "azurerm_key_vault_secret" "storage_account_key" {
   name         = "storage-account-key"
   value        = var.storage_account_key
   key_vault_id = azurerm_key_vault.application.id
 }
-{{/addonStorageBlob}}
-{{#addonCosmosdbMongodb}}
 
-{{#applicationTypeSpringCloud}}
 resource "azurerm_key_vault_secret" "cosmosdb_account_id" {
   name         = "cosmosdb-account-id"
   value        = var.cosmosdb_account_id
@@ -91,12 +71,3 @@ resource "azurerm_key_vault_secret" "cosmosdb_mongodb_key" {
   value        = var.cosmosdb_mongodb_key
   key_vault_id = azurerm_key_vault.application.id
 }
-{{/applicationTypeSpringCloud}}
-{{^applicationTypeSpringCloud}}
-resource "azurerm_key_vault_secret" "cosmosdb_mongodb_uri" {
-  name         = "cosmosdb-mongodb-uri"
-  value        = var.cosmosdb_mongodb_uri
-  key_vault_id = azurerm_key_vault.application.id
-}
-{{/applicationTypeSpringCloud}}
-{{/addonCosmosdbMongodb}}

@@ -18,41 +18,17 @@ variable "location" {
   type        = string
   description = "The Azure region where all resources in this example should be created"
 }
-{{^databaseTypeNone}}
-
-variable "database_username" {
-  type        = string
-  description = "The database username"
-}
-
-variable "database_password" {
-  type        = string
-  description = "The database password"
-}
-{{/databaseTypeNone}}
-{{#addonRedis}}
 
 variable "redis_password" {
   type        = string
   description = "The Redis password"
 }
-{{/addonRedis}}
-{{#addonStorageBlob}}
 
 variable "storage_account_key" {
   type        = string
   description = "The Azure Storage Account key"
 }
-{{/addonStorageBlob}}
-{{#addonCosmosdbMongodb}}
 
-{{^applicationTypeSpringCloud}}
-variable "cosmosdb_mongodb_uri" {
-  type        = string
-  description = "The Cosmos DB connection string"
-}
-{{/applicationTypeSpringCloud}}
-{{#applicationTypeSpringCloud}}
 variable "cosmosdb_account_id" {
   type        = string
   description = "The Cosmos DB account id"
@@ -65,5 +41,3 @@ variable "cosmosdb_mongodb_key" {
   type        = string
   description = "The Cosmos DB access key"
 }
-{{/applicationTypeSpringCloud}}
-{{/addonCosmosdbMongodb}}

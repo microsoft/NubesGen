@@ -18,38 +18,16 @@ variable "location" {
   type        = string
   description = "The Azure region where all resources in this example should be created"
 }
-{{^databaseTypeNone}}
-
-variable "database_url" {
-  type        = string
-  description = "The URL to the database"
-}
-
-variable "database_username" {
-  type        = string
-  description = "The database username"
-}
-
-variable "database_password" {
-  type        = string
-  description = "The database password"
-}
-{{/databaseTypeNone}}
-{{#addonApplicationInsights}}
 
 variable "azure_application_insights_connection_string" {
   type        = string
   description = "The Azure Application Insights connection string"
 }
-{{/addonApplicationInsights}}
-{{#addonKeyVault}}
 
 variable "vault_id" {
   type        = string
   description = "The Azure Key Vault ID"
 }
-{{/addonKeyVault}}
-{{#addonStorageBlob}}
 
 variable "azure_storage_account_name" {
   type        = string
@@ -65,8 +43,6 @@ variable "azure_storage_blob_endpoint" {
   type        = string
   description = "The blob endpoint URL of the Azure Storage account"
 }
-{{/addonStorageBlob}}
-{{#addonRedis}}
 
 variable "azure_redis_id" {
   type        = string
@@ -77,8 +53,6 @@ variable "azure_redis_password" {
   type        = string
   description = "The Azure Cache for Redis password"
 }
-{{/addonRedis}}
-{{#addonCosmosdbMongodb}}
 
 variable "azure_cosmosdb_account_id" {
   type        = string
@@ -94,4 +68,3 @@ variable "azure_cosmosdb_mongodb_key" {
   type        = string
   description = "The Cosmos DB access key"
 }
-{{/addonCosmosdbMongodb}}

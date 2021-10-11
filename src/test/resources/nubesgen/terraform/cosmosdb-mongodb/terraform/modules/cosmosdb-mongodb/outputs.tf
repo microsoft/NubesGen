@@ -9,7 +9,7 @@ output "azure_cosmosdb_mongodb_uri" {
   description = "The Cosmos DB connection string."
 }
 
-output "azure_cosmosdb_account_uri" {
+output "azure_cosmosdb_account_id" {
   value       = azurerm_cosmosdb_account.cosmosdb.id
   description = "The Cosmos account resource id."
 }

@@ -2,12 +2,8 @@
 locals {
   spring_cloud_service_name = "asc-${var.application_name}-001"
   spring_cloud_app_name     = "app-${var.application_name}"
-  {{#addonCosmosdbMongodb}}
   cosmosdb_association_name = "${var.application_name}-cosmos"
-  {{/addonCosmosdbMongodb}}
-  {{#addonRedis}}
   redis_association_name    = "${var.application_name}-redis"
-  {{/addonRedis}}
 }
 
 # This creates the plan that the service use
@@ -21,17 +17,10 @@ resource "azurerm_spring_cloud_service" "application" {
     "application-name" = var.application_name
   }
 
-{{#applicationTierBasic}}
   sku_name             = "B0"
-{{/applicationTierBasic}}
-{{#applicationTierStandard}}
-  sku_name             = "S0"
-{{/applicationTierStandard}}
-{{#addonApplicationInsights}}
   trace {
     connection_string = var.azure_application_insights_connection_string
   }
-{{/addonApplicationInsights}}
 
 }
 
@@ -53,20 +42,15 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   instance_count      = 1
   memory_in_gb        = 1
 
-  {{#runtimeJava}}
   runtime_version     = "Java_11"
   environment_variables = {
     "spring.profiles.active" : "prod,azure"
-    {{#addonStorageBlob}}
 
     "AZURE_STORAGE_ACCOUNT_NAME"  : var.azure_storage_account_name
     "AZURE_STORAGE_ACCOUNT_KEY"   : var.azure_storage_account_key
     "AZURE_STORAGE_BLOB_ENDPOINT" : var.azure_storage_blob_endpoint
-    {{/addonStorageBlob}}
   }
-  {{/runtimeJava}}
 }
-{{#addonKeyVault}}
 
 data "azurerm_client_config" "current" {}
 
@@ -80,8 +64,6 @@ resource "azurerm_key_vault_access_policy" "application" {
     "List"
   ]
 }
-{{/addonKeyVault}}
-{{#addonCosmosdbMongodb}}
 
 resource "azurerm_spring_cloud_app_cosmosdb_association" "cosmos_app_association" {
   name                = local.cosmosdb_association_name
@@ -90,8 +72,6 @@ resource "azurerm_spring_cloud_app_cosmosdb_association" "cosmos_app_association
   api_type            = "mongo"
   cosmosdb_access_key = var.azure_cosmosdb_mongodb_key
 }
-{{/addonCosmosdbMongodb}}
-{{#addonRedis}}
 
 resource "azurerm_spring_cloud_app_redis_association" "redis_app_association" {
   name                = local.redis_association_name
@@ -100,4 +80,3 @@ resource "azurerm_spring_cloud_app_redis_association" "redis_app_association" {
   ssl_enabled         = "true"
   redis_access_key    = var.azure_redis_password
 }
-{{/addonRedis}}

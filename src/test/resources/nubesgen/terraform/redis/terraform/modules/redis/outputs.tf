@@ -8,3 +8,8 @@ output "azure_redis_password" {
   sensitive   = true
   description = "The Redis server password."
 }
+
+output "azure_redis_id" {
+  value       = azurerm_redis_cache.redis.id
+  description = "The Redis resource id."
+}
