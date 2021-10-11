@@ -28,9 +28,9 @@ resource "azurerm_spring_cloud_service" "application" {
   sku_name             = "S0"
 {{/applicationTierStandard}}
 {{#addonApplicationInsights}}
-trace {
-  connection_string = var.azure_application_insights_connection_string
-}
+  trace {
+    connection_string = var.azure_application_insights_connection_string
+  }
 {{/addonApplicationInsights}}
 
 }

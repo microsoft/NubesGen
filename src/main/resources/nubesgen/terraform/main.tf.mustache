@@ -73,7 +73,12 @@ module "application" {
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
 
+  {{^applicationTypeSpringCloud}}
   azure_application_insights_instrumentation_key = module.application-insights.azure_application_insights_instrumentation_key
+  {{/applicationTypeSpringCloud}}
+  {{#applicationTypeSpringCloud}}
+  azure_application_insights_connection_string = module.application-insights.azure_application_insights_connection_string
+  {{/applicationTypeSpringCloud}}
 {{/addonApplicationInsights}}
 {{#addonKeyVault}}
 
