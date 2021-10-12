@@ -13,13 +13,3 @@ output "database_password" {
   sensitive   = true
   description = "The MySQL server password."
 }
-
-output "database_id" {
-  value       = azurerm_mysql_server.database.id
-  description = "The MySQL server resource id."
-}
-
-output "database_name" {
-  value       = azurerm_mysql_server.database.name
-  description = "The MySQL database name."
-}

@@ -1,6 +1,6 @@
 # Azure Spring Cloud is not yet supported in azurecaf_name
 locals {
-  spring_cloud_service_name = "asc-${var.application_name}-001"
+  spring_cloud_service_name = "asc-${var.application_name}"
   spring_cloud_app_name     = "app-${var.application_name}"
   cosmosdb_association_name = "${var.application_name}-cosmos"
   redis_association_name    = "${var.application_name}-redis"
@@ -49,6 +49,14 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
     "AZURE_STORAGE_ACCOUNT_NAME"  : var.azure_storage_account_name
     "AZURE_STORAGE_ACCOUNT_KEY"   : var.azure_storage_account_key
     "AZURE_STORAGE_BLOB_ENDPOINT" : var.azure_storage_blob_endpoint
+
+    "SPRING_REDIS_HOST"     : var.azure_redis_host
+    "SPRING_REDIS_PASSWORD" : var.azure_redis_password
+    "SPRING_REDIS_PORT"     : "6380"
+    "SPRING_REDIS_SSL"      : "true"
+    
+    "SPRING_DATA_MONGODB_DATABASE" : var.azure_cosmosdb_mongodb_database
+    "SPRING_DATA_MONGODB_URI"      : var.azure_cosmosdb_mongodb_uri
   }
 }
 
@@ -63,21 +71,4 @@ resource "azurerm_key_vault_access_policy" "application" {
     "Get",
     "List"
   ]
-}
-
-resource "azurerm_spring_cloud_app_cosmosdb_association" "cosmos_app_association" {
-  name                         = local.cosmosdb_association_name
-  spring_cloud_app_id          = azurerm_spring_cloud_app.application.id
-  cosmosdb_account_id          = var.azure_cosmosdb_account_id
-  api_type                     = "mongo"
-  cosmosdb_access_key          = var.azure_cosmosdb_mongodb_key
-  cosmosdb_mongo_database_name = var.azure_cosmosdb_mongodb_database
-}
-
-resource "azurerm_spring_cloud_app_redis_association" "redis_app_association" {
-  name                = local.redis_association_name
-  spring_cloud_app_id = azurerm_spring_cloud_app.application.id
-  redis_cache_id      = var.azure_redis_id
-  ssl_enabled         = "true"
-  redis_access_key    = var.azure_redis_password
 }

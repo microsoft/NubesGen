@@ -29,15 +29,7 @@ variable "storage_account_key" {
   description = "The Azure Storage Account key"
 }
 
-variable "cosmosdb_account_id" {
+variable "cosmosdb_mongodb_uri" {
   type        = string
-  description = "The Cosmos DB account id"
-}
-variable "cosmosdb_mongodb_database" {
-  type        = string
-  description = "The Cosmos DB database"
-}
-variable "cosmosdb_mongodb_key" {
-  type        = string
-  description = "The Cosmos DB access key"
+  description = "The Cosmos DB connection string"
 }

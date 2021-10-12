@@ -18,14 +18,6 @@ variable "location" {
   type        = string
   description = "The Azure region where all resources in this example should be created"
 }
-variable "azure_database_id" {
-  type        = string
-  description = "MySQL Database resource id"
-}
-variable "azure_database_name" {
-  type        = string
-  description = "MySQL Database name"
-}
 
 variable "database_url" {
   type        = string

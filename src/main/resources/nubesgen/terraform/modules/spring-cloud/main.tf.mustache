@@ -1,6 +1,6 @@
 # Azure Spring Cloud is not yet supported in azurecaf_name
 locals {
-  spring_cloud_service_name = "asc-${var.application_name}-001"
+  spring_cloud_service_name = "asc-${var.application_name}"
   spring_cloud_app_name     = "app-${var.application_name}"
   {{#addonCosmosdbMongodb}}
   cosmosdb_association_name = "${var.application_name}-cosmos"
@@ -8,9 +8,6 @@ locals {
   {{#addonRedis}}
   redis_association_name    = "${var.application_name}-redis"
   {{/addonRedis}}
-  {{#databaseTypeMysql}}
-  mysql_association_name    = "${var.application_name}-mysql"
-  {{/databaseTypeMysql}}
 }
 
 # This creates the plan that the service use
@@ -72,12 +69,30 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
     "SPRING_DATASOURCE_USERNAME" : var.database_username
     "SPRING_DATASOURCE_PASSWORD" : var.database_password
     {{/databaseTypeSqlServer}}
+    {{#databaseTypeMysql}}
+
+    "SPRING_DATASOURCE_URL"      : "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+    "SPRING_DATASOURCE_USERNAME" : var.database_username
+    "SPRING_DATASOURCE_PASSWORD" : var.database_password
+    {{/databaseTypeMysql}}
     {{#databaseTypePostgresql}}
 
     "SPRING_DATASOURCE_URL"      : "jdbc:postgresql://${var.database_url}"
     "SPRING_DATASOURCE_USERNAME" : var.database_username
     "SPRING_DATASOURCE_PASSWORD" : var.database_password
     {{/databaseTypePostgresql}}
+    {{#addonRedis}}
+
+    "SPRING_REDIS_HOST"     : var.azure_redis_host
+    "SPRING_REDIS_PASSWORD" : var.azure_redis_password
+    "SPRING_REDIS_PORT"     : "6380"
+    "SPRING_REDIS_SSL"      : "true"
+    {{/addonRedis}}
+    {{#addonCosmosdbMongodb}}
+    
+    "SPRING_DATA_MONGODB_DATABASE" : var.azure_cosmosdb_mongodb_database
+    "SPRING_DATA_MONGODB_URI"      : var.azure_cosmosdb_mongodb_uri
+    {{/addonCosmosdbMongodb}}
   }
   {{/runtimeJava}}
 }
@@ -96,35 +111,3 @@ resource "azurerm_key_vault_access_policy" "application" {
   ]
 }
 {{/addonKeyVault}}
-{{#addonCosmosdbMongodb}}
-
-resource "azurerm_spring_cloud_app_cosmosdb_association" "cosmos_app_association" {
-  name                         = local.cosmosdb_association_name
-  spring_cloud_app_id          = azurerm_spring_cloud_app.application.id
-  cosmosdb_account_id          = var.azure_cosmosdb_account_id
-  api_type                     = "mongo"
-  cosmosdb_access_key          = var.azure_cosmosdb_mongodb_key
-  cosmosdb_mongo_database_name = var.azure_cosmosdb_mongodb_database
-}
-{{/addonCosmosdbMongodb}}
-{{#addonRedis}}
-
-resource "azurerm_spring_cloud_app_redis_association" "redis_app_association" {
-  name                = local.redis_association_name
-  spring_cloud_app_id = azurerm_spring_cloud_app.application.id
-  redis_cache_id      = var.azure_redis_id
-  ssl_enabled         = "true"
-  redis_access_key    = var.azure_redis_password
-}
-{{/addonRedis}}
-{{#databaseTypeMysql}}
-
-resource "azurerm_spring_cloud_app_mysql_association" "mysql_app_association" {
-  name                = local.mysql_association_name
-  spring_cloud_app_id = azurerm_spring_cloud_app.application.id
-  mysql_server_id     = var.azure_database_id
-  database_name       = var.azure_database_name
-  username            = var.database_username
-  password            = var.database_password
-}
-{{/databaseTypeMysql}}

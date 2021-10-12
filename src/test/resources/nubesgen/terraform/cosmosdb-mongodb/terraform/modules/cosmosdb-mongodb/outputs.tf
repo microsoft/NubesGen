@@ -8,14 +8,3 @@ output "azure_cosmosdb_mongodb_uri" {
   sensitive   = true
   description = "The Cosmos DB connection string."
 }
-
-output "azure_cosmosdb_account_id" {
-  value       = azurerm_cosmosdb_account.cosmosdb.id
-  description = "The Cosmos account resource id."
-}
-
-output "azure_cosmosdb_account_key" {
-  value       = azurerm_cosmosdb_account.cosmosdb.primary_key
-  sensitive   = true
-  description = "The Cosmos account access key."
-}

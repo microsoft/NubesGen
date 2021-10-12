@@ -44,7 +44,7 @@ variable "azure_storage_blob_endpoint" {
   description = "The blob endpoint URL of the Azure Storage account"
 }
 
-variable "azure_redis_id" {
+variable "azure_redis_host" {
   type        = string
   description = "The Azure Cache for Redis hostname"
 }
@@ -54,17 +54,12 @@ variable "azure_redis_password" {
   description = "The Azure Cache for Redis password"
 }
 
-variable "azure_cosmosdb_account_id" {
-  type        = string
-  description = "The Cosmos DB account id"
-}
-
 variable "azure_cosmosdb_mongodb_database" {
   type        = string
   description = "The Cosmos DB with MongoDB API database name"
 }
 
-variable "azure_cosmosdb_mongodb_key" {
+variable "azure_cosmosdb_mongodb_uri" {
   type        = string
-  description = "The Cosmos DB access key"
+  description = "The Cosmos DB with MongoDB API database URI"
 }

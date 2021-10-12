@@ -59,13 +59,6 @@ module "application" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
-{{#databaseTypeMysql}}
-{{#applicationTypeSpringCloud}}
-
-  azure_database_id   = module.database.database_id
-  azure_database_name = module.database.database_name
-{{/applicationTypeSpringCloud}}
-{{/databaseTypeMysql}}
 {{^databaseTypeNone}}
 
   database_url      = module.database.database_url
@@ -74,20 +67,8 @@ module "application" {
   database_password = module.database.database_password
   {{/addonKeyVault}}
   {{#addonKeyVault}}
-  {{^applicationTypeSpringCloud}}
   database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
   database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
-  {{/applicationTypeSpringCloud}}
-  {{#applicationTypeSpringCloud}}
-  {{#databaseTypeMysql}}
-  database_username = module.database.database_username
-  database_password = module.database.database_password
-  {{/databaseTypeMysql}}
-  {{^databaseTypeMysql}}
-  database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
-  database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
-  {{/databaseTypeMysql}}
-  {{/applicationTypeSpringCloud}}
   {{/addonKeyVault}}
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
@@ -105,22 +86,12 @@ module "application" {
 {{/addonKeyVault}}
 {{#addonRedis}}
 
-  {{^applicationTypeSpringCloud}}
   azure_redis_host     = module.redis.azure_redis_host
-  {{/applicationTypeSpringCloud}}
-  {{#applicationTypeSpringCloud}}
-  azure_redis_id     = module.redis.azure_redis_id
-  {{/applicationTypeSpringCloud}}
   {{^addonKeyVault}}
   azure_redis_password = module.redis.azure_redis_password
   {{/addonKeyVault}}
   {{#addonKeyVault}}
-  {{^applicationTypeSpringCloud}}
   azure_redis_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/redis-password)"
-  {{/applicationTypeSpringCloud}}
-  {{#applicationTypeSpringCloud}}
-  azure_redis_password = module.redis.azure_redis_password
-  {{/applicationTypeSpringCloud}}
   {{/addonKeyVault}}
 {{/addonRedis}}
 {{#addonStorageBlob}}
@@ -137,24 +108,11 @@ module "application" {
 {{#addonCosmosdbMongodb}}
 
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
-  {{#applicationTypeSpringCloud}}
-  azure_cosmosdb_account_id       = module.cosmosdb-mongodb.azure_cosmosdb_account_id
-  {{/applicationTypeSpringCloud}}
   {{^addonKeyVault}}
-  {{^applicationTypeSpringCloud}}
   azure_cosmosdb_mongodb_uri      = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
-  {{/applicationTypeSpringCloud}}
-  {{#applicationTypeSpringCloud}}  
-  azure_cosmosdb_mongodb_key      = module.cosmosdb-mongodb.azure_cosmosdb_account_key
-  {{/applicationTypeSpringCloud}}
   {{/addonKeyVault}}
   {{#addonKeyVault}}
-  {{^applicationTypeSpringCloud}}
   azure_cosmosdb_mongodb_uri      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-uri)"
-  {{/applicationTypeSpringCloud}}
-  {{#applicationTypeSpringCloud}}
-  azure_cosmosdb_mongodb_key      = module.cosmosdb-mongodb.azure_cosmosdb_account_key
-  {{/applicationTypeSpringCloud}}
   {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
 }
@@ -209,14 +167,7 @@ module "key-vault" {
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
 
-  {{^applicationTypeSpringCloud}}
   cosmosdb_mongodb_uri=module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
-  {{/applicationTypeSpringCloud}}
-  {{#applicationTypeSpringCloud}}
-  {{/applicationTypeSpringCloud}}
-  cosmosdb_account_id=module.cosmosdb-mongodb.azure_cosmosdb_account_id
-  cosmosdb_mongodb_database=module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
-  cosmosdb_mongodb_key=module.cosmosdb-mongodb.azure_cosmosdb_account_key
   {{/addonCosmosdbMongodb}}
 }
 {{/addonKeyVault}}

@@ -1,8 +1,7 @@
 # Azure Spring Cloud is not yet supported in azurecaf_name
 locals {
-  spring_cloud_service_name = "asc-${var.application_name}-001"
+  spring_cloud_service_name = "asc-${var.application_name}"
   spring_cloud_app_name     = "app-${var.application_name}"
-  mysql_association_name    = "${var.application_name}-mysql"
 }
 
 # This creates the plan that the service use
@@ -41,6 +40,10 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   runtime_version     = "Java_11"
   environment_variables = {
     "spring.profiles.active" : "prod,azure"
+
+    "SPRING_DATASOURCE_URL"      : "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+    "SPRING_DATASOURCE_USERNAME" : var.database_username
+    "SPRING_DATASOURCE_PASSWORD" : var.database_password
   }
 }
 
@@ -55,13 +58,4 @@ resource "azurerm_key_vault_access_policy" "application" {
     "Get",
     "List"
   ]
-}
-
-resource "azurerm_spring_cloud_app_mysql_association" "mysql_app_association" {
-  name                = local.mysql_association_name
-  spring_cloud_app_id = azurerm_spring_cloud_app.application.id
-  mysql_server_id     = var.azure_database_id
-  database_name       = var.azure_database_name
-  username            = var.database_username
-  password            = var.database_password
 }
