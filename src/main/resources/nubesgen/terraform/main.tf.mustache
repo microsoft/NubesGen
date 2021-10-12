@@ -79,8 +79,14 @@ module "application" {
   database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
   {{/applicationTypeSpringCloud}}
   {{#applicationTypeSpringCloud}}
+  {{#databaseTypeMysql}}
   database_username = module.database.database_username
   database_password = module.database.database_password
+  {{/databaseTypeMysql}}
+  {{^databaseTypeMysql}}
+  database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
+  database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
+  {{/databaseTypeMysql}}
   {{/applicationTypeSpringCloud}}
   {{/addonKeyVault}}
 {{/databaseTypeNone}}
@@ -109,7 +115,12 @@ module "application" {
   azure_redis_password = module.redis.azure_redis_password
   {{/addonKeyVault}}
   {{#addonKeyVault}}
+  {{^applicationTypeSpringCloud}}
   azure_redis_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/redis-password)"
+  {{/applicationTypeSpringCloud}}
+  {{#applicationTypeSpringCloud}}
+  azure_redis_password = module.redis.azure_redis_password
+  {{/applicationTypeSpringCloud}}
   {{/addonKeyVault}}
 {{/addonRedis}}
 {{#addonStorageBlob}}
@@ -142,7 +153,7 @@ module "application" {
   azure_cosmosdb_mongodb_uri      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-uri)"
   {{/applicationTypeSpringCloud}}
   {{#applicationTypeSpringCloud}}
-  azure_cosmosdb_mongodb_key      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-key)"
+  azure_cosmosdb_mongodb_key      = module.cosmosdb-mongodb.azure_cosmosdb_account_key
   {{/applicationTypeSpringCloud}}
   {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
