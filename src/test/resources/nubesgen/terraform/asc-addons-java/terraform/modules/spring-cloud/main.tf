@@ -66,11 +66,12 @@ resource "azurerm_key_vault_access_policy" "application" {
 }
 
 resource "azurerm_spring_cloud_app_cosmosdb_association" "cosmos_app_association" {
-  name                = local.cosmosdb_association_name
-  spring_cloud_app_id = azurerm_spring_cloud_app.application.id
-  cosmosdb_account_id = var.azure_cosmosdb_account_id
-  api_type            = "mongo"
-  cosmosdb_access_key = var.azure_cosmosdb_mongodb_key
+  name                         = local.cosmosdb_association_name
+  spring_cloud_app_id          = azurerm_spring_cloud_app.application.id
+  cosmosdb_account_id          = var.azure_cosmosdb_account_id
+  api_type                     = "mongo"
+  cosmosdb_access_key          = var.azure_cosmosdb_mongodb_key
+  cosmosdb_mongo_database_name = var.azure_cosmosdb_mongodb_database
 }
 
 resource "azurerm_spring_cloud_app_redis_association" "redis_app_association" {
