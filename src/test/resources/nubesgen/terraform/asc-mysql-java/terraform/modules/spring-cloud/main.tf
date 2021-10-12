@@ -39,7 +39,7 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
 
   runtime_version     = "Java_11"
   environment_variables = {
-    "spring.profiles.active" : "prod,azure"
+    "SPRING_PROFILES_ACTIVE" : "prod,azure"
 
     "SPRING_DATASOURCE_URL"      : "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
     "SPRING_DATASOURCE_USERNAME" : var.database_username
@@ -50,9 +50,9 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault_access_policy" "application" {
-  key_vault_id   = var.vault_id
-  tenant_id      = data.azurerm_client_config.current.tenant_id
-  object_id      = azurerm_spring_cloud_app.application.identity[0].principal_id
+  key_vault_id = var.vault_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_spring_cloud_app.application.identity[0].principal_id
 
   secret_permissions = [
     "Get",

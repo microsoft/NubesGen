@@ -56,7 +56,7 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   {{#runtimeJava}}
   runtime_version     = "Java_11"
   environment_variables = {
-    "spring.profiles.active" : "prod,azure"
+    "SPRING_PROFILES_ACTIVE" : "prod,azure"
     {{#addonStorageBlob}}
 
     "AZURE_STORAGE_ACCOUNT_NAME"  : var.azure_storage_account_name
@@ -101,9 +101,9 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault_access_policy" "application" {
-  key_vault_id   = var.vault_id
-  tenant_id      = data.azurerm_client_config.current.tenant_id
-  object_id      = azurerm_spring_cloud_app.application.identity[0].principal_id
+  key_vault_id = var.vault_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_spring_cloud_app.application.identity[0].principal_id
 
   secret_permissions = [
     "Get",
