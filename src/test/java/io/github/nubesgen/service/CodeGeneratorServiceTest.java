@@ -436,7 +436,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudWithTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
+        properties.setApplicationName("nubesgen-testapp-spring");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
 
@@ -457,7 +457,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudAppInsightsWithTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
+        properties.setApplicationName("nubesgen-testapp-spring");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
 
@@ -482,7 +482,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudAddOnsWithTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
+        properties.setApplicationName("nubesgen-testapp-spring");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
 
@@ -515,7 +515,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudMySqlWithTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
+        properties.setApplicationName("nubesgen-testapp-spring");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
 
@@ -542,7 +542,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudSqlWithTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
+        properties.setApplicationName("nubesgen-testapp-spring");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
 
