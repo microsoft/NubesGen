@@ -155,6 +155,19 @@ public class MainController {
                 applicationConfiguration.setTier(Tier.CONSUMPTION);
             }
             properties.setApplicationConfiguration(applicationConfiguration);
+        } else if (application.startsWith(ApplicationType.SPRING_CLOUD.name())){
+            ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
+            applicationConfiguration.setApplicationType(ApplicationType.SPRING_CLOUD);
+            if (runtime.equals(RuntimeType.DOCKER.name()) || runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
+                log.debug("Docker is not supported for Azure Spring Cloud, switching to Spring by default");
+                properties.setRuntimeType(RuntimeType.SPRING);
+            }
+            if (application.endsWith(Tier.BASIC.name())) {
+                applicationConfiguration.setTier(Tier.BASIC);
+            } else {
+                applicationConfiguration.setTier(Tier.STANDARD);
+            } 
+            properties.setApplicationConfiguration(applicationConfiguration);
         } else {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
             applicationConfiguration.setApplicationType(ApplicationType.APP_SERVICE);
