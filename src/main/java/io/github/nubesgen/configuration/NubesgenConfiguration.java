@@ -2,6 +2,7 @@ package io.github.nubesgen.configuration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -138,9 +139,11 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isRuntimeDocker() {
-        return (RuntimeType.DOCKER.equals(this.getRuntimeType()) ||
-                RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()) ||
-                RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType()));
+        return (
+            RuntimeType.DOCKER.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()) ||
+            RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType())
+        );
     }
 
     @JsonIgnore
@@ -165,8 +168,7 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isRuntimeQuarkus() {
-        return RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
-               RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType());
+        return RuntimeType.QUARKUS.equals(this.getRuntimeType()) || RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType());
     }
 
     @JsonIgnore

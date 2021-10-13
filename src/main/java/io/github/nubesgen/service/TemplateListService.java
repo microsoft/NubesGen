@@ -1,14 +1,15 @@
 package io.github.nubesgen.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class TemplateListService {
@@ -22,7 +23,7 @@ public class TemplateListService {
     - Per template pack, like "terraform"
     - Per type of technology, like "mysql"
      */
-    private Map<String, Map<String, List<String>>> templates = new HashMap<>();
+    private final Map<String, Map<String, List<String>>> templates = new HashMap<>();
 
     public TemplateListService() throws IOException {
         // App Service module
@@ -64,11 +65,9 @@ public class TemplateListService {
     public List<String> listAllTemplates() {
         List<String> allTemplates = new ArrayList<>();
         this.templates.values()
-            .forEach(
-                map -> {
-                    map.values().forEach(allTemplates::addAll);
-                }
-            );
+            .forEach(map -> {
+                map.values().forEach(allTemplates::addAll);
+            });
         return allTemplates;
     }
 

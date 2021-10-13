@@ -185,7 +185,9 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar"));
+        assertTrue(
+            entries.get(".github/workflows/gitops.yml").contains("build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar")
+        );
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
@@ -381,8 +383,8 @@ public class MainControllerTest {
 
     @Test
     public void generateSpringCloudWithTerraform() throws Exception {
-        MvcResult result = this.mockMvc
-                .perform(get("/myapplication.zip?region=westeurope&application=spring_cloud.basic"))
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=spring_cloud.basic"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))

@@ -39,8 +39,7 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   cpu                 = 1
   instance_count      = 1
   memory_in_gb        = 1
-
-  runtime_version = "Java_11"
+  runtime_version     = "Java_11"
   environment_variables = {
     "SPRING_PROFILES_ACTIVE" : "prod,azure"
 

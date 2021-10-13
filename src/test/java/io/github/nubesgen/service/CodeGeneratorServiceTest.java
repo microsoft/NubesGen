@@ -1,8 +1,13 @@
 package io.github.nubesgen.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import io.github.nubesgen.configuration.*;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,12 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests NubesGen with the default options.
@@ -438,7 +439,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        
+
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.BASIC));
         properties.setIaCTool(IaCTool.TERRAFORM);
 
@@ -459,7 +460,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        
+
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.BASIC));
         properties.setIaCTool(IaCTool.TERRAFORM);
         List<AddonConfiguration> addons = new ArrayList<>();
@@ -484,7 +485,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        
+
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.BASIC));
         properties.setIaCTool(IaCTool.TERRAFORM);
         List<AddonConfiguration> addons = new ArrayList<>();
@@ -517,7 +518,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        
+
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.BASIC));
         properties.setIaCTool(IaCTool.TERRAFORM);
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC));
@@ -544,7 +545,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testapp-spring-cloud-terraform");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        
+
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.BASIC));
         properties.setIaCTool(IaCTool.TERRAFORM);
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS));
