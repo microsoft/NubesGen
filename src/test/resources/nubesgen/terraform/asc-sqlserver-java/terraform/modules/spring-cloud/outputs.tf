@@ -1,4 +1,4 @@
-output "service_name" {
+output "spring_cloud_service_name" {
   value       = local.spring_cloud_service_name
   description = "Azure Spring Cloud service name"
 }
