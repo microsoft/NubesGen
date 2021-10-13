@@ -9,17 +9,15 @@ resource "azurerm_spring_cloud_service" "application" {
   name                = local.spring_cloud_service_name
   resource_group_name = var.resource_group
   location            = var.location
+  sku_name            = "B0"
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
   }
-
-  sku_name             = "B0"
   trace {
     connection_string = var.azure_application_insights_connection_string
   }
-
 }
 
 # This creates the application definition
@@ -40,7 +38,7 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   instance_count      = 1
   memory_in_gb        = 1
 
-  runtime_version     = "Java_11"
+  runtime_version = "Java_11"
   environment_variables = {
     "SPRING_PROFILES_ACTIVE" : "prod,azure"
   }
