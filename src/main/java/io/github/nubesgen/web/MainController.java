@@ -158,8 +158,8 @@ public class MainController {
         } else if (application.startsWith(ApplicationType.SPRING_CLOUD.name())) {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
             applicationConfiguration.setApplicationType(ApplicationType.SPRING_CLOUD);
-            if (runtime.equals(RuntimeType.DOCKER.name()) || runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
-                log.debug("Docker is not supported for Azure Spring Cloud, switching to Spring by default");
+            if (!runtime.equals(RuntimeType.SPRING.name()) && !runtime.equals(RuntimeType.SPRING_GRADLE.name())) {
+                log.debug("Azure Spring Cloud only supports the Spring runtime, switching to Spring by default");
                 properties.setRuntimeType(RuntimeType.SPRING);
             }
             if (application.endsWith(Tier.BASIC.name())) {
