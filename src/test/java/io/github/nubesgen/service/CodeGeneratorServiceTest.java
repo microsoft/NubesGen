@@ -518,6 +518,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testapp-spring");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setGitops(true);
 
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.BASIC));
         properties.setIaCTool(IaCTool.TERRAFORM);
@@ -532,6 +533,7 @@ class CodeGeneratorServiceTest {
             properties,
             "terraform/asc-mysql-java",
             configuration,
+            this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
             this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name()),

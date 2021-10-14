@@ -9,6 +9,7 @@ terraform {
       version = "1.2.6"
     }
   }
+  backend "azurerm" {}
 }
 
 provider "azurerm" {
@@ -34,6 +35,9 @@ resource "azurerm_resource_group" "main" {
     "terraform"        = "true"
     "environment"      = local.environment
     "application-name" = var.application_name
+
+    // Name of the Azure Storage Account that stores the Terraform state
+    "terraform_storage_account" = var.terraform_storage_account
   }
 }
 
