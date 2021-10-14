@@ -23,6 +23,7 @@ Once you have the project cloned on your machine, open the VS Code command palet
 | `./mvnw package`                 | Generates .jar package in `/target` folder      |
 | `./mvnw test`                    | Runs tests                                      |
 | `java -jar target/nubesgen*.jar` | Starts NubesGen server on http://localhost:8080 |
+| `./mvnw spring-boot:run`  | Compiles and starts NubesGen server on https://localhost:8080 |
 
 ## Doing a release
 
