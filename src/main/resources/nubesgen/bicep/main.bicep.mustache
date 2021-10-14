@@ -18,6 +18,20 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: defaultTags
 }
 
+{{#addonApplicationInsights}}
+module instrumentation 'modules/application-insights/app-insights.bicep' = {
+  name: 'instrumentation'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    instanceNumber: instanceNumber
+    resourceTags: defaultTags
+  }
+}
+{{/addonApplicationInsights}}
+
 {{#applicationTypeAppService}}
 module webApp 'modules/app-service/app-service.bicep' = {
   name: 'webApp'
@@ -33,6 +47,13 @@ module webApp 'modules/app-service/app-service.bicep' = {
         name: 'DEPLOYED_WITH'
         value: 'nubesgen'
       }
+{{#addonApplicationInsights}}
+      {
+        name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: instrumentation.outputs.appInsightsInstrumentationKey
+      }
+
+{{/addonApplicationInsights}}      
     ]
   }
 }
