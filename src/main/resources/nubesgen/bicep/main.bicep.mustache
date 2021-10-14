@@ -18,6 +18,20 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: defaultTags
 }
 
+{{#addonStorageBlob}}
+module storage 'modules/storage-blob/storage.bicep' = {
+  name: 'storage'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    resourceTags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/addonStorageBlob}}
+
 {{#applicationTypeAppService}}
 module webApp 'modules/app-service/app-service.bicep' = {
   name: 'webApp'
@@ -33,6 +47,20 @@ module webApp 'modules/app-service/app-service.bicep' = {
         name: 'DEPLOYED_WITH'
         value: 'nubesgen'
       }
+      {{#addonStorageBlob}}
+      {
+        name: 'azure_storage_account_name'
+        value: blobStorage.outputs.storageAccountName
+      }
+      {
+        name: 'azure_storage_account_key'
+        value: blobStorage.outputs.storageKey
+      }
+      {
+        name: 'azure_storage_connectionstring'
+        value: 'DefaultEndpointsProtocol=https;AccountName=${blobStorage.outputs.storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${blobStorage.outputs.storageKey}'
+      }
+      {{/addonStorageBlob}}
     ]
   }
 }
