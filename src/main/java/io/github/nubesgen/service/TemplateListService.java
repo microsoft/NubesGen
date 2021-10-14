@@ -37,7 +37,7 @@ public class TemplateListService {
             if (Objects.requireNonNull(resource.getFilename()).endsWith(".mustache")) {
                 String fullTemplateName = resource.getURL().getPath().substring(rootDirectoryLength);
 
-                int endIndex = fullTemplateName.indexOf(File.separator);
+                int endIndex = fullTemplateName.indexOf("/");
                 String templatePackName = fullTemplateName.substring(0, endIndex);
                 if (!templates.containsKey(templatePackName)) {
                     templates.put(templatePackName, new HashMap<>());
