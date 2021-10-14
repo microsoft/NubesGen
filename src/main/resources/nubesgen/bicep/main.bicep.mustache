@@ -17,8 +17,22 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: location
   tags: defaultTags
 }
+{{#addonApplicationInsights}}
 
+module instrumentation 'modules/application-insights/app-insights.bicep' = {
+  name: 'instrumentation'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    instanceNumber: instanceNumber
+    resourceTags: defaultTags
+  }
+}
+{{/addonApplicationInsights}}
 {{#addonStorageBlob}}
+
 module storage 'modules/storage-blob/storage.bicep' = {
   name: 'storage'
   scope: resourceGroup(rg.name)
@@ -47,7 +61,13 @@ module webApp 'modules/app-service/app-service.bicep' = {
         name: 'DEPLOYED_WITH'
         value: 'nubesgen'
       }
-      {{#addonStorageBlob}}
+  {{#addonApplicationInsights}}
+      {
+        name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: instrumentation.outputs.appInsightsInstrumentationKey
+      }
+  {{/addonApplicationInsights}} 
+  {{#addonStorageBlob}}
       {
         name: 'azure_storage_account_name'
         value: blobStorage.outputs.storageAccountName
@@ -60,7 +80,7 @@ module webApp 'modules/app-service/app-service.bicep' = {
         name: 'azure_storage_connectionstring'
         value: 'DefaultEndpointsProtocol=https;AccountName=${blobStorage.outputs.storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${blobStorage.outputs.storageKey}'
       }
-      {{/addonStorageBlob}}
+  {{/addonStorageBlob}}
     ]
   }
 }
