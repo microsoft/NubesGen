@@ -55,15 +55,15 @@ resource "azurerm_postgresql_database" "database" {
   collation           = "English_United States.1252"
 }
 
-resource "azurecaf_name" "postgresql_firewall_rule" {
+resource "azurecaf_name" "postgresql_network_rule" {
   name          = var.application_name
-  resource_type = "azurerm_postgresql_firewall_rule"
+  resource_type = "azurerm_postgresql_virtual_network_rule"
   suffixes      = [var.environment]
 }
 
 # This rule only allows traffic from the apps VNet
-resource "azurerm_postgresql_virtual_network_rule" "example" {
-  name                = "postgresql-vnet-rule"
+resource "azurerm_postgresql_virtual_network_rule" "network_rule" {
+  name                = azurecaf_name.postgresql_network_rule.result
   resource_group_name = var.resource_group
   server_name         = azurerm_postgresql_server.database.name
   subnet_id           = var.subnet_id

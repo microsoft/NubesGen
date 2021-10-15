@@ -45,33 +45,8 @@ resource "azurerm_mssql_database" "database" {
   server_id           = azurerm_mssql_server.database.id
   collation           = "SQL_Latin1_General_CP1_CI_AS"
 
-{{#databaseTierServerless}}
-  sku_name                    = "GP_S_Gen5_1"
-  min_capacity                = 0.5
-  auto_pause_delay_in_minutes = 60
-{{/databaseTierServerless}}
-{{#databaseTierGeneralPurpose}}
   sku_name                    = "GP_Gen5_2"
-{{/databaseTierGeneralPurpose}}
 }
-{{^NetworkVNet}}
-
-resource "azurecaf_name" "sql_firewall_rule" {
-  name          = var.application_name
-  resource_type = "azurerm_sql_firewall_rule"
-  suffixes      = [var.environment]
-}
-
-# This rule is to enable the 'Allow access to Azure services' checkbox
-resource "azurerm_sql_firewall_rule" "database" {
-  name                = azurecaf_name.sql_firewall_rule.result
-  resource_group_name = var.resource_group
-  server_name         = azurerm_mssql_server.database.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
-}
-{{/NetworkVNet}}
-{{#NetworkVNet}}
 
 resource "azurecaf_name" "sql_network_rule" {
   name          = var.application_name
@@ -85,4 +60,3 @@ resource "azurerm_mssql_virtual_network_rule" "network_rule" {
   server_id = azurerm_mssql_server.database.id
   subnet_id = var.subnet_id
 }
-{{/NetworkVNet}}

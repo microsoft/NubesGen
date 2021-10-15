@@ -27,10 +27,8 @@ variable "administrator_login" {
   description = "The MySQL administrator login"
   default     = "myadmin"
 }
-{{#NetworkVNet}}
 
 variable "subnet_id" {
   type        = string
   description = "The subnet from which the access is allowed"
 }
-{{/NetworkVNet}}

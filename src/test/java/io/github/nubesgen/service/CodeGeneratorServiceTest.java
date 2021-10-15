@@ -631,6 +631,58 @@ class CodeGeneratorServiceTest {
         );
     }
 
+    @Test
+    void generateSpringCloudMsSqlVNetInjectionTerraform() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VNET, PublicEndpointType.NotPublic));
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
+        properties.setIaCTool(IaCTool.TERRAFORM);
+
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.GENERAL_PURPOSE));
+        
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/asc-vnet-mssql-java",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
+            this.templateListService.listModuleTemplates("terraform", NetworkType.VNET.name()),
+            this.templateListService.listModuleTemplates("terraform", DatabaseType.SQL_SERVER.name())
+        );
+    }
+
+    @Test
+    void generateSpringCloudMySqlVNetInjectionTerraform() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VNET, PublicEndpointType.NotPublic));
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
+        properties.setIaCTool(IaCTool.TERRAFORM);
+
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.GENERAL_PURPOSE));
+        
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/asc-vnet-mysql-java",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
+            this.templateListService.listModuleTemplates("terraform", NetworkType.VNET.name()),
+            this.templateListService.listModuleTemplates("terraform", DatabaseType.MYSQL.name())
+        );
+    }
+
     private void testGeneratedFiles(
         NubesgenConfiguration properties,
         String testDirectory,

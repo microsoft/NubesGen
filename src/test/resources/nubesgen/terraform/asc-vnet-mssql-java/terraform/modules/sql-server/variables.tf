@@ -24,13 +24,11 @@ variable "location" {
 
 variable "administrator_login" {
   type        = string
-  description = "The MySQL administrator login"
-  default     = "myadmin"
+  description = "The SQL Server administrator login"
+  default     = "sqladmin"
 }
-{{#NetworkVNet}}
 
 variable "subnet_id" {
   type        = string
   description = "The subnet from which the access is allowed"
 }
-{{/NetworkVNet}}

@@ -1,13 +1,11 @@
 variable "resource_group" {
   type        = string
   description = "The resource group"
-  default     = ""
 }
 
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = ""
 }
 
 variable "environment" {
@@ -19,18 +17,24 @@ variable "environment" {
 variable "location" {
   type        = string
   description = "The Azure region where all resources in this example should be created"
-  default     = ""
 }
 
-variable "administrator_login" {
+variable "address_space" {
   type        = string
-  description = "The MySQL administrator login"
-  default     = "myadmin"
+  description = "VNet address space"
 }
-{{#NetworkVNet}}
 
-variable "subnet_id" {
+variable "app_subnet_prefix" {
   type        = string
-  description = "The subnet from which the access is allowed"
+  description = "Application subnet prefix"
 }
-{{/NetworkVNet}}
+
+variable "service_subnet_prefix" {
+  type        = string
+  description = "Azure Spring Cloud service subnet prefix"
+}
+
+variable "service_endpoints" {
+  type        = list(string)
+  description = "Service endpoints used by the solution"
+}

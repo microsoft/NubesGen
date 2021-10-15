@@ -29,6 +29,6 @@ variable "administrator_login" {
 }
 
 variable "subnet_id" {
-  type = string
+  type        = string
   description = "The subnet from which the access is allowed"
 }
