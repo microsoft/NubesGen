@@ -37,21 +37,21 @@ public class TemplateListService {
             if (Objects.requireNonNull(resource.getFilename()).endsWith(".mustache")) {
                 String fullTemplateName = resource.getURL().getPath().substring(rootDirectoryLength);
 
-                int endIndex = fullTemplateName.indexOf(File.separator);
+                int endIndex = fullTemplateName.indexOf("/");
                 String templatePackName = fullTemplateName.substring(0, endIndex);
                 if (!templates.containsKey(templatePackName)) {
                     templates.put(templatePackName, new HashMap<>());
                 }
                 Map<String, List<String>> templatePack = templates.get(templatePackName);
-                String templateName = fullTemplateName.substring((templatePackName + File.separator).length());
+                String templateName = fullTemplateName.substring((templatePackName + "/").length());
                 if (!templateName.startsWith("modules")) {
                     if (!templatePack.containsKey(ROOT_DIRECTORY)) {
                         templatePack.put(ROOT_DIRECTORY, new ArrayList<>());
                     }
                     templatePack.get(ROOT_DIRECTORY).add(fullTemplateName);
                 } else {
-                    String moduleAndTemplateName = templateName.substring(("modules" + File.separator).length());
-                    String moduleName = moduleAndTemplateName.substring(0, moduleAndTemplateName.indexOf(File.separator));
+                    String moduleAndTemplateName = templateName.substring(("modules/").length());
+                    String moduleName = moduleAndTemplateName.substring(0, moduleAndTemplateName.indexOf("/"));
                     String normalizedModuleName = moduleName.toUpperCase(Locale.ROOT).replaceAll("-", "_");
                     if (!templatePack.containsKey(normalizedModuleName)) {
                         templatePack.put(normalizedModuleName, new ArrayList<>());
