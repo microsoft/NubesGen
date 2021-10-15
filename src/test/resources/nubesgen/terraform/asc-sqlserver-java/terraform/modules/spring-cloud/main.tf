@@ -39,8 +39,10 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
     "SPRING_PROFILES_ACTIVE" = "prod,azure"
 
     "SPRING_DATASOURCE_URL"      = "jdbc:sqlserver://${var.database_url}"
-    "SPRING_DATASOURCE_USERNAME" = var.database_username
-    "SPRING_DATASOURCE_PASSWORD" = var.database_password
+    # Credentials should be retrieved from Azure Key Vault
+    # See the azure-spring-boot-starter-keyvault-secrets library
+    "SPRING_DATASOURCE_USERNAME" = "stored-in-azure-key-vault"
+    "SPRING_DATASOURCE_PASSWORD" = "stored-in-azure-key-vault"
   }
 }
 

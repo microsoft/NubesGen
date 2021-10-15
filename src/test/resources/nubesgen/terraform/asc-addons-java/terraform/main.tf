@@ -48,15 +48,12 @@ module "application" {
 
   vault_id = module.key-vault.vault_id
 
-  azure_redis_host     = module.redis.azure_redis_host
-  azure_redis_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/redis-password)"
+  azure_redis_host = module.redis.azure_redis_host
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
   azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
-  azure_storage_account_key   = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/storage-account-key)"
 
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
-  azure_cosmosdb_mongodb_uri      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-uri)"
 }
 
 module "application-insights" {
@@ -76,9 +73,9 @@ module "key-vault" {
 
   redis_password = module.redis.azure_redis_password
 
-  storage_account_key=module.storage-blob.azurerm_storage_account_key
+  storage_account_key = module.storage-blob.azurerm_storage_account_key
 
-  cosmosdb_mongodb_uri=module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
+  cosmosdb_mongodb_uri = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
 }
 
 module "redis" {

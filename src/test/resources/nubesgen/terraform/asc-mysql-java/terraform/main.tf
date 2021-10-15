@@ -48,9 +48,7 @@ module "application" {
   environment      = local.environment
   location         = var.location
 
-  database_url      = module.database.database_url
-  database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
-  database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
+  database_url = module.database.database_url
 
   vault_id = module.key-vault.vault_id
 }

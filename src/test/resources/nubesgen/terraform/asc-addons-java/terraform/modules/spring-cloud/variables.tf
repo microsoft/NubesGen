@@ -34,11 +34,6 @@ variable "azure_storage_account_name" {
   description = "The name of the Azure Storage account"
 }
 
-variable "azure_storage_account_key" {
-  type        = string
-  description = "The access key of the Azure Storage account"
-}
-
 variable "azure_storage_blob_endpoint" {
   type        = string
   description = "The blob endpoint URL of the Azure Storage account"
@@ -49,17 +44,7 @@ variable "azure_redis_host" {
   description = "The Azure Cache for Redis hostname"
 }
 
-variable "azure_redis_password" {
-  type        = string
-  description = "The Azure Cache for Redis password"
-}
-
 variable "azure_cosmosdb_mongodb_database" {
   type        = string
   description = "The Cosmos DB with MongoDB API database name"
-}
-
-variable "azure_cosmosdb_mongodb_uri" {
-  type        = string
-  description = "The Cosmos DB with MongoDB API database URI"
 }

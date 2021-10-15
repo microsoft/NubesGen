@@ -286,6 +286,14 @@ public class NubesgenConfiguration {
         return this.getAddons().stream().anyMatch(addon -> AddonType.APPLICATION_INSIGHTS.equals(addon.getAddonType()));
     }
 
+    /**
+     * Azure App Service and Azure Functions have specific Azure Key Vault integration.
+     */
+    @JsonIgnore
+    public boolean isKeyVaultIntegration() {
+        return isApplicationTypeAppService() || isApplicationTypeFunction();
+    }
+
     @JsonIgnore
     public boolean isAddonKeyVault() {
         return this.getAddons().stream().anyMatch(addon -> AddonType.KEY_VAULT.equals(addon.getAddonType()));

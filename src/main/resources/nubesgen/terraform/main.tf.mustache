@@ -61,14 +61,20 @@ module "application" {
   location         = var.location
 {{^databaseTypeNone}}
 
-  database_url      = module.database.database_url
   {{^addonKeyVault}}
+  database_url      = module.database.database_url
   database_username = module.database.database_username
   database_password = module.database.database_password
   {{/addonKeyVault}}
   {{#addonKeyVault}}
+    {{#keyVaultIntegration}}
+  database_url      = module.database.database_url
   database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
   database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
+    {{/keyVaultIntegration}}
+    {{^keyVaultIntegration}}
+  database_url = module.database.database_url
+    {{/keyVaultIntegration}}
   {{/addonKeyVault}}
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
@@ -86,12 +92,18 @@ module "application" {
 {{/addonKeyVault}}
 {{#addonRedis}}
 
-  azure_redis_host     = module.redis.azure_redis_host
   {{^addonKeyVault}}
+  azure_redis_host     = module.redis.azure_redis_host
   azure_redis_password = module.redis.azure_redis_password
   {{/addonKeyVault}}
   {{#addonKeyVault}}
+    {{#keyVaultIntegration}}
+  azure_redis_host     = module.redis.azure_redis_host
   azure_redis_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/redis-password)"
+    {{/keyVaultIntegration}}
+    {{^keyVaultIntegration}}
+  azure_redis_host = module.redis.azure_redis_host
+    {{/keyVaultIntegration}}
   {{/addonKeyVault}}
 {{/addonRedis}}
 {{#addonStorageBlob}}
@@ -102,7 +114,9 @@ module "application" {
   azure_storage_account_key   = module.storage-blob.azurerm_storage_account_key
   {{/addonKeyVault}}
   {{#addonKeyVault}}
+    {{#keyVaultIntegration}}
   azure_storage_account_key   = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/storage-account-key)"
+    {{/keyVaultIntegration}}
   {{/addonKeyVault}}
 {{/addonStorageBlob}}
 {{#addonCosmosdbMongodb}}
@@ -112,7 +126,9 @@ module "application" {
   azure_cosmosdb_mongodb_uri      = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
   {{/addonKeyVault}}
   {{#addonKeyVault}}
+    {{#keyVaultIntegration}}
   azure_cosmosdb_mongodb_uri      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-uri)"
+    {{/keyVaultIntegration}}
   {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
 }
@@ -163,11 +179,11 @@ module "key-vault" {
   {{/addonRedis}}
   {{#addonStorageBlob}}
 
-  storage_account_key=module.storage-blob.azurerm_storage_account_key
+  storage_account_key = module.storage-blob.azurerm_storage_account_key
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
 
-  cosmosdb_mongodb_uri=module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
+  cosmosdb_mongodb_uri = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
   {{/addonCosmosdbMongodb}}
 }
 {{/addonKeyVault}}
