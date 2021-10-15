@@ -29,6 +29,11 @@ variable "vault_id" {
   description = "The Azure Key Vault ID"
 }
 
+variable "vault_uri" {
+  type        = string
+  description = "The Azure Key Vault URI"
+}
+
 variable "azure_storage_account_name" {
   type        = string
   description = "The name of the Azure Storage account"

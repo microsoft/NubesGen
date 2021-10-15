@@ -46,7 +46,8 @@ module "application" {
 
   database_url = module.database.database_url
 
-  vault_id = module.key-vault.vault_id
+  vault_id  = module.key-vault.vault_id
+  vault_uri = module.key-vault.vault_uri
 }
 
 module "database" {

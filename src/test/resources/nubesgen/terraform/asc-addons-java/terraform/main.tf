@@ -46,7 +46,8 @@ module "application" {
 
   azure_application_insights_connection_string = module.application-insights.azure_application_insights_connection_string
 
-  vault_id = module.key-vault.vault_id
+  vault_id  = module.key-vault.vault_id
+  vault_uri = module.key-vault.vault_uri
 
   azure_redis_host = module.redis.azure_redis_host
 

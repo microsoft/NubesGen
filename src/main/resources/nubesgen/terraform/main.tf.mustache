@@ -88,7 +88,13 @@ module "application" {
 {{/addonApplicationInsights}}
 {{#addonKeyVault}}
 
+  {{#keyVaultIntegration}}
   vault_id = module.key-vault.vault_id
+  {{/keyVaultIntegration}}
+  {{^keyVaultIntegration}}
+  vault_id  = module.key-vault.vault_id
+  vault_uri = module.key-vault.vault_uri
+  {{/keyVaultIntegration}}
 {{/addonKeyVault}}
 {{#addonRedis}}
 
