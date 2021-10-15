@@ -24,6 +24,7 @@ variable "database_url" {
   type        = string
   description = "The URL to the database"
 }
+  {{^addonKeyVault}}
 
 variable "database_username" {
   type        = string
@@ -34,6 +35,7 @@ variable "database_password" {
   type        = string
   description = "The database password"
 }
+  {{/addonKeyVault}}
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
 
@@ -48,6 +50,11 @@ variable "vault_id" {
   type        = string
   description = "The Azure Key Vault ID"
 }
+
+variable "vault_uri" {
+  type        = string
+  description = "The Azure Key Vault URI"
+}
 {{/addonKeyVault}}
 {{#addonStorageBlob}}
 
@@ -55,11 +62,13 @@ variable "azure_storage_account_name" {
   type        = string
   description = "The name of the Azure Storage account"
 }
+  {{^addonKeyVault}}
 
 variable "azure_storage_account_key" {
   type        = string
   description = "The access key of the Azure Storage account"
 }
+  {{/addonKeyVault}}
 
 variable "azure_storage_blob_endpoint" {
   type        = string
@@ -72,11 +81,13 @@ variable "azure_redis_host" {
   type        = string
   description = "The Azure Cache for Redis hostname"
 }
+  {{^addonKeyVault}}
 
 variable "azure_redis_password" {
   type        = string
   description = "The Azure Cache for Redis password"
 }
+  {{/addonKeyVault}}
 {{/addonRedis}}
 {{#addonCosmosdbMongodb}}
 
@@ -84,9 +95,11 @@ variable "azure_cosmosdb_mongodb_database" {
   type        = string
   description = "The Cosmos DB with MongoDB API database name"
 }
+  {{^addonKeyVault}}
 
 variable "azure_cosmosdb_mongodb_uri" {
   type        = string
   description = "The Cosmos DB with MongoDB API database URI"
 }
+  {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
