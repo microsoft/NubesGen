@@ -350,12 +350,12 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
-    public boolean isPublicAfd(){
+    public boolean isNetworkPublicFrontDoor(){
         return this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.AFD);
     }
 
     @JsonIgnore
-    public boolean isVNetPublic(){
+    public boolean isNetworkVNetPublic(){
         return isNetworkVNet() && !this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.NotPublic);
     }
 

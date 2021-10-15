@@ -229,7 +229,7 @@ module "network" {
   {{/applicationTypeSpringCloud}}
 }
 {{/NetworkVNet}}
-{{#PublicAfd}}
+{{#NetworkPublicFrontDoor}}
 
 module "afd" {
   source           = "./modules/afd"
@@ -241,4 +241,4 @@ module "afd" {
   app_address      = module.application.spring_cloud_service_app_fqdn
   {{/applicationTypeSpringCloud}}
 }
-{{/PublicAfd}}
+{{/NetworkPublicFrontDoor}}

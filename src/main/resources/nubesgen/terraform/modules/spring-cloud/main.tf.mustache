@@ -113,10 +113,10 @@ resource "azurerm_spring_cloud_app" "application" {
     type = "SystemAssigned"
   }
   {{#NetworkVNet}}
-  {{#VNetPublic}}
+  {{#NetworkVNetPublic}}
   
   is_public = true
-  {{/VNetPublic}}
+  {{/NetworkVNetPublic}}
   {{/NetworkVNet}}
 }
 
