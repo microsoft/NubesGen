@@ -323,21 +323,21 @@ public class NubesgenConfiguration {
         if (isNetworkVNet()){
             ArrayList<String> endpoints = new ArrayList<String>(); 
             if (!isDatabaseTypeNone()){
-                endpoints.add("Microsoft.Sql");
+                endpoints.add("\"Microsoft.Sql\"");
             }
             if (isAddonCosmosdbMongodb()){
-                endpoints.add("Microsoft.AzureCosmosDB");
+                endpoints.add("\"Microsoft.AzureCosmosDB\"");
             }
             if (isAddonKeyVault()){
-                endpoints.add("Microsoft.KeyVault");
+                endpoints.add("\"Microsoft.KeyVault\"");
             }
             if (isAddonStorageBlob()){
-                endpoints.add("Microsoft.Storage");
+                endpoints.add("\"Microsoft.Storage\"");
             }
             if (isRuntimeDocker()){
-                endpoints.add("Microsoft.ContainerRegistry");
+                endpoints.add("\"Microsoft.ContainerRegistry\"");
             }
-            return String.join(",", endpoints);
+            return String.join(", ", endpoints);
         } else {
             return "";
         }
@@ -350,12 +350,12 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
-    public boolean isPublicAfd(){
+    public boolean isNetworkPublicFrontDoor(){
         return this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.AFD);
     }
 
     @JsonIgnore
-    public boolean isVNetPublic(){
+    public boolean isNetworkVNetPublic(){
         return isNetworkVNet() && !this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.NotPublic);
     }
 

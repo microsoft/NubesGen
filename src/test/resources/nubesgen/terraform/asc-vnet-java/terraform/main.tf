@@ -43,7 +43,7 @@ module "application" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
-  
+
   vnet_id       = module.network.vnet_id
   app_subnet_id = module.network.app_subnet_id
 

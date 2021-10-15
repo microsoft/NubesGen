@@ -34,6 +34,12 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
     failover_priority = 0
     location          = var.location
   }
+  {{#NetworkVNet}}
+
+  virtual_network_rule {
+    id = var.subnet_id
+  }
+  {{/NetworkVNet}}
 }
 
 # azurerm_cosmosdb_mongo_database isn't implemented yet in azurecaf_name

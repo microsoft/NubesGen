@@ -1,10 +1,14 @@
 package io.github.nubesgen.configuration;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class NetworkConfiguration {
+
+    @JsonProperty("network")
     private NetworkType networkType;
 
+    @JsonProperty("public")
     private PublicEndpointType publicEndpointType;
-
 
     public NetworkConfiguration(NetworkType networkType) {
         this(networkType, PublicEndpointType.NotPublic);
@@ -15,11 +19,11 @@ public class NetworkConfiguration {
         this.publicEndpointType = publicEndpointType;
     }
 
-    public NetworkType getNetworkType(){
+    public NetworkType getNetworkType() {
         return this.networkType;
     }
 
-    public PublicEndpointType getPublicEndpoint(){
+    public PublicEndpointType getPublicEndpoint() {
         return publicEndpointType;
     }
 }

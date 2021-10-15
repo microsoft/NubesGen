@@ -116,7 +116,7 @@ module "application" {
   {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
 {{#NetworkVNet}}
-  
+
   vnet_id       = module.network.vnet_id
   app_subnet_id = module.network.app_subnet_id
   {{#applicationTypeSpringCloud}}
@@ -142,6 +142,9 @@ module "database" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  {{#NetworkVNet}}
+  subnet_id        = module.network.app_subnet_id
+  {{/NetworkVNet}}
 }
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
@@ -179,6 +182,10 @@ module "key-vault" {
 
   cosmosdb_mongodb_uri=module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
   {{/addonCosmosdbMongodb}}
+  {{#NetworkVNet}}
+
+  subnet_id = module.network.app_subnet_id
+  {{/NetworkVNet}}
 }
 {{/addonKeyVault}}
 {{#addonRedis}}
@@ -189,6 +196,9 @@ module "redis" {
   application_name  = var.application_name
   environment       = local.environment
   location          = var.location
+  {{#NetworkVNet}}
+  subnet_id         = module.network.redis_subnet_id
+  {{/NetworkVNet}}
 }
 {{/addonRedis}}
 {{#addonStorageBlob}}
@@ -199,6 +209,9 @@ module "storage-blob" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  {{#NetworkVNet}}
+  subnet_id        = module.network.app_subnet_id
+  {{/NetworkVNet}}
 }
 {{/addonStorageBlob}}
 {{#addonCosmosdbMongodb}}
@@ -209,6 +222,9 @@ module "cosmosdb-mongodb" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  {{#NetworkVNet}}
+  subnet_id        = module.network.app_subnet_id
+  {{/NetworkVNet}}
 }
 {{/addonCosmosdbMongodb}}
 {{#NetworkVNet}}
@@ -220,16 +236,19 @@ module "network" {
   environment           = local.environment
   location              = var.location
   {{#NetworkServiceEndpointsRequired}}
-  service_endpoints     = [{{NetworkServiceEndpoints}}]
+  service_endpoints     = [{{{NetworkServiceEndpoints}}}]
   {{/NetworkServiceEndpointsRequired}}
   address_space         = var.address_space
   app_subnet_prefix     = var.app_subnet_prefix
   {{#applicationTypeSpringCloud}}
   service_subnet_prefix = var.service_subnet_prefix
   {{/applicationTypeSpringCloud}}
+  {{#addonRedis}}
+  redis_subnet_prefix   = var.redis_subnet_prefix
+  {{/addonRedis}}
 }
 {{/NetworkVNet}}
-{{#PublicAfd}}
+{{#NetworkPublicFrontDoor}}
 
 module "afd" {
   source           = "./modules/afd"
@@ -241,4 +260,4 @@ module "afd" {
   app_address      = module.application.spring_cloud_service_app_fqdn
   {{/applicationTypeSpringCloud}}
 }
-{{/PublicAfd}}
+{{/NetworkPublicFrontDoor}}

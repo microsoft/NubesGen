@@ -14,3 +14,10 @@ output "service_subnet_id" {
   description = "Azure Spring Cloud services subnet"
 }
 {{/applicationTypeSpringCloud}}
+{{#addonRedis}}
+
+output "redis_subnet_id" {
+  value       = azurerm_subnet.redis_subnet.id
+  description = "Azure Redis Cache subnet"
+}
+{{/addonRedis}}

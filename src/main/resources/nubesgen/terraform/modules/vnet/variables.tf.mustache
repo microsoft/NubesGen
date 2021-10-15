@@ -42,3 +42,10 @@ variable "service_endpoints" {
   description = "Service endpoints used by the solution"
 }
 {{/NetworkServiceEndpointsRequired}}
+{{#addonRedis}}
+
+variable "redis_subnet_prefix" {
+  type        = string
+  description = "Azure Redis Cache subnet prefix"
+}
+{{/addonRedis}}

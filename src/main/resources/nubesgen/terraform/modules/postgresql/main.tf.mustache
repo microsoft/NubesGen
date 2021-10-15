@@ -65,6 +65,7 @@ resource "azurecaf_name" "postgresql_firewall_rule" {
   resource_type = "azurerm_postgresql_firewall_rule"
   suffixes      = [var.environment]
 }
+{{^NetworkVNet}}
 
 # This rule is to enable the 'Allow access to Azure services' checkbox
 resource "azurerm_postgresql_firewall_rule" "database" {
@@ -74,3 +75,14 @@ resource "azurerm_postgresql_firewall_rule" "database" {
   start_ip_address    = "0.0.0.0"
   end_ip_address      = "0.0.0.0"
 }
+{{/NetworkVNet}}
+{{#NetworkVNet}}
+
+# This rule only allows traffic from the apps VNet
+resource "azurerm_postgresql_virtual_network_rule" "example" {
+  name                = "postgresql-vnet-rule"
+  resource_group_name = var.resource_group
+  server_name         = azurerm_postgresql_server.database.name
+  subnet_id           = var.subnet_id
+}
+{{/NetworkVNet}}
