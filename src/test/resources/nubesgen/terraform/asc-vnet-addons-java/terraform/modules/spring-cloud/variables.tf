@@ -24,16 +24,6 @@ variable "database_url" {
   description = "The URL to the database"
 }
 
-variable "database_username" {
-  type        = string
-  description = "The database username"
-}
-
-variable "database_password" {
-  type        = string
-  description = "The database password"
-}
-
 variable "azure_application_insights_connection_string" {
   type        = string
   description = "The Azure Application Insights connection string"
@@ -44,14 +34,14 @@ variable "vault_id" {
   description = "The Azure Key Vault ID"
 }
 
+variable "vault_uri" {
+  type        = string
+  description = "The Azure Key Vault URI"
+}
+
 variable "azure_storage_account_name" {
   type        = string
   description = "The name of the Azure Storage account"
-}
-
-variable "azure_storage_account_key" {
-  type        = string
-  description = "The access key of the Azure Storage account"
 }
 
 variable "azure_storage_blob_endpoint" {
@@ -64,19 +54,9 @@ variable "azure_redis_host" {
   description = "The Azure Cache for Redis hostname"
 }
 
-variable "azure_redis_password" {
-  type        = string
-  description = "The Azure Cache for Redis password"
-}
-
 variable "azure_cosmosdb_mongodb_database" {
   type        = string
   description = "The Cosmos DB with MongoDB API database name"
-}
-
-variable "azure_cosmosdb_mongodb_uri" {
-  type        = string
-  description = "The Cosmos DB with MongoDB API database URI"
 }
 
 variable "vnet_id" {

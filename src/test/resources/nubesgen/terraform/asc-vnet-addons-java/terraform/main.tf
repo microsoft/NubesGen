@@ -44,23 +44,19 @@ module "application" {
   environment      = local.environment
   location         = var.location
 
-  database_url      = module.database.database_url
-  database_username = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-username)"
-  database_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/database-password)"
+  database_url = module.database.database_url
 
   azure_application_insights_connection_string = module.application-insights.azure_application_insights_connection_string
 
-  vault_id = module.key-vault.vault_id
+  vault_id  = module.key-vault.vault_id
+  vault_uri = module.key-vault.vault_uri
 
-  azure_redis_host     = module.redis.azure_redis_host
-  azure_redis_password = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/redis-password)"
+  azure_redis_host = module.redis.azure_redis_host
 
   azure_storage_account_name  = module.storage-blob.azurerm_storage_account_name
   azure_storage_blob_endpoint = module.storage-blob.azurerm_storage_blob_endpoint
-  azure_storage_account_key   = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/storage-account-key)"
 
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
-  azure_cosmosdb_mongodb_uri      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-uri)"
 
   vnet_id       = module.network.vnet_id
   app_subnet_id = module.network.app_subnet_id
@@ -98,9 +94,9 @@ module "key-vault" {
 
   redis_password = module.redis.azure_redis_password
 
-  storage_account_key=module.storage-blob.azurerm_storage_account_key
+  storage_account_key = module.storage-blob.azurerm_storage_account_key
 
-  cosmosdb_mongodb_uri=module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
+  cosmosdb_mongodb_uri = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
 
   subnet_id = module.network.app_subnet_id
 }
