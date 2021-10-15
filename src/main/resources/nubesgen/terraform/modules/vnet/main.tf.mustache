@@ -28,7 +28,7 @@ resource "azurecaf_name" "service_subnet" {
 }
 
 resource "azurerm_subnet" "service_subnet" {
-  name                 = azurecaf_name.svc_subnet.result
+  name                 = azurecaf_name.service_subnet.result
   resource_group_name  = var.resource_group
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = [var.service_subnet_prefix]

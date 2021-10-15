@@ -24,17 +24,17 @@ variable "vnet_id" {
   description = "Virtual Network ID where Azure Spring Cloud will be deployed" 
 }
 
-variable "subnet_apps" {
+variable "app_subnet_id" {
   type        = string
   description = "Azure Spring Cloud apps subnet ID"
 }
 
-variable "subnet_services" {
+variable "service_subnet_id" {
   type        = string
   description = "Azure Spring Cloud services subnet ID"
 }
 
 variable "cidr_ranges" {
-  type        = string
+  type        = list(string)
   description = "A list of (at least 3) CIDR ranges (at least /16) which are used to host the Spring Cloud infrastructure, which must not overlap with any existing CIDR ranges in the Subnet. Changing this forces a new resource to be created"
 }

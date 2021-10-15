@@ -1,5 +1,11 @@
 {{#NetworkVNet}}
-provider "azuread" {
+terraform {
+  required_providers {
+    azuread = {
+      source = "hashicorp/azuread"
+      version = ">= 2.6.0"
+    }
+  }
 }
 
 {{/NetworkVNet}}

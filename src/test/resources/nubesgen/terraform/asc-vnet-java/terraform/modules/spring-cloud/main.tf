@@ -1,4 +1,10 @@
-provider "azuread" {
+terraform {
+  required_providers {
+    azuread = {
+      source = "hashicorp/azuread"
+      version = ">= 2.6.0"
+    }
+  }
 }
 
 # Azure Spring Cloud is not yet supported in azurecaf_name
