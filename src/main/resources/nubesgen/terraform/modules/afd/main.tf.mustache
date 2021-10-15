@@ -10,7 +10,7 @@ terraform {
 resource "azurecaf_name" "afd" {
   name            = var.application_name
   resource_type   = "azurerm_frontdoor"
-  suffixes        = [local.environment]  
+  suffixes        = [var.environment]  
 }
 
 resource "azurerm_frontdoor" "afd" {
