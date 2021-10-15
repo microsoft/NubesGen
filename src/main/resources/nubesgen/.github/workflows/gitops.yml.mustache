@@ -34,11 +34,16 @@ jobs:
 <%/runtimeDocker%>
     runs-on: ubuntu-20.04
     steps:
+<%#iacToolTerraform%>
       - name: Apply Terraform configuration
         uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.1.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
+<%/iacToolTerraform%>
+<%#iacToolBicep%>
+  # TODO implement step to run Bicep
+<%/iacToolBicep%>
 <%#runtimeDocker%>
   <%#applicationTypeAppService%>
     <%#runtimeSpring%>

@@ -138,6 +138,21 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isIacToolTerraform() {
+        return IaCTool.TERRAFORM.equals(this.getIaCTool());
+    }
+
+    @JsonIgnore
+    public boolean isIacToolBicep() {
+        return IaCTool.BICEP.equals(this.getIaCTool());
+    }
+
+    @JsonIgnore
+    public boolean isIacToolPulumi() {
+        return IaCTool.PULUMI.equals(this.getIaCTool());
+    }
+
+    @JsonIgnore
     public boolean isRuntimeDocker() {
         return (
             RuntimeType.DOCKER.equals(this.getRuntimeType()) ||

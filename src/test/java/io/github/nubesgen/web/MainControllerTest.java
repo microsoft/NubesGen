@@ -382,6 +382,22 @@ public class MainControllerTest {
     }
 
     @Test
+    public void generateApplicationWithBicepAndGitOps() throws Exception {
+        MvcResult result =
+                this.mockMvc.perform(get("/myapplication.zip?iactool=bicep&region=westeurope&application=app_service.standard&gitops=true"))
+                        .andDo(print())
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType("application/octet-stream"))
+                        .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("bicep/main.bicep"));
+        assertTrue(entries.containsKey(".github/workflows/gitops.yml"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("TODO"));
+    }
+
+    @Test
     public void generateSpringCloudWithTerraform() throws Exception {
         MvcResult result =
             this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=spring_cloud.basic"))
