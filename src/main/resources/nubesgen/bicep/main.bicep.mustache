@@ -85,3 +85,17 @@ module webApp 'modules/app-service/app-service.bicep' = {
   }
 }
 {{/applicationTypeAppService}}
+
+{{#addonMongodb}}
+module mongoDb 'modules/cosmosdb-mongodb/cosmosdb-mongodb.bicep' = {
+  name: 'mongoDb'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    instanceNumber: instanceNumber
+    resourceTags: defaultTags
+  }
+}
+{{/addonMongodb}}
