@@ -115,6 +115,16 @@ module "application" {
   azure_cosmosdb_mongodb_uri      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-uri)"
   {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
+{{#NetworkVNet}}
+  
+  vnet_id     = module.network.vnet_id
+  subnet_apps = module.network.app_subnet_id
+  {{#applicationTypeSpringCloud}}
+
+  subnet_services = module.network.service_subnet_id
+  cidr_ranges     = var.cidr_ranges
+  {{/applicationTypeSpringCloud}}
+{{/NetworkVNet}}
 }
 {{^databaseTypeNone}}
 
@@ -201,3 +211,34 @@ module "cosmosdb-mongodb" {
   location         = var.location
 }
 {{/addonCosmosdbMongodb}}
+{{#NetworkVNet}}
+
+module "network" {
+  source                = "./modules/vnet"
+  resource_group        = azurerm_resource_group.main.name
+  application_name      = var.application_name
+  environment           = local.environment
+  location              = var.location
+  {{#NetworkServiceEndpointsRequired}}
+  service_endpoints     = [{{NetworkServiceEndpoints}}]
+  {{/NetworkServiceEndpointsRequired}}
+  address_space         = var.address_space
+  app_subnet_prefix     = var.app_subnet_prefix
+  {{#applicationTypeSpringCloud}}
+  service_subnet_prefix = var.service_subnet_prefix
+  {{/applicationTypeSpringCloud}}
+}
+{{/NetworkVNet}}
+{{#PublicAfd}}
+
+module "afd" {
+  source           = "./modules/afd"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = var.application_name
+  environment      = local.environment
+  location         = var.location
+  {{#applicationTypeSpringCloud}}
+  app_address      = module.application.spring_cloud_service_app_fqdn
+  {{/applicationTypeSpringCloud}}
+}
+{{/PublicAfd}}

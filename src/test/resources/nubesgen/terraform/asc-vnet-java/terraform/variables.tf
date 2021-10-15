@@ -1,16 +1,8 @@
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = "{{applicationName}}"
+  default     = "nubesgen-testapp-spring"
 }
-{{#gitops}}
-
-variable "terraform_storage_account" {
-  type        = string
-  description = "When using an Azure back-end, the name of the Azure Storage Account that stores the Terraform state"
-  default     = ""
-}
-{{/gitops}}
 
 variable "environment" {
   type        = string
@@ -21,16 +13,14 @@ variable "environment" {
 variable "location" {
   type        = string
   description = "The Azure region where all resources in this example should be created"
-  default     = "{{region}}"
+  default     = "westeurope"
 }
-{{#NetworkVNet}}
 
 variable "address_space" {
   type        = string
   description = "Virtual Network address space"
   default     = "10.11.0.0/16"
 }
-{{#applicationTypeSpringCloud}}
 
 variable "app_subnet_prefix" {
   type        = string
@@ -49,12 +39,3 @@ variable "cidr_ranges" {
   description = "A list of (at least 3) CIDR ranges (at least /16) which are used to host the Spring Cloud infrastructure, which must not overlap with any existing CIDR ranges in the Subnet. Changing this forces a new resource to be created"
   default     = "10.11.2.0/16"
 }
-{{/applicationTypeSpringCloud}}
-{{^applicationTypeSpringCloud}}
-variable "app_subnet_prefix" {
-  type        = string
-  description = "Application subnet prefix"
-  default     = "10.11.0.0/16"
-}
-{{/applicationTypeSpringCloud}}
-{{/NetworkVNet}}

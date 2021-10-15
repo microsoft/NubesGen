@@ -6,7 +6,7 @@ locals {
   redis_association_name    = "${var.application_name}-redis"
 }
 
-# This creates the plan that the service use
+# This creates the Azure Spring Cloud that the service use
 resource "azurerm_spring_cloud_service" "application" {
   name                = local.spring_cloud_service_name
   resource_group_name = var.resource_group

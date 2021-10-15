@@ -1,20 +1,11 @@
-{{#NetworkVNet}}
 provider "azuread" {
 }
 
-{{/NetworkVNet}}
 # Azure Spring Cloud is not yet supported in azurecaf_name
 locals {
   spring_cloud_service_name = "asc-${var.application_name}"
   spring_cloud_app_name     = "app-${var.application_name}"
-{{#addonCosmosdbMongodb}}
-  cosmosdb_association_name = "${var.application_name}-cosmos"
-{{/addonCosmosdbMongodb}}
-{{#addonRedis}}
-  redis_association_name    = "${var.application_name}-redis"
-{{/addonRedis}}
 }
-{{#NetworkVNet}}
 # Retrieve service principal of Azure Spring Cloud Resource Provider
 data "azuread_service_principal" "azure_spring_cloud_provisioner" {
   display_name = "Azure Spring Cloud Resource Provider"
@@ -27,30 +18,18 @@ resource "azurerm_role_assignment" "provider_owner" {
   role_definition_name = "Owner"
   principal_id         = data.azuread_service_principal.azure_spring_cloud_provisioner.object_id
 }
-{{/NetworkVNet}}
 
 # This creates the Azure Spring Cloud that the service use
 resource "azurerm_spring_cloud_service" "application" {
   name                = local.spring_cloud_service_name
   resource_group_name = var.resource_group
   location            = var.location
-{{#applicationTierBasic}}
-  sku_name            = "B0"
-{{/applicationTierBasic}}
-{{#applicationTierStandard}}
   sku_name            = "S0"
-{{/applicationTierStandard}}
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
   }
-{{#addonApplicationInsights}}
-  trace {
-    connection_string = var.azure_application_insights_connection_string
-  }
-{{/addonApplicationInsights}}
-{{#NetworkVNet}}
 
   network {
     app_subnet_id             = var.app_subnet_id
@@ -61,9 +40,7 @@ resource "azurerm_spring_cloud_service" "application" {
   depends_on = [
     azurerm_role_assignment.provider_owner
   ]
-{{/NetworkVNet}}
 }
-{{#NetworkVNet}}
 
 # Gets the Azure Spring Cloud internal load balancer IP address once it is deployed
 data "azurerm_lb" "asc_internal_lb" {
@@ -96,7 +73,6 @@ resource "azurerm_private_dns_a_record" "internal_lb_record" {
   ttl                 = 300
   records             = [data.azurerm_lb.asc_internal_lb.private_ip_address]
 }
-{{/NetworkVNet}}
 
 # This creates the application definition
 resource "azurerm_spring_cloud_app" "application" {
@@ -106,12 +82,8 @@ resource "azurerm_spring_cloud_app" "application" {
   identity {
     type = "SystemAssigned"
   }
-  {{#NetworkVNet}}
-  {{#VNetPublic}}
   
   is_public = true
-  {{/VNetPublic}}
-  {{/NetworkVNet}}
 }
 
 # This creates the application deployment. Terraform provider doesn't support dotnet yet
@@ -121,61 +93,8 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   cpu                 = 1
   instance_count      = 1
   memory_in_gb        = 1
-{{#runtimeJava}}
   runtime_version     = "Java_11"
   environment_variables = {
     "SPRING_PROFILES_ACTIVE" = "prod,azure"
-  {{#addonStorageBlob}}
-
-    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
-    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
-    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
-  {{/addonStorageBlob}}
-  {{#databaseTypeSqlServer}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:sqlserver://${var.database_url}"
-    "SPRING_DATASOURCE_USERNAME" = var.database_username
-    "SPRING_DATASOURCE_PASSWORD" = var.database_password
-  {{/databaseTypeSqlServer}}
-  {{#databaseTypeMysql}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
-    "SPRING_DATASOURCE_USERNAME" = var.database_username
-    "SPRING_DATASOURCE_PASSWORD" = var.database_password
-  {{/databaseTypeMysql}}
-  {{#databaseTypePostgresql}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
-    "SPRING_DATASOURCE_USERNAME" = var.database_username
-    "SPRING_DATASOURCE_PASSWORD" = var.database_password
-  {{/databaseTypePostgresql}}
-  {{#addonRedis}}
-
-    "SPRING_REDIS_HOST"     = var.azure_redis_host
-    "SPRING_REDIS_PASSWORD" = var.azure_redis_password
-    "SPRING_REDIS_PORT"     = "6380"
-    "SPRING_REDIS_SSL"      = "true"
-  {{/addonRedis}}
-  {{#addonCosmosdbMongodb}}
-
-    "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
-    "SPRING_DATA_MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
-  {{/addonCosmosdbMongodb}}
   }
-{{/runtimeJava}}
 }
-{{#addonKeyVault}}
-
-data "azurerm_client_config" "current" {}
-
-resource "azurerm_key_vault_access_policy" "application" {
-  key_vault_id = var.vault_id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_spring_cloud_app.application.identity[0].principal_id
-
-  secret_permissions = [
-    "Get",
-    "List"
-  ]
-}
-{{/addonKeyVault}}
