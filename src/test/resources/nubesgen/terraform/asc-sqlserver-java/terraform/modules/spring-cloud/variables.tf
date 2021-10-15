@@ -24,17 +24,12 @@ variable "database_url" {
   description = "The URL to the database"
 }
 
-variable "database_username" {
-  type        = string
-  description = "The database username"
-}
-
-variable "database_password" {
-  type        = string
-  description = "The database password"
-}
-
 variable "vault_id" {
   type        = string
   description = "The Azure Key Vault ID"
+}
+
+variable "vault_uri" {
+  type        = string
+  description = "The Azure Key Vault URI"
 }

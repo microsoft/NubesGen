@@ -43,17 +43,24 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   environment_variables = {
     "SPRING_PROFILES_ACTIVE" = "prod,azure"
 
-    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
-    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
-    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+    # Required for configuring the azure-spring-boot-starter-keyvault-secrets library
+    "AZURE_KEYVAULT_ENABLED" = "true"
+    "AZURE_KEYVAULT_URI"     = var.vault_uri
 
     "SPRING_REDIS_HOST"     = var.azure_redis_host
-    "SPRING_REDIS_PASSWORD" = var.azure_redis_password
+    # Credentials should be retrieved from Azure Key Vault
+    "SPRING_REDIS_PASSWORD" = "stored-in-azure-key-vault"
     "SPRING_REDIS_PORT"     = "6380"
     "SPRING_REDIS_SSL"      = "true"
 
+    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
+    # Credentials should be retrieved from Azure Key Vault
+    "AZURE_STORAGE_ACCOUNT_KEY"   = "stored-in-azure-key-vault"
+    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+
     "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
-    "SPRING_DATA_MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
+    # Credentials should be retrieved from Azure Key Vault
+    "SPRING_DATA_MONGODB_URI"      = "stored-in-azure-key-vault"
   }
 }
 
