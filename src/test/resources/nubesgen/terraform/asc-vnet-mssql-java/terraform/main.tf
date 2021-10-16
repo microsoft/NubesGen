@@ -48,9 +48,7 @@ module "application" {
   database_username = module.database.database_username
   database_password = module.database.database_password
 
-  vnet_id       = module.network.vnet_id
-  app_subnet_id = module.network.app_subnet_id
-
+  app_subnet_id     = module.network.app_subnet_id
   service_subnet_id = module.network.service_subnet_id
   cidr_ranges       = var.cidr_ranges
 }

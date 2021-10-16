@@ -139,10 +139,11 @@ module "application" {
 {{/addonCosmosdbMongodb}}
 {{#NetworkVNet}}
 
-  vnet_id       = module.network.vnet_id
-  app_subnet_id = module.network.app_subnet_id
+  {{^applicationTypeSpringCloud}}
+  subnet_id     = module.network.app_subnet_id
+  {{/applicationTypeSpringCloud}}
   {{#applicationTypeSpringCloud}}
-
+  app_subnet_id     = module.network.app_subnet_id
   service_subnet_id = module.network.service_subnet_id
   cidr_ranges       = var.cidr_ranges
   {{/applicationTypeSpringCloud}}
@@ -278,6 +279,9 @@ module "afd" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  {{^applicationTypeSpringCloud}}
+  app_address      = module.application.application_hostname
+  {{/applicationTypeSpringCloud}}
   {{#applicationTypeSpringCloud}}
   app_address      = module.application.spring_cloud_service_app_fqdn
   {{/applicationTypeSpringCloud}}
