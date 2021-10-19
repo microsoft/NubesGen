@@ -2,6 +2,7 @@ package io.github.nubesgen.configuration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -137,10 +138,27 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isIacToolTerraform() {
+        return IaCTool.TERRAFORM.equals(this.getIaCTool());
+    }
+
+    @JsonIgnore
+    public boolean isIacToolBicep() {
+        return IaCTool.BICEP.equals(this.getIaCTool());
+    }
+
+    @JsonIgnore
+    public boolean isIacToolPulumi() {
+        return IaCTool.PULUMI.equals(this.getIaCTool());
+    }
+
+    @JsonIgnore
     public boolean isRuntimeDocker() {
-        return (RuntimeType.DOCKER.equals(this.getRuntimeType()) ||
-                RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()) ||
-                RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType()));
+        return (
+            RuntimeType.DOCKER.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()) ||
+            RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType())
+        );
     }
 
     @JsonIgnore
@@ -165,8 +183,7 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isRuntimeQuarkus() {
-        return RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
-               RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType());
+        return RuntimeType.QUARKUS.equals(this.getRuntimeType()) || RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType());
     }
 
     @JsonIgnore
@@ -202,6 +219,11 @@ public class NubesgenConfiguration {
     @JsonIgnore
     public boolean isApplicationTypeAppService() {
         return ApplicationType.APP_SERVICE.equals(this.getApplicationConfiguration().getApplicationType());
+    }
+
+    @JsonIgnore
+    public boolean isApplicationTypeSpringCloud() {
+        return ApplicationType.SPRING_CLOUD.equals(this.getApplicationConfiguration().getApplicationType());
     }
 
     @JsonIgnore
@@ -277,6 +299,14 @@ public class NubesgenConfiguration {
     @JsonIgnore
     public boolean isAddonApplicationInsights() {
         return this.getAddons().stream().anyMatch(addon -> AddonType.APPLICATION_INSIGHTS.equals(addon.getAddonType()));
+    }
+
+    /**
+     * Azure App Service and Azure Functions have specific Azure Key Vault integration.
+     */
+    @JsonIgnore
+    public boolean isKeyVaultIntegration() {
+        return isApplicationTypeAppService() || isApplicationTypeFunction();
     }
 
     @JsonIgnore

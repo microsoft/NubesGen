@@ -4,7 +4,7 @@ output "application_hostname" {
 }
 
 output "resource_group" {
-  value       = azurecaf_name.resource_group.name
+  value       = azurerm_resource_group.main.name
   description = "The resource group."
 }
 

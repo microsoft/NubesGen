@@ -49,11 +49,11 @@ public class CodeGeneratorService {
 
         // GitOps templates
         if (configuration.isGitops()) {
-            generateFileList(configuration, ".github", templateListService.ROOT_DIRECTORY, result);
+            generateFileList(configuration, ".github", TemplateListService.ROOT_DIRECTORY, result);
         }
 
         // Main templates
-        generateFileList(configuration, templateListService.ROOT_DIRECTORY, result);
+        generateFileList(configuration, TemplateListService.ROOT_DIRECTORY, result);
 
         // Application templates
         generateFileList(configuration, configuration.getApplicationConfiguration().getApplicationType().name(), result);

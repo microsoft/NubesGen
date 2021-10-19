@@ -6,7 +6,7 @@
 
 ## What is GitOps?
 
-GitOps is the practice of automating infrastructure management using Git as a single source of truth.
+GitOps is the practice of automating infrastructure management using Git as a single source of truth.  GitOps was invented in 2017 by [Alexis Richardson, CEO of WeaveWorks](https://www.linkedin.com/in/richardsonalexis/) as a way to do Kubernetes cluster management and application delivery. NubesGen takes this further by using Terraform and GitHub Actions, giving you more power to go beyond Kubernetes to everything that Terraform can do.
 
 ## How is GitOps implemented in NubesGen?
 

@@ -1,11 +1,11 @@
 package io.github.nubesgen.web;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,12 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -184,7 +185,9 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar"));
+        assertTrue(
+            entries.get(".github/workflows/gitops.yml").contains("build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar")
+        );
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
     }
 
@@ -376,5 +379,41 @@ public class MainControllerTest {
         assertTrue(entries.get("bicep/main.bicep").contains("modules/app-service/main.bicep"));
         assertTrue(entries.containsKey("bicep/modules/app-service/main.bicep"));
         assertTrue(entries.get("bicep/modules/app-service/main.bicep").contains("Microsoft.Web/serverFarms"));
+    }
+
+    @Test
+    public void generateApplicationWithBicepAndGitOps() throws Exception {
+        MvcResult result =
+                this.mockMvc.perform(get("/myapplication.zip?iactool=bicep&region=westeurope&application=app_service.standard&gitops=true"))
+                        .andDo(print())
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType("application/octet-stream"))
+                        .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("bicep/main.bicep"));
+        assertTrue(entries.containsKey(".github/workflows/gitops.yml"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("TODO"));
+    }
+
+    @Test
+    public void generateSpringCloudWithTerraform() throws Exception {
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=spring_cloud.basic"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/spring-cloud"));
+        assertTrue(entries.containsKey("terraform/variables.tf"));
+        assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
+        assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
+        assertTrue(entries.containsKey("terraform/modules/spring-cloud/main.tf"));
+        assertTrue(entries.get("terraform/modules/spring-cloud/main.tf").contains("sku_name            = \"B0\""));
     }
 }
