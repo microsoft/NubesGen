@@ -394,7 +394,7 @@ public class MainControllerTest {
         Map<String, String> entries = extractZipEntries(zippedContent);
         assertTrue(entries.containsKey("bicep/main.bicep"));
         assertTrue(entries.containsKey(".github/workflows/gitops.yml"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("TODO"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("gitops-apply-bicep"));
     }
 
     @Test
