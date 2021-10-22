@@ -20,7 +20,7 @@ data "azuread_service_principal" "azure_spring_cloud_provisioner" {
 }
 
 # Assign Owner role to Azure Spring Cloud Resource Provider on the Virtual Network used by the deployed service
-# Make sure the SPID used to provision terraform has privileges to do role assignments. 
+# Make sure the SPID used to provision terraform has privileges to do role assignments.
 resource "azurerm_role_assignment" "provider_owner" {
   scope                = var.virtual_network_id
   role_definition_name = "Owner"

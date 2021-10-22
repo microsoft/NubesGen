@@ -20,6 +20,6 @@ variable "location" {
 }
 
 variable "app_address" {
-    type = string
-    description = "Application FQDN address"  
+  type        = string
+  description = "Application FQDN address"
 }

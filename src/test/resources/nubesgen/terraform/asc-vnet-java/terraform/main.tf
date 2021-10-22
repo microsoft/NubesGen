@@ -50,13 +50,15 @@ module "application" {
 }
 
 module "network" {
-  source                = "./modules/virtual-network"
-  resource_group        = azurerm_resource_group.main.name
-  application_name      = var.application_name
-  environment           = local.environment
-  location              = var.location
-  address_space         = var.address_space
-  app_subnet_prefix     = var.app_subnet_prefix
+  source           = "./modules/virtual-network"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = var.application_name
+  environment      = local.environment
+  location         = var.location
+
+  address_space     = var.address_space
+  app_subnet_prefix = var.app_subnet_prefix
+
   service_subnet_prefix = var.service_subnet_prefix
 }
 

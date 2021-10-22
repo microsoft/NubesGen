@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     azurecaf = {
-      source = "aztfmod/azurecaf"
+      source  = "aztfmod/azurecaf"
       version = "1.2.6"
     }
   }
@@ -20,10 +20,10 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_mssql_server" "database" {
-  name                          = azurecaf_name.mssql_server.result
-  resource_group_name           = var.resource_group
-  location                      = var.location
-  version                       = "12.0"
+  name                = azurecaf_name.mssql_server.result
+  resource_group_name = var.resource_group
+  location            = var.location
+  version             = "12.0"
 
   administrator_login          = var.administrator_login
   administrator_login_password = random_password.password.result
@@ -41,11 +41,11 @@ resource "azurecaf_name" "mssql_database" {
 }
 
 resource "azurerm_mssql_database" "database" {
-  name                = azurecaf_name.mssql_database.result
-  server_id           = azurerm_mssql_server.database.id
-  collation           = "SQL_Latin1_General_CP1_CI_AS"
+  name      = azurecaf_name.mssql_database.result
+  server_id = azurerm_mssql_server.database.id
+  collation = "SQL_Latin1_General_CP1_CI_AS"
 
-  sku_name                    = "GP_Gen5_2"
+  sku_name = "GP_Gen5_2"
 }
 
 resource "azurecaf_name" "sql_network_rule" {

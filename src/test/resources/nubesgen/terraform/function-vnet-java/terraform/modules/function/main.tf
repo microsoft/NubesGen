@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     azurecaf = {
-      source = "aztfmod/azurecaf"
+      source  = "aztfmod/azurecaf"
       version = "1.2.6"
     }
   }
@@ -100,9 +100,9 @@ resource "azurerm_function_app" "application" {
     "DATABASE_USERNAME" = var.database_username
     "DATABASE_PASSWORD" = var.database_password
 
-    "REDIS_HOST"          = var.azure_redis_host
-    "REDIS_PASSWORD"      = var.azure_redis_password
-    "REDIS_PORT"          = "6380"
+    "REDIS_HOST"     = var.azure_redis_host
+    "REDIS_PASSWORD" = var.azure_redis_password
+    "REDIS_PORT"     = "6380"
 
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
@@ -116,9 +116,9 @@ resource "azurerm_function_app" "application" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault_access_policy" "application" {
-  key_vault_id   = var.vault_id
-  tenant_id      = data.azurerm_client_config.current.tenant_id
-  object_id      = azurerm_function_app.application.identity[0].principal_id
+  key_vault_id = var.vault_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_function_app.application.identity[0].principal_id
 
   secret_permissions = [
     "Get",

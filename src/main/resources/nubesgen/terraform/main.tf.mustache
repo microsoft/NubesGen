@@ -5,7 +5,7 @@ terraform {
       version = ">= 2.75"
     }
     azurecaf = {
-      source = "aztfmod/azurecaf"
+      source  = "aztfmod/azurecaf"
       version = "1.2.6"
     }
   }
@@ -20,13 +20,13 @@ provider "azurerm" {
 
 locals {
   // If an environment is set up (dev, test, prod...), it is used in the application name
-  environment      = var.environment == "" ? "dev" : var.environment
+  environment = var.environment == "" ? "dev" : var.environment
 }
 
 resource "azurecaf_name" "resource_group" {
-  name            = var.application_name
-  resource_type   = "azurerm_resource_group"
-  suffixes        = [local.environment]
+  name          = var.application_name
+  resource_type = "azurerm_resource_group"
+  suffixes      = [local.environment]
 }
 
 resource "azurerm_resource_group" "main" {
@@ -140,7 +140,7 @@ module "application" {
 {{#NetworkVNet}}
 
   {{^applicationTypeSpringCloud}}
-  subnet_id     = module.network.app_subnet_id
+  subnet_id = module.network.app_subnet_id
   {{/applicationTypeSpringCloud}}
   {{#applicationTypeSpringCloud}}
   app_subnet_id     = module.network.app_subnet_id
@@ -173,11 +173,11 @@ module "database" {
 {{#addonApplicationInsights}}
 
 module "application-insights" {
-  source            = "./modules/application-insights"
-  resource_group    = azurerm_resource_group.main.name
-  application_name  = var.application_name
-  environment       = local.environment
-  location          = var.location
+  source           = "./modules/application-insights"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = var.application_name
+  environment      = local.environment
+  location         = var.location
 }
 {{/addonApplicationInsights}}
 {{#addonKeyVault}}
@@ -214,13 +214,13 @@ module "key-vault" {
 {{#addonRedis}}
 
 module "redis" {
-  source            = "./modules/redis"
-  resource_group    = azurerm_resource_group.main.name
-  application_name  = var.application_name
-  environment       = local.environment
-  location          = var.location
+  source           = "./modules/redis"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = var.application_name
+  environment      = local.environment
+  location         = var.location
   {{#NetworkVNet}}
-  subnet_id         = module.network.redis_subnet_id
+  subnet_id        = module.network.redis_subnet_id
   {{/NetworkVNet}}
 }
 {{/addonRedis}}
@@ -253,21 +253,25 @@ module "cosmosdb-mongodb" {
 {{#NetworkVNet}}
 
 module "network" {
-  source                = "./modules/virtual-network"
-  resource_group        = azurerm_resource_group.main.name
-  application_name      = var.application_name
-  environment           = local.environment
-  location              = var.location
+  source           = "./modules/virtual-network"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = var.application_name
+  environment      = local.environment
+  location         = var.location
   {{#NetworkServiceEndpointsRequired}}
-  service_endpoints     = [{{{NetworkServiceEndpoints}}}]
+
+  service_endpoints = [{{{NetworkServiceEndpoints}}}]
   {{/NetworkServiceEndpointsRequired}}
-  address_space         = var.address_space
-  app_subnet_prefix     = var.app_subnet_prefix
+
+  address_space     = var.address_space
+  app_subnet_prefix = var.app_subnet_prefix
   {{#applicationTypeSpringCloud}}
+
   service_subnet_prefix = var.service_subnet_prefix
   {{/applicationTypeSpringCloud}}
   {{#addonRedis}}
-  redis_subnet_prefix   = var.redis_subnet_prefix
+
+  redis_subnet_prefix = var.redis_subnet_prefix
   {{/addonRedis}}
 }
 {{/NetworkVNet}}

@@ -5,7 +5,7 @@ terraform {
       version = ">= 2.75"
     }
     azurecaf = {
-      source = "aztfmod/azurecaf"
+      source  = "aztfmod/azurecaf"
       version = "1.2.6"
     }
   }
@@ -18,13 +18,13 @@ provider "azurerm" {
 
 locals {
   // If an environment is set up (dev, test, prod...), it is used in the application name
-  environment      = var.environment == "" ? "dev" : var.environment
+  environment = var.environment == "" ? "dev" : var.environment
 }
 
 resource "azurecaf_name" "resource_group" {
-  name            = var.application_name
-  resource_type   = "azurerm_resource_group"
-  suffixes        = [local.environment]
+  name          = var.application_name
+  resource_type = "azurerm_resource_group"
+  suffixes      = [local.environment]
 }
 
 resource "azurerm_resource_group" "main" {
