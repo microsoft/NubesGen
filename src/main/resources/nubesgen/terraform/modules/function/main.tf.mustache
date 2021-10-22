@@ -127,7 +127,7 @@ resource "azurerm_function_app" "application" {
 
     # These are app specific environment variables
 {{#runtimeSpring}}
-    "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+    "SPRING_PROFILES_ACTIVE" = "prod,azure"
   {{#databaseTypeSqlServer}}
 
     "SPRING_DATASOURCE_URL"      = "jdbc:sqlserver://${var.database_url}"
@@ -186,9 +186,9 @@ resource "azurerm_function_app" "application" {
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
 
-    "REDIS_HOST"          = var.azure_redis_host
-    "REDIS_PASSWORD"      = var.azure_redis_password
-    "REDIS_PORT"          = "6380"
+    "REDIS_HOST"     = var.azure_redis_host
+    "REDIS_PASSWORD" = var.azure_redis_password
+    "REDIS_PORT"     = "6380"
   {{/addonRedis}}
   {{#addonStorageBlob}}
 
@@ -209,9 +209,9 @@ resource "azurerm_function_app" "application" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault_access_policy" "application" {
-  key_vault_id   = var.vault_id
-  tenant_id      = data.azurerm_client_config.current.tenant_id
-  object_id      = azurerm_function_app.application.identity[0].principal_id
+  key_vault_id = var.vault_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_function_app.application.identity[0].principal_id
 
   secret_permissions = [
     "Get",

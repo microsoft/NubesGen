@@ -112,25 +112,25 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
     "AZURE_KEYVAULT_ENABLED" = "true"
     "AZURE_KEYVAULT_URI"     = var.vault_uri
 
-    "SPRING_DATASOURCE_URL" = "jdbc:postgresql://${var.database_url}"
+    "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
     # Credentials should be retrieved from Azure Key Vault
     "SPRING_DATASOURCE_USERNAME" = "stored-in-azure-key-vault"
     "SPRING_DATASOURCE_PASSWORD" = "stored-in-azure-key-vault"
 
-    "SPRING_REDIS_HOST" = var.azure_redis_host
+    "SPRING_REDIS_HOST"     = var.azure_redis_host
     # Credentials should be retrieved from Azure Key Vault
     "SPRING_REDIS_PASSWORD" = "stored-in-azure-key-vault"
     "SPRING_REDIS_PORT"     = "6380"
     "SPRING_REDIS_SSL"      = "true"
 
-    "AZURE_STORAGE_ACCOUNT_NAME" = var.azure_storage_account_name
+    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
     # Credentials should be retrieved from Azure Key Vault
     "AZURE_STORAGE_ACCOUNT_KEY"   = "stored-in-azure-key-vault"
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
 
     "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
     # Credentials should be retrieved from Azure Key Vault
-    "SPRING_DATA_MONGODB_URI" = "stored-in-azure-key-vault"
+    "SPRING_DATA_MONGODB_URI"      = "stored-in-azure-key-vault"
   }
 }
 
