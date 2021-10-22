@@ -21,3 +21,10 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
   default     = ""
 }
+{{#NetworkVNet}}
+
+variable "subnet_id" {
+  type = string
+  description = "The subnet from which the access is allowed"
+}
+{{/NetworkVNet}}

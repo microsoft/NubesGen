@@ -1,13 +1,13 @@
 resource "azurecaf_name" "app_service_plan" {
-  name            = var.application_name
-  resource_type   = "azurerm_app_service_plan"
-  suffixes        = [var.environment]
+  name          = var.application_name
+  resource_type = "azurerm_app_service_plan"
+  suffixes      = [var.environment]
 }
 
 resource "azurecaf_name" "app_service" {
-  name            = var.application_name
-  resource_type   = "azurerm_app_service"
-  suffixes        = [var.environment]
+  name          = var.application_name
+  resource_type = "azurerm_app_service"
+  suffixes      = [var.environment]
 }
 
 # This creates the plan that the service use

@@ -8,6 +8,10 @@ import io.github.nubesgen.service.TelemetryService;
 import io.github.nubesgen.service.compression.CompressionService;
 import io.github.nubesgen.service.compression.TarGzService;
 import io.github.nubesgen.service.compression.ZipService;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -15,11 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -60,9 +59,19 @@ public class MainController {
         @RequestParam(defaultValue = "eastus") String region,
         @RequestParam(defaultValue = "NONE") String database,
         @RequestParam(defaultValue = "false") boolean gitops,
-        @RequestParam(defaultValue = "") String addons
+        @RequestParam(defaultValue = "") String addons,
+        @RequestParam(defaultValue = "") String network
     ) {
-        NubesgenConfiguration properties = generateNubesgenConfiguration(iactool, runtime, application, region, database, gitops, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(
+            iactool,
+            runtime,
+            application,
+            region,
+            database,
+            gitops,
+            addons,
+            network
+        );
         return generateZipApplication(applicationName, properties);
     }
 
@@ -84,9 +93,19 @@ public class MainController {
         @RequestParam(defaultValue = "eastus") String region,
         @RequestParam(defaultValue = "NONE") String database,
         @RequestParam(defaultValue = "false") boolean gitops,
-        @RequestParam(defaultValue = "") String addons
+        @RequestParam(defaultValue = "") String addons,
+        @RequestParam(defaultValue = "") String network
     ) {
-        NubesgenConfiguration properties = generateNubesgenConfiguration(iactool, runtime, application, region, database, gitops, addons);
+        NubesgenConfiguration properties = generateNubesgenConfiguration(
+            iactool,
+            runtime,
+            application,
+            region,
+            database,
+            gitops,
+            addons,
+            network
+        );
         return generateTgzApplication(applicationName, properties);
     }
 
@@ -106,13 +125,15 @@ public class MainController {
         String region,
         String database,
         boolean gitops,
-        String addons
+        String addons,
+        String network
     ) {
         iactool = iactool.toUpperCase();
         runtime = runtime.toUpperCase();
         application = application.toUpperCase();
         database = database.toUpperCase();
         addons = addons.toUpperCase();
+        network = network.toUpperCase();
         NubesgenConfiguration properties = new NubesgenConfiguration();
         if (iactool.equals(IaCTool.BICEP.name())) {
             properties.setIaCTool(IaCTool.BICEP);
@@ -179,6 +200,19 @@ public class MainController {
                 applicationConfiguration.setTier(Tier.FREE);
             }
             properties.setApplicationConfiguration(applicationConfiguration);
+        }
+        if (network.startsWith(NetworkType.VIRTUAL_NETWORK.name())) {
+            PublicEndpointType publicEndpointType;
+            if (network.endsWith(PublicEndpointType.FRONTDOOR.name())) {
+                publicEndpointType = PublicEndpointType.FRONTDOOR;
+            } else {
+                // Azure Application Gateway isn't supported yet, so we fall back to private network.
+                publicEndpointType = PublicEndpointType.PRIVATE;
+            }
+            NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, publicEndpointType);
+            properties.setNetworkConfiguration(networkConfiguration);
+        } else {
+            properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.PUBLIC));
         }
         log.debug(
             "Application is of type: {} with tier: {}",

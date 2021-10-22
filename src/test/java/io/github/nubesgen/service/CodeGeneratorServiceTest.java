@@ -1,13 +1,8 @@
 package io.github.nubesgen.service;
 
-import io.github.nubesgen.configuration.*;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import io.github.nubesgen.configuration.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,8 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * Tests NubesGen with the default options.
@@ -565,6 +564,199 @@ class CodeGeneratorServiceTest {
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
             this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name()),
             this.templateListService.listModuleTemplates("terraform", DatabaseType.SQL_SERVER.name())
+        );
+    }
+
+    @Test
+    void generateSpringCloudVNetInjectionTerraform() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
+        properties.setIaCTool(IaCTool.TERRAFORM);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/asc-vnet-java",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
+            this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
+            this.templateListService.listModuleTemplates("terraform", PublicEndpointType.FRONTDOOR.name())
+        );
+    }
+
+    @Test
+    void generateSpringCloudAddonsVNetInjectionTerraform() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
+        properties.setIaCTool(IaCTool.TERRAFORM);
+
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.GENERAL_PURPOSE));
+        List<AddonConfiguration> addons = new ArrayList<>();
+        addons.add(new AddonConfiguration(AddonType.APPLICATION_INSIGHTS, Tier.BASIC));
+        addons.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.BASIC));
+        addons.add(new AddonConfiguration(AddonType.COSMOSDB_MONGODB, Tier.FREE));
+        addons.add(new AddonConfiguration(AddonType.REDIS, Tier.BASIC));
+        addons.add(new AddonConfiguration(AddonType.STORAGE_BLOB, Tier.BASIC));
+        properties.setAddons(addons);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/asc-vnet-addons-java",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
+            this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
+            this.templateListService.listModuleTemplates("terraform", PublicEndpointType.FRONTDOOR.name()),
+            this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.APPLICATION_INSIGHTS.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.COSMOSDB_MONGODB.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.REDIS.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.STORAGE_BLOB.name())
+        );
+    }
+
+    @Test
+    void generateSpringCloudMsSqlVNetInjectionTerraform() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.PRIVATE));
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
+        properties.setIaCTool(IaCTool.TERRAFORM);
+
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.GENERAL_PURPOSE));
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/asc-vnet-mssql-java",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
+            this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
+            this.templateListService.listModuleTemplates("terraform", DatabaseType.SQL_SERVER.name())
+        );
+    }
+
+    @Test
+    void generateSpringCloudMySqlVNetInjectionTerraform() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.PRIVATE));
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
+        properties.setIaCTool(IaCTool.TERRAFORM);
+
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.MYSQL, Tier.GENERAL_PURPOSE));
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/asc-vnet-mysql-java",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
+            this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
+            this.templateListService.listModuleTemplates("terraform", DatabaseType.MYSQL.name())
+        );
+    }
+
+    @Test
+    void generateAppDockerAddonsVNetInjectionTerraform() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-docker");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.DOCKER);
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.APP_SERVICE, Tier.STANDARD));
+        properties.setIaCTool(IaCTool.TERRAFORM);
+
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.GENERAL_PURPOSE));
+        List<AddonConfiguration> addons = new ArrayList<>();
+        addons.add(new AddonConfiguration(AddonType.APPLICATION_INSIGHTS, Tier.BASIC));
+        addons.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.BASIC));
+        addons.add(new AddonConfiguration(AddonType.COSMOSDB_MONGODB, Tier.FREE));
+        addons.add(new AddonConfiguration(AddonType.REDIS, Tier.BASIC));
+        addons.add(new AddonConfiguration(AddonType.STORAGE_BLOB, Tier.BASIC));
+        properties.setAddons(addons);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/app-vnet-docker",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
+            this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
+            this.templateListService.listModuleTemplates("terraform", PublicEndpointType.FRONTDOOR.name()),
+            this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.APPLICATION_INSIGHTS.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.COSMOSDB_MONGODB.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.REDIS.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.STORAGE_BLOB.name())
+        );
+    }
+
+    @Test
+    void generateFunctionAddonsVNetInjectionTerraform() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testfunction-vnet");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.JAVA);
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.FUNCTION, Tier.PREMIUM));
+        properties.setIaCTool(IaCTool.TERRAFORM);
+
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.GENERAL_PURPOSE));
+        List<AddonConfiguration> addons = new ArrayList<>();
+        addons.add(new AddonConfiguration(AddonType.APPLICATION_INSIGHTS, Tier.BASIC));
+        addons.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.BASIC));
+        addons.add(new AddonConfiguration(AddonType.COSMOSDB_MONGODB, Tier.FREE));
+        addons.add(new AddonConfiguration(AddonType.REDIS, Tier.BASIC));
+        addons.add(new AddonConfiguration(AddonType.STORAGE_BLOB, Tier.BASIC));
+        properties.setAddons(addons);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/function-vnet-java",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.FUNCTION.name()),
+            this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
+            this.templateListService.listModuleTemplates("terraform", PublicEndpointType.FRONTDOOR.name()),
+            this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.APPLICATION_INSIGHTS.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.COSMOSDB_MONGODB.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.REDIS.name()),
+            this.templateListService.listModuleTemplates("terraform", AddonType.STORAGE_BLOB.name())
         );
     }
 

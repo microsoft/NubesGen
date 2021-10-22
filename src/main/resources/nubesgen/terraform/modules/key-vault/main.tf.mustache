@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     azurecaf = {
-      source = "aztfmod/azurecaf"
+      source  = "aztfmod/azurecaf"
       version = "1.2.6"
     }
   }
@@ -37,6 +37,14 @@ resource "azurerm_key_vault" "application" {
       "Recover"
     ]
   }
+  {{#NetworkVNet}}
+
+  network_acls {
+    default_action             = "Allow"
+    bypass                     = "None"
+    virtual_network_subnet_ids = [var.subnet_id]
+  }
+  {{/NetworkVNet}}
 
   tags = {
     "environment"      = var.environment
