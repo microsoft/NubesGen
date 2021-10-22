@@ -7,14 +7,14 @@ terraform {
   }
 }
 
-resource "azurecaf_name" "afd" {
+resource "azurecaf_name" "frontdoor" {
   name            = var.application_name
   resource_type   = "azurerm_frontdoor"
   suffixes        = [var.environment]  
 }
 
-resource "azurerm_frontdoor" "afd" {
-  name                                         = azurecaf_name.afd.result
+resource "azurerm_frontdoor" "frontdoor" {
+  name                                         = azurecaf_name.frontdoor.result
   resource_group_name                          = var.resource_group
   enforce_backend_pools_certificate_name_check = false
 
