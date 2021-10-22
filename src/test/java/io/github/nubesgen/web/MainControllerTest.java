@@ -410,6 +410,7 @@ public class MainControllerTest {
         Map<String, String> entries = extractZipEntries(zippedContent);
         assertTrue(entries.containsKey("terraform/main.tf"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/spring-cloud"));
+        assertFalse(entries.get("terraform/main.tf").contains("modules/virtual-network"));
         assertTrue(entries.containsKey("terraform/variables.tf"));
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
