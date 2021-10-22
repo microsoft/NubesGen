@@ -416,4 +416,28 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/spring-cloud/main.tf"));
         assertTrue(entries.get("terraform/modules/spring-cloud/main.tf").contains("sku_name            = \"B0\""));
     }
+
+    @Test
+    public void generateSpringCloudVNetWithTerraform() throws Exception {
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=spring_cloud.standard&network=VNET.AFD"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/spring-cloud"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/vnet"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/afd"));
+        assertTrue(entries.containsKey("terraform/variables.tf"));
+        assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
+        assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
+        assertTrue(entries.containsKey("terraform/modules/spring-cloud/main.tf"));
+        assertTrue(entries.get("terraform/modules/spring-cloud/main.tf").contains("sku_name            = \"S0\""));
+        assertTrue(entries.containsKey("terraform/modules/vnet/main.tf"));
+        assertTrue(entries.containsKey("terraform/modules/afd/main.tf"));
+    }
 }

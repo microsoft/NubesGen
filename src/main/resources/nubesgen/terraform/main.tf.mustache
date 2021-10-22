@@ -137,6 +137,17 @@ module "application" {
     {{/keyVaultIntegration}}
   {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
+{{#NetworkVNet}}
+
+  {{^applicationTypeSpringCloud}}
+  subnet_id     = module.network.app_subnet_id
+  {{/applicationTypeSpringCloud}}
+  {{#applicationTypeSpringCloud}}
+  app_subnet_id     = module.network.app_subnet_id
+  service_subnet_id = module.network.service_subnet_id
+  cidr_ranges       = var.cidr_ranges
+  {{/applicationTypeSpringCloud}}
+{{/NetworkVNet}}
 }
 {{^databaseTypeNone}}
 
@@ -154,6 +165,9 @@ module "database" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  {{#NetworkVNet}}
+  subnet_id        = module.network.app_subnet_id
+  {{/NetworkVNet}}
 }
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
@@ -191,6 +205,10 @@ module "key-vault" {
 
   cosmosdb_mongodb_uri = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_uri
   {{/addonCosmosdbMongodb}}
+  {{#NetworkVNet}}
+
+  subnet_id = module.network.app_subnet_id
+  {{/NetworkVNet}}
 }
 {{/addonKeyVault}}
 {{#addonRedis}}
@@ -201,6 +219,9 @@ module "redis" {
   application_name  = var.application_name
   environment       = local.environment
   location          = var.location
+  {{#NetworkVNet}}
+  subnet_id         = module.network.redis_subnet_id
+  {{/NetworkVNet}}
 }
 {{/addonRedis}}
 {{#addonStorageBlob}}
@@ -211,6 +232,9 @@ module "storage-blob" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  {{#NetworkVNet}}
+  subnet_id        = module.network.app_subnet_id
+  {{/NetworkVNet}}
 }
 {{/addonStorageBlob}}
 {{#addonCosmosdbMongodb}}
@@ -221,5 +245,45 @@ module "cosmosdb-mongodb" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  {{#NetworkVNet}}
+  subnet_id        = module.network.app_subnet_id
+  {{/NetworkVNet}}
 }
 {{/addonCosmosdbMongodb}}
+{{#NetworkVNet}}
+
+module "network" {
+  source                = "./modules/vnet"
+  resource_group        = azurerm_resource_group.main.name
+  application_name      = var.application_name
+  environment           = local.environment
+  location              = var.location
+  {{#NetworkServiceEndpointsRequired}}
+  service_endpoints     = [{{{NetworkServiceEndpoints}}}]
+  {{/NetworkServiceEndpointsRequired}}
+  address_space         = var.address_space
+  app_subnet_prefix     = var.app_subnet_prefix
+  {{#applicationTypeSpringCloud}}
+  service_subnet_prefix = var.service_subnet_prefix
+  {{/applicationTypeSpringCloud}}
+  {{#addonRedis}}
+  redis_subnet_prefix   = var.redis_subnet_prefix
+  {{/addonRedis}}
+}
+{{/NetworkVNet}}
+{{#NetworkPublicFrontDoor}}
+
+module "afd" {
+  source           = "./modules/afd"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = var.application_name
+  environment      = local.environment
+  location         = var.location
+  {{^applicationTypeSpringCloud}}
+  app_address      = module.application.application_hostname
+  {{/applicationTypeSpringCloud}}
+  {{#applicationTypeSpringCloud}}
+  app_address      = module.application.spring_cloud_service_app_fqdn
+  {{/applicationTypeSpringCloud}}
+}
+{{/NetworkPublicFrontDoor}}

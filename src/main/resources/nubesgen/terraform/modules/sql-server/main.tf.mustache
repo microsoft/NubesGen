@@ -54,6 +54,7 @@ resource "azurerm_mssql_database" "database" {
   sku_name                    = "GP_Gen5_2"
 {{/databaseTierGeneralPurpose}}
 }
+{{^NetworkVNet}}
 
 resource "azurecaf_name" "sql_firewall_rule" {
   name          = var.application_name
@@ -69,3 +70,19 @@ resource "azurerm_sql_firewall_rule" "database" {
   start_ip_address    = "0.0.0.0"
   end_ip_address      = "0.0.0.0"
 }
+{{/NetworkVNet}}
+{{#NetworkVNet}}
+
+resource "azurecaf_name" "sql_network_rule" {
+  name          = var.application_name
+  resource_type = "azurerm_network_security_rule"
+  suffixes      = [var.environment]
+}
+
+# This rule only allows traffic from the apps VNet
+resource "azurerm_mssql_virtual_network_rule" "network_rule" {
+  name      = azurecaf_name.sql_network_rule.result
+  server_id = azurerm_mssql_server.database.id
+  subnet_id = var.subnet_id
+}
+{{/NetworkVNet}}
