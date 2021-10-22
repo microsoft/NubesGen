@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     azuread = {
-      source = "hashicorp/azuread"
+      source  = "hashicorp/azuread"
       version = ">= 2.6.0"
     }
   }
@@ -22,7 +22,7 @@ data "azuread_service_principal" "azure_spring_cloud_provisioner" {
 # Assign Owner role to Azure Spring Cloud Resource Provider on the Virtual Network used by the deployed service
 # Make sure the SPID used to provision terraform has privileges to do role assignments. 
 resource "azurerm_role_assignment" "provider_owner" {
-  scope                = var.vnet_id
+  scope                = var.virtual_network_id
   role_definition_name = "Owner"
   principal_id         = data.azuread_service_principal.azure_spring_cloud_provisioner.object_id
 }
@@ -73,7 +73,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_link_
   name                  = "asc-dns-link"
   resource_group_name   = var.resource_group
   private_dns_zone_name = azurerm_private_dns_zone.private_dns_zone.name
-  virtual_network_id    = var.vnet_id
+  virtual_network_id    = var.virtual_network_id
 }
 
 # Creates an A record that points to Azure Spring Cloud internal balancer IP
@@ -93,7 +93,7 @@ resource "azurerm_spring_cloud_app" "application" {
   identity {
     type = "SystemAssigned"
   }
-  
+
   is_public = true
 }
 
@@ -112,25 +112,25 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
     "AZURE_KEYVAULT_ENABLED" = "true"
     "AZURE_KEYVAULT_URI"     = var.vault_uri
 
-    "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
+    "SPRING_DATASOURCE_URL" = "jdbc:postgresql://${var.database_url}"
     # Credentials should be retrieved from Azure Key Vault
     "SPRING_DATASOURCE_USERNAME" = "stored-in-azure-key-vault"
     "SPRING_DATASOURCE_PASSWORD" = "stored-in-azure-key-vault"
 
-    "SPRING_REDIS_HOST"     = var.azure_redis_host
+    "SPRING_REDIS_HOST" = var.azure_redis_host
     # Credentials should be retrieved from Azure Key Vault
     "SPRING_REDIS_PASSWORD" = "stored-in-azure-key-vault"
     "SPRING_REDIS_PORT"     = "6380"
     "SPRING_REDIS_SSL"      = "true"
 
-    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
+    "AZURE_STORAGE_ACCOUNT_NAME" = var.azure_storage_account_name
     # Credentials should be retrieved from Azure Key Vault
     "AZURE_STORAGE_ACCOUNT_KEY"   = "stored-in-azure-key-vault"
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
 
     "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
     # Credentials should be retrieved from Azure Key Vault
-    "SPRING_DATA_MONGODB_URI"      = "stored-in-azure-key-vault"
+    "SPRING_DATA_MONGODB_URI" = "stored-in-azure-key-vault"
   }
 }
 

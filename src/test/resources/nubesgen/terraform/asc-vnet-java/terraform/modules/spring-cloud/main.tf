@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     azuread = {
-      source = "hashicorp/azuread"
+      source  = "hashicorp/azuread"
       version = ">= 2.6.0"
     }
   }
@@ -20,7 +20,7 @@ data "azuread_service_principal" "azure_spring_cloud_provisioner" {
 # Assign Owner role to Azure Spring Cloud Resource Provider on the Virtual Network used by the deployed service
 # Make sure the SPID used to provision terraform has privileges to do role assignments. 
 resource "azurerm_role_assignment" "provider_owner" {
-  scope                = var.vnet_id
+  scope                = var.virtual_network_id
   role_definition_name = "Owner"
   principal_id         = data.azuread_service_principal.azure_spring_cloud_provisioner.object_id
 }
@@ -68,7 +68,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_link_
   name                  = "asc-dns-link"
   resource_group_name   = var.resource_group
   private_dns_zone_name = azurerm_private_dns_zone.private_dns_zone.name
-  virtual_network_id    = var.vnet_id
+  virtual_network_id    = var.virtual_network_id
 }
 
 # Creates an A record that points to Azure Spring Cloud internal balancer IP
@@ -88,7 +88,7 @@ resource "azurerm_spring_cloud_app" "application" {
   identity {
     type = "SystemAssigned"
   }
-  
+
   is_public = true
 }
 

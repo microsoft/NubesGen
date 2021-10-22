@@ -3,6 +3,13 @@ package io.github.nubesgen.service;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.github.nubesgen.configuration.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -10,12 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CodeGeneratorService {
@@ -71,7 +72,7 @@ public class CodeGeneratorService {
         // Isolated Network
         if (!configuration.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
             generateFileList(configuration, configuration.getNetworkConfiguration().getNetworkType().name(), result);
-            if (!configuration.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.NotPublic)) {
+            if (!configuration.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.PRIVATE)) {
                 generateFileList(configuration, configuration.getNetworkConfiguration().getPublicEndpoint().name(), result);
             }
         }

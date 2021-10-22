@@ -338,13 +338,13 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isNetworkVNet() {
-        return NetworkType.VNET.equals(this.getNetworkConfiguration().getNetworkType());
+        return NetworkType.VIRTUAL_NETWORK.equals(this.getNetworkConfiguration().getNetworkType());
     }
 
     @JsonIgnore
     public String getNetworkServiceEndpoints() {
         if (isNetworkVNet()){
-            ArrayList<String> endpoints = new ArrayList<String>(); 
+            ArrayList<String> endpoints = new ArrayList<String>();
             if (!isDatabaseTypeNone()){
                 endpoints.add("\"Microsoft.Sql\"");
             }
@@ -374,12 +374,12 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isNetworkPublicFrontDoor(){
-        return this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.AFD);
+        return this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.FRONTDOOR);
     }
 
     @JsonIgnore
     public boolean isNetworkVNetPublic(){
-        return isNetworkVNet() && !this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.NotPublic);
+        return isNetworkVNet() && !this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.PRIVATE);
     }
 
     @Override

@@ -1,16 +1,16 @@
 terraform {
   required_providers {
     azurecaf = {
-      source = "aztfmod/azurecaf"
+      source  = "aztfmod/azurecaf"
       version = "1.2.6"
     }
   }
 }
 
 resource "azurecaf_name" "frontdoor" {
-  name            = var.application_name
-  resource_type   = "azurerm_frontdoor"
-  suffixes        = [var.environment]  
+  name          = var.application_name
+  resource_type = "azurerm_frontdoor"
+  suffixes      = [var.environment]
 }
 
 resource "azurerm_frontdoor" "frontdoor" {

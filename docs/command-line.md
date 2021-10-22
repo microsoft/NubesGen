@@ -65,7 +65,7 @@ Then your application name will be something similar to `demo-1234-5678-9012`.
 | application  | Type of application: Web app or serverless  | APP_SERVICE (default), FUNCTION | `https://nubesgen.com/demo.tgz -d '{ "application": { "type": "FUNCTION", "tier": "CONSUMPTION"}}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?application=function`  |
 | region  |  Azure Region where the resource will be located | Run `az account list-locations` | `https://nubesgen.com/demo.tgz -d '{ "region": "westeurope"}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?region=westeurope`  |
 | database  |  The database | NONE (default), SQL_SERVER, MYSQL, POSTGRESQL  | `https://nubesgen.com/demo.tgz -d '{ "database": { "type": "MYSQL", "tier": "BASIC"}}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?database=mysql`  |
-| network  |  The network security | PUBLIC (default), VNET.GW (Azure Gateway), VNET.AFD (Azure Front Door) | `https://nubesgen.com/demo.tgz -d '{ "gitops": "true"}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?network=VNET.AFD`  |
+| network  |  The network security | PUBLIC (default), VIRTUAL_NETWORK.FRONTDOOR, VIRTUAL_NETWORK.PRIVATE | `https://nubesgen.com/demo.tgz -d '{ "gitops": "true"}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?network=VIRTUAL_NETWORK.FRONTDOOR`  |
 | gitops  |  If [GitOps](docs/gitops-overview.md) is enabled | FALSE (default), TRUE  | `https://nubesgen.com/demo.tgz -d '{ "gitops": "true"}' -H "Content-Type: application/json"` | `https://nubesgen.com/demo.tgz?gitops=true`  |
 
 _In a GET request, parameters can be in uppercase or lowercase, for example `database=MYSQL`or `database=mysql`_

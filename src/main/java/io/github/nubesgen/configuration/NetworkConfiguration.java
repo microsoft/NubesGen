@@ -11,7 +11,7 @@ public class NetworkConfiguration {
     private PublicEndpointType publicEndpointType;
 
     public NetworkConfiguration(NetworkType networkType) {
-        this(networkType, PublicEndpointType.NotPublic);
+        this(networkType, PublicEndpointType.PRIVATE);
     }
 
     public NetworkConfiguration(NetworkType networkType, PublicEndpointType publicEndpointType) {

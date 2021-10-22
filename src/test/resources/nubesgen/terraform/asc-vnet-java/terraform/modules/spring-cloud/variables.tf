@@ -19,9 +19,9 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
 }
 
-variable "vnet_id" {
+variable "virtual_network_id" {
   type        = string
-  description = "Virtual Network ID where Azure Spring Cloud will be deployed" 
+  description = "Virtual Network ID where Azure Spring Cloud will be deployed"
 }
 
 variable "app_subnet_id" {

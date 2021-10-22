@@ -5,7 +5,7 @@ terraform {
       version = ">= 2.75"
     }
     azurecaf = {
-      source = "aztfmod/azurecaf"
+      source  = "aztfmod/azurecaf"
       version = "1.2.6"
     }
   }
@@ -17,13 +17,13 @@ provider "azurerm" {
 
 locals {
   // If an environment is set up (dev, test, prod...), it is used in the application name
-  environment      = var.environment == "" ? "dev" : var.environment
+  environment = var.environment == "" ? "dev" : var.environment
 }
 
 resource "azurecaf_name" "resource_group" {
-  name            = var.application_name
-  resource_type   = "azurerm_resource_group"
-  suffixes        = [local.environment]
+  name          = var.application_name
+  resource_type = "azurerm_resource_group"
+  suffixes      = [local.environment]
 }
 
 resource "azurerm_resource_group" "main" {
@@ -62,7 +62,7 @@ module "application" {
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
   azure_cosmosdb_mongodb_uri      = "@Microsoft.KeyVault(SecretUri=${module.key-vault.vault_uri}secrets/cosmosdb-mongodb-uri)"
 
-  subnet_id     = module.network.app_subnet_id
+  subnet_id = module.network.app_subnet_id
 }
 
 module "database" {
@@ -75,11 +75,11 @@ module "database" {
 }
 
 module "application-insights" {
-  source            = "./modules/application-insights"
-  resource_group    = azurerm_resource_group.main.name
-  application_name  = var.application_name
-  environment       = local.environment
-  location          = var.location
+  source           = "./modules/application-insights"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = var.application_name
+  environment      = local.environment
+  location         = var.location
 }
 
 module "key-vault" {
@@ -102,12 +102,12 @@ module "key-vault" {
 }
 
 module "redis" {
-  source            = "./modules/redis"
-  resource_group    = azurerm_resource_group.main.name
-  application_name  = var.application_name
-  environment       = local.environment
-  location          = var.location
-  subnet_id         = module.network.redis_subnet_id
+  source           = "./modules/redis"
+  resource_group   = azurerm_resource_group.main.name
+  application_name = var.application_name
+  environment      = local.environment
+  location         = var.location
+  subnet_id        = module.network.redis_subnet_id
 }
 
 module "storage-blob" {
@@ -129,15 +129,15 @@ module "cosmosdb-mongodb" {
 }
 
 module "network" {
-  source                = "./modules/vnet"
-  resource_group        = azurerm_resource_group.main.name
-  application_name      = var.application_name
-  environment           = local.environment
-  location              = var.location
-  service_endpoints     = ["Microsoft.Sql", "Microsoft.AzureCosmosDB", "Microsoft.KeyVault", "Microsoft.Storage"]
-  address_space         = var.address_space
-  app_subnet_prefix     = var.app_subnet_prefix
-  redis_subnet_prefix   = var.redis_subnet_prefix
+  source              = "./modules/virtual-network"
+  resource_group      = azurerm_resource_group.main.name
+  application_name    = var.application_name
+  environment         = local.environment
+  location            = var.location
+  service_endpoints   = ["Microsoft.Sql", "Microsoft.AzureCosmosDB", "Microsoft.KeyVault", "Microsoft.Storage"]
+  address_space       = var.address_space
+  app_subnet_prefix   = var.app_subnet_prefix
+  redis_subnet_prefix = var.redis_subnet_prefix
 }
 
 module "frontdoor" {

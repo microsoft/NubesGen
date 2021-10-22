@@ -59,9 +59,9 @@ variable "azure_cosmosdb_mongodb_database" {
   description = "The Cosmos DB with MongoDB API database name"
 }
 
-variable "vnet_id" {
+variable "virtual_network_id" {
   type        = string
-  description = "Virtual Network ID where Azure Spring Cloud will be deployed" 
+  description = "Virtual Network ID where Azure Spring Cloud will be deployed"
 }
 
 variable "app_subnet_id" {

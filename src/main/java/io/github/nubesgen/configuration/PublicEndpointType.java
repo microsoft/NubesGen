@@ -1,12 +1,13 @@
 package io.github.nubesgen.configuration;
 
 /**
- * How the application is exposed to the Internet
- * AFD = Azure Front Door
- * GW = Azure Application Gateway. Not yet supported
+ * How the application is exposed to the Internet.
+ *
+ * FRONT_DOOR = Azure Front Door
+ * APPLICATION_GATEWAY = Azure Application Gateway. Not yet supported
  */
 public enum PublicEndpointType {
-    NotPublic,
-    AFD,
-    GW
+    PRIVATE,
+    FRONTDOOR,
+    APPLICATION_GATEWAY
 }
