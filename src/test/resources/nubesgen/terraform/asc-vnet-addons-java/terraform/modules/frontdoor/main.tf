@@ -22,23 +22,23 @@ resource "azurerm_frontdoor" "frontdoor" {
     name               = "routeToApp"
     accepted_protocols = ["Http", "Https"]
     patterns_to_match  = ["/*"]
-    frontend_endpoints = ["appFrontEnd"]
+    frontend_endpoints = ["applicationFrontend"]
     forwarding_configuration {
       forwarding_protocol = "MatchRequest"
-      backend_pool_name   = "appBackend"
+      backend_pool_name   = "applicationBackend"
     }
   }
 
   backend_pool_load_balancing {
-    name = "appLoadBalancingSettings"
+    name = "applicationLoadBalancingSettings"
   }
 
   backend_pool_health_probe {
-    name = "appHealthProbeSettings"
+    name = "applicationHealthProbeSettings"
   }
 
   backend_pool {
-    name = "appBackend"
+    name = "applicationBackend"
     backend {
       host_header = var.app_address
       address     = var.app_address
@@ -46,12 +46,12 @@ resource "azurerm_frontdoor" "frontdoor" {
       https_port  = 443
     }
 
-    load_balancing_name = "appLoadBalancingSettings"
-    health_probe_name   = "appHealthProbeSettings"
+    load_balancing_name = "applicationLoadBalancingSettings"
+    health_probe_name   = "applicationHealthProbeSettings"
   }
 
   frontend_endpoint {
-    name      = "appFrontendEndpoint"
+    name      = "applicationFrontend"
     host_name = "${var.application_name}.azurefd.net"
   }
 }
