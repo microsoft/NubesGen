@@ -9,5 +9,5 @@ package io.github.nubesgen.configuration;
 public enum PublicEndpointType {
     PRIVATE,
     FRONTDOOR,
-    APPLICATION_GATEWAY
+    APPLICATION_GATEWAY,
 }

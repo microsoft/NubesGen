@@ -29,9 +29,6 @@ public class NetworkConfiguration {
 
     @Override
     public String toString() {
-        return "NetworkConfiguration{" +
-                "networkType=" + networkType +
-                ", publicEndpointType=" + publicEndpointType +
-                '}';
+        return "NetworkConfiguration{" + "networkType=" + networkType + ", publicEndpointType=" + publicEndpointType + '}';
     }
 }

@@ -1,13 +1,8 @@
 package io.github.nubesgen.service;
 
-import io.github.nubesgen.configuration.*;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import io.github.nubesgen.configuration.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,8 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * Tests NubesGen with the default options.

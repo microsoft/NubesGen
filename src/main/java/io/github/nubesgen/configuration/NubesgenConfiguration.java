@@ -2,7 +2,6 @@ package io.github.nubesgen.configuration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -343,21 +342,21 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public String getNetworkServiceEndpoints() {
-        if (isNetworkVNet()){
+        if (isNetworkVNet()) {
             ArrayList<String> endpoints = new ArrayList<String>();
-            if (!isDatabaseTypeNone()){
+            if (!isDatabaseTypeNone()) {
                 endpoints.add("\"Microsoft.Sql\"");
             }
-            if (isAddonCosmosdbMongodb()){
+            if (isAddonCosmosdbMongodb()) {
                 endpoints.add("\"Microsoft.AzureCosmosDB\"");
             }
-            if (isAddonKeyVault()){
+            if (isAddonKeyVault()) {
                 endpoints.add("\"Microsoft.KeyVault\"");
             }
-            if (isAddonStorageBlob()){
+            if (isAddonStorageBlob()) {
                 endpoints.add("\"Microsoft.Storage\"");
             }
-            if (isRuntimeDocker()){
+            if (isRuntimeDocker()) {
                 endpoints.add("\"Microsoft.ContainerRegistry\"");
             }
             return String.join(", ", endpoints);
@@ -368,17 +367,16 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isNetworkServiceEndpointsRequired() {
-        return !isDatabaseTypeNone() || isAddonCosmosdbMongodb() || isAddonKeyVault() || isAddonStorageBlob()
-                || isRuntimeDocker();
+        return !isDatabaseTypeNone() || isAddonCosmosdbMongodb() || isAddonKeyVault() || isAddonStorageBlob() || isRuntimeDocker();
     }
 
     @JsonIgnore
-    public boolean isNetworkPublicFrontDoor(){
+    public boolean isNetworkPublicFrontDoor() {
         return this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.FRONTDOOR);
     }
 
     @JsonIgnore
-    public boolean isNetworkVNetPublic(){
+    public boolean isNetworkVNetPublic() {
         return isNetworkVNet() && !this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.PRIVATE);
     }
 
