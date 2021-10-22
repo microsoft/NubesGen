@@ -64,7 +64,7 @@ resource "azurecaf_name" "mysql_network_rule" {
   suffixes      = [var.environment]
 }
 
-resource "azurerm_mysql_virtual_network_rule" "example" {
+resource "azurerm_mysql_virtual_network_rule" "database" {
   name                = azurecaf_name.mysql_network_rule.result
   resource_group_name = var.resource_group
   server_name         = azurerm_mysql_server.database.name
