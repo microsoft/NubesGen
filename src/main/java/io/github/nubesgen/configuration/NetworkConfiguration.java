@@ -26,4 +26,12 @@ public class NetworkConfiguration {
     public PublicEndpointType getPublicEndpoint() {
         return publicEndpointType;
     }
+
+    @Override
+    public String toString() {
+        return "NetworkConfiguration{" +
+                "networkType=" + networkType +
+                ", publicEndpointType=" + publicEndpointType +
+                '}';
+    }
 }
