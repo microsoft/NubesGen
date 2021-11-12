@@ -68,8 +68,6 @@ public class NubesgenConfiguration {
     }
 
     public void setApplicationName(String applicationName) {
-        Random rand = new Random();
-
         if (applicationName.equals(DEFAULT_APPLICATION_NAME)) {
             DecimalFormat formater = new DecimalFormat("0000");
             String random1 = formater.format(Math.random() * (10000));
