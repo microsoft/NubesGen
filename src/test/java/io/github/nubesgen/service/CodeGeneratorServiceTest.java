@@ -53,6 +53,7 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    
     void generateDefaultQuarkusConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp");
@@ -760,6 +761,7 @@ class CodeGeneratorServiceTest {
         );
     }
 
+    @SafeVarargs
     private void testGeneratedFiles(
         NubesgenConfiguration properties,
         String testDirectory,
