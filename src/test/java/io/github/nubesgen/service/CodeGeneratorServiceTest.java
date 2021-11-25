@@ -53,7 +53,7 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
-    
+
     void generateDefaultQuarkusConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp");
@@ -707,7 +707,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/app-vnet-docker",
+            "terraform/app-service-vnet-docker",
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
