@@ -18,14 +18,19 @@ resource "azurerm_frontdoor" "frontdoor" {
   resource_group_name                          = var.resource_group
   enforce_backend_pools_certificate_name_check = false
 
+  tags = {
+    "environment"      = var.environment
+    "application-name" = var.application_name
+  }
+
   routing_rule {
-    name               = "routeToApp"
-    accepted_protocols = ["Http", "Https"]
+    name               = "routeToApplication"
+    accepted_protocols = ["Https"]
     patterns_to_match  = ["/*"]
-    frontend_endpoints = ["applicationFrontend"]
+    frontend_endpoints = ["application-frontend"]
     forwarding_configuration {
       forwarding_protocol = "MatchRequest"
-      backend_pool_name   = "applicationBackend"
+      backend_pool_name   = "application-backend"
     }
   }
 
@@ -38,7 +43,7 @@ resource "azurerm_frontdoor" "frontdoor" {
   }
 
   backend_pool {
-    name = "applicationBackend"
+    name = "application-backend"
     backend {
       host_header = var.app_address
       address     = var.app_address
@@ -51,7 +56,7 @@ resource "azurerm_frontdoor" "frontdoor" {
   }
 
   frontend_endpoint {
-    name      = "applicationFrontend"
-    host_name = "${var.application_name}.azurefd.net"
+    name      = "application-frontend"
+    host_name = "${azurecaf_name.frontdoor.result}.azurefd.net"
   }
 }
