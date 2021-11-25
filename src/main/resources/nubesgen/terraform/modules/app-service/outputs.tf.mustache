@@ -1,6 +1,11 @@
-output "application_hostname" {
+output "application_url" {
   value       = "https://${azurerm_app_service.application.default_site_hostname}"
   description = "The Web application URL."
+}
+
+output "application_fqdn" {
+  value       = azurerm_app_service.application.default_site_hostname
+  description = "The Web application ully qualified domain name (FQDN)."
 }
 
 output "application_caf_name" {

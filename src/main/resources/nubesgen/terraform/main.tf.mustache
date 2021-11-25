@@ -284,7 +284,7 @@ module "frontdoor" {
   environment      = local.environment
   location         = var.location
   {{^applicationTypeSpringCloud}}
-  app_address      = module.application.application_hostname
+  app_address      = module.application.application_fqdn
   {{/applicationTypeSpringCloud}}
   {{#applicationTypeSpringCloud}}
   app_address      = module.application.spring_cloud_service_app_fqdn

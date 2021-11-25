@@ -149,5 +149,5 @@ module "frontdoor" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
-  app_address      = module.application.application_hostname
+  app_address      = module.application.application_fqdn
 }

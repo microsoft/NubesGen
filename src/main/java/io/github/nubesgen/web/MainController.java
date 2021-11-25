@@ -221,27 +221,30 @@ public class MainController {
         );
 
         properties.setRegion(region);
-        if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.FREE));
-        } else if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
-            DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS);
+        DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.NONE, Tier.FREE);
+        if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
+            databaseConfiguration = new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS);
             if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
                 databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
             }
-            properties.setDatabaseConfiguration(databaseConfiguration);
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {
-            DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC);
+            databaseConfiguration = new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC);
             if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
                 databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
             }
-            properties.setDatabaseConfiguration(databaseConfiguration);
         } else if (database.startsWith(DatabaseType.POSTGRESQL.name())) {
-            DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC);
+            databaseConfiguration = new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC);
             if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
                 databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
             }
-            properties.setDatabaseConfiguration(databaseConfiguration);
         }
+        if (!databaseConfiguration.getDatabaseType().equals(DatabaseType.NONE)
+                && !properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
+
+            log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
+            databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
+        }
+        properties.setDatabaseConfiguration(databaseConfiguration);
         log.debug("Database is: {}", properties.getDatabaseConfiguration().getDatabaseType());
         if (gitops) {
             properties.setGitops(true);

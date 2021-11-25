@@ -3,7 +3,7 @@ output "spring_cloud_service_name" {
   description = "Azure Spring Cloud service name"
 }
 
-output "application_hostname" {
+output "application_url" {
   value = azurerm_spring_cloud_app.application.url
 }
 
