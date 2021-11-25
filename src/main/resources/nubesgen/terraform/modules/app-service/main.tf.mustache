@@ -25,7 +25,7 @@ resource "azurerm_container_registry" "container-registry" {
     "environment"      = var.environment
     "application-name" = var.application_name
   }
-{{#NetworkVNet}}
+  {{#NetworkVNet}}
 
   public_network_access_enabled = false
   network_rule_set {
@@ -34,7 +34,7 @@ resource "azurerm_container_registry" "container-registry" {
       subnet_id = var.subnet_id
     }
   }
-{{/NetworkVNet}}
+  {{/NetworkVNet}}
 }
 
 {{/runtimeDocker}}
