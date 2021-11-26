@@ -58,9 +58,10 @@ module "application" {
 
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
 
-  app_subnet_id     = module.network.app_subnet_id
-  service_subnet_id = module.network.service_subnet_id
-  cidr_ranges       = var.cidr_ranges
+  virtual_network_id = module.network.virtual_network_id
+  app_subnet_id      = module.network.app_subnet_id
+  service_subnet_id  = module.network.service_subnet_id
+  cidr_ranges        = var.cidr_ranges
 }
 
 module "database" {
@@ -141,13 +142,4 @@ module "network" {
   service_subnet_prefix = var.service_subnet_prefix
 
   redis_subnet_prefix = var.redis_subnet_prefix
-}
-
-module "frontdoor" {
-  source           = "./modules/frontdoor"
-  resource_group   = azurerm_resource_group.main.name
-  application_name = var.application_name
-  environment      = local.environment
-  location         = var.location
-  app_address      = module.application.spring_cloud_service_app_fqdn
 }

@@ -202,17 +202,10 @@ public class MainController {
             properties.setApplicationConfiguration(applicationConfiguration);
         }
         if (network.startsWith(NetworkType.VIRTUAL_NETWORK.name())) {
-            PublicEndpointType publicEndpointType;
-            if (network.endsWith(PublicEndpointType.FRONTDOOR.name())) {
-                publicEndpointType = PublicEndpointType.FRONTDOOR;
-            } else {
-                // Azure Application Gateway isn't supported yet, so we fall back to private network.
-                publicEndpointType = PublicEndpointType.PRIVATE;
-            }
-            NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, publicEndpointType);
+            NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK);
             properties.setNetworkConfiguration(networkConfiguration);
         } else {
-            properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.PUBLIC));
+            properties.setNetworkConfiguration(new NetworkConfiguration());
         }
         log.debug(
             "Application is of type: {} with tier: {}",
@@ -221,27 +214,26 @@ public class MainController {
         );
 
         properties.setRegion(region);
-        if ("".equals(database) || database.startsWith(DatabaseType.NONE.name())) {
-            properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.FREE));
-        } else if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
-            DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS);
-            if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
-                databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
-            }
-            properties.setDatabaseConfiguration(databaseConfiguration);
+        DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.NONE, Tier.FREE);
+        if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
+            databaseConfiguration = new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS);
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {
-            DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC);
-            if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
+            databaseConfiguration = new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC);
+            if (!properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
+                log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
                 databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
             }
-            properties.setDatabaseConfiguration(databaseConfiguration);
         } else if (database.startsWith(DatabaseType.POSTGRESQL.name())) {
-            DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC);
-            if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
+            databaseConfiguration = new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC);
+            if (!properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
+                log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
                 databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
             }
-            properties.setDatabaseConfiguration(databaseConfiguration);
         }
+        if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
+            databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
+        }
+        properties.setDatabaseConfiguration(databaseConfiguration);
         log.debug("Database is: {}", properties.getDatabaseConfiguration().getDatabaseType());
         if (gitops) {
             properties.setGitops(true);

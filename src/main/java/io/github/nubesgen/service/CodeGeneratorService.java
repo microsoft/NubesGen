@@ -71,9 +71,6 @@ public class CodeGeneratorService {
         // Isolated Network
         if (!configuration.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
             generateFileList(configuration, configuration.getNetworkConfiguration().getNetworkType().name(), result);
-            if (!configuration.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.PRIVATE)) {
-                generateFileList(configuration, configuration.getNetworkConfiguration().getPublicEndpoint().name(), result);
-            }
         }
         return result;
     }

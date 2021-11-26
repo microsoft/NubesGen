@@ -7,28 +7,20 @@ public class NetworkConfiguration {
     @JsonProperty("network")
     private NetworkType networkType;
 
-    @JsonProperty("public")
-    private PublicEndpointType publicEndpointType;
-
-    public NetworkConfiguration(NetworkType networkType) {
-        this(networkType, PublicEndpointType.PRIVATE);
+    public NetworkConfiguration() {
+        this.networkType = NetworkType.PUBLIC;
     }
 
-    public NetworkConfiguration(NetworkType networkType, PublicEndpointType publicEndpointType) {
+    public NetworkConfiguration(NetworkType networkType) {
         this.networkType = networkType;
-        this.publicEndpointType = publicEndpointType;
     }
 
     public NetworkType getNetworkType() {
         return this.networkType;
     }
 
-    public PublicEndpointType getPublicEndpoint() {
-        return publicEndpointType;
-    }
-
     @Override
     public String toString() {
-        return "NetworkConfiguration{" + "networkType=" + networkType + ", publicEndpointType=" + publicEndpointType + '}';
+        return "NetworkConfiguration{" + "networkType=" + networkType + '}';
     }
 }
