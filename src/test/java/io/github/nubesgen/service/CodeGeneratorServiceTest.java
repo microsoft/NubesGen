@@ -660,7 +660,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudMySqlVNetInjectionTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setApplicationName("nubesgen-vnet-mysql");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
         properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.PRIVATE));
