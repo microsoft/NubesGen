@@ -634,7 +634,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudMsSqlVNetInjectionTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setApplicationName("nubesgen-vnet-mssql");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
         properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.PRIVATE));
