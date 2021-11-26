@@ -9,6 +9,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
+/**
+ * Provide the list of templates used to generate the code.
+ */
 @Service
 public class TemplateListService {
 
@@ -27,7 +30,13 @@ public class TemplateListService {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
         Resource[] resources = resolver.getResources("classpath*:nubesgen/**");
-        String absolutePath = Arrays.stream(resolver.getResources("classpath*:nubesgen/README.md")).findFirst().get().getURL().getPath();
+        Optional<Resource> resourceToTest = Arrays.stream(resolver.getResources("classpath*:nubesgen/README.md")).findFirst();
+        String absolutePath;
+        if (resourceToTest.isPresent()) {
+            absolutePath = resourceToTest.get().getURL().getPath();
+        } else {
+            throw new IOException("File \"nubesgen/README.md\" could not be find in the classpath.");
+        }
         int rootDirectoryLength = absolutePath.length() - ("README.md").length();
 
         for (Resource resource : resources) {
@@ -62,10 +71,7 @@ public class TemplateListService {
 
     public List<String> listAllTemplates() {
         List<String> allTemplates = new ArrayList<>();
-        this.templates.values()
-            .forEach(map -> {
-                map.values().forEach(allTemplates::addAll);
-            });
+        this.templates.values().forEach(map -> map.values().forEach(allTemplates::addAll));
         return allTemplates;
     }
 

@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+/**
+ * Send (anonymized) telemetry data when running on Nubesgen.com.
+ */
 @Service
 public class TelemetryService {
 
