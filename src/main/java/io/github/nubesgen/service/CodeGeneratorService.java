@@ -2,7 +2,10 @@ package io.github.nubesgen.service;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.github.nubesgen.configuration.*;
+import io.github.nubesgen.configuration.AddonConfiguration;
+import io.github.nubesgen.configuration.DatabaseType;
+import io.github.nubesgen.configuration.NetworkType;
+import io.github.nubesgen.configuration.NubesgenConfiguration;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;

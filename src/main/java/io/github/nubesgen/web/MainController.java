@@ -2,7 +2,7 @@ package io.github.nubesgen.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.nubesgen.configuration.*;
+import io.github.nubesgen.configuration.NubesgenConfiguration;
 import io.github.nubesgen.service.CodeGeneratorService;
 import io.github.nubesgen.service.ConfigurationService;
 import io.github.nubesgen.service.TelemetryService;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class MainController {
 
-    public final static String DEFAULT_REGION = "eastus";
+    public static final String DEFAULT_REGION = "eastus";
 
     private final Logger log = LoggerFactory.getLogger(MainController.class);
 
@@ -40,11 +40,12 @@ public class MainController {
     private final TelemetryService telemetryService;
 
     public MainController(
-            CodeGeneratorService codeGeneratorService,
-            ConfigurationService configurationService, TarGzService tarGzService,
-            ZipService zipService,
-            ObjectMapper objectMapper,
-            TelemetryService telemetryService
+        CodeGeneratorService codeGeneratorService,
+        ConfigurationService configurationService,
+        TarGzService tarGzService,
+        ZipService zipService,
+        ObjectMapper objectMapper,
+        TelemetryService telemetryService
     ) {
         this.codeGeneratorService = codeGeneratorService;
         this.configurationService = configurationService;

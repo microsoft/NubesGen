@@ -71,8 +71,7 @@ public class TemplateListService {
 
     public List<String> listAllTemplates() {
         List<String> allTemplates = new ArrayList<>();
-        this.templates.values()
-            .forEach(map -> map.values().forEach(allTemplates::addAll));
+        this.templates.values().forEach(map -> map.values().forEach(allTemplates::addAll));
         return allTemplates;
     }
 

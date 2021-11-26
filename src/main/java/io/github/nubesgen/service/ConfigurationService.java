@@ -1,12 +1,11 @@
 package io.github.nubesgen.service;
 
 import io.github.nubesgen.configuration.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Validate the user configuration, depending on the constraints from Azure.
@@ -17,14 +16,14 @@ public class ConfigurationService {
     private final Logger log = LoggerFactory.getLogger(ConfigurationService.class);
 
     public NubesgenConfiguration generateNubesgenConfiguration(
-            String iactool,
-            String runtime,
-            String application,
-            String region,
-            String database,
-            boolean gitops,
-            String addons,
-            String network
+        String iactool,
+        String runtime,
+        String application,
+        String region,
+        String database,
+        boolean gitops,
+        String addons,
+        String network
     ) {
         iactool = iactool.toUpperCase();
         runtime = runtime.toUpperCase();
@@ -121,9 +120,9 @@ public class ConfigurationService {
             properties.setApplicationConfiguration(applicationConfiguration);
         }
         log.debug(
-                "Application is of type: {} with tier: {}",
-                properties.getApplicationConfiguration().getApplicationType(),
-                properties.getApplicationConfiguration().getTier()
+            "Application is of type: {} with tier: {}",
+            properties.getApplicationConfiguration().getApplicationType(),
+            properties.getApplicationConfiguration().getTier()
         );
     }
 

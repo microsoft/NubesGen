@@ -1,10 +1,10 @@
 package io.github.nubesgen.service;
 
-import io.github.nubesgen.configuration.*;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import io.github.nubesgen.configuration.*;
+import org.junit.jupiter.api.Test;
 
 public class ConfigurationServiceTest {
 
@@ -12,15 +12,16 @@ public class ConfigurationServiceTest {
 
     @Test
     void checkDefaultConfiguration() {
-        NubesgenConfiguration configuration =
-                service.generateNubesgenConfiguration("TERRAFORM",
-                        "DOCKER",
-                        "APP_SERVICE",
-                        "eastus",
-                        "NONE",
-                        false,
-                        "",
-                        "");
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+            "TERRAFORM",
+            "DOCKER",
+            "APP_SERVICE",
+            "eastus",
+            "NONE",
+            false,
+            "",
+            ""
+        );
 
         assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
         assertEquals(RuntimeType.DOCKER, configuration.getRuntimeType());
@@ -35,15 +36,7 @@ public class ConfigurationServiceTest {
 
     @Test
     void checkEmptyConfiguration() {
-        NubesgenConfiguration configuration =
-                service.generateNubesgenConfiguration("",
-                        "",
-                        "",
-                        "",
-                        "",
-                        false,
-                        "",
-                        "");
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration("", "", "", "", "", false, "", "");
 
         assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
         assertEquals(RuntimeType.DOCKER, configuration.getRuntimeType());
@@ -58,15 +51,16 @@ public class ConfigurationServiceTest {
 
     @Test
     void checkPostgresqlDefaultOptions() {
-        NubesgenConfiguration configuration =
-                service.generateNubesgenConfiguration("TERRAFORM",
-                        "DOCKER",
-                        "APP_SERVICE",
-                        "eastus",
-                        "POSTGRESQL",
-                        false,
-                        "",
-                        "");
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+            "TERRAFORM",
+            "DOCKER",
+            "APP_SERVICE",
+            "eastus",
+            "POSTGRESQL",
+            false,
+            "",
+            ""
+        );
 
         assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
         assertEquals(RuntimeType.DOCKER, configuration.getRuntimeType());
@@ -81,15 +75,16 @@ public class ConfigurationServiceTest {
 
     @Test
     void checkSpringCloudOnlySupportsSpring() {
-        NubesgenConfiguration configuration =
-                service.generateNubesgenConfiguration("TERRAFORM",
-                        "DOCKER",
-                        "SPRING_CLOUD",
-                        "eastus",
-                        "POSTGRESQL",
-                        false,
-                        "",
-                        "");
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+            "TERRAFORM",
+            "DOCKER",
+            "SPRING_CLOUD",
+            "eastus",
+            "POSTGRESQL",
+            false,
+            "",
+            ""
+        );
 
         assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
         assertEquals(RuntimeType.SPRING, configuration.getRuntimeType());
@@ -104,15 +99,16 @@ public class ConfigurationServiceTest {
 
     @Test
     void updateDatabaseTierIfVnetIsSelected() {
-        NubesgenConfiguration configuration =
-                service.generateNubesgenConfiguration("TERRAFORM",
-                        "DOCKER",
-                        "APP_SERVICE",
-                        "eastus",
-                        "POSTGRESQL",
-                        false,
-                        "",
-                        "VIRTUAL_NETWORK");
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+            "TERRAFORM",
+            "DOCKER",
+            "APP_SERVICE",
+            "eastus",
+            "POSTGRESQL",
+            false,
+            "",
+            "VIRTUAL_NETWORK"
+        );
 
         assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
         assertEquals(RuntimeType.DOCKER, configuration.getRuntimeType());
