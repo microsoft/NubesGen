@@ -9,6 +9,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
+/**
+ * Provide the list of templates used to generate the code.
+ */
 @Service
 public class TemplateListService {
 

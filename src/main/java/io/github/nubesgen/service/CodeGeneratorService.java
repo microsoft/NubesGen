@@ -17,6 +17,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
+/**
+ * Generate the code, using the configuration and a list of templates.
+ */
 @Service
 public class CodeGeneratorService {
 
