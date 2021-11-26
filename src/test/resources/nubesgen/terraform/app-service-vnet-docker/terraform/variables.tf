@@ -30,5 +30,5 @@ variable "app_subnet_prefix" {
 variable "redis_subnet_prefix" {
   type        = string
   description = "Redis cache subnet prefix"
-  default     = "10.11.3.0/24"  
+  default     = "10.11.3.0/24"
 }
