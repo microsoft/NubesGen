@@ -58,9 +58,10 @@ module "application" {
 
   azure_cosmosdb_mongodb_database = module.cosmosdb-mongodb.azure_cosmosdb_mongodb_database
 
-  app_subnet_id     = module.network.app_subnet_id
-  service_subnet_id = module.network.service_subnet_id
-  cidr_ranges       = var.cidr_ranges
+  virtual_network_id = module.network.virtual_network_id
+  app_subnet_id      = module.network.app_subnet_id
+  service_subnet_id  = module.network.service_subnet_id
+  cidr_ranges        = var.cidr_ranges
 }
 
 module "database" {

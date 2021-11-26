@@ -44,9 +44,10 @@ module "application" {
   environment      = local.environment
   location         = var.location
 
-  app_subnet_id     = module.network.app_subnet_id
-  service_subnet_id = module.network.service_subnet_id
-  cidr_ranges       = var.cidr_ranges
+  virtual_network_id = module.network.virtual_network_id
+  app_subnet_id      = module.network.app_subnet_id
+  service_subnet_id  = module.network.service_subnet_id
+  cidr_ranges        = var.cidr_ranges
 }
 
 module "network" {
