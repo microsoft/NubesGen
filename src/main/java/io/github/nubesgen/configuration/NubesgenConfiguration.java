@@ -367,16 +367,6 @@ public class NubesgenConfiguration {
         return !isDatabaseTypeNone() || isAddonCosmosdbMongodb() || isAddonKeyVault() || isAddonStorageBlob() || isRuntimeDocker();
     }
 
-    @JsonIgnore
-    public boolean isNetworkPublicFrontDoor() {
-        return this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.FRONTDOOR);
-    }
-
-    @JsonIgnore
-    public boolean isNetworkVNetPublic() {
-        return isNetworkVNet() && !this.getNetworkConfiguration().getPublicEndpoint().equals(PublicEndpointType.PRIVATE);
-    }
-
     @Override
     public String toString() {
         return (

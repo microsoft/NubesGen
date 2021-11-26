@@ -83,6 +83,7 @@
                 components: {frontApp: {type: 'APP_SERVICE', size: 'free'}, database: {type: 'NONE', size: 'free'}},
                 addons: [],
                 runtime: "DOCKER",
+                network: '',
                 gitops: false,
                 curlScript: '',
                 poshScript: '',
@@ -132,6 +133,9 @@
                     }
                     if (this.gitops === true) {
                         url += "&gitops=true";
+                    }
+                    if (this.network === 'VIRTUAL_NETWORK') {
+                        url += "&network=VIRTUAL_NETWORK";
                     }
                     return url;
                 },
@@ -183,6 +187,10 @@
                 ascRuntimes:[
                     {id: 'SPRING', name: 'Spring Boot (Java) with Maven'},
                     {id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle'}
+                ],
+                networkConfigurations:[
+                    {id: 'PUBLIC', name: 'Public'},
+                    {id: 'VIRTUAL_NETWORK', name: 'Virtual Network (VNet)'}
                 ],
                 regionSelectorOpened: false,
                 selectRegion(selectedRegion) {
@@ -460,7 +468,7 @@
                                              @click="updateAppType('APP_SERVICE')"
                                              :class="components.frontApp.type==='APP_SERVICE' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                             <img class="w-8 h-8"
-                                                 src="img/10035-icon-App Services-App Services.svg"></img>
+                                                 src="img/icon-app-services.svg"></img>
                                             <div class="text-lg font-semibold text-blue-900">
                                                 Web Application
                                                 <p class="text-sm font-normal text-gray-500">Web applications</p>
@@ -482,7 +490,7 @@
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('FUNCTION')"
                                              :class="components.frontApp.type==='FUNCTION' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                            <img class="w-8 h-8" src="img/10029-icon-Function Apps-IoT.svg"></img>
+                                            <img class="w-8 h-8" src="img/icon-functions.svg"></img>
                                             <div class="text-lg font-semibold">
                                                 Serverless Applications
                                                 <p class="text-sm font-normal text-gray-500">Supports Spring Boot, Java,
@@ -502,10 +510,10 @@
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('SPRING_CLOUD')"
                                              :class="components.frontApp.type==='SPRING_CLOUD' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                            <img class="w-8 h-8" src="img/10370-icon-service-Azure-Spring-Cloud.svg"></img>
+                                            <img class="w-8 h-8" src="img/icon-spring-cloud.svg"></img>
                                             <div class="text-lg font-semibold">
                                                 Azure Spring Cloud
-                                                <p class="text-sm font-normal text-gray-500">Supports Spring Boot</p>
+                                                <p class="text-sm font-normal text-gray-500">Supports Spring Boot.</p>
                                                 <div x-show="components.frontApp.type==='SPRING_CLOUD'">
                                                     <p class="font-normal text-gray-500 text-sm mt-4">Select your
                                                         framework:</p>
@@ -773,7 +781,7 @@
 
                                     <div class="p-4 bg-white border-2" @click="components.database.type='SQL_SERVER'"
                                          :class="components.database.type==='SQL_SERVER' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                        <img class="w-8 h-8" src="img/10130-icon-SQL Database-Databases.svg"></img>
+                                        <img class="w-8 h-8" src="img/icon-azure-database-mssql.svg"></img>
                                         <div class="text-lg font-semibold text-blue-900">
                                             Azure SQL
                                             <p class="text-sm font-normal text-gray-500">Managed SQL Database, with
@@ -785,7 +793,7 @@
                                          @click="components.database.type='POSTGRESQL'"
                                          :class="components.database.type==='POSTGRESQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                         <img class="w-8 h-8"
-                                             src="img/10131-icon-Azure Database PostgreSQL Server-Databases.svg"></img>
+                                             src="img/icon-azure-database-postgresql.svg"></img>
                                         <div class="text-lg font-semibold">
                                             PostgreSQL
                                             <p class="text-sm font-normal text-gray-500">Scalable Opensource-Leading SQL
@@ -797,7 +805,7 @@
                                          @click="components.database.type='MYSQL'"
                                          :class="components.database.type==='MYSQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                         <img class="w-8 h-8"
-                                             src="img/10122-icon-Azure Database MySQL Server-Databases.svg"></img>
+                                             src="img/icon-azure-database-mysql.svg"></img>
                                         <div class="text-lg font-semibold">
                                             MySQL
                                             <p class="text-sm font-normal text-gray-500">The SQL database you already
@@ -902,6 +910,32 @@
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
+                                Network
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <div class="grid grid-rows-1 mt-4 gap-4">
+                                    <div class="border bg-white rounded content-center py-2 px-4">
+
+                                        <img class="w-8 h-8" src="img/icon-virtual-network.svg"></img>
+                                        <div class="text-lg font-semibold">
+                                            Network configuration
+                                            <p class="text-sm font-normal text-gray-500">Use either a public network (default option), or a dedicated virtual network (VNet) for added security.</p>
+                                            <div>
+                                                <p class="font-normal text-gray-500 text-sm mt-4">Select your
+                                                    configuration:</p>
+                                                <select class="text-sm" x-model="network">
+                                                    <template x-for="nc in networkConfigurations" :key="nc.id">
+                                                        <option x-bind:value="nc.id" x-text="nc.name"/>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </dd>
+                        </div>
+                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
                                 Add-Ons
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -970,7 +1004,7 @@
                             </dd>
                         </div>
 
-                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 GitOps
                             </dt>
@@ -1081,10 +1115,6 @@
                                     <div class="flex row-auto items-center mt-4"><i
                                             class="fa fa-check-circle-o text-gray-400"></i>
                                         <span class="ml-3 text-gray-500">Basic DDOS Protection</span>
-                                    </div>
-                                    <div class="flex row-auto items-center mt-4">
-                                        <span class="ml-3 text-gray-700 font-semibold">Coming soon</span>
-                                        <span class="ml-2 text-gray-500">Network isolation, Web Application Firewall, Advanced DDOS</span>
                                     </div>
                                 </dd>
                             </div>
