@@ -224,24 +224,20 @@ public class MainController {
         DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.NONE, Tier.FREE);
         if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
             databaseConfiguration = new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS);
-            if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
-                databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
-            }
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {
             databaseConfiguration = new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC);
-            if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
+            if (!properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
+                log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
                 databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
             }
         } else if (database.startsWith(DatabaseType.POSTGRESQL.name())) {
             databaseConfiguration = new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC);
-            if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
+            if (!properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
+                log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
                 databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
             }
         }
-        if (!databaseConfiguration.getDatabaseType().equals(DatabaseType.NONE)
-                && !properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
-
-            log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
+        if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
             databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
         }
         properties.setDatabaseConfiguration(databaseConfiguration);
