@@ -571,7 +571,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudVNetInjectionTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setApplicationName("nubesgen-asc-vnet-java");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
         properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
@@ -595,7 +595,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudAddonsVNetInjectionTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-testapp-spring");
+        properties.setApplicationName("nubesgen-asc-vnet-addons");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
         properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
