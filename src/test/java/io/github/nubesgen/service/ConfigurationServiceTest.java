@@ -4,6 +4,7 @@ import io.github.nubesgen.configuration.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class ConfigurationServiceTest {
 
@@ -27,7 +28,7 @@ public class ConfigurationServiceTest {
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.NONE, configuration.getDatabaseConfiguration().getDatabaseType());
         assertEquals(Tier.FREE, configuration.getDatabaseConfiguration().getTier());
-        assertEquals(false, configuration.isGitops());
+        assertFalse(configuration.isGitops());
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.PUBLIC, configuration.getNetworkConfiguration().getNetworkType());
     }
@@ -50,7 +51,7 @@ public class ConfigurationServiceTest {
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.NONE, configuration.getDatabaseConfiguration().getDatabaseType());
         assertEquals(Tier.FREE, configuration.getDatabaseConfiguration().getTier());
-        assertEquals(false, configuration.isGitops());
+        assertFalse(configuration.isGitops());
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.PUBLIC, configuration.getNetworkConfiguration().getNetworkType());
     }
@@ -73,7 +74,7 @@ public class ConfigurationServiceTest {
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
         assertEquals(Tier.BASIC, configuration.getDatabaseConfiguration().getTier());
-        assertEquals(false, configuration.isGitops());
+        assertFalse(configuration.isGitops());
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.PUBLIC, configuration.getNetworkConfiguration().getNetworkType());
     }
@@ -96,7 +97,7 @@ public class ConfigurationServiceTest {
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
         assertEquals(Tier.BASIC, configuration.getDatabaseConfiguration().getTier());
-        assertEquals(false, configuration.isGitops());
+        assertFalse(configuration.isGitops());
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.PUBLIC, configuration.getNetworkConfiguration().getNetworkType());
     }
@@ -119,7 +120,7 @@ public class ConfigurationServiceTest {
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
         assertEquals(Tier.GENERAL_PURPOSE, configuration.getDatabaseConfiguration().getTier());
-        assertEquals(false, configuration.isGitops());
+        assertFalse(configuration.isGitops());
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.VIRTUAL_NETWORK, configuration.getNetworkConfiguration().getNetworkType());
     }
