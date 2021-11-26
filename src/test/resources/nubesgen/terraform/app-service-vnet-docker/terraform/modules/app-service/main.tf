@@ -24,14 +24,6 @@ resource "azurerm_container_registry" "container-registry" {
     "environment"      = var.environment
     "application-name" = var.application_name
   }
-
-  public_network_access_enabled = false
-  network_rule_set {
-    virtual_network {
-      action    = "Allow"
-      subnet_id = var.subnet_id
-    }
-  }
 }
 
 resource "azurecaf_name" "app_service_plan" {
