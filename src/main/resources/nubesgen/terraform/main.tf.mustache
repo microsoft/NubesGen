@@ -276,19 +276,3 @@ module "network" {
   {{/addonRedis}}
 }
 {{/NetworkVNet}}
-{{#NetworkPublicFrontDoor}}
-
-module "frontdoor" {
-  source           = "./modules/frontdoor"
-  resource_group   = azurerm_resource_group.main.name
-  application_name = var.application_name
-  environment      = local.environment
-  location         = var.location
-  {{^applicationTypeSpringCloud}}
-  app_address      = module.application.application_fqdn
-  {{/applicationTypeSpringCloud}}
-  {{#applicationTypeSpringCloud}}
-  app_address      = module.application.spring_cloud_service_app_fqdn
-  {{/applicationTypeSpringCloud}}
-}
-{{/NetworkPublicFrontDoor}}

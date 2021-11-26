@@ -574,7 +574,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-asc-vnet-java");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK));
 
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
         properties.setIaCTool(IaCTool.TERRAFORM);
@@ -587,8 +587,7 @@ class CodeGeneratorServiceTest {
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
-            this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
-            this.templateListService.listModuleTemplates("terraform", PublicEndpointType.FRONTDOOR.name())
+            this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name())
         );
     }
 
@@ -598,7 +597,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-asc-vnet-addons");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK));
 
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
         properties.setIaCTool(IaCTool.TERRAFORM);
@@ -621,7 +620,6 @@ class CodeGeneratorServiceTest {
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
             this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
-            this.templateListService.listModuleTemplates("terraform", PublicEndpointType.FRONTDOOR.name()),
             this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
             this.templateListService.listModuleTemplates("terraform", AddonType.APPLICATION_INSIGHTS.name()),
             this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name()),
@@ -637,7 +635,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-vnet-mssql");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.PRIVATE));
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK));
 
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
         properties.setIaCTool(IaCTool.TERRAFORM);
@@ -663,7 +661,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-vnet-mysql");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.PRIVATE));
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK));
 
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.SPRING_CLOUD, Tier.STANDARD));
         properties.setIaCTool(IaCTool.TERRAFORM);
@@ -689,7 +687,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testapp-vnet");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
-        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK));
 
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.APP_SERVICE, Tier.STANDARD));
         properties.setIaCTool(IaCTool.TERRAFORM);
@@ -709,7 +707,6 @@ class CodeGeneratorServiceTest {
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
                 this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
-                this.templateListService.listModuleTemplates("terraform", PublicEndpointType.FRONTDOOR.name()),
                 this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
                 this.templateListService.listModuleTemplates("terraform", AddonType.APPLICATION_INSIGHTS.name()),
                 this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name())
@@ -722,7 +719,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testapp-docker");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.DOCKER);
-        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK));
 
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.APP_SERVICE, Tier.STANDARD));
         properties.setIaCTool(IaCTool.TERRAFORM);
@@ -745,7 +742,6 @@ class CodeGeneratorServiceTest {
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
             this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
-            this.templateListService.listModuleTemplates("terraform", PublicEndpointType.FRONTDOOR.name()),
             this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
             this.templateListService.listModuleTemplates("terraform", AddonType.APPLICATION_INSIGHTS.name()),
             this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name()),
@@ -761,7 +757,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testfunction-vnet");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.JAVA);
-        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, PublicEndpointType.FRONTDOOR));
+        properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK));
 
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.FUNCTION, Tier.PREMIUM));
         properties.setIaCTool(IaCTool.TERRAFORM);
@@ -784,7 +780,6 @@ class CodeGeneratorServiceTest {
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.FUNCTION.name()),
             this.templateListService.listModuleTemplates("terraform", NetworkType.VIRTUAL_NETWORK.name()),
-            this.templateListService.listModuleTemplates("terraform", PublicEndpointType.FRONTDOOR.name()),
             this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
             this.templateListService.listModuleTemplates("terraform", AddonType.APPLICATION_INSIGHTS.name()),
             this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name()),

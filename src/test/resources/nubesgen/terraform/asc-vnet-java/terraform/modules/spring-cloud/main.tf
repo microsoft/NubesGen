@@ -88,8 +88,6 @@ resource "azurerm_spring_cloud_app" "application" {
   identity {
     type = "SystemAssigned"
   }
-
-  is_public = true
 }
 
 # This creates the application deployment. Terraform provider doesn't support dotnet yet

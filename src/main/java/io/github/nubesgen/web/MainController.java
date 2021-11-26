@@ -202,17 +202,10 @@ public class MainController {
             properties.setApplicationConfiguration(applicationConfiguration);
         }
         if (network.startsWith(NetworkType.VIRTUAL_NETWORK.name())) {
-            PublicEndpointType publicEndpointType;
-            if (network.endsWith(PublicEndpointType.FRONTDOOR.name())) {
-                publicEndpointType = PublicEndpointType.FRONTDOOR;
-            } else {
-                // Azure Application Gateway isn't supported yet, so we fall back to private network.
-                publicEndpointType = PublicEndpointType.PRIVATE;
-            }
-            NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK, publicEndpointType);
+            NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK);
             properties.setNetworkConfiguration(networkConfiguration);
         } else {
-            properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.PUBLIC));
+            properties.setNetworkConfiguration(new NetworkConfiguration());
         }
         log.debug(
             "Application is of type: {} with tier: {}",

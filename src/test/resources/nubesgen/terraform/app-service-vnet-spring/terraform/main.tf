@@ -97,12 +97,3 @@ module "network" {
   address_space     = var.address_space
   app_subnet_prefix = var.app_subnet_prefix
 }
-
-module "frontdoor" {
-  source           = "./modules/frontdoor"
-  resource_group   = azurerm_resource_group.main.name
-  application_name = var.application_name
-  environment      = local.environment
-  location         = var.location
-  app_address      = module.application.application_fqdn
-}

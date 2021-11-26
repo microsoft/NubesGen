@@ -134,7 +134,7 @@
                     if (this.gitops === true) {
                         url += "&gitops=true";
                     }
-                    if (this.network !== '') {
+                    if (this.network === 'VIRTUAL_NETWORK') {
                         url += "&network=VIRTUAL_NETWORK";
                     }
                     return url;
@@ -190,8 +190,7 @@
                 ],
                 networkConfigurations:[
                     {id: 'PUBLIC', name: 'Public'},
-                    {id: 'VIRTUAL_NETWORK.PRIVATE', name: 'Virtual Network (VNet)'},
-                    {id: 'VIRTUAL_NETWORK.FRONTDOOR', name: 'Virtual Network (VNet) + Azure Front Door'}
+                    {id: 'VIRTUAL_NETWORK', name: 'Virtual Network (VNet)'}
                 ],
                 regionSelectorOpened: false,
                 selectRegion(selectedRegion) {
@@ -920,7 +919,7 @@
                                         <img class="w-8 h-8" src="img/icon-virtual-network.svg"></img>
                                         <div class="text-lg font-semibold">
                                             Network configuration
-                                            <p class="text-sm font-normal text-gray-500">Use either a public network (default option), a dedicated virtual network (VNet), or a virtual network (VNet) and Azure Front Door for added security and performance.</p>
+                                            <p class="text-sm font-normal text-gray-500">Use either a public network (default option), or a dedicated virtual network (VNet) for added security.</p>
                                             <div>
                                                 <p class="font-normal text-gray-500 text-sm mt-4">Select your
                                                     configuration:</p>
@@ -1116,10 +1115,6 @@
                                     <div class="flex row-auto items-center mt-4"><i
                                             class="fa fa-check-circle-o text-gray-400"></i>
                                         <span class="ml-3 text-gray-500">Basic DDOS Protection</span>
-                                    </div>
-                                    <div class="flex row-auto items-center mt-4">
-                                        <span class="ml-3 text-gray-700 font-semibold">Coming soon</span>
-                                        <span class="ml-2 text-gray-500">Network isolation, Web Application Firewall, Advanced DDOS</span>
                                     </div>
                                 </dd>
                             </div>

@@ -421,7 +421,7 @@ public class MainControllerTest {
     public void generateSpringCloudVNetWithTerraform() throws Exception {
         MvcResult result =
             this.mockMvc.perform(
-                    get("/myapplication.zip?region=westeurope&application=spring_cloud.standard&network=VIRTUAL_NETWORK.FRONTDOOR")
+                    get("/myapplication.zip?region=westeurope&application=spring_cloud.standard&network=VIRTUAL_NETWORK")
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -433,13 +433,11 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/main.tf"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/spring-cloud"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/virtual-network"));
-        assertTrue(entries.get("terraform/main.tf").contains("modules/frontdoor"));
         assertTrue(entries.containsKey("terraform/variables.tf"));
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
         assertTrue(entries.containsKey("terraform/modules/spring-cloud/main.tf"));
         assertTrue(entries.get("terraform/modules/spring-cloud/main.tf").contains("sku_name            = \"S0\""));
         assertTrue(entries.containsKey("terraform/modules/virtual-network/main.tf"));
-        assertTrue(entries.containsKey("terraform/modules/frontdoor/main.tf"));
     }
 }
