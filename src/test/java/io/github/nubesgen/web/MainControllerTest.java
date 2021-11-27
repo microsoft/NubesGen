@@ -420,9 +420,7 @@ public class MainControllerTest {
     @Test
     public void generateSpringCloudVNetWithTerraform() throws Exception {
         MvcResult result =
-            this.mockMvc.perform(
-                    get("/myapplication.zip?region=westeurope&application=spring_cloud.standard&network=VIRTUAL_NETWORK")
-                )
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=spring_cloud.standard&network=VIRTUAL_NETWORK"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))
