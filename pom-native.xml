@@ -27,7 +27,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
     </scm>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>11</java.version>
         <repackage.classifier/>
         <spring-native.version>0.11.0-RC1</spring-native.version>
     </properties>
@@ -80,7 +80,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
                         <name>nubesgen/nubesgen-native</name>
                         <env>
                             <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-                            <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--initialize-at-run-time=io.netty.util.internal.logging.Log4JLogger,io.netty.handler.ssl.OpenSsl,io.netty.handler.ssl.OpenSslPrivateKeyMethod,io.netty.internal.tcnative.CertificateVerifier,io.netty.internal.tcnative.SSL,io.netty.internal.tcnative.SSLPrivateKeyMethod,io.netty.handler.ssl.BouncyCastleAlpnSslUtils,io.netty.handler.ssl.util.ThreadLocalInsecureRandom,io.netty.channel.unix,io.netty.channel.epoll,io.netty.channel.kqueue,io.netty.internal.tcnative.AsyncSSLPrivateKeyMethod,io.netty.handler.ssl.OpenSslAsyncPrivateKeyMethod</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                            <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--initialize-at-run-time=io.netty.util.internal.logging.Log4JLogger,io.netty.handler.ssl.OpenSsl,io.netty.handler.ssl.OpenSslPrivateKeyMethod,io.netty.internal.tcnative.CertificateVerifier,io.netty.internal.tcnative.SSL,io.netty.internal.tcnative.SSLPrivateKeyMethod,io.netty.handler.ssl.BouncyCastleAlpnSslUtils,io.netty.handler.ssl.util.ThreadLocalInsecureRandom,io.netty.channel.unix,io.netty.channel.epoll,io.netty.channel.kqueue,io.netty.internal.tcnative.AsyncSSLPrivateKeyMethod,io.netty.handler.ssl.OpenSslAsyncPrivateKeyMethod,io.netty.handler.ssl.ConscryptAlpnSslEngine,io.netty.handler.ssl.ReferenceCountedOpenSslEngine,io.netty.buffer.PooledByteBufAllocator</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
                         </env>
                     </image>
                     <layers>
