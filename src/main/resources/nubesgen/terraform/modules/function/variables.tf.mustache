@@ -90,10 +90,10 @@ variable "azure_cosmosdb_mongodb_uri" {
   description = "The Cosmos DB with MongoDB API database URI"
 }
 {{/addonCosmosdbMongodb}}
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 variable "subnet_id" {
   type        = string
   description = "The subnet the app can use"
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}

@@ -19,12 +19,6 @@ resource "azurerm_app_service_plan" "application" {
   resource_group_name = var.resource_group
   location            = var.location
 
-{{#applicationTierConsumption}}
-  kind     = "FunctionApp"
-{{/applicationTierConsumption}}
-{{#applicationTierPremium}}
-  kind     = "elastic"
-{{/applicationTierPremium}}
   reserved = true
 
   tags = {
@@ -33,15 +27,6 @@ resource "azurerm_app_service_plan" "application" {
   }
 
   sku {
-{{#applicationTierConsumption}}
-    tier = "Dynamic"
-    size = "Y1"
-{{/applicationTierConsumption}}
-{{#applicationTierPremium}}
-    tier     = "ElasticPremium"
-    size     = "EP1"
-    capacity = 1
-{{/applicationTierPremium}}
   }
 }
 
@@ -90,121 +75,41 @@ resource "azurerm_function_app" "application" {
   }
 
   site_config {
-{{#runtimeJava}}
     linux_fx_version = "java|11"
-{{/runtimeJava}}
-{{#runtimeDotnet}}
-    linux_fx_version = "dotnet|3.1"
-{{/runtimeDotnet}}
-{{#runtimeNodejs}}
-    linux_fx_version = "Node|14"
-{{/runtimeNodejs}}
   }
-{{#addonKeyVault}}
 
   identity {
     type = "SystemAssigned"
   }
-{{/addonKeyVault}}
 
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE"    = "1"
     "FUNCTIONS_EXTENSION_VERSION" = "~3"
-{{#runtimeJava}}
     "FUNCTIONS_WORKER_RUNTIME"    = "java"
-{{/runtimeJava}}
-{{#runtimeDotnet}}
-    "FUNCTIONS_WORKER_RUNTIME"    = "dotnet"
-{{/runtimeDotnet}}
-{{#runtimeNodejs}}
-    "FUNCTIONS_WORKER_RUNTIME"    = "node"
-{{/runtimeNodejs}}
-{{#addonApplicationInsights}}
 
     // Monitoring with Azure Application Insights
     "APPINSIGHTS_INSTRUMENTATIONKEY" = var.azure_application_insights_instrumentation_key
-{{/addonApplicationInsights}}
 
     # These are app specific environment variables
-{{#runtimeSpring}}
     "SPRING_PROFILES_ACTIVE" = "prod,azure"
-  {{#databaseTypeSqlServer}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:sqlserver://${var.database_url}"
-    "SPRING_DATASOURCE_USERNAME" = var.database_username
-    "SPRING_DATASOURCE_PASSWORD" = var.database_password
-  {{/databaseTypeSqlServer}}
-  {{#databaseTypeMysql}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
-    "SPRING_DATASOURCE_USERNAME" = var.database_username
-    "SPRING_DATASOURCE_PASSWORD" = var.database_password
-  {{/databaseTypeMysql}}
-  {{#databaseTypePostgresql}}
 
     "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
     "SPRING_DATASOURCE_USERNAME" = var.database_username
     "SPRING_DATASOURCE_PASSWORD" = var.database_password
-  {{/databaseTypePostgresql}}
-  {{#addonRedis}}
 
     "SPRING_REDIS_HOST"     = var.azure_redis_host
     "SPRING_REDIS_PASSWORD" = var.azure_redis_password
     "SPRING_REDIS_PORT"     = "6380"
     "SPRING_REDIS_SSL"      = "true"
-  {{/addonRedis}}
-  {{#addonStorageBlob}}
 
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
     "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
-  {{/addonStorageBlob}}
-  {{#addonCosmosdbMongodb}}
 
     "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
     "SPRING_DATA_MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
-  {{/addonCosmosdbMongodb}}
-{{/runtimeSpring}}
-{{^runtimeSpring}}
-  {{#databaseTypeSqlServer}}
-
-    "DATABASE_URL"      = var.database_url
-    "DATABASE_USERNAME" = var.database_username
-    "DATABASE_PASSWORD" = var.database_password
-  {{/databaseTypeSqlServer}}
-  {{#databaseTypeMysql}}
-
-    "DATABASE_URL"      = var.database_url
-    "DATABASE_USERNAME" = var.database_username
-    "DATABASE_PASSWORD" = var.database_password
-  {{/databaseTypeMysql}}
-  {{#databaseTypePostgresql}}
-
-    "DATABASE_URL"      = var.database_url
-    "DATABASE_USERNAME" = var.database_username
-    "DATABASE_PASSWORD" = var.database_password
-  {{/databaseTypePostgresql}}
-  {{#addonRedis}}
-
-    "REDIS_HOST"     = var.azure_redis_host
-    "REDIS_PASSWORD" = var.azure_redis_password
-    "REDIS_PORT"     = "6380"
-  {{/addonRedis}}
-  {{#addonStorageBlob}}
-
-    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
-    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
-    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
-  {{/addonStorageBlob}}
-  {{#addonCosmosdbMongodb}}
-
-    "MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
-    "MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
-  {{/addonCosmosdbMongodb}}
-{{/runtimeSpring}}
   }
 }
-{{#addonKeyVault}}
 
 data "azurerm_client_config" "current" {}
 
@@ -218,11 +123,8 @@ resource "azurerm_key_vault_access_policy" "application" {
     "List"
   ]
 }
-{{/addonKeyVault}}
-{{^NetworkPublic}}
 
 resource "azurerm_app_service_virtual_network_swift_connection" "swift_connection" {
   app_service_id = azurerm_function_app.application.id
   subnet_id      = var.subnet_id
 }
-{{/NetworkPublic}}
