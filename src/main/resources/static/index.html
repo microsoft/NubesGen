@@ -136,6 +136,8 @@
                     }
                     if (this.network === 'VIRTUAL_NETWORK') {
                         url += "&network=VIRTUAL_NETWORK";
+                    } else if (this.network === 'PRIVATE_ENDPOINT'){
+                        url += "&network=PRIVATE_ENDPOINT";
                     }
                     return url;
                 },
