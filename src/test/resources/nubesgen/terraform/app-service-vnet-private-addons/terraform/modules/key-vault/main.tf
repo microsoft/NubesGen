@@ -59,6 +59,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     name                           = "${azurerm_key_vault.application.name}-pe"
     is_manual_connection           = false
     private_connection_resource_id = azurerm_key_vault.application.id
+    subresource_names              = ["vault"]
   }
 }
 
