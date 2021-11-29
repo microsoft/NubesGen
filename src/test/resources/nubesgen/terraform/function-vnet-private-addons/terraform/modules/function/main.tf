@@ -19,6 +19,7 @@ resource "azurerm_app_service_plan" "application" {
   resource_group_name = var.resource_group
   location            = var.location
 
+  kind     = "elastic"
   reserved = true
 
   tags = {
@@ -27,6 +28,9 @@ resource "azurerm_app_service_plan" "application" {
   }
 
   sku {
+    tier     = "ElasticPremium"
+    size     = "EP1"
+    capacity = 1
   }
 }
 

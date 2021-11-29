@@ -846,7 +846,7 @@ class CodeGeneratorServiceTest {
         properties.setRuntimeType(RuntimeType.SPRING);
         properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.PRIVATE_ENDPOINT));
 
-        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.FUNCTION, Tier.STANDARD));
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.FUNCTION, Tier.PREMIUM));
         properties.setIaCTool(IaCTool.TERRAFORM);
 
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.GENERAL_PURPOSE));
