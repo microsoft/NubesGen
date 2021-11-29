@@ -25,13 +25,13 @@ variable "address_space" {
 variable "app_subnet_prefix" {
   type        = string
   description = "Application subnet prefix"
-  default     = "10.11.1.0/24"
+  default     = "10.11.0.0/24"
 }
 
 variable "service_subnet_prefix" {
   type        = string
   description = "Azure Spring Cloud service subnet prefix"
-  default     = "10.11.2.0/24"
+  default     = "10.11.1.0/24"
 }
 
 variable "cidr_ranges" {
@@ -43,5 +43,5 @@ variable "cidr_ranges" {
 variable "redis_subnet_prefix" {
   type        = string
   description = "Redis cache subnet prefix"
-  default     = "10.11.4.0/24"
+  default     = "10.11.3.0/24"
 }

@@ -24,5 +24,5 @@ variable "address_space" {
 variable "app_subnet_prefix" {
   type        = string
   description = "Application subnet prefix"
-  default     = "10.11.0.0/16"
+  default     = "10.11.0.0/24"
 }
