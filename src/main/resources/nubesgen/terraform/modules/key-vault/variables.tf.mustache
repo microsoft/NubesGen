@@ -51,10 +51,10 @@ variable "cosmosdb_mongodb_uri" {
   description = "The Cosmos DB connection string"
 }
 {{/addonCosmosdbMongodb}}
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 variable "subnet_id" {
   type = string
   description = "The subnet from which the access is allowed"
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}

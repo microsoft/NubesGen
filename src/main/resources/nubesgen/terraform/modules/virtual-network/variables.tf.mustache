@@ -42,6 +42,13 @@ variable "service_endpoints" {
   description = "Service endpoints used by the solution"
 }
 {{/NetworkServiceEndpointsRequired}}
+{{#NetworkVNetPrivateEndpoint}}
+
+variable "addons_subnet_prefix" {
+  type        = string
+  description = "Addons subnet prefix"
+}
+{{/NetworkVNetPrivateEndpoint}}
 {{#addonRedis}}
 
 variable "redis_subnet_prefix" {

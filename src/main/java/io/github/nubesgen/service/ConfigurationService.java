@@ -130,6 +130,9 @@ public class ConfigurationService {
         if (network.startsWith(NetworkType.VIRTUAL_NETWORK.name())) {
             NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK);
             properties.setNetworkConfiguration(networkConfiguration);
+        } else if(network.startsWith(NetworkType.PRIVATE_ENDPOINT.name())){
+            NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.PRIVATE_ENDPOINT);
+            properties.setNetworkConfiguration(networkConfiguration);
         } else {
             properties.setNetworkConfiguration(new NetworkConfiguration());
         }

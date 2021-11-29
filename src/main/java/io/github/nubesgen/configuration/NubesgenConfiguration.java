@@ -338,6 +338,16 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isNetworkPublic(){
+        return NetworkType.PUBLIC.equals(this.getNetworkConfiguration().getNetworkType());
+    }
+
+    @JsonIgnore
+    public boolean isNetworkVNetPrivateEndpoint(){
+        return NetworkType.PRIVATE_ENDPOINT.equals(this.getNetworkConfiguration().getNetworkType());
+    }
+
+    @JsonIgnore
     public String getNetworkServiceEndpoints() {
         if (isNetworkVNet()) {
             ArrayList<String> endpoints = new ArrayList<String>();
@@ -364,7 +374,8 @@ public class NubesgenConfiguration {
 
     @JsonIgnore
     public boolean isNetworkServiceEndpointsRequired() {
-        return !isDatabaseTypeNone() || isAddonCosmosdbMongodb() || isAddonKeyVault() || isAddonStorageBlob() || isRuntimeDocker();
+        return isNetworkVNet() && 
+                (!isDatabaseTypeNone() || isAddonCosmosdbMongodb() || isAddonKeyVault() || isAddonStorageBlob() || isRuntimeDocker());
     }
 
     @Override

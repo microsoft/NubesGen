@@ -190,7 +190,8 @@
                 ],
                 networkConfigurations:[
                     {id: 'PUBLIC', name: 'Public'},
-                    {id: 'VIRTUAL_NETWORK', name: 'Virtual Network (VNet)'}
+                    {id: 'VIRTUAL_NETWORK', name: 'Virtual Network (VNet)'},
+                    {id: 'PRIVATE_ENDPOINT', name: 'Private Endpoint'}
                 ],
                 regionSelectorOpened: false,
                 selectRegion(selectedRegion) {
@@ -919,7 +920,7 @@
                                         <img class="w-8 h-8" src="img/icon-virtual-network.svg"></img>
                                         <div class="text-lg font-semibold">
                                             Network configuration
-                                            <p class="text-sm font-normal text-gray-500">Use either a public network (default option), or a dedicated virtual network (VNet) for increased security.</p>
+                                            <p class="text-sm font-normal text-gray-500">Use either a public network (default option), or virtual network integration for increased security.</p>
                                             <div>
                                                 <p class="font-normal text-gray-500 text-sm mt-4">Select your
                                                     configuration:</p>

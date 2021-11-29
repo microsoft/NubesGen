@@ -21,6 +21,8 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   kind                = "MongoDB"
   enable_free_tier    = true
 
+  is_virtual_network_filter_enabled = true
+
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name

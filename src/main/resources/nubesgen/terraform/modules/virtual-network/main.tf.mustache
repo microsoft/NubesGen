@@ -65,6 +65,22 @@ resource "azurerm_subnet" "app_subnet" {
   }
   {{/applicationTypeSpringCloud}}
 }
+{{#NetworkVNetPrivateEndpoint}}
+
+resource "azurecaf_name" "addons_subnet" {
+  name          = var.application_name
+  resource_type = "azurerm_subnet"
+  suffixes      = [var.environment, "addons"]
+}
+
+resource "azurerm_subnet" "addons_subnet" {
+  name                                           = azurecaf_name.addons_subnet.result
+  resource_group_name                            = var.resource_group
+  virtual_network_name                           = azurerm_virtual_network.virtual_network.name
+  address_prefixes                               = [var.addons_subnet_prefix]
+  enforce_private_link_endpoint_network_policies = true
+}
+{{/NetworkVNetPrivateEndpoint}}
 {{#addonRedis}}
 
 resource "azurecaf_name" "redis_subnet" {

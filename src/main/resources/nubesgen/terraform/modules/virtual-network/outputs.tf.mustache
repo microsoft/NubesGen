@@ -14,6 +14,13 @@ output "service_subnet_id" {
   description = "Azure Spring Cloud services subnet"
 }
 {{/applicationTypeSpringCloud}}
+{{#NetworkVNetPrivateEndpoint}}
+
+output "addons_subnet_id" {
+  value       = azurerm_subnet.addons_subnet.id
+  description = "Addons subnet"
+}
+{{/NetworkVNetPrivateEndpoint}}
 {{#addonRedis}}
 
 output "redis_subnet_id" {

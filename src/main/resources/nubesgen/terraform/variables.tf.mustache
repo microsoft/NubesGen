@@ -23,7 +23,7 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
   default     = "{{region}}"
 }
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 variable "address_space" {
   type        = string
@@ -57,12 +57,20 @@ variable "app_subnet_prefix" {
   default     = "10.11.0.0/16"
 }
 {{/applicationTypeSpringCloud}}
+{{#NetworkVNetPrivateEndpoint}}
+
+variable "addons_subnet_prefix" {
+  type        = string
+  description = "Addons subnet prefix"
+  default     = "10.11.3.0/24"
+}
+{{/NetworkVNetPrivateEndpoint}}
 {{#addonRedis}}
 
 variable "redis_subnet_prefix" {
   type        = string
   description = "Redis cache subnet prefix"
-  default     = "10.11.3.0/24"
+  default     = "10.11.4.0/24"
 }
 {{/addonRedis}}
-{{/NetworkVNet}}
+{{/NetworkPublic}}

@@ -17,16 +17,16 @@ resource "azurerm_redis_cache" "redis" {
   name                = azurecaf_name.redis_cache.result
   resource_group_name = var.resource_group
   location            = var.location
-{{^NetworkVNet}}
+{{#NetworkPublic}}
   capacity            = 0
   family              = "C"
   sku_name            = "Standard"
-{{/NetworkVNet}}
-{{#NetworkVNet}}
+{{/NetworkPublic}}
+{{^NetworkPublic}}
   capacity            = 1
   family              = "P"
   sku_name            = "Premium"
-{{/NetworkVNet}}
+{{/NetworkPublic}}
   enable_non_ssl_port = false
   minimum_tls_version = "1.2"
 
@@ -37,8 +37,8 @@ resource "azurerm_redis_cache" "redis" {
 
   redis_configuration {
   }
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
   subnet_id = var.subnet_id
-{{/NetworkVNet}}
+{{/NetworkPublic}}
 }

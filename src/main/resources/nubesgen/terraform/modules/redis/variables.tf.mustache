@@ -27,10 +27,10 @@ variable "sku_tier" {
   description = "The Azure Cache for Redis tier"
   default     = "Basic"
 }
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 variable "subnet_id" {
   type = string
   description = "The subnet where the Redis cluster will be deployed. Do not place any other service in this subnet."
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}

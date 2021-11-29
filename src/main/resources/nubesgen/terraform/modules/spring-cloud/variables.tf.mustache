@@ -103,7 +103,7 @@ variable "azure_cosmosdb_mongodb_uri" {
 }
   {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 variable "virtual_network_id" {
   type        = string
@@ -124,4 +124,4 @@ variable "cidr_ranges" {
   type        = list(string)
   description = "A list of (at least 3) CIDR ranges (at least /16) which are used to host the Spring Cloud infrastructure, which must not overlap with any existing CIDR ranges in the Subnet. Changing this forces a new resource to be created"
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}
