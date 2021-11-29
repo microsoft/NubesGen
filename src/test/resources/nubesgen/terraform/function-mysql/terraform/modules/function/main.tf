@@ -36,7 +36,7 @@ resource "azurerm_app_service_plan" "application" {
 resource "azurecaf_name" "storage_account" {
   name          = var.application_name
   resource_type = "azurerm_storage_account"
-  suffixes      = [var.environment]
+  suffixes      = ["fnc", var.environment]
 }
 
 resource "azurerm_storage_account" "application" {
