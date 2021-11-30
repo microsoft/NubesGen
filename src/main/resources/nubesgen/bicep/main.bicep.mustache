@@ -31,6 +31,7 @@ module instrumentation 'modules/application-insights/app-insights.bicep' = {
   }
 }
 {{/addonApplicationInsights}}
+
 {{#addonStorageBlob}}
 module storage 'modules/storage-blob/storage.bicep' = {
   name: 'storage'
@@ -44,6 +45,22 @@ module storage 'modules/storage-blob/storage.bicep' = {
   }
 }
 {{/addonStorageBlob}}
+
+{{^databaseTypeNone}}
+{{#databaseTypeSqlServer}}
+module database 'modules/azure-sql/azure-sql.bicep' = {
+  name: 'sqlDb'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    tags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/databaseTypeSqlServer}}
+{{/databaseTypeNone}}
 
 {{#applicationTypeAppService}}
 module webApp 'modules/app-service/app-service.bicep' = {
@@ -65,22 +82,93 @@ module webApp 'modules/app-service/app-service.bicep' = {
         name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
         value: instrumentation.outputs.appInsightsInstrumentationKey
       }
-
 {{/addonApplicationInsights}}      
       {{#addonStorageBlob}}
       {
-        name: 'azure_storage_account_name'
+        name: 'AZURE_STORAGE_ACCOUNT_NAME'
         value: blobStorage.outputs.storageAccountName
       }
       {
-        name: 'azure_storage_account_key'
+        name: 'AZURE_STORAGE_ACCOUNT_KEY'
         value: blobStorage.outputs.storageKey
       }
       {
-        name: 'azure_storage_connectionstring'
+        name: 'AZURE_STORAGE_CONNECTIONSTRING'
         value: 'DefaultEndpointsProtocol=https;AccountName=${blobStorage.outputs.storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${blobStorage.outputs.storageKey}'
       }
       {{/addonStorageBlob}}
+{{^databaseTypeNone}}
+{{#runtimeQuarkus}}
+   {{#databaseTypeSqlServer}}
+      {
+        name: 'QUARKUS_DATASOURCE_JDBC_URL'
+        value: 'jdbc:sqlserver://${database.outputs.db_url}'
+      }
+    {{/databaseTypeSqlServer}}
+    {{#databaseTypeMysql}}
+      {
+        name: 'QUARKUS_DATASOURCE_JDBC_URL'
+        value: 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+      }
+    {{/databaseTypeMysql}}
+    {{#databaseTypePostgresql}}
+      {
+        name: 'QUARKUS_DATASOURCE_JDBC_URL'
+        value: 'jdbc:postgresql://${database.outputs.db_url}'
+      }
+    {{/databaseTypePostgresql}} 
+    {
+        name: 'QUARKUS_DATASOURCE_USERNAME'
+        value: database.outputs.db_username
+    }
+    {
+        name: 'QUARKUS_DATASOURCE_PASSWORD'
+        value: database.outputs.db_password
+    }
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+{{#databaseTypeSqlServer}}
+      {
+        name: 'SPRING_DATASOURCE_URL'
+        value: 'jdbc:sqlserver://${database.outputs.db_url}'
+      }
+    {{/databaseTypeSqlServer}}
+    {{#databaseTypeMysql}}
+      {
+        name: 'SPRING_DATASOURCE_URL'
+        value: 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+      }
+    {{/databaseTypeMysql}}
+    {{#databaseTypePostgresql}}
+      {
+        name: 'SPRING_DATASOURCE_URL'
+        value: 'jdbc:postgresql://${database.outputs.db_url}'
+      }
+    {{/databaseTypePostgresql}} 
+    {
+        name: 'SPRING_DATASOURCE_USERNAME'
+        value: database.outputs.db_username
+    }
+    {
+        name: 'SPRING_DATASOURCE_PASSWORD'
+        value: database.outputs.db_password
+    }
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+      {
+        name: 'DATABASE_URL'
+        value: database.outputs.db_url
+      }
+      {
+        name: 'DATABASE_USERNAME'
+        value: database.outputs.db_username
+      }
+      {
+        name: 'DATABASE_PASSWORD'
+        value: database.outputs.db_password
+      }
+{{/runtimeDefault}}
+{{/databaseTypeNone}}      
     ]
   }
 }
