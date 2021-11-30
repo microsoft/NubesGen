@@ -2,12 +2,10 @@ package io.github.nubesgen.configuration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class NubesgenConfiguration {
 
@@ -37,6 +35,9 @@ public class NubesgenConfiguration {
     @JsonProperty("addons")
     private List<AddonConfiguration> addons = new ArrayList<>();
 
+    @JsonProperty("network")
+    private NetworkConfiguration networkConfiguration;
+
     public NubesgenConfiguration() {
         this.region = "eastus";
         this.applicationName = DEFAULT_APPLICATION_NAME;
@@ -45,6 +46,7 @@ public class NubesgenConfiguration {
         this.applicationConfiguration = new ApplicationConfiguration();
         this.databaseConfiguration = new DatabaseConfiguration();
         this.gitops = false;
+        this.networkConfiguration = new NetworkConfiguration(NetworkType.PUBLIC);
     }
 
     public Date getDate() {
@@ -65,8 +67,6 @@ public class NubesgenConfiguration {
     }
 
     public void setApplicationName(String applicationName) {
-        Random rand = new Random();
-
         if (applicationName.equals(DEFAULT_APPLICATION_NAME)) {
             DecimalFormat formater = new DecimalFormat("0000");
             String random1 = formater.format(Math.random() * (10000));
@@ -135,6 +135,14 @@ public class NubesgenConfiguration {
 
     public void setAddons(List<AddonConfiguration> addons) {
         this.addons = addons;
+    }
+
+    public NetworkConfiguration getNetworkConfiguration() {
+        return networkConfiguration;
+    }
+
+    public void setNetworkConfiguration(NetworkConfiguration networkConfiguration) {
+        this.networkConfiguration = networkConfiguration;
     }
 
     @JsonIgnore
@@ -322,6 +330,41 @@ public class NubesgenConfiguration {
     @JsonIgnore
     public boolean isAddonCosmosdbMongodb() {
         return this.getAddons().stream().anyMatch(addon -> AddonType.COSMOSDB_MONGODB.equals(addon.getAddonType()));
+    }
+
+    @JsonIgnore
+    public boolean isNetworkVNet() {
+        return NetworkType.VIRTUAL_NETWORK.equals(this.getNetworkConfiguration().getNetworkType());
+    }
+
+    @JsonIgnore
+    public String getNetworkServiceEndpoints() {
+        if (isNetworkVNet()) {
+            ArrayList<String> endpoints = new ArrayList<String>();
+            if (!isDatabaseTypeNone()) {
+                endpoints.add("\"Microsoft.Sql\"");
+            }
+            if (isAddonCosmosdbMongodb()) {
+                endpoints.add("\"Microsoft.AzureCosmosDB\"");
+            }
+            if (isAddonKeyVault()) {
+                endpoints.add("\"Microsoft.KeyVault\"");
+            }
+            if (isAddonStorageBlob()) {
+                endpoints.add("\"Microsoft.Storage\"");
+            }
+            if (isRuntimeDocker()) {
+                endpoints.add("\"Microsoft.ContainerRegistry\"");
+            }
+            return String.join(", ", endpoints);
+        } else {
+            return "";
+        }
+    }
+
+    @JsonIgnore
+    public boolean isNetworkServiceEndpointsRequired() {
+        return !isDatabaseTypeNone() || isAddonCosmosdbMongodb() || isAddonKeyVault() || isAddonStorageBlob() || isRuntimeDocker();
     }
 
     @Override

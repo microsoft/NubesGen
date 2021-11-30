@@ -2,7 +2,10 @@ package io.github.nubesgen.service;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.github.nubesgen.configuration.*;
+import io.github.nubesgen.configuration.AddonConfiguration;
+import io.github.nubesgen.configuration.DatabaseType;
+import io.github.nubesgen.configuration.NetworkType;
+import io.github.nubesgen.configuration.NubesgenConfiguration;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +20,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
+/**
+ * Generate the code, using the configuration and a list of templates.
+ */
 @Service
 public class CodeGeneratorService {
 
@@ -66,6 +72,11 @@ public class CodeGeneratorService {
         // Add Ons
         for (AddonConfiguration addon : configuration.getAddons()) {
             generateFileList(configuration, addon.getAddonType().name(), result);
+        }
+
+        // Isolated Network
+        if (!configuration.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
+            generateFileList(configuration, configuration.getNetworkConfiguration().getNetworkType().name(), result);
         }
         return result;
     }

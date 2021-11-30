@@ -6,7 +6,7 @@ locals {
   redis_association_name    = "${var.application_name}-redis"
 }
 
-# This creates the plan that the service use
+# This creates the Azure Spring Cloud that the service use
 resource "azurerm_spring_cloud_service" "application" {
   name                = local.spring_cloud_service_name
   resource_group_name = var.resource_group
@@ -36,10 +36,14 @@ resource "azurerm_spring_cloud_app" "application" {
 resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   name                = "default"
   spring_cloud_app_id = azurerm_spring_cloud_app.application.id
-  cpu                 = 1
   instance_count      = 1
-  memory_in_gb        = 1
   runtime_version     = "Java_11"
+
+  quota {
+    cpu    = "1"
+    memory = "1Gi"
+  }
+
   environment_variables = {
     "SPRING_PROFILES_ACTIVE" = "prod,azure"
 

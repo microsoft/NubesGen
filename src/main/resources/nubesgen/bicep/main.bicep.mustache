@@ -46,6 +46,7 @@ module storage 'modules/storage-blob/storage.bicep' = {
 }
 {{/addonStorageBlob}}
 
+
 {{^databaseTypeNone}}
 {{#databaseTypeSqlServer}}
 module database 'modules/azure-sql/azure-sql.bicep' = {

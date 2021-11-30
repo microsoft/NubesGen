@@ -1,11 +1,11 @@
 package io.github.nubesgen.web;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,13 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -384,11 +383,11 @@ public class MainControllerTest {
     @Test
     public void generateApplicationWithBicepAndGitOps() throws Exception {
         MvcResult result =
-                this.mockMvc.perform(get("/myapplication.zip?iactool=bicep&region=westeurope&application=app_service.standard&gitops=true"))
-                        .andDo(print())
-                        .andExpect(status().isOk())
-                        .andExpect(content().contentType("application/octet-stream"))
-                        .andReturn();
+            this.mockMvc.perform(get("/myapplication.zip?iactool=bicep&region=westeurope&application=app_service.standard&gitops=true"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
 
         byte[] zippedContent = result.getResponse().getContentAsByteArray();
         Map<String, String> entries = extractZipEntries(zippedContent);
@@ -410,10 +409,33 @@ public class MainControllerTest {
         Map<String, String> entries = extractZipEntries(zippedContent);
         assertTrue(entries.containsKey("terraform/main.tf"));
         assertTrue(entries.get("terraform/main.tf").contains("modules/spring-cloud"));
+        assertFalse(entries.get("terraform/main.tf").contains("modules/virtual-network"));
         assertTrue(entries.containsKey("terraform/variables.tf"));
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
         assertTrue(entries.containsKey("terraform/modules/spring-cloud/main.tf"));
         assertTrue(entries.get("terraform/modules/spring-cloud/main.tf").contains("sku_name            = \"B0\""));
+    }
+
+    @Test
+    public void generateSpringCloudVNetWithTerraform() throws Exception {
+        MvcResult result =
+            this.mockMvc.perform(get("/myapplication.zip?region=westeurope&application=spring_cloud.standard&network=VIRTUAL_NETWORK"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/octet-stream"))
+                .andReturn();
+
+        byte[] zippedContent = result.getResponse().getContentAsByteArray();
+        Map<String, String> entries = extractZipEntries(zippedContent);
+        assertTrue(entries.containsKey("terraform/main.tf"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/spring-cloud"));
+        assertTrue(entries.get("terraform/main.tf").contains("modules/virtual-network"));
+        assertTrue(entries.containsKey("terraform/variables.tf"));
+        assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
+        assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
+        assertTrue(entries.containsKey("terraform/modules/spring-cloud/main.tf"));
+        assertTrue(entries.get("terraform/modules/spring-cloud/main.tf").contains("sku_name            = \"S0\""));
+        assertTrue(entries.containsKey("terraform/modules/virtual-network/main.tf"));
     }
 }

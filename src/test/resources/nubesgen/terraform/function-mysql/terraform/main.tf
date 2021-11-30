@@ -2,11 +2,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.75"
+      version = ">= 2.86"
     }
     azurecaf = {
-      source = "aztfmod/azurecaf"
-      version = "1.2.6"
+      source  = "aztfmod/azurecaf"
+      version = "1.2.9"
     }
   }
 }
@@ -17,13 +17,13 @@ provider "azurerm" {
 
 locals {
   // If an environment is set up (dev, test, prod...), it is used in the application name
-  environment      = var.environment == "" ? "dev" : var.environment
+  environment = var.environment == "" ? "dev" : var.environment
 }
 
 resource "azurecaf_name" "resource_group" {
-  name            = var.application_name
-  resource_type   = "azurerm_resource_group"
-  suffixes        = [local.environment]
+  name          = var.application_name
+  resource_type = "azurerm_resource_group"
+  suffixes      = [local.environment]
 }
 
 resource "azurerm_resource_group" "main" {

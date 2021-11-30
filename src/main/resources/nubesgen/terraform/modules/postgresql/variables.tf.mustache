@@ -27,3 +27,10 @@ variable "administrator_login" {
   description = "The PostgreSQL administrator login"
   default     = "postgresqladmin"
 }
+{{#NetworkVNet}}
+
+variable "subnet_id" {
+  type        = string
+  description = "The subnet from which the access is allowed"
+}
+{{/NetworkVNet}}
