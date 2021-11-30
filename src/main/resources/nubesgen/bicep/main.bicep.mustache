@@ -47,7 +47,7 @@ module storage 'modules/storage-blob/storage.bicep' = {
 
 {{^databaseTypeNone}}
 {{#databaseTypeSqlServer}}
-module database 'modules/azure-sql/azure-sql.bicep' = {
+module database 'modules/sql-server/sql-azure.bicep' = {
   name: 'sqlDb'
   scope: resourceGroup(rg.name)
   params: {
