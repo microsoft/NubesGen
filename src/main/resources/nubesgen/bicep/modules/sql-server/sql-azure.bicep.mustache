@@ -34,6 +34,7 @@ param administratorPassword string = newGuid()
 resource sqlServer 'Microsoft.Sql/servers@2020-02-02-preview' = {
   name: serverName
   location: location
+  tags: tags
   properties: {
     administratorLogin: administratorLogin
     administratorLoginPassword: administratorPassword
