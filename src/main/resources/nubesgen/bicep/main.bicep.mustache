@@ -59,6 +59,19 @@ module database 'modules/sql-server/sql-azure.bicep' = {
   }
 }
 {{/databaseTypeSqlServer}}
+{{#databaseTypePostgresql}}
+module database 'modules/postgresql/postgresql.bicep' = {
+  name: 'sqlDb'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    tags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/databaseTypePostgresql}}
 {{/databaseTypeNone}}
 
 {{#applicationTypeAppService}}
