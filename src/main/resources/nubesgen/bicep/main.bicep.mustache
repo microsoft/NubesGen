@@ -72,6 +72,19 @@ module database 'modules/postgresql/postgresql.bicep' = {
   }
 }
 {{/databaseTypePostgresql}}
+{{#databaseTypeMysql}}
+module sqlDb 'modules/mysql/mysql.bicep' = {
+  name: 'sqldatabase'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    tags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/databaseTypeMysql}}
 {{/databaseTypeNone}}
 
 {{#applicationTypeAppService}}
