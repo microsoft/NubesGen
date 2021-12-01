@@ -35,10 +35,10 @@ public class ConfigurationService {
         configureRegion(properties, region);
         configureIac(properties, iactool);
         configureRuntime(properties, runtime, application);
-        configureNetwork(properties, network);
         configureDatabase(properties, database);
-        configureGitOps(properties, gitops);
         configureAddOns(properties, addons);
+        configureNetwork(properties, network);
+        configureGitOps(properties, gitops);
         return properties;
     }
 
@@ -126,44 +126,20 @@ public class ConfigurationService {
         );
     }
 
-    void configureNetwork(NubesgenConfiguration properties, String network) {
-        if (network.startsWith(NetworkType.VIRTUAL_NETWORK.name())) {
-            NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK);
-            properties.setNetworkConfiguration(networkConfiguration);
-        } else {
-            properties.setNetworkConfiguration(new NetworkConfiguration());
-        }
-    }
-
     void configureDatabase(NubesgenConfiguration properties, String database) {
         DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.NONE, Tier.FREE);
         if (database.startsWith(DatabaseType.SQL_SERVER.name())) {
             databaseConfiguration = new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS);
         } else if (database.startsWith(DatabaseType.MYSQL.name())) {
             databaseConfiguration = new DatabaseConfiguration(DatabaseType.MYSQL, Tier.BASIC);
-            if (!properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
-                log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
-                databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
-            }
         } else if (database.startsWith(DatabaseType.POSTGRESQL.name())) {
             databaseConfiguration = new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC);
-            if (!properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
-                log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
-                databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
-            }
         }
         if (database.endsWith(Tier.GENERAL_PURPOSE.name())) {
             databaseConfiguration.setTier(Tier.GENERAL_PURPOSE);
         }
         properties.setDatabaseConfiguration(databaseConfiguration);
         log.debug("Database is: {}", properties.getDatabaseConfiguration().getDatabaseType());
-    }
-
-    void configureGitOps(NubesgenConfiguration properties, boolean gitops) {
-        if (gitops) {
-            properties.setGitops(true);
-        }
-        log.debug("GitOps is: {}", gitops);
     }
 
     void configureAddOns(NubesgenConfiguration properties, String addons) {
@@ -185,5 +161,33 @@ public class ConfigurationService {
             }
             properties.setAddons(addonConfigurations);
         }
+    }
+
+    void configureNetwork(NubesgenConfiguration properties, String network) {
+        if (network.startsWith(NetworkType.VIRTUAL_NETWORK.name())) {
+            NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK);
+            properties.setNetworkConfiguration(networkConfiguration);
+        } else {
+            properties.setNetworkConfiguration(new NetworkConfiguration());
+        }
+        if (!properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
+            if (properties.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.MYSQL) ||
+                    properties.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.POSTGRESQL)) {
+
+                log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
+                properties.getDatabaseConfiguration().setTier(Tier.GENERAL_PURPOSE);
+            }
+            if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.FUNCTION)) {
+                log.debug("VNET configuration is requested, so the Function configuration was updated to the Premium tier.");
+                properties.getApplicationConfiguration().setTier(Tier.PREMIUM);
+            }
+        }
+    }
+
+    void configureGitOps(NubesgenConfiguration properties, boolean gitops) {
+        if (gitops) {
+            properties.setGitops(true);
+        }
+        log.debug("GitOps is: {}", gitops);
     }
 }
