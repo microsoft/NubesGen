@@ -45,6 +45,20 @@ module storage 'modules/storage-blob/storage.bicep' = {
 }
 {{/addonStorageBlob}}
 
+{{#addonCosmosdbMongodb}}
+module mongoDb 'modules/cosmosdb-mongodb/cosmosdb.bicep' = {
+  name: 'mongoDb'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    instanceNumber: instanceNumber
+    tags: defaultTags
+  }
+}
+{{/addonCosmosdbMongodb}}
+
 {{#applicationTypeAppService}}
 module webApp 'modules/app-service/app-service.bicep' = {
   name: 'webApp'
