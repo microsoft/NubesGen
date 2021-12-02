@@ -46,6 +46,19 @@ module storage 'modules/storage-blob/storage.bicep' = {
 {{/addonStorageBlob}}
 
 {{^databaseTypeNone}}
+{{#addonCosmosdbMongodb}}
+module mongoDb 'modules/cosmosdb-mongodb/cosmosdb.bicep' = {
+  name: 'mongoDb'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    instanceNumber: instanceNumber
+    tags: defaultTags
+  }
+}
+{{/addonCosmosdbMongodb}}  
 {{#databaseTypeSqlServer}}
 module database 'modules/sql-server/sql-azure.bicep' = {
   name: 'sqlDb'
