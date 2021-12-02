@@ -107,7 +107,8 @@ msg "${GREEN}(8/8) Create secrets in GitHub"
 if $USE_GITHUB_CLI; then
   {
     msg "${GREEN}Using the GitHub CLI to set secrets.${NOFORMAT}"
-    gh secret set AZURE_CREDENTIALS -b"$SERVICE_PRINCIPAL" && gh secret set TF_STORAGE_ACCOUNT -b"$TF_STORAGE_ACCOUNT"
+    REMOTE_REPO=$(git config --get remote.origin.url)
+    gh secret set AZURE_CREDENTIALS -b"$SERVICE_PRINCIPAL" -R $REMOTE_REPO && gh secret set TF_STORAGE_ACCOUNT -b"$TF_STORAGE_ACCOUNT" -R $REMOTE_REPO
   } || {
     USE_GITHUB_CLI=false
   }
