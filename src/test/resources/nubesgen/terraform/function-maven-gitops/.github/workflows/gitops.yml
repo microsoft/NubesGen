@@ -22,13 +22,16 @@ jobs:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
   build:
+    needs: [manage-infrastructure]
     runs-on: ubuntu-20.04
     steps:
       - name: Build a Java function using Maven
         uses: microsoft/nubesgen-actions/gitops-build-function-java-maven@v0.2.0
   deploy:
-    needs: [manage-infrastructure, build]
+    needs: [build]
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java function to Azure Functions
         uses: microsoft/nubesgen-actions/gitops-deploy-to-function-java@v0.2.0
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
