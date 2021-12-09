@@ -79,7 +79,7 @@
                 iaCToolId: 'TERRAFORM',
                 iaCTool: { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
                 iaCToolName: 'Terraform',
-                iaCToolFlag: './img/terraform.png',
+                iaCToolFlag: './img/terraform.png',                
                 components: {frontApp: {type: 'APP_SERVICE', size: 'free'}, database: {type: 'NONE', size: 'free'}},
                 addons: [],
                 runtime: "DOCKER",
@@ -201,7 +201,6 @@
                 allIaCTools: [
                         { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
                         { id: 'BICEP', name: 'Bicep', flag: './img/bicep.png' },
-                        { id: 'PULUMI', name: 'Pulumi (TypeScript)', flag: './img/pulumi.svg' },
                     ],
                 selectIaCTool(selectedIaCTool) {
                     this.iaCTool = selectedIaCTool;
