@@ -171,15 +171,18 @@ public class ConfigurationService {
             properties.setNetworkConfiguration(new NetworkConfiguration());
         }
         if (!properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
+            if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.FUNCTION)) {
+                log.debug("VNET configuration is requested, so the Function configuration was updated to the Premium tier.");
+                properties.getApplicationConfiguration().setTier(Tier.PREMIUM);
+            } else if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.SPRING_CLOUD)) {
+                log.debug("VNET configuration is requested, so the Spring Cloud configuration was updated to the Standard tier.");
+                properties.getApplicationConfiguration().setTier(Tier.STANDARD);
+            }
             if (properties.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.MYSQL) ||
                     properties.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.POSTGRESQL)) {
 
                 log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
                 properties.getDatabaseConfiguration().setTier(Tier.GENERAL_PURPOSE);
-            }
-            if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.FUNCTION)) {
-                log.debug("VNET configuration is requested, so the Function configuration was updated to the Premium tier.");
-                properties.getApplicationConfiguration().setTier(Tier.PREMIUM);
             }
         }
     }
