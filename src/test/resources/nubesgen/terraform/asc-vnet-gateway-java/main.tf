@@ -8,10 +8,6 @@ terraform {
       source  = "aztfmod/azurecaf"
       version = "1.2.6"
     }
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = ">= 2.6.0"
-    }
   }
 }
 
@@ -34,6 +30,8 @@ locals {
   app_domain       = module.public_ip.fqdn
   cert_subject     = "${var.cert_subjects}, CN=${local.app_domain}"
   private_app_fqdn = trimprefix(module.application.application_hostname, "https://")
+  # Azure Spring Cloud Resource Provider object id. It is constant and it is required to manage the VNET. 
+  azure_spring_cloud_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
 }
 
 resource "azurecaf_name" "resource_group" {
@@ -51,10 +49,6 @@ resource "azurerm_resource_group" "main" {
     "environment"      = local.environment
     "application-name" = var.application_name
   }
-}
-
-data "azuread_service_principal" "azure_spring_cloud_domain_management" {
-  display_name = "Azure Spring Cloud Domain-Management"
 }
 
 resource "azurerm_user_assigned_identity" "gateway_identity" {

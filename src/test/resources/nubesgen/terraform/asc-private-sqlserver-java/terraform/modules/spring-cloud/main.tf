@@ -1,20 +1,9 @@
-terraform {
-  required_providers {
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = ">= 2.6.0"
-    }
-  }
-}
-
 # Azure Spring Cloud is not yet supported in azurecaf_name
 locals {
   spring_cloud_service_name = "asc-${var.application_name}"
   spring_cloud_app_name     = "app-${var.application_name}"
-}
-# Retrieve service principal of Azure Spring Cloud Resource Provider
-data "azuread_service_principal" "azure_spring_cloud_provisioner" {
-  display_name = "Azure Spring Cloud Resource Provider"
+  # Azure Spring Cloud Resource Provider object id. It is constant and it is required to manage the VNET. 
+  azure_spring_cloud_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
 }
 
 # Assign Owner role to Azure Spring Cloud Resource Provider on the Virtual Network used by the deployed service
@@ -22,7 +11,7 @@ data "azuread_service_principal" "azure_spring_cloud_provisioner" {
 resource "azurerm_role_assignment" "provider_owner" {
   scope                = var.virtual_network_id
   role_definition_name = "Owner"
-  principal_id         = data.azuread_service_principal.azure_spring_cloud_provisioner.object_id
+  principal_id         = local.azure_spring_cloud_provisioner_object_id
 }
 
 # This creates the Azure Spring Cloud that the service use
