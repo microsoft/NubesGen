@@ -1,6 +1,6 @@
 # Azure Spring Cloud is not yet supported in azurecaf_name
 locals {
-  spring_cloud_service_name = "asc-${var.application_name}"
+  spring_cloud_service_name = "asc-${var.application_name}-${var.environment}"
   spring_cloud_app_name     = "app-${var.application_name}"
   cosmosdb_association_name = "${var.application_name}-cosmos"
   redis_association_name    = "${var.application_name}-redis"
