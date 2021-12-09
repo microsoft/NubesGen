@@ -120,4 +120,29 @@ public class ConfigurationServiceTest {
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.VIRTUAL_NETWORK, configuration.getNetworkConfiguration().getNetworkType());
     }
+
+    @Test
+    void updateFunctionTierIfVnetIsSelected() {
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+            "TERRAFORM",
+            "SPRING",
+            "FUNCTION",
+            "eastus",
+            "POSTGRESQL",
+            false,
+            "",
+            "VIRTUAL_NETWORK"
+        );
+
+        assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
+        assertEquals(RuntimeType.SPRING, configuration.getRuntimeType());
+        assertEquals(ApplicationType.FUNCTION, configuration.getApplicationConfiguration().getApplicationType());
+        assertEquals(Tier.PREMIUM, configuration.getApplicationConfiguration().getTier());
+        assertEquals("eastus", configuration.getRegion());
+        assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
+        assertEquals(Tier.GENERAL_PURPOSE, configuration.getDatabaseConfiguration().getTier());
+        assertFalse(configuration.isGitops());
+        assertEquals(0, configuration.getAddons().size());
+        assertEquals(NetworkType.VIRTUAL_NETWORK, configuration.getNetworkConfiguration().getNetworkType());
+    }
 }

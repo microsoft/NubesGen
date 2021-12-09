@@ -123,6 +123,7 @@ module webApp 'modules/app-service/app-service.bicep' = {
         value: 'DefaultEndpointsProtocol=https;AccountName=${blobStorage.outputs.storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${blobStorage.outputs.storageKey}'
       }
       {{/addonStorageBlob}}
+
 {{^databaseTypeNone}}
 {{#runtimeQuarkus}}
    {{#databaseTypeSqlServer}}

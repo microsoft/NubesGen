@@ -86,6 +86,7 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
       linuxFxVersion: 'NODE|14-lts'
       appCommandLine: 'npm run start:prod'
   {{/runtimeNodejs}}
+
       ftpsState: 'FtpsOnly'
       use32BitWorkerProcess: true
 {{/applicationTierFree}}
