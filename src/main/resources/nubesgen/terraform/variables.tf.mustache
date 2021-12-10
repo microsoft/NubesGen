@@ -51,10 +51,11 @@ variable "cidr_ranges" {
 }
 {{/applicationTypeSpringCloud}}
 {{^applicationTypeSpringCloud}}
+
 variable "app_subnet_prefix" {
   type        = string
   description = "Application subnet prefix"
-  default     = "10.11.0.0/16"
+  default     = "10.11.0.0/24"
 }
 {{/applicationTypeSpringCloud}}
 {{#addonRedis}}
@@ -62,7 +63,7 @@ variable "app_subnet_prefix" {
 variable "redis_subnet_prefix" {
   type        = string
   description = "Redis cache subnet prefix"
-  default     = "10.11.3.0/24"
+  default     = "10.11.1.0/24"
 }
 {{/addonRedis}}
 {{/NetworkVNet}}

@@ -21,8 +21,9 @@ variable "address_space" {
   description = "Virtual Network address space"
   default     = "10.11.0.0/16"
 }
+
 variable "app_subnet_prefix" {
   type        = string
   description = "Application subnet prefix"
-  default     = "10.11.0.0/16"
+  default     = "10.11.0.0/24"
 }

@@ -27,13 +27,14 @@ resource "azurerm_postgresql_server" "database" {
   administrator_login          = var.administrator_login
   administrator_login_password = random_password.password.result
 
-  sku_name                     = "GP_Gen5_2"
-  storage_mb                   = 5120
-  backup_retention_days        = 7
-  geo_redundant_backup_enabled = false
-  auto_grow_enabled            = true
-  version                      = "11"
-  ssl_enforcement_enabled      = true
+  sku_name                         = "GP_Gen5_2"
+  storage_mb                       = 5120
+  backup_retention_days            = 7
+  geo_redundant_backup_enabled     = false
+  auto_grow_enabled                = true
+  version                          = "11"
+  ssl_enforcement_enabled          = true
+  ssl_minimal_tls_version_enforced = "TLS1_2"
 
   tags = {
     "environment"      = var.environment

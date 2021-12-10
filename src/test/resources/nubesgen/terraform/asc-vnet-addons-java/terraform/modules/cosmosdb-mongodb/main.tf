@@ -35,6 +35,8 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
     location          = var.location
   }
 
+  is_virtual_network_filter_enabled = true
+
   virtual_network_rule {
     id = var.subnet_id
   }
