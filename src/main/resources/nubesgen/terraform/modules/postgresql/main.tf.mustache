@@ -39,6 +39,7 @@ resource "azurerm_postgresql_server" "database" {
   auto_grow_enabled            = true
   version                      = "11"
   ssl_enforcement_enabled      = true
+  ssl_minimal_tls_version_enforced  = "TLS1_2"
 
   tags = {
     "environment"      = var.environment
