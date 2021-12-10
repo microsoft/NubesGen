@@ -36,7 +36,7 @@ jobs:
     steps:
 <%#iacToolTerraform%>
       - name: Apply Terraform configuration
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -48,19 +48,19 @@ jobs:
   <%#applicationTypeAppService%>
     <%#runtimeSpring%>
       - name: Build and deploy a Docker image of a Spring Boot project
-        uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker-spring@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker-spring@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     <%/runtimeSpring%>
     <%#runtimeQuarkus%>
       - name: Build and deploy a Docker image of a Quarkus native project
-        uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker-quarkus-native@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker-quarkus-native@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     <%/runtimeQuarkus%>
     <%#runtimeDefault%>
       - name: Build and deploy a Docker image
-        uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     <%/runtimeDefault%>
@@ -73,7 +73,7 @@ jobs:
     steps:
     <%#runtimeMaven%>
       - name: Build a Java project using Maven
-        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.4.0
       <%#runtimeQuarkus%>
         with:
           build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar
@@ -82,7 +82,7 @@ jobs:
     <%/runtimeMaven%>
     <%#runtimeGradle%>
       - name: Build a Java project using Gradle
-        uses: microsoft/nubesgen-actions/gitops-build-java-gradle@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-java-gradle@v0.4.0
       <%#runtimeQuarkus%>
         with:
           build_command: gradle quarkusBuild -Dquarkus.package.type=uber-jar
@@ -94,7 +94,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeAppService%>
@@ -105,18 +105,18 @@ jobs:
     steps:
     <%#runtimeMaven%>
       - name: Build a Java function using Maven
-        uses: microsoft/nubesgen-actions/gitops-build-function-java-maven@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-function-java-maven@v0.4.0
     <%/runtimeMaven%>
     <%#runtimeGradle%>
       - name: Build a Java function using Gradle
-        uses: microsoft/nubesgen-actions/gitops-build-function-java-gradle@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-function-java-gradle@v0.4.0
     <%/runtimeGradle%>
   deploy:
     needs: [build]
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java function to Azure Functions
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-function-java@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-function-java@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeFunction%>
@@ -126,18 +126,18 @@ jobs:
     steps:
     <%#runtimeMaven%>
       - name: Build a Java project using Maven
-        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.4.0
     <%/runtimeMaven%>
     <%#runtimeGradle%>
       - name: Build a Java project using Gradle
-        uses: microsoft/nubesgen-actions/gitops-build-java-gradle@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-java-gradle@v0.4.0
     <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java application to Azure Spring Cloud
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-spring-cloud-java@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-spring-cloud-java@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeSpringCloud%>
@@ -148,14 +148,14 @@ jobs:
     steps:
   <%#applicationTypeAppService%>
       - name: Build a .NET application
-        uses: microsoft/nubesgen-actions/gitops-build-dotnet@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-dotnet@v0.4.0
         with:
           dotnet_version: ${{ env.DOTNET_VERSION }}
           application_package_path: ${{ env.APP_PACKAGE_PATH }}
   <%/applicationTypeAppService%>
   <%#applicationTypeFunction%>
       - name: Build a .NET serverless function
-        uses: microsoft/nubesgen-actions/gitops-build-function-dotnet@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-function-dotnet@v0.4.0
         with:
           dotnet_version: ${{ env.DOTNET_VERSION }}
           application_package_path: ${{ env.APP_PACKAGE_PATH }}
@@ -166,13 +166,13 @@ jobs:
     steps:
   <%#applicationTypeAppService%>
       - name: Deploy a .NET application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-dotnet@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-dotnet@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeAppService%>
   <%#applicationTypeFunction%>
       - name: Deploy a .NET function to Azure Functions
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-function-dotnet@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-function-dotnet@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeFunction%>
@@ -182,7 +182,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Build a NodeJS project
-        uses: microsoft/nubesgen-actions/gitops-build-nodejs@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-build-nodejs@v0.4.0
         with:
           nodejs_version: ${{ env.NODEJS_VERSION }}
           application_package_path: ${{ env.APP_PACKAGE_PATH }}
@@ -192,13 +192,13 @@ jobs:
     steps:
   <%#applicationTypeAppService%>
       - name: Deploy a NodeJS application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-nodejs@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-nodejs@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeAppService%>
   <%#applicationTypeFunction%>
       - name: Deploy a NodeJS application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-function-nodejs@v0.2.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-function-nodejs@v0.4.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
   <%/applicationTypeFunction%>
