@@ -43,5 +43,5 @@ variable "cidr_ranges" {
 variable "redis_subnet_prefix" {
   type        = string
   description = "Redis cache subnet prefix"
-  default     = "10.11.3.0/24"
+  default     = "10.11.1.0/24"
 }

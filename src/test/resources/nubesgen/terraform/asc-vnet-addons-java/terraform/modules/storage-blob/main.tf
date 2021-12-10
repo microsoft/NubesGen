@@ -29,7 +29,7 @@ resource "azurerm_storage_account" "storage-blob" {
 resource "azurerm_storage_account_network_rules" "storage_only_app_traffic" {
   storage_account_id = azurerm_storage_account.storage-blob.id
 
-  default_action             = "Allow"
+  default_action             = "Deny"
   virtual_network_subnet_ids = [var.subnet_id]
 }
 
