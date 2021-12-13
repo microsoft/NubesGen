@@ -100,6 +100,20 @@ module sqlDb 'modules/mysql/mysql.bicep' = {
 {{/databaseTypeMysql}}
 {{/databaseTypeNone}}
 
+{{#addonRedis}}
+module redis 'modules/redis/redis.bicep' = {
+  name: 'redis'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    resourceTags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/addonRedis}}
+
 {{#applicationTypeAppService}}
 module webApp 'modules/app-service/app-service.bicep' = {
   name: 'webApp'
@@ -209,6 +223,47 @@ module webApp 'modules/app-service/app-service.bicep' = {
       }
 {{/runtimeDefault}}
 {{/databaseTypeNone}}         
+{{#addonRedis}}
+{{#runtimeQuarkus}}
+      {
+        name: 'QUARKUS_REDIS_HOSTS'
+        value: 'redis://${redis.outputs.redis_key}@${redis.outputs.redis_host}:6380'
+      }
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+      {
+        name: 'SPRING_REDIS_HOST'
+        value: redis.outputs.redis_host
+      }
+      {
+        name: 'SPRING_REDIS_PASSWORD'
+        value: redis.outputs.redis_key
+      }
+      {
+        name: 'SPRING_REDIS_PORT'
+        value: '6380'
+      }
+      {
+        name: 'SPRING_REDIS_SSL'
+        value: 'true'
+      }
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+      {
+        name: 'REDIS_HOST'
+        value: redis.outputs.redis_host
+      }
+      {
+        name: 'REDIS_PASSWORD'
+        value: redis.outputs.redis_key
+      }
+      {
+        name: 'REDIS_PORT'
+         value: '6380'
+      }
+{{/runtimeDefault}}
+{{/addonRedis}}
+
     ]
   }
 }
