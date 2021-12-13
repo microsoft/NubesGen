@@ -268,3 +268,17 @@ module webApp 'modules/app-service/app-service.bicep' = {
   }
 }
 {{/applicationTypeAppService}}
+
+{{#applicationTypeFunction}}
+module function 'modules/function/function.bicep' = {
+  name: 'function'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    resourceTags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/applicationTypeFunction}}
