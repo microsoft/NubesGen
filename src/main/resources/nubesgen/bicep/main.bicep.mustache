@@ -114,29 +114,17 @@ module redis 'modules/redis/redis.bicep' = {
 }
 {{/addonRedis}}
 
-{{#applicationTypeAppService}}
-module webApp 'modules/app-service/app-service.bicep' = {
-  name: 'webApp'
-  scope: resourceGroup(rg.name)
-  params: {
-    location: location
-    applicationName: applicationName
-    environment: environment
-    resourceTags: defaultTags
-    instanceNumber: instanceNumber
-    environmentVariables: [ 
-      { 
-        name: 'DEPLOYED_WITH'
-        value: 'nubesgen'
-      }
+
+var applicationEnvironmentVariables = [
+[ 
+// You can add your custom environment variables here      
 {{#addonApplicationInsights}}
       {
         name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
         value: instrumentation.outputs.appInsightsInstrumentationKey
       }
-
 {{/addonApplicationInsights}}      
-      {{#addonStorageBlob}}
+{{#addonStorageBlob}}
       {
         name: 'azure_storage_account_name'
         value: blobStorage.outputs.storageAccountName
@@ -149,8 +137,7 @@ module webApp 'modules/app-service/app-service.bicep' = {
         name: 'azure_storage_connectionstring'
         value: 'DefaultEndpointsProtocol=https;AccountName=${blobStorage.outputs.storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${blobStorage.outputs.storageKey}'
       }
-      {{/addonStorageBlob}}
-
+{{/addonStorageBlob}}
 {{^databaseTypeNone}}
 {{#runtimeQuarkus}}
    {{#databaseTypeSqlServer}}
@@ -222,7 +209,43 @@ module webApp 'modules/app-service/app-service.bicep' = {
         value: database.outputs.db_password
       }
 {{/runtimeDefault}}
-{{/databaseTypeNone}}         
+{{/databaseTypeNone}}   
+{{#addonCosmosdbMongodb}}
+{{#runtimeQuarkus}}
+  { 
+    name: 'QUARKUS_MONGODB_HOSTS'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_uri
+  }
+  { 
+    name: 'QUARKUS_MONGODB_DATABASE'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_database
+  }
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+  { 
+    name: 'SPRING_DATA_MONGODB_URI'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_uri
+  }
+  { 
+    name: 'SPRING_DATA_MONGODB_DATABASE'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_database
+  }
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+  { 
+    name: 'MONGODB_HOST'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_uri
+  }
+  { 
+    name: 'MONGODB_DATABASE'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_database
+  }
+  { 
+    name: 'MONGODB_KEY'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_accountKey
+  }
+{{/runtimeDefault}}
+{{/addonCosmosdbMongodb}}      
 {{#addonRedis}}
 {{#runtimeQuarkus}}
       {
@@ -263,8 +286,20 @@ module webApp 'modules/app-service/app-service.bicep' = {
       }
 {{/runtimeDefault}}
 {{/addonRedis}}
+]
 
-    ]
+
+{{#applicationTypeAppService}}
+module webApp 'modules/app-service/app-service.bicep' = {
+  name: 'webApp'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    resourceTags: defaultTags
+    instanceNumber: instanceNumber
+    environmentVariables: applicationEnvironmentVariables
   }
 }
 {{/applicationTypeAppService}}
@@ -279,6 +314,7 @@ module function 'modules/function/function.bicep' = {
     environment: environment
     resourceTags: defaultTags
     instanceNumber: instanceNumber
+    environmentVariables: applicationEnvironmentVariables
   }
 }
 {{/applicationTypeFunction}}
