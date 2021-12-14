@@ -35,6 +35,7 @@ resource "azurerm_resource_group" "main" {
     "terraform"        = "true"
     "environment"      = local.environment
     "application-name" = var.application_name
+    "nubesgen-version" = "v0.7.0"
 
     // Name of the Azure Storage Account that stores the Terraform state
     "terraform_storage_account" = var.terraform_storage_account
