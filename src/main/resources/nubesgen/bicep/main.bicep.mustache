@@ -32,7 +32,7 @@ module instrumentation 'modules/application-insights/app-insights.bicep' = {
 }
 {{/addonApplicationInsights}}
 {{#addonStorageBlob}}
-module storage 'modules/storage-blob/storage.bicep' = {
+module blobStorage 'modules/storage-blob/storage.bicep' = {
   name: 'storage'
   scope: resourceGroup(rg.name)
   params: {
@@ -116,7 +116,6 @@ module redis 'modules/redis/redis.bicep' = {
 
 
 var applicationEnvironmentVariables = [
-[ 
 // You can add your custom environment variables here      
 {{#addonApplicationInsights}}
       {
