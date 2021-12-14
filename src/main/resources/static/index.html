@@ -589,6 +589,7 @@
 
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('SPRING_CLOUD')"
+                                             x-show="iaCToolId !== 'BICEP'"
                                              :class="components.frontApp.type==='SPRING_CLOUD' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                             <img class="w-8 h-8" src="img/icon-spring-cloud.svg"></img>
                                             <div class="text-lg font-semibold">
@@ -988,7 +989,8 @@
 
                             </dd>
                         </div>
-                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                        x-show="iaCToolId !== 'BICEP'">
                             <dt class="text-sm font-medium text-gray-500">
                                 Network
                             </dt>
