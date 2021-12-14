@@ -24,7 +24,6 @@ resource "azurerm_container_registry" "container-registry" {
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
-    "nubesgen-version" = "v0.7.0"
   }
 }
 
