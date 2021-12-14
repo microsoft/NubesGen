@@ -122,6 +122,31 @@ public class ConfigurationServiceTest {
     }
 
     @Test
+    void updateAppsServiceTierIfVnetIsSelected() {
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "TERRAFORM",
+                "DOCKER",
+                "APP_SERVICE",
+                "eastus",
+                "POSTGRESQL",
+                false,
+                "",
+                "VIRTUAL_NETWORK"
+        );
+
+        assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
+        assertEquals(RuntimeType.DOCKER, configuration.getRuntimeType());
+        assertEquals(ApplicationType.APP_SERVICE, configuration.getApplicationConfiguration().getApplicationType());
+        assertEquals(Tier.STANDARD, configuration.getApplicationConfiguration().getTier());
+        assertEquals("eastus", configuration.getRegion());
+        assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
+        assertEquals(Tier.GENERAL_PURPOSE, configuration.getDatabaseConfiguration().getTier());
+        assertFalse(configuration.isGitops());
+        assertEquals(0, configuration.getAddons().size());
+        assertEquals(NetworkType.VIRTUAL_NETWORK, configuration.getNetworkConfiguration().getNetworkType());
+    }
+
+    @Test
     void updateFunctionTierIfVnetIsSelected() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
             "TERRAFORM",
