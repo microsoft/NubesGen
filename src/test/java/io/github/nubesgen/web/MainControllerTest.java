@@ -375,9 +375,9 @@ public class MainControllerTest {
         Map<String, String> entries = extractZipEntries(zippedContent);
         assertFalse(entries.containsKey("terraform/main.tf"));
         assertTrue(entries.containsKey("bicep/main.bicep"));
-        assertTrue(entries.get("bicep/main.bicep").contains("modules/app-service/main.bicep"));
-        assertTrue(entries.containsKey("bicep/modules/app-service/main.bicep"));
-        assertTrue(entries.get("bicep/modules/app-service/main.bicep").contains("Microsoft.Web/serverFarms"));
+        assertTrue(entries.get("bicep/main.bicep").contains("modules/app-service/app-service.bicep"));
+        assertTrue(entries.containsKey("bicep/modules/app-service/app-service.bicep"));
+        assertTrue(entries.get("bicep/modules/app-service/app-service.bicep").contains("Microsoft.Web/serverFarms"));
     }
 
     @Test
@@ -393,7 +393,7 @@ public class MainControllerTest {
         Map<String, String> entries = extractZipEntries(zippedContent);
         assertTrue(entries.containsKey("bicep/main.bicep"));
         assertTrue(entries.containsKey(".github/workflows/gitops.yml"));
-        assertTrue(entries.get(".github/workflows/gitops.yml").contains("TODO"));
+        assertTrue(entries.get(".github/workflows/gitops.yml").contains("gitops-apply-bicep"));
     }
 
     @Test
