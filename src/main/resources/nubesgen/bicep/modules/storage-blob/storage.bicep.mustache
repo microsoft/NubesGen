@@ -22,7 +22,7 @@ param resourceTags object
 param containerName string = applicationName
 
 
-var storageName = 'st${take(applicationName,14)}${environment}${instanceNumber}'
+var storageName = 'st${take(replace(applicationName, '-', ''),14)}${environment}${instanceNumber}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   name: storageName
