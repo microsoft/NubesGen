@@ -171,7 +171,14 @@ public class ConfigurationService {
             properties.setNetworkConfiguration(new NetworkConfiguration());
         }
         if (!properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PUBLIC)) {
-            if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.FUNCTION)) {
+            if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.APP_SERVICE)) {
+                if (properties.getApplicationConfiguration().getTier().equals(Tier.FREE) ||
+                        properties.getApplicationConfiguration().getTier().equals(Tier.BASIC)) {
+
+                    log.debug("VNET configuration is requested, so the App Service configuration was updated to the Standard tier.");
+                    properties.getApplicationConfiguration().setTier(Tier.STANDARD);
+                }
+            } else if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.FUNCTION)) {
                 log.debug("VNET configuration is requested, so the Function configuration was updated to the Premium tier.");
                 properties.getApplicationConfiguration().setTier(Tier.PREMIUM);
             } else if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.SPRING_CLOUD)) {

@@ -39,7 +39,7 @@ resource "azurerm_key_vault" "application" {
   }
 
   network_acls {
-    default_action             = "Deny"
+    default_action             = "Allow"
     bypass                     = "None"
     virtual_network_subnet_ids = [var.subnet_id]
   }
