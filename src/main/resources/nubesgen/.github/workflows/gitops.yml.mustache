@@ -46,8 +46,8 @@ jobs:
         uses: microsoft/nubesgen-actions/gitops-apply-bicep@v0.3.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          project_name: '{{applicationName}}'
-          deployment_region: '{{region}}'
+          project_name: '<%applicationName%>'
+          deployment_region: '<%region%>'
 <%/iacToolBicep%>
 <%#runtimeDocker%>
   <%#applicationTypeAppService%>
