@@ -47,7 +47,7 @@ module blobStorage 'modules/storage-blob/storage.bicep' = {
 
 {{^databaseTypeNone}}
 {{#addonCosmosdbMongodb}}
-module mongoDb 'modules/cosmosdb-mongodb/cosmosdb.bicep' = {
+module mongoDb 'modules/cosmosdb-mongodb/cosmosdb-mongodb.bicep' = {
   name: 'mongoDb'
   scope: resourceGroup(rg.name)
   params: {
