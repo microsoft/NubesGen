@@ -1036,7 +1036,8 @@
                                     </div>
 
                                     <div class="border bg-white rounded flex content-center py-2 px-4"
-                                         x-bind:class="{'bg-blue-200': addons.includes('key_vault')}">
+                                         x-bind:class="{'bg-blue-200': addons.includes('key_vault')}"
+                                         x-show="iaCToolId !== 'BICEP'">
                                         <label class="inline-flex items-center text-xl">
                                             <input type="checkbox" value="key_vault"
                                                    class="form-checkbox h-5 w-5 mr-2"
