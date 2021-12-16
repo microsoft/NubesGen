@@ -107,7 +107,8 @@ msg "${GREEN}(8/8) Create secrets in GitHub"
 if $USE_GITHUB_CLI; then
   {
     msg "${GREEN}Using the GitHub CLI to set secrets.${NOFORMAT}"
-    gh secret set AZURE_CREDENTIALS -b"$SERVICE_PRINCIPAL" && gh secret set TF_STORAGE_ACCOUNT -b"$TF_STORAGE_ACCOUNT"
+    REMOTE_REPO=$(git config --get remote.origin.url)
+    gh secret set AZURE_CREDENTIALS -b"$SERVICE_PRINCIPAL" -R $REMOTE_REPO && gh secret set TF_STORAGE_ACCOUNT -b"$TF_STORAGE_ACCOUNT" -R $REMOTE_REPO
   } || {
     USE_GITHUB_CLI=false
   }
@@ -117,7 +118,7 @@ if [ $USE_GITHUB_CLI == false ]; then
   msg "${GREEN}Using your Web browser to set up secrets..."
   msg "${NOFORMAT}Go to the GitHub repository you want to configure."
   msg "${NOFORMAT}In the \"settings\", go to the \"secrets\" tab and add two new secrets:"
-  msg "(in ${YELLOW}yellow the secret name and${NOFORMAT} in ${GREEN}green the secret value)"
+  msg "(in ${YELLOW}yellow the secret name${NOFORMAT} and in ${GREEN}green the secret value${NOFORMAT})"
   msg "${YELLOW}\"AZURE_CREDENTIALS\""
   msg "${GREEN}$SERVICE_PRINCIPAL"
   msg "${YELLOW}\"TF_STORAGE_ACCOUNT\""

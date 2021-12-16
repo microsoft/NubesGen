@@ -1,11 +1,319 @@
+targetScope = 'subscription'
 
-param applicationName string = 'demo-${uniqueString(resourceGroup().id)}'
-param location string = resourceGroup().location
+// If an environment is set up (dev, test, prod...), it is used in the application name
+param environment string = 'dev'
+param applicationName string = '{{applicationName}}'
+param location string = '{{region}}'
+var instanceNumber = '001'
 
-module appService 'modules/app-service/main.bicep' = {
-  name: 'appService'
+var defaultTags = {
+  'environment': environment
+  'application': applicationName
+  'nubesgen-version': '{{nubesgenVersion}}'
+}
+
+resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: 'rg-${applicationName}-${instanceNumber}'
+  location: location
+  tags: defaultTags
+}
+
+{{#addonApplicationInsights}}
+module instrumentation 'modules/application-insights/app-insights.bicep' = {
+  name: 'instrumentation'
+  scope: resourceGroup(rg.name)
   params: {
     location: location
     applicationName: applicationName
+    environment: environment
+    instanceNumber: instanceNumber
+    resourceTags: defaultTags
   }
 }
+{{/addonApplicationInsights}}
+{{#addonStorageBlob}}
+module blobStorage 'modules/storage-blob/storage.bicep' = {
+  name: 'storage'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    resourceTags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/addonStorageBlob}}
+
+{{^databaseTypeNone}}
+{{#addonCosmosdbMongodb}}
+module mongoDb 'modules/cosmosdb-mongodb/cosmosdb-mongodb.bicep' = {
+  name: 'mongoDb'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    instanceNumber: instanceNumber
+    tags: defaultTags
+  }
+}
+{{/addonCosmosdbMongodb}}  
+{{#databaseTypeSqlServer}}
+module database 'modules/sql-server/sql-azure.bicep' = {
+  name: 'sqlDb'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    tags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/databaseTypeSqlServer}}
+{{#databaseTypePostgresql}}
+module database 'modules/postgresql/postgresql.bicep' = {
+  name: 'sqlDb'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    tags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/databaseTypePostgresql}}
+{{#databaseTypeMysql}}
+module sqlDb 'modules/mysql/mysql.bicep' = {
+  name: 'sqldatabase'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    tags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/databaseTypeMysql}}
+{{/databaseTypeNone}}
+
+{{#addonRedis}}
+module redis 'modules/redis/redis.bicep' = {
+  name: 'redis'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    resourceTags: defaultTags
+    instanceNumber: instanceNumber
+  }
+}
+{{/addonRedis}}
+
+
+var applicationEnvironmentVariables = [
+// You can add your custom environment variables here      
+{{#addonApplicationInsights}}
+      {
+        name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: instrumentation.outputs.appInsightsInstrumentationKey
+      }
+{{/addonApplicationInsights}}      
+{{#addonStorageBlob}}
+      {
+        name: 'azure_storage_account_name'
+        value: blobStorage.outputs.storageAccountName
+      }
+      {
+        name: 'azure_storage_account_key'
+        value: blobStorage.outputs.storageKey
+      }
+      {
+        name: 'azure_storage_connectionstring'
+        value: 'DefaultEndpointsProtocol=https;AccountName=${blobStorage.outputs.storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${blobStorage.outputs.storageKey}'
+      }
+{{/addonStorageBlob}}
+{{^databaseTypeNone}}
+{{#runtimeQuarkus}}
+   {{#databaseTypeSqlServer}}
+      {
+        name: 'QUARKUS_DATASOURCE_JDBC_URL'
+        value: 'jdbc:sqlserver://${database.outputs.db_url}'
+      }
+    {{/databaseTypeSqlServer}}
+    {{#databaseTypeMysql}}
+      {
+        name: 'QUARKUS_DATASOURCE_JDBC_URL'
+        value: 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+      }
+    {{/databaseTypeMysql}}
+    {{#databaseTypePostgresql}}
+      {
+        name: 'QUARKUS_DATASOURCE_JDBC_URL'
+        value: 'jdbc:postgresql://${database.outputs.db_url}'
+      }
+    {{/databaseTypePostgresql}} 
+    {
+        name: 'QUARKUS_DATASOURCE_USERNAME'
+        value: database.outputs.db_username
+    }
+    {
+        name: 'QUARKUS_DATASOURCE_PASSWORD'
+        value: database.outputs.db_password
+    }
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+{{#databaseTypeSqlServer}}
+      {
+        name: 'SPRING_DATASOURCE_URL'
+        value: 'jdbc:sqlserver://${database.outputs.db_url}'
+      }
+    {{/databaseTypeSqlServer}}
+    {{#databaseTypeMysql}}
+      {
+        name: 'SPRING_DATASOURCE_URL'
+        value: 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+      }
+    {{/databaseTypeMysql}}
+    {{#databaseTypePostgresql}}
+      {
+        name: 'SPRING_DATASOURCE_URL'
+        value: 'jdbc:postgresql://${database.outputs.db_url}'
+      }
+    {{/databaseTypePostgresql}} 
+    {
+        name: 'SPRING_DATASOURCE_USERNAME'
+        value: database.outputs.db_username
+    }
+    {
+        name: 'SPRING_DATASOURCE_PASSWORD'
+        value: database.outputs.db_password
+    }
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+      {
+        name: 'DATABASE_URL'
+        value: database.outputs.db_url
+      }
+      {
+        name: 'DATABASE_USERNAME'
+        value: database.outputs.db_username
+      }
+      {
+        name: 'DATABASE_PASSWORD'
+        value: database.outputs.db_password
+      }
+{{/runtimeDefault}}
+{{/databaseTypeNone}}   
+{{#addonCosmosdbMongodb}}
+{{#runtimeQuarkus}}
+  { 
+    name: 'QUARKUS_MONGODB_HOSTS'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_uri
+  }
+  { 
+    name: 'QUARKUS_MONGODB_DATABASE'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_database
+  }
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+  { 
+    name: 'SPRING_DATA_MONGODB_URI'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_uri
+  }
+  { 
+    name: 'SPRING_DATA_MONGODB_DATABASE'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_database
+  }
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+  { 
+    name: 'MONGODB_HOST'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_uri
+  }
+  { 
+    name: 'MONGODB_DATABASE'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_database
+  }
+  { 
+    name: 'MONGODB_KEY'
+    value: mongoDb.outputs.azure_cosmosdb_mongodb_accountKey
+  }
+{{/runtimeDefault}}
+{{/addonCosmosdbMongodb}}      
+{{#addonRedis}}
+{{#runtimeQuarkus}}
+      {
+        name: 'QUARKUS_REDIS_HOSTS'
+        value: 'redis://${redis.outputs.redis_key}@${redis.outputs.redis_host}:6380'
+      }
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+      {
+        name: 'SPRING_REDIS_HOST'
+        value: redis.outputs.redis_host
+      }
+      {
+        name: 'SPRING_REDIS_PASSWORD'
+        value: redis.outputs.redis_key
+      }
+      {
+        name: 'SPRING_REDIS_PORT'
+        value: '6380'
+      }
+      {
+        name: 'SPRING_REDIS_SSL'
+        value: 'true'
+      }
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+      {
+        name: 'REDIS_HOST'
+        value: redis.outputs.redis_host
+      }
+      {
+        name: 'REDIS_PASSWORD'
+        value: redis.outputs.redis_key
+      }
+      {
+        name: 'REDIS_PORT'
+         value: '6380'
+      }
+{{/runtimeDefault}}
+{{/addonRedis}}
+]
+
+
+{{#applicationTypeAppService}}
+module webApp 'modules/app-service/app-service.bicep' = {
+  name: 'webApp'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    resourceTags: defaultTags
+    instanceNumber: instanceNumber
+    environmentVariables: applicationEnvironmentVariables
+  }
+}
+{{/applicationTypeAppService}}
+
+{{#applicationTypeFunction}}
+module function 'modules/function/function.bicep' = {
+  name: 'function'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    resourceTags: defaultTags
+    instanceNumber: instanceNumber
+    environmentVariables: applicationEnvironmentVariables
+  }
+}
+{{/applicationTypeFunction}}

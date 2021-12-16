@@ -79,10 +79,11 @@
                 iaCToolId: 'TERRAFORM',
                 iaCTool: { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
                 iaCToolName: 'Terraform',
-                iaCToolFlag: './img/terraform.png',
+                iaCToolFlag: './img/terraform.png',                
                 components: {frontApp: {type: 'APP_SERVICE', size: 'free'}, database: {type: 'NONE', size: 'free'}},
                 addons: [],
                 runtime: "DOCKER",
+                network: '',
                 gitops: false,
                 curlScript: '',
                 poshScript: '',
@@ -132,6 +133,9 @@
                     }
                     if (this.gitops === true) {
                         url += "&gitops=true";
+                    }
+                    if (this.network === 'VIRTUAL_NETWORK') {
+                        url += "&network=VIRTUAL_NETWORK";
                     }
                     return url;
                 },
@@ -184,6 +188,10 @@
                     {id: 'SPRING', name: 'Spring Boot (Java) with Maven'},
                     {id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle'}
                 ],
+                networkConfigurations:[
+                    {id: 'PUBLIC', name: 'Public'},
+                    {id: 'VIRTUAL_NETWORK', name: 'Virtual Network (VNet) - Preview'}
+                ],
                 regionSelectorOpened: false,
                 selectRegion(selectedRegion) {
                     this.region2 = selectedRegion;
@@ -192,8 +200,7 @@
                 },
                 allIaCTools: [
                         { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
-                        { id: 'BICEP', name: 'Bicep', flag: './img/bicep.png' },
-                        { id: 'PULUMI', name: 'Pulumi (TypeScript)', flag: './img/pulumi.svg' },
+                        { id: 'BICEP', name: 'Bicep (preview)', flag: './img/bicep.png' },
                     ],
                 selectIaCTool(selectedIaCTool) {
                     this.iaCTool = selectedIaCTool;
@@ -337,7 +344,88 @@
                 </div>
                 <div class="border-t border-b border-gray-200">
                     <dl>
+                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Infrastructure as Code tool
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
 
+                            <div>
+                                <div class="mt-1 relative">
+                                    <button type="button" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label"
+                                        class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        x-on:click="iaCToolSelectorOpened = true">
+                                        <span class="flex items-center">
+                                            <img :src="iaCTool.flag" alt="" class="flex-shrink-0 h-12 w-12 rounded">
+                                            <span x-text="iaCTool.name" class="ml-3 block text-xl truncate">
+                                            </span>
+                                        </span>
+                                        <span class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                            <!-- Heroicon name: selector -->
+                                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </button>
+
+                                    <!--
+                                                                                                              Select popover, show/hide based on select state.
+                                                                                                              Entering: ""
+                                                                                                                From: ""
+                                                                                                                To: ""
+                                                                                                              Leaving: "transition ease-in duration-100"
+                                                                                                                From: "opacity-100"
+                                                                                                                To: "opacity-0"
+                                                                                                            -->
+                                    <div x-show="iaCToolSelectorOpened" x-on:click.away="iaCToolSelectorOpened = false"
+                                        class="absolute mt-1 w-full rounded-md bg-white shadow-lg">
+                                        <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label"
+                                            aria-activedescendant="listbox-item-3"
+                                            class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                            <!--
+                                                                                                                      Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
+                                                                                                                      Highlighted: "text-white bg-indigo-600", Not Highlighted: "text-gray-900"
+                                                                                                                    -->
+
+                                            <template x-for="iac in allIaCTools" :key="iac.id">
+                                                <li id="listbox-item-0" role="option"
+                                                    class="text-gray-900 hover:bg-blue-100 cursor-default select-none relative py-2 pl-3 pr-9"
+                                                    @click="selectIaCTool(iac)">
+                                                    <div class="flex items-center">
+                                                        <img :src="iac.flag" alt="" class="flex-shrink-0 h-6 w-6 rounded">
+                                                        <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                                                        <span x-text="iac.name" class="ml-3 block font-normal truncate">
+                                                        </span>
+                                                    </div>
+
+                                                    <!--
+                                                                                                                              Checkmark, only display for selected option.
+                                                                                                                              Highlighted: "text-white", Not Highlighted: "text-indigo-600"
+                                                                                                                            -->
+                                                    <span x-bind:class="{'inline-block': iaCTool.id == iac.id}"
+                                                        class="hidden absolute inset-y-0 right-0 flex items-center pr-4">
+                                                        <!-- Heroicon name: check -->
+                                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                            fill="currentColor" aria-hidden="true">
+                                                            <path fill-rule="evenodd"
+                                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                                clip-rule="evenodd" />
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                            </template>
+
+
+                                            <!-- More items... -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </dd>
+                    </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 Project name <span class="text-red-600">*</span>
@@ -460,7 +548,7 @@
                                              @click="updateAppType('APP_SERVICE')"
                                              :class="components.frontApp.type==='APP_SERVICE' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                             <img class="w-8 h-8"
-                                                 src="img/10035-icon-App Services-App Services.svg"></img>
+                                                 src="img/icon-app-services.svg"></img>
                                             <div class="text-lg font-semibold text-blue-900">
                                                 Web Application
                                                 <p class="text-sm font-normal text-gray-500">Web applications</p>
@@ -482,7 +570,7 @@
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('FUNCTION')"
                                              :class="components.frontApp.type==='FUNCTION' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                            <img class="w-8 h-8" src="img/10029-icon-Function Apps-IoT.svg"></img>
+                                            <img class="w-8 h-8" src="img/icon-functions.svg"></img>
                                             <div class="text-lg font-semibold">
                                                 Serverless Applications
                                                 <p class="text-sm font-normal text-gray-500">Supports Spring Boot, Java,
@@ -501,11 +589,12 @@
 
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('SPRING_CLOUD')"
+                                             x-show="iaCToolId !== 'BICEP'"
                                              :class="components.frontApp.type==='SPRING_CLOUD' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                            <img class="w-8 h-8" src="img/10370-icon-service-Azure-Spring-Cloud.svg"></img>
+                                            <img class="w-8 h-8" src="img/icon-spring-cloud.svg"></img>
                                             <div class="text-lg font-semibold">
                                                 Azure Spring Cloud
-                                                <p class="text-sm font-normal text-gray-500">Supports Spring Boot</p>
+                                                <p class="text-sm font-normal text-gray-500">Supports Spring Boot.</p>
                                                 <div x-show="components.frontApp.type==='SPRING_CLOUD'">
                                                     <p class="font-normal text-gray-500 text-sm mt-4">Select your
                                                         framework:</p>
@@ -773,7 +862,7 @@
 
                                     <div class="p-4 bg-white border-2" @click="components.database.type='SQL_SERVER'"
                                          :class="components.database.type==='SQL_SERVER' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                        <img class="w-8 h-8" src="img/10130-icon-SQL Database-Databases.svg"></img>
+                                        <img class="w-8 h-8" src="img/icon-azure-database-mssql.svg"></img>
                                         <div class="text-lg font-semibold text-blue-900">
                                             Azure SQL
                                             <p class="text-sm font-normal text-gray-500">Managed SQL Database, with
@@ -785,7 +874,7 @@
                                          @click="components.database.type='POSTGRESQL'"
                                          :class="components.database.type==='POSTGRESQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                         <img class="w-8 h-8"
-                                             src="img/10131-icon-Azure Database PostgreSQL Server-Databases.svg"></img>
+                                             src="img/icon-azure-database-postgresql.svg"></img>
                                         <div class="text-lg font-semibold">
                                             PostgreSQL
                                             <p class="text-sm font-normal text-gray-500">Scalable Opensource-Leading SQL
@@ -797,7 +886,7 @@
                                          @click="components.database.type='MYSQL'"
                                          :class="components.database.type==='MYSQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                         <img class="w-8 h-8"
-                                             src="img/10122-icon-Azure Database MySQL Server-Databases.svg"></img>
+                                             src="img/icon-azure-database-mysql.svg"></img>
                                         <div class="text-lg font-semibold">
                                             MySQL
                                             <p class="text-sm font-normal text-gray-500">The SQL database you already
@@ -900,7 +989,34 @@
 
                             </dd>
                         </div>
-                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                        x-show="iaCToolId !== 'BICEP'">
+                            <dt class="text-sm font-medium text-gray-500">
+                                Network
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <div class="grid grid-rows-1 mt-4 gap-4">
+                                    <div class="border bg-white rounded content-center py-2 px-4">
+
+                                        <img class="w-8 h-8" src="img/icon-virtual-network.svg"></img>
+                                        <div class="text-lg font-semibold">
+                                            Network configuration
+                                            <p class="text-sm font-normal text-gray-500">Use either a public network (default option), or a dedicated virtual network (VNet) for increased security.</p>
+                                            <div>
+                                                <p class="font-normal text-gray-500 text-sm mt-4">Select your
+                                                    configuration:</p>
+                                                <select class="text-sm" x-model="network">
+                                                    <template x-for="nc in networkConfigurations" :key="nc.id">
+                                                        <option x-bind:value="nc.id" x-text="nc.name"/>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </dd>
+                        </div>
+                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 Add-Ons
                             </dt>
@@ -920,7 +1036,8 @@
                                     </div>
 
                                     <div class="border bg-white rounded flex content-center py-2 px-4"
-                                         x-bind:class="{'bg-blue-200': addons.includes('key_vault')}">
+                                         x-bind:class="{'bg-blue-200': addons.includes('key_vault')}"
+                                         x-show="iaCToolId !== 'BICEP'">
                                         <label class="inline-flex items-center text-xl">
                                             <input type="checkbox" value="key_vault"
                                                    class="form-checkbox h-5 w-5 mr-2"
@@ -970,7 +1087,7 @@
                             </dd>
                         </div>
 
-                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 GitOps
                             </dt>
@@ -996,8 +1113,16 @@
                         <div class="bg-gray-200 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
 
+
+
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <div 
+                                x-show="components.frontApp.type==='SPRING_CLOUD' && network === 'VIRTUAL_NETWORK' && gitops === true"
+                                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                    <strong class="font-bold">Incompatibility detected in your configuration!</strong>
+                                    <span class="block sm:inline">Due to a product limitation, you can't use Spring Cloud with VNet Integration while doing GitOps. Please remove one of those options.</span>
+                                </div>
                             <button type="button"
                                     class="flex items-center justify-center px-4 py-1 mt-5 ml-2 mr-4 text-center text-white bg-green-600 border border-green-700 rounded-lg focus:outline-none hover:bg-green-700"
                                     @click="download($dispatch)">
@@ -1081,10 +1206,6 @@
                                     <div class="flex row-auto items-center mt-4"><i
                                             class="fa fa-check-circle-o text-gray-400"></i>
                                         <span class="ml-3 text-gray-500">Basic DDOS Protection</span>
-                                    </div>
-                                    <div class="flex row-auto items-center mt-4">
-                                        <span class="ml-3 text-gray-700 font-semibold">Coming soon</span>
-                                        <span class="ml-2 text-gray-500">Network isolation, Web Application Firewall, Advanced DDOS</span>
                                     </div>
                                 </dd>
                             </div>

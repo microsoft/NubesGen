@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     azurecaf = {
-      source = "aztfmod/azurecaf"
-      version = "1.2.6"
+      source  = "aztfmod/azurecaf"
+      version = "1.2.9"
     }
   }
 }
@@ -27,9 +27,9 @@ resource "azurerm_container_registry" "container-registry" {
 }
 
 resource "azurecaf_name" "app_service_plan" {
-  name            = var.application_name
-  resource_type   = "azurerm_app_service_plan"
-  suffixes        = [var.environment]
+  name          = var.application_name
+  resource_type = "azurerm_app_service_plan"
+  suffixes      = [var.environment]
 }
 
 # This creates the plan that the service use
@@ -53,9 +53,9 @@ resource "azurerm_app_service_plan" "application" {
 }
 
 resource "azurecaf_name" "app_service" {
-  name            = var.application_name
-  resource_type   = "azurerm_app_service"
-  suffixes        = [var.environment]
+  name          = var.application_name
+  resource_type = "azurerm_app_service"
+  suffixes      = [var.environment]
 }
 
 # This creates the service definition
@@ -85,6 +85,6 @@ resource "azurerm_app_service" "application" {
     "WEBSITES_PORT"                       = "8080"
 
     # These are app specific environment variables
-    "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+    "SPRING_PROFILES_ACTIVE" = "prod,azure"
   }
 }

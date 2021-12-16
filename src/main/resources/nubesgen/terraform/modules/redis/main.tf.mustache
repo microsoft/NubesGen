@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     azurecaf = {
-      source = "aztfmod/azurecaf"
-      version = "1.2.6"
+      source  = "aztfmod/azurecaf"
+      version = "1.2.9"
     }
   }
 }
@@ -17,9 +17,16 @@ resource "azurerm_redis_cache" "redis" {
   name                = azurecaf_name.redis_cache.result
   resource_group_name = var.resource_group
   location            = var.location
+{{^NetworkVNet}}
   capacity            = 0
   family              = "C"
   sku_name            = "Standard"
+{{/NetworkVNet}}
+{{#NetworkVNet}}
+  capacity            = 1
+  family              = "P"
+  sku_name            = "Premium"
+{{/NetworkVNet}}
   enable_non_ssl_port = false
   minimum_tls_version = "1.2"
 
@@ -30,4 +37,8 @@ resource "azurerm_redis_cache" "redis" {
 
   redis_configuration {
   }
+{{#NetworkVNet}}
+
+  subnet_id = var.subnet_id
+{{/NetworkVNet}}
 }

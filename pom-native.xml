@@ -11,14 +11,13 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.3</version>
+        <version>2.6.1</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen</artifactId>
-    <!-- Do not modify this version manually, read https://github.com/microsoft/NubesGen/blob/main/CONTRIBUTING.md#doing-a-release -->
-    <version>0.3.1-SNAPSHOT</version>
-    <name>nubesgen</name>
+    <version>0.6.1-native-SNAPSHOT</version>
+    <name>nubesgen-native</name>
     <packaging>jar</packaging>
     <description>NubesGen REST server</description>
     <scm>
@@ -30,7 +29,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
     <properties>
         <java.version>11</java.version>
         <repackage.classifier/>
-        <spring-native.version>0.10.1</spring-native.version>
+        <spring-native.version>0.11.0</spring-native.version>
     </properties>
 
     <dependencies>
@@ -45,21 +44,12 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-blob</artifactId>
-            <version>12.12.0</version>
+            <version>12.15.0-beta.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.experimental</groupId>
             <artifactId>spring-native</artifactId>
             <version>${spring-native.version}</version>
-        </dependency>
-        <!--
-        This dependency isn't publicly available yet! This is an internal experiment inside Microsoft,
-        to support GraalVM within the Azure SDK.
-        -->
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-graalvm-support</artifactId>
-            <version>1.0.0-beta.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -90,7 +80,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
                         <name>nubesgen/nubesgen-native</name>
                         <env>
                             <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-                            <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--initialize-at-run-time=io.netty.internal.tcnative.AsyncSSLPrivateKeyMethod</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                            <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--initialize-at-run-time=io.netty.util.internal.logging.Log4JLogger,io.netty.handler.ssl.OpenSsl,io.netty.handler.ssl.OpenSslPrivateKeyMethod,io.netty.internal.tcnative.CertificateVerifier,io.netty.internal.tcnative.SSL,io.netty.internal.tcnative.SSLPrivateKeyMethod,io.netty.handler.ssl.BouncyCastleAlpnSslUtils,io.netty.handler.ssl.util.ThreadLocalInsecureRandom,io.netty.channel.unix,io.netty.channel.epoll,io.netty.channel.kqueue,io.netty.internal.tcnative.AsyncSSLPrivateKeyMethod,io.netty.handler.ssl.OpenSslAsyncPrivateKeyMethod,io.netty.handler.ssl.ConscryptAlpnSslEngine,io.netty.handler.ssl.ReferenceCountedOpenSslEngine,io.netty.buffer.PooledByteBufAllocator</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
                         </env>
                     </image>
                     <layers>
@@ -142,12 +132,28 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>spring-releases</id>
             <name>Spring Releases</name>
             <url>https://repo.spring.io/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -159,13 +165,12 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
             <id>native</id>
             <properties>
                 <repackage.classifier>exec</repackage.classifier>
-                <native-buildtools.version>0.9.0</native-buildtools.version>
+                <native-buildtools.version>0.9.8</native-buildtools.version>
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>org.graalvm.buildtools</groupId>
-                    <artifactId>junit-platform-native</artifactId>
-                    <version>${native-buildtools.version}</version>
+                    <groupId>org.junit.platform</groupId>
+                    <artifactId>junit-platform-launcher</artifactId>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -175,6 +180,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
                         <version>${native-buildtools.version}</version>
+                        <extensions>true</extensions>
                         <executions>
                             <execution>
                                 <id>test-native</id>

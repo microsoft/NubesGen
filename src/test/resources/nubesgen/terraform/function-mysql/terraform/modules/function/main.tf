@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     azurecaf = {
-      source = "aztfmod/azurecaf"
-      version = "1.2.6"
+      source  = "aztfmod/azurecaf"
+      version = "1.2.9"
     }
   }
 }
@@ -87,7 +87,7 @@ resource "azurerm_function_app" "application" {
     "FUNCTIONS_WORKER_RUNTIME"    = "java"
 
     # These are app specific environment variables
-    "SPRING_PROFILES_ACTIVE"     = "prod,azure"
+    "SPRING_PROFILES_ACTIVE" = "prod,azure"
 
     "SPRING_DATASOURCE_URL"      = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
     "SPRING_DATASOURCE_USERNAME" = var.database_username
