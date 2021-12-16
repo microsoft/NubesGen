@@ -82,7 +82,7 @@ public class MainControllerTest {
 
         byte[] zippedContent = result.getResponse().getContentAsByteArray();
         Map<String, String> entries = extractZipEntries(zippedContent);
-        assertTrue(entries.get("terraform/variables.tf").matches("(?s).*demo-\\d{4}-\\d{4}-\\d{4}-\\d{4}.*"));
+        assertTrue(entries.get("terraform/variables.tf").matches("(?s).*demo-\\d{4}-\\d{4}.*"));
     }
 
     @Test

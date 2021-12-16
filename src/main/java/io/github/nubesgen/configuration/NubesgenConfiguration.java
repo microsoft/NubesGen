@@ -82,9 +82,7 @@ public class NubesgenConfiguration {
             DecimalFormat formater = new DecimalFormat("0000");
             String random1 = formater.format(Math.random() * (10000));
             String random2 = formater.format(Math.random() * (10000));
-            String random3 = formater.format(Math.random() * (10000));
-            String random4 = formater.format(Math.random() * (10000));
-            this.applicationName = DEFAULT_APPLICATION_NAME + "-" + random1 + "-" + random2 + "-" + random3 + "-" + random4;
+            this.applicationName = DEFAULT_APPLICATION_NAME + "-" + random1 + "-" + random2;
         } else {
             this.applicationName = applicationName;
         }
