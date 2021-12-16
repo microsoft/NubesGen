@@ -1,10 +1,17 @@
 package io.github.nubesgen.service;
 
 import io.github.nubesgen.configuration.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +21,21 @@ import org.springframework.stereotype.Service;
 public class ConfigurationService {
 
     private final Logger log = LoggerFactory.getLogger(ConfigurationService.class);
+
+    private String nubesgenVersion = "undefined";
+
+    public ConfigurationService() {
+        Resource resource = new ClassPathResource("/git.properties");
+        try {
+            Properties props = PropertiesLoaderUtils.loadProperties(resource);
+            String gitVersion = props.getProperty("git.build.version");
+            if (gitVersion != null) {
+                nubesgenVersion = gitVersion;
+            }
+        } catch (IOException e) {
+            log.warn("git.properties not found, the NubesGen version will be set to 'undefined'");
+        }
+    }
 
     public NubesgenConfiguration generateNubesgenConfiguration(
         String iactool,
@@ -32,6 +54,7 @@ public class ConfigurationService {
         addons = addons.toUpperCase();
         network = network.toUpperCase();
         NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setNubesgenVersion(nubesgenVersion);
         configureRegion(properties, region);
         configureIac(properties, iactool);
         configureRuntime(properties, runtime, application);
