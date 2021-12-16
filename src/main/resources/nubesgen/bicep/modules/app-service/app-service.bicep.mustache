@@ -22,7 +22,7 @@ param resourceTags object
 
 var appServicePlanName = 'plan-${applicationName}-${instanceNumber}'
 {{#runtimeDocker}}
-var acrName = 'acr${applicationName}${instanceNumber}'
+var acrName = 'acr${take(replace(applicationName, '-', ''),40)}${instanceNumber}'
 
 // Azure Container Registry - https://docs.microsoft.com/en-us/azure/templates/microsoft.containerregistry/registries?tabs=bicep
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2020-11-01-preview' = {
