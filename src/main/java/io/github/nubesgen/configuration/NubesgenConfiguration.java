@@ -376,6 +376,11 @@ public class NubesgenConfiguration {
         return !isDatabaseTypeNone() || isAddonCosmosdbMongodb() || isAddonKeyVault() || isAddonStorageBlob() || isRuntimeDocker();
     }
 
+    @JsonIgnore
+    public boolean isAllowingClientIpRequired(){
+        return isNetworkVNet() && (isAddonKeyVault() || isAddonStorageBlob());
+    }
+
     @Override
     public String toString() {
         return (

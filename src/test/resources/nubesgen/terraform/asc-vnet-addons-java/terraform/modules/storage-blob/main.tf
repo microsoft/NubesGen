@@ -31,6 +31,7 @@ resource "azurerm_storage_account_network_rules" "storage_only_app_traffic" {
 
   default_action             = "Deny"
   virtual_network_subnet_ids = [var.subnet_id]
+  ip_rules                   = [var.myip]
 }
 
 resource "azurecaf_name" "storage_container" {

@@ -42,6 +42,7 @@ resource "azurerm_key_vault" "application" {
     default_action             = "Allow"
     bypass                     = "None"
     virtual_network_subnet_ids = [var.subnet_id]
+    ip_rules                   = [var.myip]
   }
 
   tags = {

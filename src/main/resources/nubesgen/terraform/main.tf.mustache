@@ -22,6 +22,16 @@ locals {
   // If an environment is set up (dev, test, prod...), it is used in the application name
   environment = var.environment == "" ? "dev" : var.environment
 }
+{{#AllowingClientIpRequired}}
+
+data "http" "myip" {
+  url = "http://ipv4.icanhazip.com"
+}
+
+locals {
+  myip = chomp(data.http.myip.body)
+}
+{{/AllowingClientIpRequired}}
 
 resource "azurecaf_name" "resource_group" {
   name          = var.application_name
@@ -210,6 +220,7 @@ module "key-vault" {
   {{#NetworkVNet}}
 
   subnet_id = module.network.app_subnet_id
+  myip      = local.myip
   {{/NetworkVNet}}
 }
 {{/addonKeyVault}}
@@ -236,6 +247,7 @@ module "storage-blob" {
   location         = var.location
   {{#NetworkVNet}}
   subnet_id        = module.network.app_subnet_id
+  myip             = local.myip
   {{/NetworkVNet}}
 }
 {{/addonStorageBlob}}
