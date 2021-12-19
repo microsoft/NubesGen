@@ -20,6 +20,14 @@ locals {
   environment = var.environment == "" ? "dev" : var.environment
 }
 
+data "http" "myip" {
+  url = "http://ipv4.icanhazip.com"
+}
+
+locals {
+  myip = chomp(data.http.myip.body)
+}
+
 resource "azurecaf_name" "resource_group" {
   name          = var.application_name
   resource_type = "azurerm_resource_group"
@@ -84,6 +92,7 @@ module "key-vault" {
   database_password = module.database.database_password
 
   subnet_id = module.network.app_subnet_id
+  myip      = local.myip
 }
 
 module "network" {
