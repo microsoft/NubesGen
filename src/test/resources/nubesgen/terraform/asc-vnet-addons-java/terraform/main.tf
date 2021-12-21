@@ -21,7 +21,7 @@ locals {
 }
 
 data "http" "myip" {
-  url = "http://ipv4.icanhazip.com"
+  url = "http://whatismyip.akamai.com"
 }
 
 locals {
