@@ -35,7 +35,7 @@ public class TemplateListService {
         if (resourceToTest.isPresent()) {
             absolutePath = resourceToTest.get().getURL().getPath();
         } else {
-            throw new IOException("File \"nubesgen/README.md\" could not be find in the classpath.");
+            throw new IOException("File \"nubesgen/README.md\" could not be found in the classpath.");
         }
         int rootDirectoryLength = absolutePath.length() - ("README.md").length();
 
