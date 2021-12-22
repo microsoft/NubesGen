@@ -317,18 +317,3 @@ module function 'modules/function/function.bicep' = {
   }
 }
 {{/applicationTypeFunction}}
-
-{{#applicationTypeSpringCloud}}
-module ascApp 'modules/spring-cloud/spring-cloud.bicep' = {
-  name: 'ascApp'
-  scope: resourceGroup(rg.name)
-  params: {
-    location: location
-    applicationName: applicationName
-    environment: environment
-    resourceTags: defaultTags
-    instanceNumber: instanceNumber
-    environmentVariables: applicationEnvironmentVariables
-  }
-}
-{{/applicationTypeSpringCloud}}
