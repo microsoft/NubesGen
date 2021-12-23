@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./cli
+        working-directory: ${{ github.workspace }}/cli
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -27,16 +27,13 @@ jobs:
         with:
           name: java-binary
           path: |
-            target/*.jar
-            !target/original-*.jar
+            ${{ github.workspace }}/cli/target/*.jar
+            !${{ github.workspace }}/cli/target/original-*.jar
           retention-days: 1
   build-linux-image:
     name: 'Build Linux native image'
     needs: [ build-jar ]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./cli
     steps:
       - name: Download application package
         uses: actions/download-artifact@v2
@@ -64,9 +61,6 @@ jobs:
     name: 'Build Mac OS X native image'
     needs: [ build-jar ]
     runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: ./cli
     steps:
       - name: Download application package
         uses: actions/download-artifact@v2
@@ -94,9 +88,6 @@ jobs:
     name: 'Build Windows native image'
     needs: [ build-jar ]
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: ./cli
     steps:
       - name: Download application package
         uses: actions/download-artifact@v2

@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./rest-server
+        working-directory: ${{ github.workspace }}/rest-server
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -39,14 +39,11 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: '${{ github.workspace }}/target/*.jar'
+          path: ${{ github.workspace }}/rest-server/target/*.jar
           retention-days: 1
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./rest-server
     steps:
       - uses: actions/download-artifact@v2
         with:

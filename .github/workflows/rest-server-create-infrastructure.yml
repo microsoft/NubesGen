@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./rest-server
+        working-directory: ${{ github.workspace }}/rest-server
     steps:
     - name: Checkout code
       uses: actions/checkout@v2

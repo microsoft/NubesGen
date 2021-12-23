@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./rest-server
+        working-directory: ${{ github.workspace }}/rest-server
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./rest-server
+        working-directory: ${{ github.workspace }}/rest-server
     env:
       DOCKER_IMAGE_NAME: 'docker.pkg.github.com/microsoft/nubesgen/nubesgen'
     steps:
