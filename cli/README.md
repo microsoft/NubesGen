@@ -1,7 +1,5 @@
 # CLI for NubesGen
 
-TEST
-
 This CLI is part of the [NubesGen project](https://nubesgen.com).
 
 It automates a project configuration: on simple projects,
