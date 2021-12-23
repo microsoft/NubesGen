@@ -33,5 +33,3 @@ jobs:
         cache: 'maven'
     - name: Run tests
       run: mvn verify
-      working-directory: ${{ github.workspace }}/rest-server
-      
