@@ -10,18 +10,11 @@ name: REST Server - Continuous Integration
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'rest-server/**'
   pull_request:
     branches: [ main ]
-    paths:
-      - 'rest-server/**'
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}/rest-server
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -32,4 +25,4 @@ jobs:
         check-latest: false
         cache: 'maven'
     - name: Run tests
-      run: mvn verify
+      run: mvn -f rest-server/
