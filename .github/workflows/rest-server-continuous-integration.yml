@@ -10,9 +10,12 @@ name: REST Server - Continuous Integration
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'rest-server/**'
   pull_request:
     branches: [ main ]
-
+    paths:
+      - 'rest-server/**'
 jobs:
   test:
     runs-on: ubuntu-latest

@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'cli/**'
 jobs:
   build-jar:
     name: 'Build JAR package'
