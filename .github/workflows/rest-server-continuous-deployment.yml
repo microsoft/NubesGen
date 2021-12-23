@@ -1,4 +1,4 @@
-name: Continuous Deployment
+name: REST Server - Continuous Deployment
 
 ###
 # Continuous deployment GitHub Action

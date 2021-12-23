@@ -1,4 +1,4 @@
-name: Create a release
+name: CLI - Create a release
 on:
   create
 jobs:
