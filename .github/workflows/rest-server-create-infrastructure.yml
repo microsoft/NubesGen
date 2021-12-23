@@ -16,6 +16,9 @@ jobs:
   terraform:
     if: startsWith(github.ref, 'refs/heads/env-')
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./rest-server
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -54,4 +57,4 @@ jobs:
         -backend-config="container_name=tfstate" \
         -backend-config="key=$ENVIRONMENT_NAME.terraform.tfstate"
         -var="environment=$ENVIRONMENT_NAME"
-      working-directory: '${{ github.workspace }}/terraform'
+      working-directory: '${{ github.workspace }}/rest-server/terraform'

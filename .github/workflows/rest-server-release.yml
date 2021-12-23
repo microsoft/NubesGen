@@ -12,7 +12,10 @@ on:
 jobs:
   build_jar:
     name: Build and publish Jar file
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./rest-server
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -34,7 +37,10 @@ jobs:
           tag: ${{ github.ref }}
   build_docker_image:
     name: Build and publish Docker image to GitHub Packages
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./rest-server
     env:
       DOCKER_IMAGE_NAME: 'docker.pkg.github.com/microsoft/nubesgen/nubesgen'
     steps:

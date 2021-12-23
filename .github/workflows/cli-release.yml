@@ -1,0 +1,158 @@
+name: Create a release
+on:
+  create
+jobs:
+  build-jar:
+    name: 'Build JAR package'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cli
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          check-latest: false
+          cache: 'maven'
+      - name: Build with Maven
+        run: 'mvn package'
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: java-binary
+          path: |
+            target/*.jar
+            !target/original-*.jar
+          retention-days: 1
+  build-linux-image:
+    name: 'Build Linux native image'
+    needs: [ build-jar ]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cli
+    steps:
+      - name: Download application package
+        uses: actions/download-artifact@v2
+        with:
+          name: java-binary
+      - name: Install GraalVM
+        uses: DeLaGuardo/setup-graalvm@5.0
+        with:
+          graalvm-version: '21.3.0.java11'
+      - name: Install native-image
+        run: |
+          gu install native-image
+      - name: Build native image
+        run: native-image --enable-url-protocols=https --static -jar nubesgen-cli-*.jar nubesgen-cli-linux
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-binary
+          path: |
+            nubesgen-cli-*
+            !*.txt
+            !*.jar
+          retention-days: 1
+  build-macos-image:
+    name: 'Build Mac OS X native image'
+    needs: [ build-jar ]
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ./cli
+    steps:
+      - name: Download application package
+        uses: actions/download-artifact@v2
+        with:
+          name: java-binary
+      - name: Install GraalVM
+        uses: DeLaGuardo/setup-graalvm@5.0
+        with:
+          graalvm-version: '21.3.0.java11'
+      - name: Install native-image
+        run: |
+          gu install native-image
+      - name: Build native image
+        run: native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-macos
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: macos-binary
+          path: |
+            nubesgen-cli-*
+            !*.txt
+            !*.jar
+          retention-days: 1
+  build-windows-image:
+    name: 'Build Windows native image'
+    needs: [ build-jar ]
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./cli
+    steps:
+      - name: Download application package
+        uses: actions/download-artifact@v2
+        with:
+          name: java-binary
+      - name: Install GraalVM
+        uses: DeLaGuardo/setup-graalvm@5.0
+        with:
+          graalvm-version: '21.3.0.java11'
+      - name: Install native-image
+        run: |
+          gu.cmd install native-image
+      - name: 'Install Visual C Build Tools Workload for Visual Studio 2017 Build Tools'
+        run: |
+          choco install visualstudio2017-workload-vctools
+      - name: 'Build native image'
+        shell: cmd
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+          native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-windows
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-binary
+          path: 'nubesgen-cli-*.exe'
+          retention-days: 1
+  publish-binaries:
+    name: 'Publish binaries to GitHub packages'
+    needs: [ build-linux-image, build-macos-image, build-windows-image ]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cli
+    strategy:
+      matrix:
+        include:
+          - artifact_name: java-binary
+            binary_name: nubesgen-cli-*.jar
+            file_glob: true
+          - artifact_name: linux-binary
+            binary_name: nubesgen-cli-linux
+            file_glob: false
+          - artifact_name: macos-binary
+            binary_name: nubesgen-cli-macos
+            file_glob: false
+          - artifact_name: windows-binary
+            binary_name: nubesgen-cli-windows.exe
+            file_glob: false
+    steps:
+      - name: Download binary
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ matrix.artifact_name }}
+      - name: Upload binary to GitHub Packages
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ matrix.binary_name }}
+          file_glob: ${{ matrix.file_glob }}
+          tag: ${{ github.ref }}
+          overwrite: true

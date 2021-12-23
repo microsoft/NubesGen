@@ -21,6 +21,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./rest-server
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -41,6 +44,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./rest-server
     steps:
       - uses: actions/download-artifact@v2
         with:

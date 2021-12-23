@@ -15,9 +15,10 @@ on:
 
 jobs:
   test:
-
-    runs-on: ubuntu-20.04
-
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./rest-server
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
