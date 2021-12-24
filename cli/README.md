@@ -36,7 +36,7 @@ Releases are available on GitHub at [https://github.com/jdubois/nubesgen-cli/rel
 
 To run the Java archive, you need to have a Java Virtual Machine (version 11 or higher) installed.
 
-- Download the latest release: `gh release download --repo jdubois/nubesgen-cli --pattern='*.jar'`
+- Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-*.jar'`
 - Run the binary: `java -jar nubesgen-*.jar -h`
 </details>
 
@@ -45,7 +45,7 @@ To run the Java archive, you need to have a Java Virtual Machine (version 11 or 
 
 To run the binary on Linux, you need to:
 
-- Download the latest release: `gh release download --repo jdubois/nubesgen-cli --pattern='*-linux'`
+- Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-linux'`
 - Make the binary executable: `chmod +x nubesgen-cli-linux`
 - Run the binary: `./nubesgen-cli-linux -h`
 
@@ -55,7 +55,7 @@ To run the binary on Linux, you need to:
 
 To run the binary on a Mac OS, you need to:
 
-- Download the latest release: `gh release download --repo jdubois/nubesgen-cli --pattern='*-macos'`
+- Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-macos'`
 - Make the binary executable: `chmod +x nubesgen-cli-macos`
 - Allow Mac OS X to execute it: `xattr -d com.apple.quarantine nubesgen-cli-macos`
 - Run the binary: `./nubesgen-cli-macos -h`
@@ -66,7 +66,7 @@ To run the binary on a Mac OS, you need to:
 
 To run the binary on Windows, you need to:
 
-- Download the latest release: `gh release download --repo jdubois/nubesgen-cli --pattern='*-windows.exe'`
+- Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-windows.exe'`
 - Run the binary: `nubesgen-cli-windows -h`
 
 </details>
