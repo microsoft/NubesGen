@@ -28,4 +28,4 @@ jobs:
         check-latest: false
         cache: 'maven'
     - name: Run tests
-      run: mvn package
+      run: mvn verify
