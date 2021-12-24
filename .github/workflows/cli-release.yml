@@ -1,15 +1,7 @@
 name: CLI - Create a release
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'cli/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'cli/**'
+  release:
+    types: [published]
 jobs:
   build-jar:
     name: 'Build JAR package'
