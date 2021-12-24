@@ -1,5 +1,8 @@
 # CLI for NubesGen
 
+__DO NOT USE THIS CLI FOR ANYTHING EXCEPT TESTING__
+_This is currently a work in progress, that will be released soon_
+
 This CLI is part of the [NubesGen project](https://nubesgen.com).
 
 It automates a project configuration: on simple projects,
