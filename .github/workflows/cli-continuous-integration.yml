@@ -5,6 +5,11 @@ on:
       - main
     paths:
       - 'cli/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'cli/**'
 jobs:
   build-jar:
     name: 'Build JAR package'
