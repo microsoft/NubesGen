@@ -1,4 +1,4 @@
-FROM adoptopenjdk:15-jre-hotspot
+FROM eclipse-temurin:17-jre
 RUN addgroup spring && adduser spring --ingroup spring
 USER spring:spring
 ARG DEPENDENCY=target/dependency
