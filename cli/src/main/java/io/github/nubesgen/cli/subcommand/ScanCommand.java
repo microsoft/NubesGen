@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import io.github.nubesgen.cli.util.Output;
 
@@ -53,6 +56,7 @@ public class ScanCommand implements Callable<Integer> {
                     getRequest += "&runtime=JAVA";
                 }
                 getRequest = javaDatabaseScanner(testFile, getRequest);
+                getRequest = javaAddOnScanner(testFile, getRequest);
             } else if (gradleFile.exists()) {
                 Output.printInfo("Gradle project detected");
                 testFile = Files.readString(gradleFile.toPath());
@@ -64,6 +68,7 @@ public class ScanCommand implements Callable<Integer> {
                     getRequest += "&runtime=JAVA_GRADLE";
                 }
                 getRequest = javaDatabaseScanner(testFile, getRequest);
+                getRequest = javaAddOnScanner(testFile, getRequest);
             } else {
                 Output.printInfo("Runtime couldn't be detected, failing back to Docker");
             }
@@ -86,6 +91,35 @@ public class ScanCommand implements Callable<Integer> {
             getRequest += "&database=SQL_SERVER";
         } else {
             Output.printInfo("Database selected: None");
+        }
+        return getRequest;
+    }
+
+    private static String javaAddOnScanner(String testFile, String getRequest) {
+        List<String> addOns = new ArrayList<>();
+        if (testFile.contains("spring-boot-starter-data-mongodb") ||
+            testFile.contains("mongodb-driver-sync")) {
+
+            addOns.add("cosmosdb_mongodb");
+            Output.printInfo("Add-on selected: MongoDB");
+            
+        }
+        if (testFile.contains("spring-boot-starter-data-redis") ||
+         (testFile.contains("redis.clients") && testFile.contains("jedis")) ||
+         (testFile.contains("io.lettuce") && testFile.contains("lettuce-core")) ||
+         (testFile.contains("org.redisson") && testFile.contains("redisson"))) {
+
+            addOns.add("redis");
+            Output.printInfo("Add-on selected: Redis");
+        }
+        if (testFile.contains("azure-storage-blob")) {
+            Output.printInfo("Add-on selected: MongoDB");
+            
+            addOns.add("storage_blob");
+            Output.printInfo("Add-on selected: Azure Blob Storage");
+        }
+        if (addOns.size() > 0) {
+            getRequest += "&addons=" + addOns.stream().collect(Collectors.joining(","));
         }
         return getRequest;
     }
