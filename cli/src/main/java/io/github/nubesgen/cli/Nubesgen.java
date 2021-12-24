@@ -29,6 +29,12 @@ public class Nubesgen implements Callable<Integer> {
     @Option(names = {"-x", "--development"}, description = "Development mode, this requires a local REST server running on http://127.0.0.1:8080")
     public static boolean development;
 
+    @Option(names = {"-r", "--refresh-secrets"}, description = "Refresh the GitOps configuration if it already exists")
+    public static boolean refreshSecrets;
+
+    @Option(names = {"-n", "--no-gitops"}, description = "Do not configure GitOps")
+    public static boolean noGitops;
+
     @Override
     public Integer call() throws Exception {
         int exitCode = HealthCommand.configure();
@@ -40,9 +46,12 @@ public class Nubesgen implements Callable<Integer> {
             Output.printMessage("Working directory: " + workingDirectory);
             String projectName = ProjectnameCommand.projectName(workingDirectory);
             String getRequest = ScanCommand.scan(workingDirectory);
-            int gitopsExitStatus = GitopsCommand.gitops(projectName);
-            if (gitopsExitStatus == 0) {
-                getRequest += "&gitops=true";
+            int gitopsExitStatus = -1;
+            if (!noGitops) {
+                gitopsExitStatus = GitopsCommand.gitops(projectName, refreshSecrets);
+                if (gitopsExitStatus == 0) {
+                    getRequest += "&gitops=true";
+                }
             }
             int downloadExitStatus = DownloadCommand.download(workingDirectory, projectName, getRequest);
             if (downloadExitStatus != 0) {
