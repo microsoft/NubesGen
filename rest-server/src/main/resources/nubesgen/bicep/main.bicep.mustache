@@ -114,7 +114,7 @@ module redis 'modules/redis/redis.bicep' = {
 }
 {{/addonRedis}}
 
-
+{{^applicationTypeSpringCloud}}
 var applicationEnvironmentVariables = [
 // You can add your custom environment variables here      
 {{#addonApplicationInsights}}
@@ -286,6 +286,7 @@ var applicationEnvironmentVariables = [
 {{/runtimeDefault}}
 {{/addonRedis}}
 ]
+{{/applicationTypeSpringCloud}}
 
 
 {{#applicationTypeAppService}}
@@ -317,3 +318,93 @@ module function 'modules/function/function.bicep' = {
   }
 }
 {{/applicationTypeFunction}}
+
+{{#applicationTypeSpringCloud}}
+var applicationEnvironmentVariables = {
+// You can add your custom environment variables here      
+{{#addonApplicationInsights}}
+      'APPINSIGHTS_INSTRUMENTATIONKEY': instrumentation.outputs.appInsightsInstrumentationKey
+{{/addonApplicationInsights}}      
+{{#addonStorageBlob}}
+      'azure_storage_account_name': blobStorage.outputs.storageAccountName
+      'azure_storage_account_key': blobStorage.outputs.storageKey
+      'azure_storage_connectionstring': 'DefaultEndpointsProtocol=https;AccountName=${blobStorage.outputs.storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${blobStorage.outputs.storageKey}'
+{{/addonStorageBlob}}
+{{^databaseTypeNone}}
+{{#runtimeQuarkus}}
+   {{#databaseTypeSqlServer}}
+      'QUARKUS_DATASOURCE_JDBC_URL': 'jdbc:sqlserver://${database.outputs.db_url}'
+    {{/databaseTypeSqlServer}}
+    {{#databaseTypeMysql}}
+      'QUARKUS_DATASOURCE_JDBC_URL': 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+    {{/databaseTypeMysql}}
+    {{#databaseTypePostgresql}}
+      'QUARKUS_DATASOURCE_JDBC_URL': 'jdbc:postgresql://${database.outputs.db_url}'
+    {{/databaseTypePostgresql}} 
+    'QUARKUS_DATASOURCE_USERNAME': database.outputs.db_username
+    'QUARKUS_DATASOURCE_PASSWORD': database.outputs.db_password
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+{{#databaseTypeSqlServer}}
+      'SPRING_DATASOURCE_URL': 'jdbc:sqlserver://${database.outputs.db_url}'
+    {{/databaseTypeSqlServer}}
+    {{#databaseTypeMysql}}
+      'SPRING_DATASOURCE_URL': 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+    {{/databaseTypeMysql}}
+    {{#databaseTypePostgresql}}
+      'SPRING_DATASOURCE_URL': 'jdbc:postgresql://${database.outputs.db_url}'
+    {{/databaseTypePostgresql}} 
+      'SPRING_DATASOURCE_USERNAME': database.outputs.db_username
+      'SPRING_DATASOURCE_PASSWORD': database.outputs.db_password
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+      'DATABASE_URL': database.outputs.db_url
+      'DATABASE_USERNAME': database.outputs.db_username
+      'DATABASE_PASSWORD': database.outputs.db_password
+{{/runtimeDefault}}
+{{/databaseTypeNone}}   
+{{#addonCosmosdbMongodb}}
+{{#runtimeQuarkus}}
+      'QUARKUS_MONGODB_HOSTS': mongoDb.outputs.azure_cosmosdb_mongodb_uri
+      'QUARKUS_MONGODB_DATABASE': mongoDb.outputs.azure_cosmosdb_mongodb_database
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+      'SPRING_DATA_MONGODB_URI': mongoDb.outputs.azure_cosmosdb_mongodb_uri
+      'SPRING_DATA_MONGODB_DATABASE': mongoDb.outputs.azure_cosmosdb_mongodb_database
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+      'MONGODB_HOST': mongoDb.outputs.azure_cosmosdb_mongodb_uri
+      'MONGODB_DATABASE': mongoDb.outputs.azure_cosmosdb_mongodb_database
+      'MONGODB_KEY': mongoDb.outputs.azure_cosmosdb_mongodb_accountKey
+{{/runtimeDefault}}
+{{/addonCosmosdbMongodb}}      
+{{#addonRedis}}
+{{#runtimeQuarkus}}
+      'QUARKUS_REDIS_HOSTS': 'redis://${redis.outputs.redis_key}@${redis.outputs.redis_host}:6380'
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+      'SPRING_REDIS_HOST': redis.outputs.redis_host
+      'SPRING_REDIS_PASSWORD': redis.outputs.redis_key
+      'SPRING_REDIS_PORT': '6380'
+      'SPRING_REDIS_SSL': 'true'
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+      'REDIS_HOST': redis.outputs.redis_host
+      'REDIS_PASSWORD': redis.outputs.redis_key
+      'REDIS_PORT': '6380'
+{{/runtimeDefault}}
+{{/addonRedis}}
+}
+module ascApp 'modules/spring-cloud/spring-cloud.bicep' = {
+  name: 'ascApp'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+    applicationName: applicationName
+    environment: environment
+    resourceTags: defaultTags
+    instanceNumber: instanceNumber
+    environmentVariables: applicationEnvironmentVariables
+  }
+}
+{{/applicationTypeSpringCloud}}
