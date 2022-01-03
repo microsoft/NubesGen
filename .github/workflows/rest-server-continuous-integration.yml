@@ -11,8 +11,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'rest-server/**'
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -40,7 +38,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Login to GitHub Packages
-        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Build the Docker image
         run: mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}:main -DskipTests
         working-directory: ${{ github.workspace }}/rest-server
@@ -56,7 +54,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Login to GitHub Packages
-        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Build the Docker image
         run: mvn -f pom-native.xml spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}:main -DskipTests
         working-directory: ${{ github.workspace }}/rest-server
