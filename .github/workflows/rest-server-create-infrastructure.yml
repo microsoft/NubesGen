@@ -15,9 +15,6 @@ jobs:
   terraform:
     if: startsWith(github.ref, 'refs/heads/env-')
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}/rest-server
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
