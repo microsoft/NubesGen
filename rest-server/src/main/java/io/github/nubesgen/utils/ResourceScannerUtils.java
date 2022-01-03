@@ -15,12 +15,8 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * Utility class that scans for resources/directories in GraalVM native image
  * Workaround for https://github.com/oracle/graal/issues/1108
  * This is a sample code how to use it:
- * * * Predicate<Resource> directoryPredicate = resource ->
- * !Objects.requireNonNull(resource.getFilename()).contains(".") ||
- * ".github".equals(resource.getFilename());
- * * * Resource[] resources = ResourceScannerUtils.getResourceFiles(new
- * PathMatchingResourcePatternResolver(), "classpath*:myDirectoryToScan",
- * directoryPredicate);
+ * Predicate<Resource> directoryPredicate = resource -> !Objects.requireNonNull(resource.getFilename()).contains(".") || ".github".equals(resource.getFilename());
+ * Resource[] resources = ResourceScannerUtils.getResourceFiles(new PathMatchingResourcePatternResolver(), "classpath*:myDirectoryToScan", directoryPredicate);
  * 
  * @author bnasslahsen
  */
