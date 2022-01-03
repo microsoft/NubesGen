@@ -137,7 +137,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: ${{ matrix.artifact_name }}
-      - name: Upload binary to GitHub Packages
+      - name: Upload binary to the GitHub release page
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
