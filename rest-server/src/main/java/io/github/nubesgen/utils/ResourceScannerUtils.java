@@ -15,8 +15,13 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * Utility class that scans for resources/directories in GraalVM native image
  * Workaround for https://github.com/oracle/graal/issues/1108
  * This is a sample code how to use it:
- * * * Predicate<Resource> directoryPredicate = resource -> !Objects.requireNonNull(resource.getFilename()).contains(".") || ".github".equals(resource.getFilename());
- * * * Resource[] resources = ResourceScannerUtils.getResourceFiles(new PathMatchingResourcePatternResolver(), "classpath*:myDirectoryToScan", directoryPredicate);
+ * * * Predicate<Resource> directoryPredicate = resource ->
+ * !Objects.requireNonNull(resource.getFilename()).contains(".") ||
+ * ".github".equals(resource.getFilename());
+ * * * Resource[] resources = ResourceScannerUtils.getResourceFiles(new
+ * PathMatchingResourcePatternResolver(), "classpath*:myDirectoryToScan",
+ * directoryPredicate);
+ * 
  * @author bnasslahsen
  */
 public final class ResourceScannerUtils {
@@ -24,15 +29,18 @@ public final class ResourceScannerUtils {
 	/**
 	 * Instantiates a new Resource scanner.
 	 */
-	private ResourceScannerUtils() {}
+	private ResourceScannerUtils() {
+	}
 
 	/**
 	 * Get resource files resource within the directory[ ].
 	 *
-	 * @param resolver the Spring Resource Pattern Resolver
-	 * @param locationDir the directory to scan (recursively)
-	 * @param directoryPredicate the condition to determine it's a directory from the available resources in the classpath
-	 * @return the resource [ ] An array,  of the available resources within the directory
+	 * @param resolver           the Spring Resource Pattern Resolver
+	 * @param locationDir        the directory to scan (recursively)
+	 * @param directoryPredicate the condition to determine it's a directory from
+	 *                           the available resources in the classpath
+	 * @return the resource [ ] An array, of the available resources within the
+	 *         directory
 	 * @throws IOException the io exception
 	 */
 	public static Resource[] getResourceFiles(ResourcePatternResolver resolver, String locationDir,
@@ -47,13 +55,14 @@ public final class ResourceScannerUtils {
 	/**
 	 * Gets resource files recursively.
 	 *
-	 * @param urlResource the url resource
-	 * @param resourceSet the resource set
+	 * @param urlResource        the url resource
+	 * @param resourceSet        the resource set
 	 * @param directoryPredicate the directory predicate
 	 * @return the resource files recursively
 	 * @throws IOException the io exception
 	 */
-	private static Set<Resource> getResourceFilesRecursively(Resource urlResource, Set<Resource> resourceSet, Predicate<Resource> directoryPredicate) throws IOException {
+	private static Set<Resource> getResourceFilesRecursively(Resource urlResource, Set<Resource> resourceSet,
+			Predicate<Resource> directoryPredicate) throws IOException {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(urlResource.getInputStream()))) {
 			String resource;
 			while ((resource = br.readLine()) != null) {
