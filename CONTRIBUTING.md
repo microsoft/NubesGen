@@ -14,7 +14,14 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ## Working on the project
 
-The easiest way to work on the project is to use [Visual Studio Code](https://code.visualstudio.com/) with [Docker](https://docs.docker.com/get-docker/) and the [Remote Development Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
+The project is divided into 2 sub-projects:
+
+- The `rest-server` folder contains the REST Server for NubesGen, which is the main project.
+- The `cli` folder contains the command line interface for NubesGen.
+
+Both projects are built using Maven, and use Java.
+
+The easiest way to work on those projects is to use [Visual Studio Code](https://code.visualstudio.com/) with [Docker](https://docs.docker.com/get-docker/) and the [Remote Development Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
 
 Once you have the project cloned on your machine, open the VS Code command palette and select **Reopen Folder in Container**. It will take a few minutes the first time while the container image is building, after that you're ready to code.
 
@@ -22,8 +29,8 @@ Once you have the project cloned on your machine, open the VS Code command palet
 |----------------------------------|-------------------------------------------------|
 | `./mvnw package`                 | Generates .jar package in `/target` folder      |
 | `./mvnw test`                    | Runs tests                                      |
-| `java -jar target/nubesgen*.jar` | Starts NubesGen server on http://localhost:8080 |
-| `./mvnw spring-boot:run`  | Compiles and starts NubesGen server on https://localhost:8080 |
+| `java -jar target/nubesgen*.jar` | Starts NubesGen REST server on http://localhost:8080 |
+| `./mvnw spring-boot:run`  | Compiles and starts NubesGen REST server on https://localhost:8080 |
 
 ## Doing a release
 
@@ -31,7 +38,7 @@ Releases are managed using the [Maven Release Plugin](https://maven.apache.org/m
 will automatically increase the version number in the `pom.xml` and tag the repository.
 
 To do a release:
-- Update the version number and tag the repository: `./mvnw release:clean release:prepare`
+- Update the version number and tag the repository (in the `rest-server` sub-project): `./mvnw release:clean release:prepare`
 - Use the GitHub CLI to create the release: `gh release create <TAG_NAME>` (replace `<TAG_NAME>` by the name of the tag created 
   by the Maven Release Plugin)
   
