@@ -1,9 +1,20 @@
 package io.github.nubesgen.service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
+
+import io.github.nubesgen.utils.ResourceScannerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -29,7 +40,10 @@ public class TemplateListService {
     public TemplateListService() throws IOException {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-        Resource[] resources = resolver.getResources("classpath*:nubesgen/**");
+		// Exclude all resources that contain ".", but include ".github" directory
+		Predicate<Resource> directoryPredicate = resource -> !Objects.requireNonNull(resource.getFilename()).contains(".") || ".github".equals(resource.getFilename());
+		Resource[] resources = ResourceScannerUtils.getResourceFiles(resolver, "classpath*:nubesgen", directoryPredicate);
+
         Optional<Resource> resourceToTest = Arrays.stream(resolver.getResources("classpath*:nubesgen/README.md")).findFirst();
         String absolutePath;
         if (resourceToTest.isPresent()) {
