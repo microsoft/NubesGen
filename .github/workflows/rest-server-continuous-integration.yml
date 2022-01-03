@@ -13,11 +13,6 @@ on:
       - main
     paths:
       - 'rest-server/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'rest-server/**'
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -35,3 +30,35 @@ jobs:
         cache: 'maven'
     - name: Run tests
       run: mvn verify
+  build_java_docker_image:
+    name: Build and publish a JVM-based Docker image
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Login to GitHub Packages
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+      - name: Build the Docker image
+        run: mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}:main -DskipTests
+        working-directory: ${{ github.workspace }}/rest-server
+      - name: Push to GitHub Packages
+        run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
+  build_native_docker_image:
+    name: Build and publish a native (Linux) Docker image
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Login to GitHub Packages
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+      - name: Build the Docker image
+        run: mvn -f pom-native.xml spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}:main -DskipTests
+        working-directory: ${{ github.workspace }}/rest-server
+      - name: Push to GitHub Packages
+        run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
