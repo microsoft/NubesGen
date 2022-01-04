@@ -11,6 +11,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'rest-server/**'
 jobs:
   test:
     runs-on: ubuntu-latest
