@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'cli/**'
   pull_request:
     branches:
       - main
@@ -37,87 +35,41 @@ jobs:
             ${{ github.workspace }}/cli/target/*.jar
             !${{ github.workspace }}/cli/target/original-*.jar
           retention-days: 1
-  build-linux-image:
-    name: 'Build Linux native image'
+  build-native-image:
+    name: Native image build on ${{ matrix.os }}
     needs: [ build-jar ]
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        graalvm-version: ['21.3.0']
+        jdk-version: ['11', '17']
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Download application package
         uses: actions/download-artifact@v2
         with:
           name: java-binary
-      - name: Install GraalVM
-        uses: DeLaGuardo/setup-graalvm@5.0
+      - uses: graalvm/setup-graalvm@v1
         with:
-          graalvm-version: '21.3.0.java11'
-      - name: Install native-image
-        run: |
-          gu install native-image
-      - name: Build native image
+          version: ${{ matrix.graalvm-version }}
+          java-version: ${{ matrix.jdk-version }}
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build native image on Linux
         run: native-image --enable-url-protocols=https --static -jar nubesgen-cli-*.jar nubesgen-cli-linux
-      - name: Temporarily save package
-        uses: actions/upload-artifact@v2
-        with:
-          name: linux-binary
-          path: |
-            nubesgen-cli-*
-            !*.txt
-            !*.jar
-          retention-days: 30
-  build-macos-image:
-    name: 'Build Mac OS X native image'
-    needs: [ build-jar ]
-    runs-on: macos-latest
-    steps:
-      - name: Download application package
-        uses: actions/download-artifact@v2
-        with:
-          name: java-binary
-      - name: Install GraalVM
-        uses: DeLaGuardo/setup-graalvm@5.0
-        with:
-          graalvm-version: '21.3.0.java11'
-      - name: Install native-image
-        run: |
-          gu install native-image
-      - name: Build native image
+        if: runner.os == 'Linux'
+      - name: Build native image on Mac OS X
         run: native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-macos
+        if: runner.os == 'macOS'
+      - name: Build native image on Windows
+        run: native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-windows
+        if: runner.os == 'Windows'
       - name: Temporarily save package
         uses: actions/upload-artifact@v2
         with:
-          name: macos-binary
+          name: nubesgen-cli-${{ matrix.os }}-java-${{ matrix.jdk-version }}
           path: |
             nubesgen-cli-*
             !*.txt
             !*.jar
-          retention-days: 30
-  build-windows-image:
-    name: 'Build Windows native image'
-    needs: [ build-jar ]
-    runs-on: windows-latest
-    steps:
-      - name: Download application package
-        uses: actions/download-artifact@v2
-        with:
-          name: java-binary
-      - name: Install GraalVM
-        uses: DeLaGuardo/setup-graalvm@5.0
-        with:
-          graalvm-version: '21.3.0.java11'
-      - name: Install native-image
-        run: |
-          gu.cmd install native-image
-      - name: 'Install Visual C Build Tools Workload for Visual Studio 2017 Build Tools'
-        run: |
-          choco install visualstudio2017-workload-vctools
-      - name: 'Build native image'
-        shell: cmd
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-          native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-windows
-      - name: Temporarily save package
-        uses: actions/upload-artifact@v2
-        with:
-          name: windows-binary
-          path: 'nubesgen-cli-*.exe'
           retention-days: 30
