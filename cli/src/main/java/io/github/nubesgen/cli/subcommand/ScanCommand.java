@@ -40,6 +40,7 @@ public class ScanCommand implements Callable<Integer> {
         String getRequest = "?application=APP_SERVICE.basic";
         File mavenFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "pom.xml");
         File gradleFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "build.gradle");
+        File nodejsFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "package.json");
         String testFile = "";
         try {
             if (mavenFile.exists()) {
@@ -69,6 +70,12 @@ public class ScanCommand implements Callable<Integer> {
                 }
                 getRequest = javaDatabaseScanner(testFile, getRequest);
                 getRequest = javaAddOnScanner(testFile, getRequest);
+            } else if (nodejsFile.exists()) {
+                Output.printInfo("NodeJS project detected");
+                testFile = Files.readString(gradleFile.toPath());
+                getRequest += "&runtime=NODEJS";
+                getRequest = nodejsDatabaseScanner(testFile, getRequest);
+                getRequest = nodejsAddOnScanner(testFile, getRequest);
             } else {
                 Output.printInfo("Runtime couldn't be detected, failing back to Docker");
             }
@@ -95,6 +102,22 @@ public class ScanCommand implements Callable<Integer> {
         return getRequest;
     }
 
+    private static String nodejsDatabaseScanner(String testFile, String getRequest) {
+        if (testFile.contains("\"pg\"")) {
+            Output.printInfo("Database selected: PostgreSQL");
+            getRequest += "&database=POSTGRESQL";
+        } else if (testFile.contains("\"mysql2\"")) {
+            Output.printInfo("Database selected: MySQL");
+            getRequest += "&database=MYSQL";
+        } else if (testFile.contains("\"mssql\"")) {
+            Output.printInfo("Database selected: Azure SQL");
+            getRequest += "&database=SQL_SERVER";
+        } else {
+            Output.printInfo("Database selected: None");
+        }
+        return getRequest;
+    }
+
     private static String javaAddOnScanner(String testFile, String getRequest) {
         List<String> addOns = new ArrayList<>();
         if (testFile.contains("spring-boot-starter-data-mongodb") ||
@@ -102,7 +125,6 @@ public class ScanCommand implements Callable<Integer> {
 
             addOns.add("cosmosdb_mongodb");
             Output.printInfo("Add-on selected: MongoDB");
-            
         }
         if (testFile.contains("spring-boot-starter-data-redis") ||
          (testFile.contains("redis.clients") && testFile.contains("jedis")) ||
@@ -113,8 +135,28 @@ public class ScanCommand implements Callable<Integer> {
             Output.printInfo("Add-on selected: Redis");
         }
         if (testFile.contains("azure-storage-blob")) {
+            addOns.add("storage_blob");
+            Output.printInfo("Add-on selected: Azure Blob Storage");
+        }
+        if (addOns.size() > 0) {
+            getRequest += "&addons=" + addOns.stream().collect(Collectors.joining(","));
+        }
+        return getRequest;
+    }
+
+    private static String nodejsAddOnScanner(String testFile, String getRequest) {
+        List<String> addOns = new ArrayList<>();
+        if (testFile.contains("\"mongodb\"") ||
+            testFile.contains("\"mongoose\"")) {
+
+            addOns.add("cosmosdb_mongodb");
             Output.printInfo("Add-on selected: MongoDB");
-            
+        }
+        if (testFile.contains("\"redis\"")) {
+            addOns.add("redis");
+            Output.printInfo("Add-on selected: Redis");
+        }
+        if (testFile.contains("\"@azure/storage-blob\"")) {
             addOns.add("storage_blob");
             Output.printInfo("Add-on selected: Azure Blob Storage");
         }
