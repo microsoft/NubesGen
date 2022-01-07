@@ -41,7 +41,7 @@ manually.
 ### Manual Installation (without a shell script)
 
 <details>
-<summary>This setup only replaces step 2 of the automatic installation, described above</summary>
+<summary>This setup only replaces step 2 of the automatic installation, described above (click to expand)</summary>
 
 Instead of running a shell script, you will manually create one Azure Storage account, and two GitHub secrets.
 
