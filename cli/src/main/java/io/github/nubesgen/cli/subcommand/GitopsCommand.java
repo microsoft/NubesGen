@@ -50,7 +50,7 @@ public class GitopsCommand implements Callable<Integer> {
                     Output.printMessage("As the \"--refresh-secrets\" option was selected, this secret will be refreshed.");
                 } else {
                     Output.printMessage("To refresh this secret, use the \"--refresh-secrets\" (or \"-r\" shortcut) option when running this CLI.");
-                    return -1;
+                    return 0;
                 }
             }
             if (secretList.contains("TF_STORAGE_ACCOUNT")) {
@@ -59,7 +59,7 @@ public class GitopsCommand implements Callable<Integer> {
                     Output.printMessage("As the \"--refresh-secrets\" option was selected, this secret will be refreshed.");
                 } else {
                     Output.printMessage("To refresh this secret, use the \"--refresh-secrets\" (or \"-r\" shortcut) option when running this CLI.");
-                    return -1;
+                    return 0;
                 }
             }
         } catch (Exception e) {
