@@ -49,8 +49,8 @@ Instead of running a shell script, you will manually create one Azure Storage ac
     ```bash
     # The resource group used by Terraform to store its remote state.
     RESOURCE_GROUP_NAME=rg-terraform-001
-    # The location of the resource group. For example `eastus`. Leave blank to use your default location.
-    LOCATION=
+    # The location of the resource group. For example `eastus`.
+    LOCATION=eastus
     # The storage account (inside the resource group) used by Terraform to store its remote state.
     TF_STORAGE_ACCOUNT=st$RANDOM$RANDOM$RANDOM$RANDOM
     # The container name (inside the storage account) used by Terraform to store its remote state.
