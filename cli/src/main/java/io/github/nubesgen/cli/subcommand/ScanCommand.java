@@ -72,7 +72,7 @@ public class ScanCommand implements Callable<Integer> {
                 getRequest = javaAddOnScanner(testFile, getRequest);
             } else if (nodejsFile.exists()) {
                 Output.printInfo("NodeJS project detected");
-                testFile = Files.readString(gradleFile.toPath());
+                testFile = Files.readString(nodejsFile.toPath());
                 getRequest += "&runtime=NODEJS";
                 getRequest = nodejsDatabaseScanner(testFile, getRequest);
                 getRequest = nodejsAddOnScanner(testFile, getRequest);
