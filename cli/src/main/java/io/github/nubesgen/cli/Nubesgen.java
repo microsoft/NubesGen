@@ -35,6 +35,15 @@ public class Nubesgen implements Callable<Integer> {
     @Option(names = {"-n", "--no-gitops"}, description = "Do not configure GitOps")
     public static boolean noGitops;
 
+    @Option(names = {"--application-insights"}, description = "Add support for Application Performance Management (APM)")
+    public static boolean applicationInsights;
+
+    @Option(names = {"--azure-key-vault"}, description = "Add support for Azure Key Vault to store the secrets")
+    public static boolean azureKeyVault;
+
+    @Option(names = {"--vnet"}, description = "Add support for VNet to secure network connections")
+    public static boolean vnet;
+
     @Override
     public Integer call() throws Exception {
         int exitCode = HealthCommand.configure();
@@ -45,6 +54,9 @@ public class Nubesgen implements Callable<Integer> {
             }
             Output.printMessage("Working directory: " + workingDirectory);
             String projectName = ProjectnameCommand.projectName(workingDirectory);
+            ScanCommand.applicationInsights = applicationInsights;
+            ScanCommand.azureKeyVault = azureKeyVault;
+            ScanCommand.vnet = vnet;
             String getRequest = ScanCommand.scan(workingDirectory);
             int gitopsExitStatus = -1;
             if (!noGitops) {
