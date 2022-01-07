@@ -21,6 +21,15 @@ public class ScanCommand implements Callable<Integer> {
     @Option(names = {"-d", "--directory"}, description = "Directory in which the CLI will be executed")
     public static String directory;
 
+    @Option(names = {"--application-insights"}, description = "Add support for Application Performance Management (APM)")
+    public static boolean applicationInsights;
+
+    @Option(names = {"--azure-key-vault"}, description = "Add support for Azure Key Vault to store the secrets")
+    public static boolean azureKeyVault;
+
+    @Option(names = {"--vnet"}, description = "Add support for VNet to secure network connections")
+    public static boolean vnet;
+
     @Override
     public Integer call() {
         String workingDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
@@ -78,10 +87,19 @@ public class ScanCommand implements Callable<Integer> {
                 getRequest = nodejsAddOnScanner(testFile, getRequest);
             } else {
                 Output.printInfo("Runtime couldn't be detected, failing back to Docker");
+                List<String> addOns = new ArrayList<>();
+                genericAddOnScanner(addOns);
+                if (addOns.size() > 0) {
+                    getRequest += "&addons=" + addOns.stream().collect(Collectors.joining(","));
+                }
             }
         } catch (IOException e) {
             Output.printError("Error while reading files: " + e.getMessage());
             Output.printInfo("Project technology couldn't be detected, failing back to Docker");
+        }
+        if (vnet) {
+            Output.printInfo("Network configuration selected: VNet");
+            getRequest += "&network=VIRTUAL_NETWORK";
         }
         return getRequest;
     }
@@ -138,6 +156,7 @@ public class ScanCommand implements Callable<Integer> {
             addOns.add("storage_blob");
             Output.printInfo("Add-on selected: Azure Blob Storage");
         }
+        genericAddOnScanner(addOns);
         if (addOns.size() > 0) {
             getRequest += "&addons=" + addOns.stream().collect(Collectors.joining(","));
         }
@@ -160,9 +179,21 @@ public class ScanCommand implements Callable<Integer> {
             addOns.add("storage_blob");
             Output.printInfo("Add-on selected: Azure Blob Storage");
         }
+        genericAddOnScanner(addOns);
         if (addOns.size() > 0) {
             getRequest += "&addons=" + addOns.stream().collect(Collectors.joining(","));
         }
         return getRequest;
+    }
+
+    private static void genericAddOnScanner(List<String> addOns) {
+        if (applicationInsights) {
+            addOns.add("application_insights");
+            Output.printInfo("Add-on selected: Application Insights");
+        }
+        if (azureKeyVault) {
+            addOns.add("key_vault");
+            Output.printInfo("Add-on selected: Azure Key Vault");
+        }
     }
 }
