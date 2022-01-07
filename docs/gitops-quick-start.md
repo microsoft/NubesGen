@@ -26,7 +26,7 @@ For this installation method to work, you need to have installed and configured 
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`. This will automate creating the GitHub secrets for you, otherwise you will need to do it
 manually.
 
-_Automatic Installation (with a shell script)_
+### Automatic Installation (with a shell script)
 
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
 1. Open up a terminal in the repository you just cloned, and run the following script (or [download it](https://nubesgen.com/gitops/setup.sh) to read it and fine-tune it):
@@ -38,7 +38,7 @@ _Automatic Installation (with a shell script)_
 1. To use the new GitOps features, follow [GitOps overview](gitops-overview.md) and create a specific branch, for example
    `git checkout -b env-test && git push --set-upstream origin env-test`
 
-_Manual Installation (without a shell script)_
+### Manual Installation (without a shell script)
 
 <details>
 <summary>This setup only replaces step 2 of the automatic installation, described above</summary>
