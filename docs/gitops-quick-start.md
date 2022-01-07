@@ -26,7 +26,7 @@ For this installation method to work, you need to have installed and configured 
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`. This will automate creating the GitHub secrets for you, otherwise you will need to do it
 manually.
 
-_Installation_
+_Automatic Installation (with a shell script)_
 
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
 1. Open up a terminal in the repository you just cloned, and run the following script (or [download it](https://nubesgen.com/gitops/setup.sh) to read it and fine-tune it):
@@ -37,6 +37,35 @@ _Installation_
 1. You can now push the NubesGen code to your repository, for example by typing `git add . && git commit -m 'Configure GitOps with NubesGen' && git push`.
 1. To use the new GitOps features, follow [GitOps overview](gitops-overview.md) and create a specific branch, for example
    `git checkout -b env-test && git push --set-upstream origin env-test`
+
+_Manual Installation (without a shell script)_
+
+<details>
+<summary>This setup only replaces step 2 of the automatic installation, described above</summary>
+
+Instead of running a shell script, you will manually create one Azure Storage account, and two GitHub secrets.
+
+1. Setup some environment variables:
+    ```bash
+    # The resource group used by Terraform to store its remote state.
+    RESOURCE_GROUP_NAME=rg-terraform-001
+    # The location of the resource group. For example `eastus`. Leave blank to use your default location.
+    LOCATION=
+    # The storage account (inside the resource group) used by Terraform to store its remote state.
+    TF_STORAGE_ACCOUNT=st$RANDOM$RANDOM$RANDOM$RANDOM
+    # The container name (inside the storage account) used by Terraform to store its remote state.
+    CONTAINER_NAME=tfstate
+    ```
+1. Create a new Azure Resource Group : `az group create --name $RESOURCE_GROUP_NAME --location $LOCATION`
+1. Create the storage account : `az storage account create --resource-group $RESOURCE_GROUP_NAME --name $TF_STORAGE_ACCOUNT --sku Standard_LRS --allow-blob-public-access false --encryption-services blob`
+1. Get the storage account key: `ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $TF_STORAGE_ACCOUNT --query '[0].value' -o tsv)`
+1. Create a blob container: `az storage container create --name $CONTAINER_NAME --account-name $TF_STORAGE_ACCOUNT --account-key $ACCOUNT_KEY`
+1. Get the subscription ID: `SUBSCRIPTION_ID=$(az account show --query id --output tsv --only-show-errors)`
+1. Create a service principal: `SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --sdk-auth --only-show-errors)`
+1. Get the current GitHub remote repository: `REMOTE_REPO=$(git config --get remote.origin.url)`
+1. Set the two GitHub secrets: `gh secret set AZURE_CREDENTIALS -b"$SERVICE_PRINCIPAL" -R $REMOTE_REPO && gh secret set TF_STORAGE_ACCOUNT -b"$TF_STORAGE_ACCOUNT" -R $REMOTE_REPO`
+
+</details>
 
 __Congratulations, you have set up GitOps with NubesGen on your project!__
 
