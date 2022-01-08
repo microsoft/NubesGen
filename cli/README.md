@@ -32,7 +32,7 @@ For the CLI to work, you need to have installed and configured the following too
 This CLI is available as a native image on major platforms (Linux, Mac OS, Windows), and as a Java archive. The Java archive will run everywhere, but
 requires a Java Virtual Machine.
 
-Releases are available on GitHub at [https://github.com/jdubois/nubesgen-cli/releases](https://github.com/jdubois/nubesgen-cli/releases) and in the following examples we will use the GitHub CLI to download them.
+Releases are available on GitHub at [https://github.com/microsoft/nubesgen-cli/releases](https://github.com/microsoft/nubesgen-cli/releases) and in the following examples we will use the GitHub CLI to download them.
 
 <details>
 <summary>Downloading and installing the CLI with Java</summary>
