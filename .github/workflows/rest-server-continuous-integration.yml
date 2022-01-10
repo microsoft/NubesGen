@@ -13,6 +13,13 @@ on:
       - main
     paths:
       - 'rest-server/**'
+      - '.github/workflows/rest-server-continuous-integration.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'rest-server/**'
+      - '.github/workflows/rest-server-continuous-integration.yml'
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -46,6 +53,7 @@ jobs:
         working-directory: ${{ github.workspace }}/rest-server
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
+        if: ${{ github.repository == 'microsoft/nubesgen' && github.event_name != 'pull_request' }}
   build_native_docker_image:
     name: Build and publish a native (Linux) Docker image
     needs: [ test ]
@@ -62,3 +70,4 @@ jobs:
         working-directory: ${{ github.workspace }}/rest-server
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
+        if: ${{ github.repository == 'microsoft/nubesgen' && github.event_name != 'pull_request' }}
