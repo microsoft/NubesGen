@@ -14,7 +14,7 @@ public class VersionController {
         this.configurationService = configurationService;
     }
     
-    @GetMapping(value = "/api/version")
+    @GetMapping(value = "/version")
     public String version() {
         return "{ \"version\": \"" + this.configurationService.getVersion() + "\"}";
     }
