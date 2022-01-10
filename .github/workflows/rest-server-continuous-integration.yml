@@ -35,7 +35,7 @@ jobs:
     needs: [ test ]
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen'
+      DOCKER_IMAGE_NAME: ghcr.io/${{ github.repository }}/nubesgen
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -51,7 +51,7 @@ jobs:
     needs: [ test ]
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
+      DOCKER_IMAGE_NAME: ghcr.io/${{ github.repository }}/nubesgen-native
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
