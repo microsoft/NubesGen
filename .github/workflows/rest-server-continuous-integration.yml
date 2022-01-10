@@ -53,7 +53,7 @@ jobs:
         working-directory: ${{ github.workspace }}/rest-server
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
-        if: ${{ github.repository == 'microsoft/nubesgen' }}
+        if: ${{ github.repository == 'microsoft/nubesgen' && github.event_name != 'pull_request' }}
   build_native_docker_image:
     name: Build and publish a native (Linux) Docker image
     needs: [ test ]
@@ -70,4 +70,4 @@ jobs:
         working-directory: ${{ github.workspace }}/rest-server
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
-        if: ${{ github.repository == 'microsoft/nubesgen' }}
+        if: ${{ github.repository == 'microsoft/nubesgen' && github.event_name != 'pull_request' }}
