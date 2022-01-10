@@ -35,7 +35,7 @@ jobs:
     needs: [ test ]
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE_NAME: ghcr.io/${{ github.repository }}/nubesgen
+      DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -46,12 +46,13 @@ jobs:
         working-directory: ${{ github.workspace }}/rest-server
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
+        if: ${{ github.repository == 'microsoft/nubesgen' }}
   build_native_docker_image:
     name: Build and publish a native (Linux) Docker image
     needs: [ test ]
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE_NAME: ghcr.io/${{ github.repository }}/nubesgen-native
+      DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -62,3 +63,4 @@ jobs:
         working-directory: ${{ github.workspace }}/rest-server
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
+        if: ${{ github.repository == 'microsoft/nubesgen' }}
