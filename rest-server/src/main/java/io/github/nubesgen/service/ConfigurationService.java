@@ -37,6 +37,10 @@ public class ConfigurationService {
         }
     }
 
+    public String getVersion() {
+        return nubesgenVersion;
+    }
+
     public NubesgenConfiguration generateNubesgenConfiguration(
         String iactool,
         String runtime,
