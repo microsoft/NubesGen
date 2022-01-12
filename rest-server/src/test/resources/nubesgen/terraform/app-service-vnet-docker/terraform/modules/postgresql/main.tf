@@ -19,22 +19,19 @@ resource "random_password" "password" {
   override_special = "_%@"
 }
 
-resource "azurerm_postgresql_server" "database" {
+resource "azurerm_postgresql_flexible_server" "database" {
   name                = azurecaf_name.postgresql_server.result
   resource_group_name = var.resource_group
   location            = var.location
 
-  administrator_login          = var.administrator_login
-  administrator_login_password = random_password.password.result
+  administrator_login    = var.administrator_login
+  administrator_password = random_password.password.result
 
-  sku_name                         = "GP_Gen5_2"
-  storage_mb                       = 5120
+  sku_name                         = "GP_Standard_D2ds_v4"
+  storage_mb                       = 32768
   backup_retention_days            = 7
   geo_redundant_backup_enabled     = false
-  auto_grow_enabled                = true
-  version                          = "11"
-  ssl_enforcement_enabled          = true
-  ssl_minimal_tls_version_enforced = "TLS1_2"
+  version                          = "13"
 
   tags = {
     "environment"      = var.environment
@@ -48,24 +45,9 @@ resource "azurecaf_name" "postgresql_database" {
   suffixes      = [var.environment]
 }
 
-resource "azurerm_postgresql_database" "database" {
+resource "azurerm_postgresql_flexible_server_database" "database" {
   name                = azurecaf_name.postgresql_database.result
-  resource_group_name = var.resource_group
-  server_name         = azurerm_postgresql_server.database.name
-  charset             = "UTF8"
-  collation           = "English_United States.1252"
-}
-
-resource "azurecaf_name" "postgresql_network_rule" {
-  name          = var.application_name
-  resource_type = "azurerm_postgresql_virtual_network_rule"
-  suffixes      = [var.environment]
-}
-
-# This rule only allows traffic from the apps VNet
-resource "azurerm_postgresql_virtual_network_rule" "network_rule" {
-  name                = azurecaf_name.postgresql_network_rule.result
-  resource_group_name = var.resource_group
-  server_name         = azurerm_postgresql_server.database.name
-  subnet_id           = var.subnet_id
+  server_id           = azurerm_postgresql_flexible_server.database.id
+  charset             = "utf8"
+  collation           = "en_US.utf8"
 }
