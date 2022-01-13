@@ -126,6 +126,11 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   }
 }
 
+resource "azurerm_spring_cloud_active_deployment" "application_deployment" {
+  spring_cloud_app_id = azurerm_spring_cloud_app.application.id
+  deployment_name     = azurerm_spring_cloud_java_deployment.application_deployment.name
+}
+
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault_access_policy" "application" {
