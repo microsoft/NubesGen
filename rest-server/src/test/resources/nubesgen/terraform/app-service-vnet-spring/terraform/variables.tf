@@ -27,3 +27,9 @@ variable "app_subnet_prefix" {
   description = "Application subnet prefix"
   default     = "10.11.0.0/24"
 }
+
+variable "database_subnet_prefix" {
+  type        = string
+  description = "Database subnet prefix"
+  default     = "10.11.1.0/24"
+}

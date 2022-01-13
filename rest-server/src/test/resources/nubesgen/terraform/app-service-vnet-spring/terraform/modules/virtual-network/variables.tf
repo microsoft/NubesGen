@@ -33,3 +33,8 @@ variable "service_endpoints" {
   type        = list(string)
   description = "Service endpoints used by the solution"
 }
+
+variable "database_subnet_prefix" {
+  type        = string
+  description = "Azure Database subnet prefix"
+}
