@@ -13,6 +13,11 @@ output "service_subnet_id" {
   description = "Azure Spring Cloud services subnet"
 }
 
+output "database_subnet_id" {
+  value       = azurerm_subnet.database_subnet.id
+  description = "Database subnet"
+}
+
 output "redis_subnet_id" {
   value       = azurerm_subnet.redis_subnet.id
   description = "Azure Redis Cache subnet"
