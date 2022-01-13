@@ -4,7 +4,7 @@ output "database_url" {
 }
 
 output "database_username" {
-  value       = "${var.administrator_login}@${azurerm_postgresql_flexible_server.database.name}"
+  value       = "${var.administrator_login}"
   description = "The PostgreSQL server user name."
 }
 

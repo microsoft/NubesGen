@@ -43,14 +43,22 @@ variable "service_subnet_prefix" {
   description = "Azure Spring Cloud service subnet prefix"
   default     = "10.11.1.0/24"
 }
-  {{#addonRedis}}
+    {{^databaseTypeNone}}
+
+variable "database_subnet_prefix" {
+  type        = string
+  description = "Database subnet prefix"
+  default     = "10.11.1.0/24"
+}
+    {{/databaseTypeNone}}
+    {{#addonRedis}}
 
 variable "redis_subnet_prefix" {
   type        = string
   description = "Redis cache subnet prefix"
   default     = "10.11.2.0/24"
 }
-  {{/addonRedis}}
+    {{/addonRedis}}
 
 variable "cidr_ranges" {
   type        = list(string)
