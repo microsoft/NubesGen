@@ -39,6 +39,11 @@ variable "service_endpoints" {
   description = "Service endpoints used by the solution"
 }
 
+variable "database_subnet_prefix" {
+  type        = string
+  description = "Azure Database subnet prefix"
+}
+
 variable "redis_subnet_prefix" {
   type        = string
   description = "Azure Redis Cache subnet prefix"
