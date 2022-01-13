@@ -28,7 +28,12 @@ variable "administrator_login" {
   default     = "postgresqladmin"
 }
 
+variable "virtual_network_id" {
+  type        = string
+  description = "Azure Virtual Network ID"
+}
+
 variable "subnet_id" {
   type        = string
-  description = "The subnet from which the access is allowed"
+  description = "The Subnet from which the access is allowed"
 }

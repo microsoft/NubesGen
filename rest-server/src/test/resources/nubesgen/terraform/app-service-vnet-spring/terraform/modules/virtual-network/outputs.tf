@@ -7,3 +7,8 @@ output "app_subnet_id" {
   value       = azurerm_subnet.app_subnet.id
   description = "Application Subnet"
 }
+
+output "database_subnet_id" {
+  value       = azurerm_subnet.database_subnet.id
+  description = "Database subnet"
+}
