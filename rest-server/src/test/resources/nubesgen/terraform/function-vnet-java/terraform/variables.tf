@@ -28,8 +28,14 @@ variable "app_subnet_prefix" {
   default     = "10.11.0.0/24"
 }
 
+variable "database_subnet_prefix" {
+  type        = string
+  description = "Database subnet prefix"
+  default     = "10.11.1.0/24"
+}
+
 variable "redis_subnet_prefix" {
   type        = string
   description = "Redis cache subnet prefix"
-  default     = "10.11.1.0/24"
+  default     = "10.11.2.0/24"
 }
