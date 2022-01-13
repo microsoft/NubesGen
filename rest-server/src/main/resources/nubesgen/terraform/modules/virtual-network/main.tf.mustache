@@ -66,7 +66,7 @@ resource "azurerm_subnet" "app_subnet" {
   {{/applicationTypeSpringCloud}}
 }
 {{^databaseTypeNone}}
-
+  {{^databaseTypeSqlServer}}
 resource "azurecaf_name" "database_subnet" {
   name          = var.application_name
   resource_type = "azurerm_subnet"
@@ -87,6 +87,7 @@ resource "azurerm_subnet" "database_subnet" {
     }
   }
 }
+  {{/databaseTypeSqlServer}}
 {{/databaseTypeNone}}
 {{#addonRedis}}
 

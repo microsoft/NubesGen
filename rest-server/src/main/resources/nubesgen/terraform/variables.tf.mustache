@@ -44,12 +44,14 @@ variable "service_subnet_prefix" {
   default     = "10.11.1.0/24"
 }
     {{^databaseTypeNone}}
+      {{^databaseTypeSqlServer}}
 
 variable "database_subnet_prefix" {
   type        = string
   description = "Database subnet prefix"
   default     = "10.11.2.0/24"
 }
+      {{/databaseTypeSqlServer}}
     {{/databaseTypeNone}}
     {{#addonRedis}}
 
@@ -74,12 +76,14 @@ variable "app_subnet_prefix" {
   default     = "10.11.0.0/24"
 }
     {{^databaseTypeNone}}
+      {{^databaseTypeSqlServer}}
 
 variable "database_subnet_prefix" {
   type        = string
   description = "Database subnet prefix"
   default     = "10.11.1.0/24"
 }
+      {{/databaseTypeSqlServer}}
     {{/databaseTypeNone}}
     {{#addonRedis}}
 
