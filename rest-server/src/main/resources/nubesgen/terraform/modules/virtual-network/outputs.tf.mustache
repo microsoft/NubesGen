@@ -15,11 +15,13 @@ output "service_subnet_id" {
 }
 {{/applicationTypeSpringCloud}}
 {{^databaseTypeNone}}
+  {{^databaseTypeSqlServer}}
 
 output "database_subnet_id" {
   value       = azurerm_subnet.database_subnet.id
   description = "Database subnet"
 }
+  {{/databaseTypeSqlServer}}
 {{/databaseTypeNone}}
 {{#addonRedis}}
 

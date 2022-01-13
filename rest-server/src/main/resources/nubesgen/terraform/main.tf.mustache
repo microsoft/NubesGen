@@ -178,9 +178,15 @@ module "database" {
   environment      = local.environment
   location         = var.location
   {{#NetworkVNet}}
+    {{#databaseTypeSqlServer}}
+
+  subnet_id = module.network.app_subnet_id
+    {{/databaseTypeSqlServer}}
+    {{^databaseTypeSqlServer}}
 
   subnet_id          = module.network.database_subnet_id
   virtual_network_id = module.network.virtual_network_id
+    {{/databaseTypeSqlServer}}
   {{/NetworkVNet}}
 }
 {{/databaseTypeNone}}
@@ -286,8 +292,10 @@ module "network" {
   service_subnet_prefix = var.service_subnet_prefix
   {{/applicationTypeSpringCloud}}
   {{^databaseTypeNone}}
+    {{^databaseTypeSqlServer}}
 
   database_subnet_prefix = var.database_subnet_prefix
+    {{/databaseTypeSqlServer}}
   {{/databaseTypeNone}}
   {{#addonRedis}}
 

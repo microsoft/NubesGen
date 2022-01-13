@@ -61,7 +61,8 @@ module "database" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
-  subnet_id        = module.network.app_subnet_id
+
+  subnet_id = module.network.app_subnet_id
 }
 
 module "network" {
