@@ -1,7 +1,7 @@
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = "nubesgen-4564564-postgresql"
+  default     = "nubesgen-testapp-postgresql"
 }
 
 variable "environment" {
