@@ -27,10 +27,10 @@ resource "azurerm_mysql_flexible_server" "database" {
   administrator_login    = var.administrator_login
   administrator_password = random_password.password.result
 
-  sku_name                          = "B_Standard_B1ms"
-  version                           = "8.0.21"
-  backup_retention_days             = 7
-  geo_redundant_backup_enabled      = false
+  sku_name                     = "B_Standard_B1ms"
+  version                      = "8.0.21"
+  backup_retention_days        = 7
+  geo_redundant_backup_enabled = false
 
   tags = {
     "environment"      = var.environment
@@ -38,14 +38,8 @@ resource "azurerm_mysql_flexible_server" "database" {
   }
 }
 
-resource "azurecaf_name" "mysql_database" {
-  name          = var.application_name
-  resource_type = "azurerm_mysql_database"
-  suffixes      = [var.environment]
-}
-
 resource "azurerm_mysql_flexible_database" "database" {
-  name                = azurecaf_name.mysql_database.result
+  name                = var.database_name
   resource_group_name = var.resource_group
   server_name         = azurerm_mysql_flexible_server.database.name
   charset             = "utf8"
