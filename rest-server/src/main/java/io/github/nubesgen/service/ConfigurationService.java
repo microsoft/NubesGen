@@ -212,12 +212,6 @@ public class ConfigurationService {
                 log.debug("VNET configuration is requested, so the Spring Cloud configuration was updated to the Standard tier.");
                 properties.getApplicationConfiguration().setTier(Tier.STANDARD);
             }
-            if (properties.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.MYSQL) ||
-                    properties.getDatabaseConfiguration().getDatabaseType().equals(DatabaseType.POSTGRESQL)) {
-
-                log.debug("VNET configuration is requested, so the database configuration was updated to the general purpose tier.");
-                properties.getDatabaseConfiguration().setTier(Tier.GENERAL_PURPOSE);
-            }
         }
     }
 
