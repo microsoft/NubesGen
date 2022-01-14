@@ -4,7 +4,7 @@ output "database_url" {
 }
 
 output "database_username" {
-  value       = "${var.administrator_login}@${azurerm_mysql_server.database.name}"
+  value       = var.administrator_login
   description = "The MySQL server user name."
 }
 
