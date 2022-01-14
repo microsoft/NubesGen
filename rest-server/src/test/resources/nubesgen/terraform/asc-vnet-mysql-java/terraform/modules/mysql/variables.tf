@@ -28,6 +28,12 @@ variable "administrator_login" {
   default     = "myadmin"
 }
 
+variable "database_name" {
+  type        = string
+  description = "The MySQL database name"
+  default     = "db"
+}
+
 variable "subnet_id" {
   type        = string
   description = "The subnet from which the access is allowed"
