@@ -9,7 +9,7 @@ terraform {
 
 resource "azurecaf_name" "postgresql_server" {
   name          = var.application_name
-  resource_type = "azurerm_postgresql_server"
+  resource_type = "azurerm_postgresql_flexible_server"
   suffixes      = [var.environment]
 }
 
@@ -45,7 +45,7 @@ resource "azurerm_postgresql_flexible_server" "database" {
 
 resource "azurecaf_name" "postgresql_database" {
   name          = var.application_name
-  resource_type = "azurerm_postgresql_database"
+  resource_type = "azurerm_postgresql_flexible_server_database"
   suffixes      = [var.environment]
 }
 
