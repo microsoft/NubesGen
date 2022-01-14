@@ -27,3 +27,9 @@ variable "administrator_login" {
   description = "The MySQL administrator login"
   default     = "myadmin"
 }
+
+variable "database_name" {
+  type        = string
+  description = "The MySQL database name"
+  default     = "db"
+}

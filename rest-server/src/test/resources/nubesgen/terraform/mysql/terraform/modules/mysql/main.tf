@@ -38,14 +38,8 @@ resource "azurerm_mysql_flexible_server" "database" {
   }
 }
 
-resource "azurecaf_name" "mysql_database" {
-  name          = var.application_name
-  resource_type = "azurerm_mysql_database"
-  suffixes      = [var.environment]
-}
-
 resource "azurerm_mysql_flexible_database" "database" {
-  name                = azurecaf_name.mysql_database.result
+  name                = var.database_name
   resource_group_name = var.resource_group
   server_name         = azurerm_mysql_flexible_server.database.name
   charset             = "utf8"
