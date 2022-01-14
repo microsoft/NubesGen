@@ -1,5 +1,9 @@
 package io.github.nubesgen.cli.subcommand;
 
+import io.github.nubesgen.cli.subcommand.scan.DotNetScanner;
+import io.github.nubesgen.cli.subcommand.scan.GenericScanner;
+import io.github.nubesgen.cli.subcommand.scan.JavaScanner;
+import io.github.nubesgen.cli.subcommand.scan.NodeJsScanner;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
@@ -7,11 +11,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import io.github.nubesgen.cli.util.Output;
 
@@ -50,7 +57,8 @@ public class ScanCommand implements Callable<Integer> {
         File mavenFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "pom.xml");
         File gradleFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "build.gradle");
         File nodejsFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "package.json");
-        String testFile = "";
+        Optional<Path> dotnetFile = dotNetFinder(workingDirectory);
+        String testFile;
         try {
             if (mavenFile.exists()) {
                 Output.printInfo("Maven detected");
@@ -65,8 +73,8 @@ public class ScanCommand implements Callable<Integer> {
                     Output.printInfo("Runtime selected: Java + Maven");
                     getRequest += "&runtime=JAVA";
                 }
-                getRequest = javaDatabaseScanner(testFile, getRequest);
-                getRequest = javaAddOnScanner(testFile, getRequest);
+                getRequest = JavaScanner.javaDatabaseScanner(testFile, getRequest);
+                getRequest = JavaScanner.javaAddOnScanner(testFile, getRequest);
             } else if (gradleFile.exists()) {
                 Output.printInfo("Gradle project detected");
                 testFile = Files.readString(gradleFile.toPath());
@@ -77,20 +85,26 @@ public class ScanCommand implements Callable<Integer> {
                     Output.printInfo("Runtime selected: Java + Gradle");
                     getRequest += "&runtime=JAVA_GRADLE";
                 }
-                getRequest = javaDatabaseScanner(testFile, getRequest);
-                getRequest = javaAddOnScanner(testFile, getRequest);
+                getRequest = JavaScanner.javaDatabaseScanner(testFile, getRequest);
+                getRequest = JavaScanner.javaAddOnScanner(testFile, getRequest);
             } else if (nodejsFile.exists()) {
                 Output.printInfo("NodeJS project detected");
                 testFile = Files.readString(nodejsFile.toPath());
                 getRequest += "&runtime=NODEJS";
-                getRequest = nodejsDatabaseScanner(testFile, getRequest);
-                getRequest = nodejsAddOnScanner(testFile, getRequest);
+                getRequest = NodeJsScanner.nodejsDatabaseScanner(testFile, getRequest);
+                getRequest = NodeJsScanner.nodejsAddOnScanner(testFile, getRequest);
+            } else if (dotnetFile.isPresent()) {
+                Output.printInfo(".NET project detected");
+                testFile = Files.readString(dotnetFile.get());
+                getRequest += "&runtime=DOTNET";
+                getRequest = DotNetScanner.dotnetDatabaseScanner(testFile, getRequest);
+                getRequest = DotNetScanner.dotnetAddOnScanner(testFile, getRequest);
             } else {
                 Output.printInfo("Runtime couldn't be detected, failing back to Docker");
                 List<String> addOns = new ArrayList<>();
-                genericAddOnScanner(addOns);
+                GenericScanner.genericAddOnScanner(addOns);
                 if (addOns.size() > 0) {
-                    getRequest += "&addons=" + addOns.stream().collect(Collectors.joining(","));
+                    getRequest += "&addons=" + String.join(",", addOns);
                 }
             }
         } catch (IOException e) {
@@ -104,96 +118,14 @@ public class ScanCommand implements Callable<Integer> {
         return getRequest;
     }
 
-    private static String javaDatabaseScanner(String testFile, String getRequest) {
-        if (testFile.contains("org.postgresql")) {
-            Output.printInfo("Database selected: PostgreSQL");
-            getRequest += "&database=POSTGRESQL";
-        } else if (testFile.contains("mysql-connector-java")) {
-            Output.printInfo("Database selected: MySQL");
-            getRequest += "&database=MYSQL";
-        } else if (testFile.contains("com.microsoft.sqlserver")) {
-            Output.printInfo("Database selected: Azure SQL");
-            getRequest += "&database=SQL_SERVER";
-        } else {
-            Output.printInfo("Database selected: None");
+    private static Optional<Path> dotNetFinder(String workingDirectory) {
+        try (Stream<Path> files = Files.walk(Paths.get(workingDirectory))) {
+            return files
+                    .filter(f -> f.getFileName().toString().endsWith(".csproj"))
+                    .findFirst();
+        } catch (IOException e) {
+            Output.printError("Error while scanning directory: " + e.getMessage());
         }
-        return getRequest;
-    }
-
-    private static String nodejsDatabaseScanner(String testFile, String getRequest) {
-        if (testFile.contains("\"pg\"")) {
-            Output.printInfo("Database selected: PostgreSQL");
-            getRequest += "&database=POSTGRESQL";
-        } else if (testFile.contains("\"mysql2\"")) {
-            Output.printInfo("Database selected: MySQL");
-            getRequest += "&database=MYSQL";
-        } else if (testFile.contains("\"mssql\"")) {
-            Output.printInfo("Database selected: Azure SQL");
-            getRequest += "&database=SQL_SERVER";
-        } else {
-            Output.printInfo("Database selected: None");
-        }
-        return getRequest;
-    }
-
-    private static String javaAddOnScanner(String testFile, String getRequest) {
-        List<String> addOns = new ArrayList<>();
-        if (testFile.contains("spring-boot-starter-data-mongodb") ||
-            testFile.contains("mongodb-driver-sync")) {
-
-            addOns.add("cosmosdb_mongodb");
-            Output.printInfo("Add-on selected: MongoDB");
-        }
-        if (testFile.contains("spring-boot-starter-data-redis") ||
-         (testFile.contains("redis.clients") && testFile.contains("jedis")) ||
-         (testFile.contains("io.lettuce") && testFile.contains("lettuce-core")) ||
-         (testFile.contains("org.redisson") && testFile.contains("redisson"))) {
-
-            addOns.add("redis");
-            Output.printInfo("Add-on selected: Redis");
-        }
-        if (testFile.contains("azure-storage-blob")) {
-            addOns.add("storage_blob");
-            Output.printInfo("Add-on selected: Azure Blob Storage");
-        }
-        genericAddOnScanner(addOns);
-        if (addOns.size() > 0) {
-            getRequest += "&addons=" + addOns.stream().collect(Collectors.joining(","));
-        }
-        return getRequest;
-    }
-
-    private static String nodejsAddOnScanner(String testFile, String getRequest) {
-        List<String> addOns = new ArrayList<>();
-        if (testFile.contains("\"mongodb\"") ||
-            testFile.contains("\"mongoose\"")) {
-
-            addOns.add("cosmosdb_mongodb");
-            Output.printInfo("Add-on selected: MongoDB");
-        }
-        if (testFile.contains("\"redis\"")) {
-            addOns.add("redis");
-            Output.printInfo("Add-on selected: Redis");
-        }
-        if (testFile.contains("\"@azure/storage-blob\"")) {
-            addOns.add("storage_blob");
-            Output.printInfo("Add-on selected: Azure Blob Storage");
-        }
-        genericAddOnScanner(addOns);
-        if (addOns.size() > 0) {
-            getRequest += "&addons=" + addOns.stream().collect(Collectors.joining(","));
-        }
-        return getRequest;
-    }
-
-    private static void genericAddOnScanner(List<String> addOns) {
-        if (applicationInsights) {
-            addOns.add("application_insights");
-            Output.printInfo("Add-on selected: Application Insights");
-        }
-        if (azureKeyVault) {
-            addOns.add("key_vault");
-            Output.printInfo("Add-on selected: Azure Key Vault");
-        }
+        return Optional.empty();
     }
 }
