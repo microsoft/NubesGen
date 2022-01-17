@@ -81,12 +81,18 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "database" {
 {{#NetworkVNet}}
 
 resource "azurerm_private_dns_zone" "database" {
-  name                =  "${azurecaf_name.postgresql_server.result}.postgres.database.azure.com"
+  name                = "db1.private.postgres.database.azure.com"
   resource_group_name = var.resource_group
 }
 
+resource "azurecaf_name" "private_dns_zone_virtual_network_link" {
+  name          = var.application_name
+  resource_type = "azurerm_private_dns_zone_virtual_network_link"
+  suffixes      = [var.environment]
+}
+
 resource "azurerm_private_dns_zone_virtual_network_link" "database" {
-  name                  = "${azurecaf_name.postgresql_server.result}-dns-link"
+  name                  = azurecaf_name.private_dns_zone_virtual_network_link.result
   resource_group_name   = var.resource_group
   private_dns_zone_name = azurerm_private_dns_zone.database.name
   virtual_network_id    = var.virtual_network_id
