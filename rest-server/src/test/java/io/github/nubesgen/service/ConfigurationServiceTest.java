@@ -13,6 +13,7 @@ public class ConfigurationServiceTest {
     @Test
     void checkDefaultConfiguration() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "",
             "TERRAFORM",
             "DOCKER",
             "APP_SERVICE",
@@ -36,7 +37,7 @@ public class ConfigurationServiceTest {
 
     @Test
     void checkEmptyConfiguration() {
-        NubesgenConfiguration configuration = service.generateNubesgenConfiguration("", "", "", "", "", false, "", "");
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration("", "", "", "", "", "", false, "", "");
 
         assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
         assertEquals(RuntimeType.DOCKER, configuration.getRuntimeType());
@@ -52,6 +53,7 @@ public class ConfigurationServiceTest {
     @Test
     void checkPostgresqlDefaultOptions() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "",
             "TERRAFORM",
             "DOCKER",
             "APP_SERVICE",
@@ -76,6 +78,7 @@ public class ConfigurationServiceTest {
     @Test
     void checkSpringCloudOnlySupportsSpring() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "",
             "TERRAFORM",
             "DOCKER",
             "SPRING_CLOUD",
@@ -100,6 +103,7 @@ public class ConfigurationServiceTest {
     @Test
     void dontUpdateDatabaseTierIfVnetIsSelected() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "",
             "TERRAFORM",
             "DOCKER",
             "APP_SERVICE",
@@ -124,6 +128,7 @@ public class ConfigurationServiceTest {
     @Test
     void updateAppsServiceTierIfVnetIsSelected() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "",
                 "TERRAFORM",
                 "DOCKER",
                 "APP_SERVICE",
@@ -149,6 +154,7 @@ public class ConfigurationServiceTest {
     @Test
     void updateFunctionTierIfVnetIsSelected() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "",
             "TERRAFORM",
             "SPRING",
             "FUNCTION",
@@ -174,6 +180,7 @@ public class ConfigurationServiceTest {
     @Test
     void updateSpringCloudTierIfVnetIsSelected() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "",
                 "TERRAFORM",
                 "SPRING",
                 "SPRING_CLOUD.BASIC",

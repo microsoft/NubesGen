@@ -42,6 +42,7 @@ public class ConfigurationService {
     }
 
     public NubesgenConfiguration generateNubesgenConfiguration(
+        String nubesgenUrl,
         String iactool,
         String runtime,
         String application,
@@ -58,6 +59,7 @@ public class ConfigurationService {
         addons = addons.toUpperCase();
         network = network.toUpperCase();
         NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setNubesgenUrl(nubesgenUrl);
         properties.setNubesgenVersion(nubesgenVersion);
         configureRegion(properties, region);
         configureIac(properties, iactool);
