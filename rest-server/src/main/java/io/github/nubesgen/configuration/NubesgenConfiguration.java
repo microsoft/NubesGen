@@ -13,6 +13,8 @@ public class NubesgenConfiguration {
 
     private final Date date = new Date();
 
+    private String nubesgenUrl;
+
     private String nubesgenVersion;
 
     private String region;
@@ -43,6 +45,7 @@ public class NubesgenConfiguration {
     public NubesgenConfiguration() {
         this.region = "eastus";
         this.nubesgenVersion = "test";
+        this.nubesgenUrl = "";
         this.applicationName = DEFAULT_APPLICATION_NAME;
         this.iaCTool = IaCTool.TERRAFORM;
         this.runtimeType = RuntimeType.DOCKER;
@@ -54,6 +57,14 @@ public class NubesgenConfiguration {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getNubesgenUrl() {
+        return nubesgenUrl;
+    }
+
+    public void setNubesgenUrl(String nubesgenUrl) {
+        this.nubesgenUrl = nubesgenUrl;
     }
 
     public String getNubesgenVersion() {
