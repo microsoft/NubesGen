@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/")
 public class MainController {
@@ -65,9 +67,11 @@ public class MainController {
         @RequestParam(defaultValue = "NONE") String database,
         @RequestParam(defaultValue = "false") boolean gitops,
         @RequestParam(defaultValue = "") String addons,
-        @RequestParam(defaultValue = "") String network
+        @RequestParam(defaultValue = "") String network,
+        HttpServletRequest request
     ) {
         NubesgenConfiguration properties = configurationService.generateNubesgenConfiguration(
+            getNubesgenUrl(request),
             iactool,
             runtime,
             application,
@@ -99,9 +103,11 @@ public class MainController {
         @RequestParam(defaultValue = "NONE") String database,
         @RequestParam(defaultValue = "false") boolean gitops,
         @RequestParam(defaultValue = "") String addons,
-        @RequestParam(defaultValue = "") String network
+        @RequestParam(defaultValue = "") String network,
+        HttpServletRequest request
     ) {
         NubesgenConfiguration properties = configurationService.generateNubesgenConfiguration(
+            getNubesgenUrl(request),
             iactool,
             runtime,
             application,
@@ -154,5 +160,17 @@ public class MainController {
         stopWatch.stop();
         log.info("Generation finished in {}ms", stopWatch.getTotalTimeMillis());
         return new ResponseEntity<>(out, responseHeaders, HttpStatus.OK);
+    }
+
+    /**
+     * Calculate the full URL used to generate the current project.
+     */
+    private String getNubesgenUrl(HttpServletRequest request) {
+        String url = request.getRequestURL().toString();
+        String parameters = request.getQueryString();
+        if (parameters != null) {
+            url += "?" + parameters;
+        }
+        return url;
     }
 }

@@ -36,7 +36,7 @@ jobs:
           path: |
             ${{ github.workspace }}/cli/target/*.jar
             !${{ github.workspace }}/cli/target/original-*.jar
-          retention-days: 1
+          retention-days: 30
   build-native-image:
     name: Native image build on ${{ matrix.os }} and Java ${{ matrix.jdk-version }}
     needs: [ build-jar ]

@@ -13,6 +13,8 @@ public class NubesgenConfiguration {
 
     private final Date date = new Date();
 
+    private String nubesgenUrl;
+
     private String nubesgenVersion;
 
     private String region;
@@ -43,6 +45,7 @@ public class NubesgenConfiguration {
     public NubesgenConfiguration() {
         this.region = "eastus";
         this.nubesgenVersion = "test";
+        this.nubesgenUrl = "";
         this.applicationName = DEFAULT_APPLICATION_NAME;
         this.iaCTool = IaCTool.TERRAFORM;
         this.runtimeType = RuntimeType.DOCKER;
@@ -54,6 +57,14 @@ public class NubesgenConfiguration {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getNubesgenUrl() {
+        return nubesgenUrl;
+    }
+
+    public void setNubesgenUrl(String nubesgenUrl) {
+        this.nubesgenUrl = nubesgenUrl;
     }
 
     public String getNubesgenVersion() {
@@ -94,7 +105,7 @@ public class NubesgenConfiguration {
         String containerRegistryWithNoHyphens = applicationName.replace("-", "");
         // the maxLength doesn't include the environment, as we can't know it from here
         // so this will probably won't be correct for longer names, when using an environment
-        int maxLength = (containerRegistryWithNoHyphens.length() < 46) ? containerRegistryWithNoHyphens.length() : 46;
+        int maxLength = Math.min(containerRegistryWithNoHyphens.length(), 46);
         return containerRegistryWithNoHyphens.replace("-", "").substring(0, maxLength);
     }
 
@@ -349,7 +360,7 @@ public class NubesgenConfiguration {
     @JsonIgnore
     public String getNetworkServiceEndpoints() {
         if (isNetworkVNet()) {
-            ArrayList<String> endpoints = new ArrayList<String>();
+            ArrayList<String> endpoints = new ArrayList<>();
             if (!isDatabaseTypeNone()) {
                 endpoints.add("\"Microsoft.Sql\"");
             }
