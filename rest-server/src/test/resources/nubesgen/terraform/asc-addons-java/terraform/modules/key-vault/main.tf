@@ -8,7 +8,7 @@ terraform {
 }
 
 resource "azurecaf_name" "key_vault" {
-  name          = var.application_name
+  random_length = "15"
   resource_type = "azurerm_key_vault"
   suffixes      = [var.environment]
 }
