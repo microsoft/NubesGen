@@ -35,7 +35,15 @@ resource "azurerm_mysql_flexible_server" "database" {
 {{/databaseTierGeneralPurpose}}
   version                      = "8.0.21"
   backup_retention_days        = 7
+{{#databaseTierBasic}}
   geo_redundant_backup_enabled = false
+{{/databaseTierBasic}}
+{{#databaseTierGeneralPurpose}}
+  geo_redundant_backup_enabled = true
+  high_availability {
+    mode = "ZoneRedundant"
+  }
+{{/databaseTierGeneralPurpose}}
 {{#NetworkVNet}}
   delegated_subnet_id          = var.subnet_id
   private_dns_zone_id          = azurerm_private_dns_zone.database.id

@@ -79,7 +79,7 @@
                 iaCToolId: 'TERRAFORM',
                 iaCTool: { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
                 iaCToolName: 'Terraform',
-                iaCToolFlag: './img/terraform.png',                
+                iaCToolFlag: './img/terraform.png',
                 components: {frontApp: {type: 'APP_SERVICE', size: 'free'}, database: {type: 'NONE', size: 'free'}},
                 addons: [],
                 runtime: "DOCKER",
@@ -554,7 +554,7 @@
                                             <div class="text-lg font-semibold text-blue-900">
                                                 Web Application
                                                 <p class="text-sm font-normal text-gray-500">Azure App Service</p>
-                                                <p class="text-sm italic text-gray-500">Supports Docker, 
+                                                <p class="text-sm italic text-gray-500">Supports Docker,
                                                     Java, Spring Boot, .NET, Node.js applications.</p>
                                                 <div x-show="components.frontApp.type==='APP_SERVICE'">
                                                     <p class="font-normal text-gray-500 text-sm mt-4">Select your
@@ -576,7 +576,7 @@
                                             <div class="text-lg font-semibold">
                                                 Serverless Application
                                                 <p class="text-sm font-normal text-gray-500">Azure Functions</p>
-                                                <p class="text-sm italic text-gray-500">Supports Java, Spring Boot, 
+                                                <p class="text-sm italic text-gray-500">Supports Java, Spring Boot,
                                                     .NET, Node.js functions.</p>
                                                 <div x-show="components.frontApp.type==='FUNCTION'">
                                                     <p class="font-normal text-gray-500 text-sm mt-4">Select your
@@ -945,19 +945,19 @@
                                                 performance</p>
                                             <div class="flex row-auto items-center mt-4"><i
                                                     class="fa fa-check-circle-o text-gray-400"></i>
-                                                <span class="ml-3 ">1 vcore and 2GiB Memory</span>
+                                                <span class="ml-3 ">1 vCore and 2GiB Memory</span>
                                             </div>
                                             <div class="flex row-auto items-center mt-2"><i
                                                     class="fa fa-check-circle-o text-gray-400"></i>
-                                                <span class="ml-3 ">Up to 1Tb of storage</span>
+                                                <span class="ml-3 ">Up to 16Tb of storage</span>
                                             </div>
                                             <div class="flex row-auto items-center mt-2"><i
                                                     class="fa fa-check-circle-o text-gray-400"></i>
                                                 <span class="ml-3 ">Included PITR backups</span>
                                             </div>
                                             <div class="flex row-auto items-center mt-4"><i
-                                                    class="fa fa-check-circle-o "></i>
-                                                <span class="ml-3 ">99,99% SLA</span>
+                                                    class="fa fa-check-circle-o text-gray-400"></i>
+                                                <span class="ml-3 ">99,9% SLA</span>
                                             </div>
                                         </div>
                                         <div class="p-3 bg-white border rounded px-5 py-6"
@@ -968,7 +968,7 @@
                                             <p class=" mt-4">For most business workloads</p>
                                             <div class="flex row-auto items-center mt-4"><i
                                                     class="fa fa-check-circle-o text-gray-400"></i>
-                                                <span class="ml-3 ">Start at 2 vcore and 10GiB Memory, scale up to 64 vCore/320Gib</span>
+                                                <span class="ml-3 ">2 vCores and 8GiB Memory</span>
                                             </div>
                                             <div class="flex row-auto items-center mt-2"><i
                                                     class="fa fa-check-circle-o text-gray-400"></i>
@@ -978,10 +978,9 @@
                                                     class="fa fa-check-circle-o text-gray-400"></i>
                                                 <span class="ml-3 ">Included PITR backups</span>
                                             </div>
-
                                             <div class="flex row-auto items-center mt-4"><i
-                                                    class="fa fa-check-circle-o "></i>
-                                                <span class="ml-3 ">99,99% SLA</span>
+                                                    class="fa fa-check-circle-o text-gray-400"></i>
+                                                <span class="ml-3 ">99,99% SLA with High Availability</span>
                                             </div>
 
                                         </div>
@@ -1118,7 +1117,7 @@
 
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                <div 
+                                <div
                                 x-show="components.frontApp.type==='SPRING_CLOUD' && network === 'VIRTUAL_NETWORK' && gitops === true"
                                 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                                     <strong class="font-bold">Incompatibility detected in your configuration!</strong>

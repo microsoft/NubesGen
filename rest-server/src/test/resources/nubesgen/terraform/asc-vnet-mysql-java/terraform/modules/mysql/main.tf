@@ -30,7 +30,10 @@ resource "azurerm_mysql_flexible_server" "database" {
   sku_name                     = "GP_Standard_D2ds_v4"
   version                      = "8.0.21"
   backup_retention_days        = 7
-  geo_redundant_backup_enabled = false
+  geo_redundant_backup_enabled = true
+  high_availability {
+    mode = "ZoneRedundant"
+  }
   delegated_subnet_id          = var.subnet_id
   private_dns_zone_id          = azurerm_private_dns_zone.database.id
   depends_on                   = [azurerm_private_dns_zone_virtual_network_link.database]
