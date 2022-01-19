@@ -30,9 +30,8 @@ resource "azurerm_postgresql_flexible_server" "database" {
   sku_name                     = "B_Standard_B1ms"
   storage_mb                   = 32768
   backup_retention_days        = 7
-  geo_redundant_backup_enabled = false
   version                      = "13"
-  zone                         = "1"
+  geo_redundant_backup_enabled = false
   delegated_subnet_id          = var.subnet_id
   private_dns_zone_id          = azurerm_private_dns_zone.database.id
   depends_on                   = [azurerm_private_dns_zone_virtual_network_link.database]
