@@ -2,13 +2,13 @@ terraform {
   required_providers {
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.9"
+      version = "1.2.11"
     }
   }
 }
 
 resource "azurecaf_name" "key_vault" {
-  name          = var.application_name
+  random_length = "15"
   resource_type = "azurerm_key_vault"
   suffixes      = [var.environment]
 }

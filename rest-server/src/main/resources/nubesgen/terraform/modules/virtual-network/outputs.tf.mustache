@@ -14,6 +14,15 @@ output "service_subnet_id" {
   description = "Azure Spring Cloud services subnet"
 }
 {{/applicationTypeSpringCloud}}
+{{^databaseTypeNone}}
+  {{^databaseTypeSqlServer}}
+
+output "database_subnet_id" {
+  value       = azurerm_subnet.database_subnet.id
+  description = "Database subnet"
+}
+  {{/databaseTypeSqlServer}}
+{{/databaseTypeNone}}
 {{#addonRedis}}
 
 output "redis_subnet_id" {

@@ -2,11 +2,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.86"
+      version = ">= 2.91"
     }
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.9"
+      version = "1.2.11"
     }
   }
 }
@@ -70,7 +70,9 @@ module "database" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
-  subnet_id        = module.network.app_subnet_id
+
+  subnet_id          = module.network.database_subnet_id
+  virtual_network_id = module.network.virtual_network_id
 }
 
 module "application-insights" {
@@ -106,4 +108,6 @@ module "network" {
 
   address_space     = var.address_space
   app_subnet_prefix = var.app_subnet_prefix
+
+  database_subnet_prefix = var.database_subnet_prefix
 }

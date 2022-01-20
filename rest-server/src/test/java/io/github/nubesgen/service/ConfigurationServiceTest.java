@@ -101,7 +101,7 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    void updateDatabaseTierIfVnetIsSelected() {
+    void dontUpdateDatabaseTierIfVnetIsSelected() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
                 "",
             "TERRAFORM",
@@ -119,7 +119,7 @@ public class ConfigurationServiceTest {
         assertEquals(ApplicationType.APP_SERVICE, configuration.getApplicationConfiguration().getApplicationType());
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
-        assertEquals(Tier.GENERAL_PURPOSE, configuration.getDatabaseConfiguration().getTier());
+        assertEquals(Tier.BASIC, configuration.getDatabaseConfiguration().getTier());
         assertFalse(configuration.isGitops());
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.VIRTUAL_NETWORK, configuration.getNetworkConfiguration().getNetworkType());
@@ -145,7 +145,7 @@ public class ConfigurationServiceTest {
         assertEquals(Tier.STANDARD, configuration.getApplicationConfiguration().getTier());
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
-        assertEquals(Tier.GENERAL_PURPOSE, configuration.getDatabaseConfiguration().getTier());
+        assertEquals(Tier.BASIC, configuration.getDatabaseConfiguration().getTier());
         assertFalse(configuration.isGitops());
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.VIRTUAL_NETWORK, configuration.getNetworkConfiguration().getNetworkType());
@@ -171,7 +171,7 @@ public class ConfigurationServiceTest {
         assertEquals(Tier.PREMIUM, configuration.getApplicationConfiguration().getTier());
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
-        assertEquals(Tier.GENERAL_PURPOSE, configuration.getDatabaseConfiguration().getTier());
+        assertEquals(Tier.BASIC, configuration.getDatabaseConfiguration().getTier());
         assertFalse(configuration.isGitops());
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.VIRTUAL_NETWORK, configuration.getNetworkConfiguration().getNetworkType());
@@ -197,7 +197,7 @@ public class ConfigurationServiceTest {
         assertEquals(Tier.STANDARD, configuration.getApplicationConfiguration().getTier());
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
-        assertEquals(Tier.GENERAL_PURPOSE, configuration.getDatabaseConfiguration().getTier());
+        assertEquals(Tier.BASIC, configuration.getDatabaseConfiguration().getTier());
         assertFalse(configuration.isGitops());
         assertEquals(0, configuration.getAddons().size());
         assertEquals(NetworkType.VIRTUAL_NETWORK, configuration.getNetworkConfiguration().getNetworkType());

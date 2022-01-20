@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.9"
+      version = "1.2.11"
     }
   }
 }
@@ -19,24 +19,24 @@ resource "random_password" "password" {
   override_special = "_%@"
 }
 
-resource "azurerm_mysql_server" "database" {
+resource "azurerm_mysql_flexible_server" "database" {
   name                = azurecaf_name.mysql_server.result
   resource_group_name = var.resource_group
   location            = var.location
 
-  administrator_login          = var.administrator_login
-  administrator_login_password = random_password.password.result
+  administrator_login    = var.administrator_login
+  administrator_password = random_password.password.result
 
-  sku_name                          = "GP_Gen5_2"
-  storage_mb                        = 5120
-  version                           = "5.7"
-  auto_grow_enabled                 = true
-  backup_retention_days             = 7
-  geo_redundant_backup_enabled      = false
-  infrastructure_encryption_enabled = false
-  public_network_access_enabled     = true
-  ssl_enforcement_enabled           = true
-  ssl_minimal_tls_version_enforced  = "TLS1_2"
+  sku_name                     = "GP_Standard_D2ds_v4"
+  version                      = "8.0.21"
+  backup_retention_days        = 7
+  geo_redundant_backup_enabled = true
+  high_availability {
+    mode = "ZoneRedundant"
+  }
+  delegated_subnet_id          = var.subnet_id
+  private_dns_zone_id          = azurerm_private_dns_zone.database.id
+  depends_on                   = [azurerm_private_dns_zone_virtual_network_link.database]
 
   tags = {
     "environment"      = var.environment
@@ -44,29 +44,28 @@ resource "azurerm_mysql_server" "database" {
   }
 }
 
-resource "azurecaf_name" "mysql_database" {
-  name          = var.application_name
-  resource_type = "azurerm_mysql_database"
-  suffixes      = [var.environment]
-}
-
-resource "azurerm_mysql_database" "database" {
-  name                = azurecaf_name.mysql_database.result
+resource "azurerm_mysql_flexible_database" "database" {
+  name                = var.database_name
   resource_group_name = var.resource_group
-  server_name         = azurerm_mysql_server.database.name
+  server_name         = azurerm_mysql_flexible_server.database.name
   charset             = "utf8"
   collation           = "utf8_unicode_ci"
 }
 
-resource "azurecaf_name" "mysql_network_rule" {
+resource "azurerm_private_dns_zone" "database" {
+  name                = "db1.private.mysql.database.azure.com"
+  resource_group_name = var.resource_group
+}
+
+resource "azurecaf_name" "private_dns_zone_virtual_network_link" {
   name          = var.application_name
-  resource_type = "azurerm_mysql_virtual_network_rule"
+  resource_type = "azurerm_private_dns_zone_virtual_network_link"
   suffixes      = [var.environment]
 }
 
-resource "azurerm_mysql_virtual_network_rule" "database" {
-  name                = azurecaf_name.mysql_network_rule.result
-  resource_group_name = var.resource_group
-  server_name         = azurerm_mysql_server.database.name
-  subnet_id           = var.subnet_id
+resource "azurerm_private_dns_zone_virtual_network_link" "database" {
+  name                  = azurecaf_name.private_dns_zone_virtual_network_link.result
+  resource_group_name   = var.resource_group
+  private_dns_zone_name = azurerm_private_dns_zone.database.name
+  virtual_network_id    = var.virtual_network_id
 }

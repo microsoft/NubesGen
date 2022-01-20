@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.9"
+      version = "1.2.11"
     }
   }
 }
@@ -35,7 +35,7 @@ resource "azurerm_app_service_plan" "application" {
 }
 
 resource "azurecaf_name" "storage_account" {
-  name          = var.application_name
+  random_length = "15"
   resource_type = "azurerm_storage_account"
   suffixes      = [var.environment]
 }

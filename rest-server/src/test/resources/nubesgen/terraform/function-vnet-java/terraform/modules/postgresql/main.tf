@@ -2,14 +2,14 @@ terraform {
   required_providers {
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.9"
+      version = "1.2.11"
     }
   }
 }
 
 resource "azurecaf_name" "postgresql_server" {
   name          = var.application_name
-  resource_type = "azurerm_postgresql_server"
+  resource_type = "azurerm_postgresql_flexible_server"
   suffixes      = [var.environment]
 }
 
@@ -19,22 +19,25 @@ resource "random_password" "password" {
   override_special = "_%@"
 }
 
-resource "azurerm_postgresql_server" "database" {
+resource "azurerm_postgresql_flexible_server" "database" {
   name                = azurecaf_name.postgresql_server.result
   resource_group_name = var.resource_group
   location            = var.location
 
-  administrator_login          = var.administrator_login
-  administrator_login_password = random_password.password.result
+  administrator_login    = var.administrator_login
+  administrator_password = random_password.password.result
 
-  sku_name                         = "GP_Gen5_2"
-  storage_mb                       = 5120
-  backup_retention_days            = 7
-  geo_redundant_backup_enabled     = false
-  auto_grow_enabled                = true
-  version                          = "11"
-  ssl_enforcement_enabled          = true
-  ssl_minimal_tls_version_enforced = "TLS1_2"
+  sku_name                     = "GP_Standard_D2ds_v4"
+  storage_mb                   = 32768
+  backup_retention_days        = 7
+  version                      = "13"
+  geo_redundant_backup_enabled = true
+  high_availability {
+    mode = "ZoneRedundant"
+  }
+  delegated_subnet_id          = var.subnet_id
+  private_dns_zone_id          = azurerm_private_dns_zone.database.id
+  depends_on                   = [azurerm_private_dns_zone_virtual_network_link.database]
 
   tags = {
     "environment"      = var.environment
@@ -44,28 +47,31 @@ resource "azurerm_postgresql_server" "database" {
 
 resource "azurecaf_name" "postgresql_database" {
   name          = var.application_name
-  resource_type = "azurerm_postgresql_database"
+  resource_type = "azurerm_postgresql_flexible_server_database"
   suffixes      = [var.environment]
 }
 
-resource "azurerm_postgresql_database" "database" {
+resource "azurerm_postgresql_flexible_server_database" "database" {
   name                = azurecaf_name.postgresql_database.result
-  resource_group_name = var.resource_group
-  server_name         = azurerm_postgresql_server.database.name
-  charset             = "UTF8"
-  collation           = "English_United States.1252"
+  server_id           = azurerm_postgresql_flexible_server.database.id
+  charset             = "utf8"
+  collation           = "en_US.utf8"
 }
 
-resource "azurecaf_name" "postgresql_network_rule" {
+resource "azurerm_private_dns_zone" "database" {
+  name                = "db1.private.postgres.database.azure.com"
+  resource_group_name = var.resource_group
+}
+
+resource "azurecaf_name" "private_dns_zone_virtual_network_link" {
   name          = var.application_name
-  resource_type = "azurerm_postgresql_virtual_network_rule"
+  resource_type = "azurerm_private_dns_zone_virtual_network_link"
   suffixes      = [var.environment]
 }
 
-# This rule only allows traffic from the apps VNet
-resource "azurerm_postgresql_virtual_network_rule" "network_rule" {
-  name                = azurecaf_name.postgresql_network_rule.result
-  resource_group_name = var.resource_group
-  server_name         = azurerm_postgresql_server.database.name
-  subnet_id           = var.subnet_id
+resource "azurerm_private_dns_zone_virtual_network_link" "database" {
+  name                  = azurecaf_name.private_dns_zone_virtual_network_link.result
+  resource_group_name   = var.resource_group
+  private_dns_zone_name = azurerm_private_dns_zone.database.name
+  virtual_network_id    = var.virtual_network_id
 }

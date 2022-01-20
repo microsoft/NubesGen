@@ -29,8 +29,13 @@ variable "administrator_login" {
 }
 {{#NetworkVNet}}
 
+variable "virtual_network_id" {
+  type        = string
+  description = "Azure Virtual Network ID"
+}
+
 variable "subnet_id" {
   type        = string
-  description = "The subnet from which the access is allowed"
+  description = "The Subnet from which the access is allowed"
 }
 {{/NetworkVNet}}
