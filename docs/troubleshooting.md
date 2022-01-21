@@ -12,7 +12,7 @@ But you might have several subscriptions, some might have expired, or your local
 So you might have the following error message:
 
 ```shell
-$ bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
+$ ./nubesgen-cli-linux gitops
 
 (1/8) Checking Azure CLI status...
 (2/8) Checking GitHub CLI status...
