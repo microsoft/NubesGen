@@ -40,9 +40,7 @@ public class TemplateListService {
     public TemplateListService() throws IOException {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-		// Exclude all resources that contain ".", but include ".github" directory
-		Predicate<Resource> directoryPredicate = resource -> !Objects.requireNonNull(resource.getFilename()).contains(".") || ".github".equals(resource.getFilename());
-		Resource[] resources = ResourceScannerUtils.getResourceFiles(resolver, "classpath*:nubesgen", directoryPredicate);
+        Resource[] resources = resolver.getResources("classpath*:nubesgen/**");
 
         Optional<Resource> resourceToTest = Arrays.stream(resolver.getResources("classpath*:nubesgen/README.md")).findFirst();
         String absolutePath;
