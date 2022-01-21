@@ -27,7 +27,7 @@ For the CLI to work, you need to have installed and configured the following too
 
 ### Automatic Installation (with the NubesGen CLI)
 
-__Tip:__ Full documentation for the NubesGen CLI is available [here](cli/README.md).
+__Tip:__ Full documentation for the NubesGen CLI is available [here](../cli/README.md).
 
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
 1. Open up a terminal in the repository you just cloned, and setup GitOps using the NubesGen CLI:
@@ -71,7 +71,7 @@ __Tip:__ Full documentation for the NubesGen CLI is available [here](cli/README.
 
    </details>
 
-   To learn more about the NubesGen CLI, [read the project documentation here](cli/README.md), or run the CLI using the `-h` flag.
+   To learn more about the NubesGen CLI, [read the project documentation here](../cli/README.md), or run the CLI using the `-h` flag.
    
    If you do not want to use the CLI beyond this setup, you can safely delete it after this step.
 1. Go to [https://nubesgen.com/](https://nubesgen.com/) to create your Terraform configuration, and select the `GitOps` option. Download the generated file and unzip it inside the Git repository you have just cloned.
