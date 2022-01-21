@@ -40,3 +40,6 @@ build/
 *.tfstate.backup
 *.tfstate.lock.info
 .terraform/
+
+### MacOS ###
+.DS_Store
