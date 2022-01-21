@@ -1,0 +1,32 @@
+{
+	"name": "Java",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"NODE_VERSION": "lts/*",
+			"VARIANT": "11-bullseye"
+		}
+	},
+
+	"features": {
+		"azure-cli": "latest",
+		"docker-in-docker": "latest",
+		"github-cli": "latest",
+		"terraform": "latest"
+	},
+
+	"settings": {
+		"editor.minimap.enabled": false
+	},
+
+	"extensions": [
+		"esbenp.prettier-vscode",
+		"hashicorp.terraform",
+		"ms-azuretools.vscode-azureterraform",
+		"ms-azuretools.vscode-bicep",
+		"ms-azuretools.vscode-docker",
+		"vscjava.vscode-java-pack"
+	],
+
+	"remoteUser": "vscode"
+}
