@@ -1,0 +1,105 @@
+name: CLI - Create a release
+on:
+  release:
+    types: [published]
+jobs:
+  build-jar:
+    name: 'Build JAR package'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/cli
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          check-latest: false
+          cache: 'maven'
+      - name: Build with Maven
+        run: 'mvn package'
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: java-binary
+          path: |
+            ${{ github.workspace }}/cli/target/*.jar
+            !${{ github.workspace }}/cli/target/original-*.jar
+          retention-days: 1
+  build-native-image:
+    name: Native image build on ${{ matrix.os }}
+    needs: [ build-jar ]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_name: linux-binary
+          - os: macos-latest
+            artifact_name: macos-binary
+          - os: windows-latest
+            artifact_name: windows-binary
+    steps:
+      - name: Download application package
+        uses: actions/download-artifact@v2
+        with:
+          name: java-binary
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          version: '21.3.0'
+          java-version: '11'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build native image on Linux
+        run: native-image --enable-url-protocols=https --static -jar nubesgen-cli-*.jar nubesgen-cli-linux
+        if: runner.os == 'Linux'
+      - name: Build native image on Mac OS X
+        run: native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-macos
+        if: runner.os == 'macOS'
+      - name: Build native image on Windows
+        run: native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-windows
+        if: runner.os == 'Windows'
+      - name: Temporarily save package
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: |
+            nubesgen-cli-*
+            !*.txt
+            !*.jar
+          retention-days: 1
+  publish-binaries:
+    name: 'Publish binaries to GitHub packages'
+    needs: [ build-native-image ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - artifact_name: java-binary
+            binary_name: nubesgen-cli-*.jar
+            file_glob: true
+          - artifact_name: linux-binary
+            binary_name: nubesgen-cli-linux
+            file_glob: false
+          - artifact_name: macos-binary
+            binary_name: nubesgen-cli-macos
+            file_glob: false
+          - artifact_name: windows-binary
+            binary_name: nubesgen-cli-windows.exe
+            file_glob: false
+    steps:
+      - name: Download binary
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ matrix.artifact_name }}
+      - name: Upload binary to the GitHub release page
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ matrix.binary_name }}
+          file_glob: ${{ matrix.file_glob }}
+          tag: ${{ github.ref }}
+          overwrite: true

@@ -1,5 +1,5 @@
 # NubesGen
-![Continuous Integration](https://github.com/microsoft/NubesGen/workflows/Continuous%20Integration/badge.svg)
+[![REST Server - Continuous Integration](https://github.com/microsoft/NubesGen/actions/workflows/rest-server-continuous-integration.yml/badge.svg)](https://github.com/microsoft/NubesGen/actions/workflows/rest-server-continuous-integration.yml) [![CLI - Continuous Integration](https://github.com/microsoft/NubesGen/actions/workflows/cli-continuous-integration.yml/badge.svg)](https://github.com/microsoft/NubesGen/actions/workflows/cli-continuous-integration.yml)
 
 __Going to production on Azure is only one `git push` away__
 

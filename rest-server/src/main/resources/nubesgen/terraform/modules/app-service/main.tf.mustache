@@ -1,0 +1,290 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source  = "aztfmod/azurecaf"
+      version = "1.2.11"
+    }
+  }
+}
+
+{{#runtimeDocker}}
+resource "azurecaf_name" "container_registry" {
+  name          = var.application_name
+  resource_type = "azurerm_container_registry"
+  suffixes      = [var.environment]
+}
+
+resource "azurerm_container_registry" "container-registry" {
+  name                = azurecaf_name.container_registry.result
+  resource_group_name = var.resource_group
+  location            = var.location
+  admin_enabled       = true
+  sku                 = "Basic"
+
+  tags = {
+    "environment"      = var.environment
+    "application-name" = var.application_name
+  }
+}
+
+{{/runtimeDocker}}
+resource "azurecaf_name" "app_service_plan" {
+  name          = var.application_name
+  resource_type = "azurerm_app_service_plan"
+  suffixes      = [var.environment]
+}
+
+# This creates the plan that the service use
+resource "azurerm_app_service_plan" "application" {
+  name                = azurecaf_name.app_service_plan.result
+  resource_group_name = var.resource_group
+  location            = var.location
+
+  kind     = "Linux"
+  reserved = true
+
+  tags = {
+    "environment"      = var.environment
+    "application-name" = var.application_name
+  }
+
+  sku {
+{{#applicationTierFree}}
+    tier = "Free"
+    size = "F1"
+{{/applicationTierFree}}
+{{#applicationTierBasic}}
+    tier = "Basic"
+    size = "B1"
+{{/applicationTierBasic}}
+{{#applicationTierStandard}}
+    tier = "Standard"
+    size = "S1"
+{{/applicationTierStandard}}
+  }
+}
+
+resource "azurecaf_name" "app_service" {
+  name          = var.application_name
+  resource_type = "azurerm_app_service"
+  suffixes      = [var.environment]
+}
+
+# This creates the service definition
+resource "azurerm_app_service" "application" {
+  name                = azurecaf_name.app_service.result
+  resource_group_name = var.resource_group
+  location            = var.location
+  app_service_plan_id = azurerm_app_service_plan.application.id
+  https_only          = true
+
+  tags = {
+    "environment"      = var.environment
+    "application-name" = var.application_name
+  }
+
+  site_config {
+{{#applicationTierFree}}
+  {{#runtimeDocker}}
+    linux_fx_version          = "DOCKER|${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}:latest"
+  {{/runtimeDocker}}
+  {{#runtimeJava}}
+    linux_fx_version          = "JAVA|11-java11"
+  {{/runtimeJava}}
+  {{#runtimeDotnet}}
+    linux_fx_version          = "DOTNETCORE|3.1"
+  {{/runtimeDotnet}}
+  {{#runtimeNodejs}}
+    linux_fx_version          = "NODE|14-lts"
+    app_command_line          = "npm run start:prod"
+  {{/runtimeNodejs}}
+    always_on                 = false
+    use_32_bit_worker_process = true
+    ftps_state                = "FtpsOnly"
+{{/applicationTierFree}}
+{{^applicationTierFree}}
+  {{#runtimeDocker}}
+    linux_fx_version = "DOCKER|${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}:latest"
+  {{/runtimeDocker}}
+  {{#runtimeJava}}
+    linux_fx_version = "JAVA|11-java11"
+  {{/runtimeJava}}
+  {{#runtimeDotnet}}
+    linux_fx_version = "DOTNETCORE|3.1"
+  {{/runtimeDotnet}}
+  {{#runtimeNodejs}}
+    linux_fx_version = "NODE|14-lts"
+    app_command_line = "npm run start:prod"
+  {{/runtimeNodejs}}
+    always_on        = true
+    ftps_state       = "FtpsOnly"
+{{/applicationTierFree}}
+  }
+{{#addonKeyVault}}
+
+  identity {
+    type = "SystemAssigned"
+  }
+{{/addonKeyVault}}
+
+  app_settings = {
+    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+{{#runtimeNodejs}}
+    "WEBSITE_RUN_FROM_PACKAGE"            = "1"
+    "WEBSITE_NODE_DEFAULT_VERSION"        = "~14"
+{{/runtimeNodejs}}
+{{#runtimeDocker}}
+    "DOCKER_REGISTRY_SERVER_URL"          = "https://${azurerm_container_registry.container-registry.name}.azurecr.io"
+    "DOCKER_REGISTRY_SERVER_USERNAME"     = azurerm_container_registry.container-registry.admin_username
+    "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.container-registry.admin_password
+    "WEBSITES_PORT"                       = "8080"
+{{/runtimeDocker}}
+{{#addonApplicationInsights}}
+
+    // Monitoring with Azure Application Insights
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = var.azure_application_insights_instrumentation_key
+{{/addonApplicationInsights}}
+
+    # These are app specific environment variables
+{{#runtimeQuarkus}}
+  {{#runtimeDocker}}
+    "QUARKUS_HTTP_PORT" = 8080
+  {{/runtimeDocker}}
+  {{#runtimeJava}}
+    "QUARKUS_HTTP_PORT" = 80
+  {{/runtimeJava}}
+    "QUARKUS_PROFILE"   = "prod"
+  {{#databaseTypeSqlServer}}
+
+    "QUARKUS_DATASOURCE_JDBC_URL" = "jdbc:sqlserver://${var.database_url}"
+    "QUARKUS_DATASOURCE_USERNAME" = var.database_username
+    "QUARKUS_DATASOURCE_PASSWORD" = var.database_password
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+
+    "QUARKUS_DATASOURCE_JDBC_URL" = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+    "QUARKUS_DATASOURCE_USERNAME" = var.database_username
+    "QUARKUS_DATASOURCE_PASSWORD" = var.database_password
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+
+    "QUARKUS_DATASOURCE_JDBC_URL" = "jdbc:postgresql://${var.database_url}"
+    "QUARKUS_DATASOURCE_USERNAME" = var.database_username
+    "QUARKUS_DATASOURCE_PASSWORD" = var.database_password
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+
+    "QUARKUS_REDIS_HOSTS" = "redis://${var.azure_redis_password}@${var.azure_redis_host}:6380"
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+
+    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
+    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
+    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+
+    "QUARKUS_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
+    "QUARKUS_MONGODB_HOSTS"    = var.azure_cosmosdb_mongodb_uri
+  {{/addonCosmosdbMongodb}}
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+    "SPRING_PROFILES_ACTIVE" = "prod,azure"
+  {{#databaseTypeSqlServer}}
+
+    "SPRING_DATASOURCE_URL"      = "jdbc:sqlserver://${var.database_url}"
+    "SPRING_DATASOURCE_USERNAME" = var.database_username
+    "SPRING_DATASOURCE_PASSWORD" = var.database_password
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+
+    "SPRING_DATASOURCE_URL"      = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+    "SPRING_DATASOURCE_USERNAME" = var.database_username
+    "SPRING_DATASOURCE_PASSWORD" = var.database_password
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+
+    "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
+    "SPRING_DATASOURCE_USERNAME" = var.database_username
+    "SPRING_DATASOURCE_PASSWORD" = var.database_password
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+
+    "SPRING_REDIS_HOST"     = var.azure_redis_host
+    "SPRING_REDIS_PASSWORD" = var.azure_redis_password
+    "SPRING_REDIS_PORT"     = "6380"
+    "SPRING_REDIS_SSL"      = "true"
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+
+    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
+    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+
+    "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
+    "SPRING_DATA_MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
+  {{/addonCosmosdbMongodb}}
+{{/runtimeSpring}}
+{{#runtimeDefault}}
+  {{#databaseTypeSqlServer}}
+
+    "DATABASE_URL"      = var.database_url
+    "DATABASE_USERNAME" = var.database_username
+    "DATABASE_PASSWORD" = var.database_password
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+
+    "DATABASE_URL"      = var.database_url
+    "DATABASE_USERNAME" = var.database_username
+    "DATABASE_PASSWORD" = var.database_password
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+
+    "DATABASE_URL"      = var.database_url
+    "DATABASE_USERNAME" = var.database_username
+    "DATABASE_PASSWORD" = var.database_password
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+
+    "REDIS_HOST"     = var.azure_redis_host
+    "REDIS_PASSWORD" = var.azure_redis_password
+    "REDIS_PORT"     = "6380"
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+
+    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
+    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
+    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+
+    "MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
+    "MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
+  {{/addonCosmosdbMongodb}}
+{{/runtimeDefault}}
+  }
+}
+{{#addonKeyVault}}
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault_access_policy" "application" {
+  key_vault_id = var.vault_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_app_service.application.identity[0].principal_id
+
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
+}
+{{/addonKeyVault}}
+{{#NetworkVNet}}
+
+resource "azurerm_app_service_virtual_network_swift_connection" "swift_connection" {
+  app_service_id = azurerm_app_service.application.id
+  subnet_id      = var.subnet_id
+}
+{{/NetworkVNet}}
