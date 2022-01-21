@@ -37,9 +37,9 @@ __Steps:__
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](../gitops-quick-start.md)):
    ```bash
-    bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
+    ./nubesgen-cli-linux gitops
     ```
 4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
    ```bash
@@ -86,9 +86,9 @@ __Steps:__
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the following script ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](../gitops-quick-start.md)):
    ```bash
-    bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
+    ./nubesgen-cli-linux gitops
     ```
 4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration. If you followed the first tutorial, please note the `quarkus_native` parameter.
    ```bash

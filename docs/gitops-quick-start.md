@@ -16,23 +16,64 @@ The following steps will guide you through creating those resources, and authori
 
 _Prerequisites_
 
-__Tip:__ You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesgen-azure-shell) and login with the Azure subscription you want to use. This will provide you with the 
-mandatory prerequisites below (Bash and Azure CLI).
+__Tip:__ You can go to [https://shell.azure.com](https://shell.azure.com) and login with the Azure subscription you want to use. This will provide you with the 
+mandatory prerequisites below (Bash, Azure CLI, and GitHub CLI).
 
-For this installation method to work, you need to have installed and configured the following tools:
+For the CLI to work, you need to have installed and configured the following tools:
 
 - [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
 - [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
-- (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`. This will automate creating the GitHub secrets for you, otherwise you will need to do it
-manually.
+- (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`. This will automate creating the GitHub secrets for you, otherwise you will need to do it manually.
 
-### Automatic Installation (with a shell script)
+### Automatic Installation (with the NubesGen CLI)
+
+__Tip:__ Full documentation for the NubesGen CLI is available [here](cli/README.md).
 
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
-1. Open up a terminal in the repository you just cloned, and run the following script (or [download it](https://nubesgen.com/gitops/setup.sh) to read it and fine-tune it):
-    ```bash
-    bash -c "$(curl -fsSL https://nubesgen.com/gitops/setup.sh)"
-    ```
+1. Open up a terminal in the repository you just cloned, and setup GitOps using the NubesGen CLI:
+   <details>
+   <summary>Installing and running the CLI with Java</summary>
+   
+   To run the Java archive, you need to have a Java Virtual Machine (version 11 or higher) installed.
+
+   - Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-*.jar'`
+   - Setup GitOps: `java -jar nubesgen-*.jar gitops`
+   </details>
+   
+   <details>
+   <summary>Installing and running the CLI on Linux</summary>
+   
+   To run the binary on Linux, you need to:
+
+   - Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-linux'`
+   - Make the binary executable: `chmod +x nubesgen-cli-linux`
+   - Setup GitOps: `./nubesgen-cli-linux gitops`
+
+   </details>
+   <details>
+   <summary>Installing and running the CLI on a Mac OS</summary>
+
+   To run the binary on a Mac OS, you need to:
+
+   - Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-macos'`
+   - Make the binary executable: `chmod +x nubesgen-cli-macos`
+   - Allow Mac OS X to execute it: `xattr -d com.apple.quarantine nubesgen-cli-macos`
+   - Setup GitOps: `./nubesgen-cli-macos gitops`
+
+   </details>
+   <details>
+   <summary>Installing and running the CLI on Windows</summary>
+
+   To run the binary on Windows, you need to:
+
+   - Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-windows.exe'`
+   - Setup GitOps; `nubesgen-cli-windows gitops`
+
+   </details>
+
+   To learn more about the NubesGen CLI, [read the project documentation here](cli/README.md), or run the CLI using the `-h` flag.
+   
+   If you do not want to use the CLI beyond this setup, you can safely delete it after this step.
 1. Go to [https://nubesgen.com/](https://nubesgen.com/) to create your Terraform configuration, and select the `GitOps` option. Download the generated file and unzip it inside the Git repository you have just cloned.
 1. You can now push the NubesGen code to your repository, for example by typing `git add . && git commit -m 'Configure GitOps with NubesGen' && git push`.
 1. To use the new GitOps features, follow [GitOps overview](gitops-overview.md) and create a specific branch, for example
