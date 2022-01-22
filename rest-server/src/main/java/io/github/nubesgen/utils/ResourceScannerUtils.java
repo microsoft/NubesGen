@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Utility class that scans for resources/directories in GraalVM native image
@@ -17,7 +18,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * This is a sample code how to use it:
  * Predicate<Resource> directoryPredicate = resource -> !Objects.requireNonNull(resource.getFilename()).contains(".") || ".github".equals(resource.getFilename());
  * Resource[] resources = ResourceScannerUtils.getResourceFiles(new PathMatchingResourcePatternResolver(), "classpath*:myDirectoryToScan", directoryPredicate);
- * 
+ *
  * @author bnasslahsen
  */
 public final class ResourceScannerUtils {
@@ -41,11 +42,16 @@ public final class ResourceScannerUtils {
 	 */
 	public static Resource[] getResourceFiles(ResourcePatternResolver resolver, String locationDir,
 			Predicate<Resource> directoryPredicate) throws IOException {
-		Resource[] resourcesArray = resolver.getResources(locationDir);
-		Set<Resource> resourceSet = new LinkedHashSet<>();
-		for (Resource resource : resourcesArray)
-			resourceSet.addAll(getResourceFilesRecursively(resource, resourceSet, directoryPredicate));
-		return resourceSet.toArray(new Resource[0]);
+		Resource[] resources = resolver.getResources(locationDir + "/**");
+		if (!ObjectUtils.isEmpty(resources))
+			return resources;
+		else {
+			Resource[] resourcesArray = resolver.getResources(locationDir);
+			Set<Resource> resourceSet = new LinkedHashSet<>();
+			for (Resource resource : resourcesArray)
+				resourceSet.addAll(getResourceFilesRecursively(resource, resourceSet, directoryPredicate));
+			return resourceSet.toArray(new Resource[0]);
+		}
 	}
 
 	/**
