@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - 'cli/**'
+      - '.github/workflows/cli-continuous-integration.yml'
   pull_request:
     branches:
       - main
@@ -43,7 +44,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        graalvm-version: ['21.3.0']
+        graalvm-version: ['22.0.0.2']
         jdk-version: ['11']
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
