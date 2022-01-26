@@ -19,7 +19,7 @@ _Prerequisites_
 __Tip:__ You can go to [https://shell.azure.com](https://shell.azure.com) and login with the Azure subscription you want to use. This will provide you with the 
 mandatory prerequisites below (Bash, Azure CLI, and GitHub CLI).
 
-For the CLI to work, you need to have installed and configured the following tools:
+For setting up GitOps (using the NubesGen CLI or the manual installation), you need to have installed and configured the following tools:
 
 - [Bash](https://fr.wikipedia.org/wiki/Bourne-Again_shell), which is installed by default on most Linux distributions and on Mac OS X. If you're using Windows, one solution is to use [WSL](https://aka.ms/nubesgen-install-wsl).
 - [Azure CLI](https://aka.ms/nubesgen-install-az-cli). To login, use `az login`.
