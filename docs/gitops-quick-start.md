@@ -87,6 +87,7 @@ __Tip:__ Full documentation for the NubesGen CLI is available [here](../cli/READ
 Instead of running the NubesGen CLI, you will manually create one Azure Storage account, and two GitHub secrets.
 
 Here is the shell script you will need to execute, with documentation for each command being executed:
+
     ```bash
     #####
     # Configure the following environment variables to suit your needs.
@@ -99,7 +100,6 @@ Here is the shell script you will need to execute, with documentation for each c
     TF_STORAGE_ACCOUNT=st$RANDOM$RANDOM$RANDOM$RANDOM
     # The container name (inside the storage account) used by Terraform to store its remote state.
     CONTAINER_NAME=tfstate
-
     # Create a new Azure Resource Group
     az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
     # Create the storage account
