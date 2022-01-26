@@ -79,7 +79,7 @@ __Tip:__ Full documentation for the NubesGen CLI is available [here](../cli/READ
 1. To use the new GitOps features, follow [GitOps overview](gitops-overview.md) and create a specific branch, for example
    `git checkout -b env-test && git push --set-upstream origin env-test`
 
-### Manual Installation (without a shell script)
+### Manual Installation (without the NubesGen CLI)
 
 <details>
 <summary>This setup only replaces step 2 of the automatic installation, described above (click to expand)</summary>
