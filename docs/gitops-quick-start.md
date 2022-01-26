@@ -100,6 +100,9 @@ LOCATION=eastus
 TF_STORAGE_ACCOUNT=st$RANDOM$RANDOM$RANDOM$RANDOM
 # The container name (inside the storage account) used by Terraform to store its remote state.
 CONTAINER_NAME=tfstate
+#####
+# Execute the following commands to set up GitOps.
+#####
 # Create a new Azure Resource Group
 az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
 # Create the storage account
