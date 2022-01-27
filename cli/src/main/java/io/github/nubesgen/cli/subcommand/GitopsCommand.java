@@ -25,7 +25,7 @@ public class GitopsCommand implements Callable<Integer> {
 
     public static Integer gitops(String tfStorageAccount, boolean refresh) {
         Output.printTitle("Setting up GitOps...");
-        Output.printInfo("(1/8) Checking if the project is configured on GitHb...");
+        Output.printInfo("(1/8) Checking if the project is configured on GitHub...");
         try {
             int exitCode = ProcessExecutor.execute("gh secret set NUBESGEN_TEST -b\"test\"");
             if (exitCode != 0) {
