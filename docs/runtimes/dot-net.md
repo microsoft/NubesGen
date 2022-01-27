@@ -19,7 +19,7 @@ __Steps:__
 1. Create a sample .NET Web application using [the .NET CLI](https://aka.ms/nubesgen-install-dotnet-cli).
    We'll follow the beginning of the [official "Get started with ASP.NET Core" tutorial](https://aka.ms/nubesgen-dotnet-getting-started):
    ```bash
-   dotnet new webapp -o dotnet-sample-app -f netcoreapp3.1
+   dotnet new webapp -o dotnet-sample-app -f net6.0
    ```
 2. Create a project on GitHub called `dotnet-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
@@ -69,13 +69,13 @@ If you deploy your .NET application to an Azure Function, NubesGen will generate
 
 ## .NET version support
 
-NubesGen supports .NET 3.1 by default, as it's the current long term support version. If you want to use .NET 5, you will 
+NubesGen supports .NET 6.0 by default, as it's the current long term support version. If you want to use .NET 5, you will 
 need to configure it in two places:
 
-- In the generated `terraform/modules/app-service/main.tf`, you need to modify `linux_fx_version = "DOTNETCORE|3.1"` to be
+- In the generated `terraform/modules/app-service/main.tf`, you need to modify `linux_fx_version = "DOTNETCORE|6.0"` to be
   `linux_fx_version = "DOTNETCORE|5.0"`
 - If you selected the [GitOps option](../gitops-overview.md), at the beginning of the generated `.github/workflows/gitops.yml` file,
-  there is a specific `DOTNET_VERSION: '3.1'` environment variable that should be modified to `DOTNET_VERSION: '5.0'`
+  there is a specific `DOTNET_VERSION: '6.0'` environment variable that should be modified to `DOTNET_VERSION: '5.0'`
 
 ## Configuration options
 
