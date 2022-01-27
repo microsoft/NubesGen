@@ -74,7 +74,7 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
       linuxFxVersion: 'DOTNET|6.0'
 {{/runtimeDotnet}}
 {{#runtimeNodejs}}
-      linuxFxVersion: 'Node|14'
+      linuxFxVersion: 'Node|16'
 {{/runtimeNodejs}}      
       // use32BitWorkerProcess: true
       appSettings: union(environmentVariables, [
