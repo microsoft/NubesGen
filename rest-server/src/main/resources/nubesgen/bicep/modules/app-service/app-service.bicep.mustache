@@ -80,10 +80,10 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
       linuxFxVersion: 'JAVA|11-java11'
   {{/runtimeJava}}
   {{#runtimeDotnet}}
-      linuxFxVersion: 'DOTNETCORE|3.1'
+      linuxFxVersion: 'DOTNETCORE|6.0'
   {{/runtimeDotnet}}
   {{#runtimeNodejs}}
-      linuxFxVersion: 'NODE|14-lts'
+      linuxFxVersion: 'NODE|16-lts'
       appCommandLine: 'npm run start:prod'
   {{/runtimeNodejs}}
 
@@ -98,10 +98,10 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
       linuxFxVersion: 'JAVA|11-java11'
   {{/runtimeJava}}
   {{#runtimeDotnet}}
-      linuxFxVersion: 'DOTNETCORE|3.1'
+      linuxFxVersion: 'DOTNETCORE|6.0'
   {{/runtimeDotnet}}
   {{#runtimeNodejs}}
-      linuxFxVersion: 'NODE|14-lts'
+      linuxFxVersion: 'NODE|16-lts'
       appCommandLine: 'npm run start:prod'
   {{/runtimeNodejs}}
       alwaysOn: true
@@ -122,7 +122,7 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
         },
         { 
           name: 'WEBSITE_NODE_DEFAULT_VERSION'
-          value: '~14'
+          value: '~16'
         }
 {{/runtimeNodejs}}
 {{#runtimeDocker}}

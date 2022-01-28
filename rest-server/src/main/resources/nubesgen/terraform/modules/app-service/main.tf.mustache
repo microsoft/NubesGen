@@ -92,10 +92,10 @@ resource "azurerm_app_service" "application" {
     linux_fx_version          = "JAVA|11-java11"
   {{/runtimeJava}}
   {{#runtimeDotnet}}
-    linux_fx_version          = "DOTNETCORE|3.1"
+    linux_fx_version          = "DOTNETCORE|6.0"
   {{/runtimeDotnet}}
   {{#runtimeNodejs}}
-    linux_fx_version          = "NODE|14-lts"
+    linux_fx_version          = "NODE|16-lts"
     app_command_line          = "npm run start:prod"
   {{/runtimeNodejs}}
     always_on                 = false
@@ -110,10 +110,10 @@ resource "azurerm_app_service" "application" {
     linux_fx_version = "JAVA|11-java11"
   {{/runtimeJava}}
   {{#runtimeDotnet}}
-    linux_fx_version = "DOTNETCORE|3.1"
+    linux_fx_version = "DOTNETCORE|6.0"
   {{/runtimeDotnet}}
   {{#runtimeNodejs}}
-    linux_fx_version = "NODE|14-lts"
+    linux_fx_version = "NODE|16-lts"
     app_command_line = "npm run start:prod"
   {{/runtimeNodejs}}
     always_on        = true
@@ -131,7 +131,7 @@ resource "azurerm_app_service" "application" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 {{#runtimeNodejs}}
     "WEBSITE_RUN_FROM_PACKAGE"            = "1"
-    "WEBSITE_NODE_DEFAULT_VERSION"        = "~14"
+    "WEBSITE_NODE_DEFAULT_VERSION"        = "~16"
 {{/runtimeNodejs}}
 {{#runtimeDocker}}
     "DOCKER_REGISTRY_SERVER_URL"          = "https://${azurerm_container_registry.container-registry.name}.azurecr.io"
