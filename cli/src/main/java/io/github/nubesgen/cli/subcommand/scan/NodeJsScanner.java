@@ -4,7 +4,6 @@ import io.github.nubesgen.cli.util.Output;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NodeJsScanner {
 
