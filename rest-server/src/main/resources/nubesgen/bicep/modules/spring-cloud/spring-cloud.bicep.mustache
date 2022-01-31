@@ -33,8 +33,7 @@ resource springCloudService 'Microsoft.AppPlatform/Spring@2020-07-01' = {
   name: 'asc-${applicationName}-${environment}'
   location: location
   tags: resourceTags
-  sku: {
-    
+  sku: {    
     name: springCloudSkuName
     tier: springCloudSkuTier
   }
@@ -75,4 +74,4 @@ resource springCloudAppDeployment 'Microsoft.AppPlatform/Spring/apps/deployments
   }
 }
 
-output application_hostname string = springCloudApp.properties.url
+output application_hostname string = springCloudApp.properties.fqdn

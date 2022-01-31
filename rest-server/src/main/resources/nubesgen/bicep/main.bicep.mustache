@@ -395,8 +395,8 @@ var applicationEnvironmentVariables = {
 {{/runtimeDefault}}
 {{/addonRedis}}
 }
-module ascApp 'modules/spring-cloud/spring-cloud.bicep' = {
-  name: 'ascApp'
+module springCloudApp 'modules/spring-cloud/spring-cloud.bicep' = {
+  name: 'springCloudApp'
   scope: resourceGroup(rg.name)
   params: {
     location: location
