@@ -3,7 +3,7 @@
 
 This specific pom.xml file is for building NubesGen with GraalVM (to have a "native" image).
 
-To build this image, a specific library called "com.azure:azure-graalvm-support" is needed, which isn't publicly available.
+To build the native image, run `./mvnw spring-boot:build-image -f pom-native.xml`.
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -16,7 +16,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
     </parent>
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen</artifactId>
-    <version>0.7.1-native-SNAPSHOT</version>
+    <version>0.9.0-native</version>
     <name>nubesgen-native</name>
     <packaging>jar</packaging>
     <description>NubesGen REST server</description>
@@ -29,7 +29,7 @@ To build this image, a specific library called "com.azure:azure-graalvm-support"
     <properties>
         <java.version>11</java.version>
         <repackage.classifier/>
-        <spring-native.version>0.11.1</spring-native.version>
+        <spring-native.version>0.11.2</spring-native.version>
     </properties>
 
     <dependencies>

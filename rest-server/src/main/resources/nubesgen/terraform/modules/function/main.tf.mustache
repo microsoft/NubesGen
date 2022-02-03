@@ -94,10 +94,10 @@ resource "azurerm_function_app" "application" {
     linux_fx_version = "java|11"
 {{/runtimeJava}}
 {{#runtimeDotnet}}
-    linux_fx_version = "dotnet|3.1"
+    linux_fx_version = "dotnet|6.0"
 {{/runtimeDotnet}}
 {{#runtimeNodejs}}
-    linux_fx_version = "Node|14"
+    linux_fx_version = "Node|16"
 {{/runtimeNodejs}}
   }
 {{#addonKeyVault}}
