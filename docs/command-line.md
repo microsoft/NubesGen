@@ -1,6 +1,4 @@
-[[ << What is being generated ](what-is-being-generated.md) |[ Main documentation page ](README.md) |[ Using Docker with NubesGen >> ](runtimes/docker.md)]
-
-# Running NubesGen from the command line
+# NubesGen REST API reference
 
 ## Generating a project using cURL
 
@@ -112,5 +110,3 @@ curl "https://nubesgen.com/demo.tgz" -d '{ "region": "westeurope", "runtime": "s
 ```bash
 curl "https://nubesgen.com/demo.tgz?region=westeurope&runtime=spring&database=MYSQL&addons=STORAGE_BLOB,REDIS"  | tar -xzvf -
 ```
-
-[[ << What is being generated ](what-is-being-generated.md) |[ Main documentation page ](README.md) |[ Using Docker with NubesGen >> ](runtimes/docker.md)]

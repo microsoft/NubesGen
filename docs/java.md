@@ -1,5 +1,3 @@
-[[ << Using Docker with NubesGen ](docker.md) | [ Main documentation page ](../README.md) |[ Using Spring Boot with NubesGen >> ](spring-boot.md)]
-
 # Using Java with NubesGen
 
 This documentation is for running Java applications with NubesGen. There are three other options that might interest you:
@@ -90,5 +88,3 @@ for your application.
 - `AZURE_STORAGE_BLOB_ENDPOINT`: the blob storage endpoint
 - `MONGODB_DATABASE`: the MongoDB database name
 - `MONGODB_URI`: the MongoDB database URL
-
-[[ << Using Docker with NubesGen ](docker.md) | [ Main documentation page ](../README.md) |[ Using Spring Boot with NubesGen >> ](spring-boot.md)]

@@ -1,5 +1,3 @@
-[[ << Main documentation page ](README.md) |[ Getting started >> ](getting-started.md)]
-
 # What is NubesGen?
 
 _With NubesGen, going to production on Azure is only one `git push` away._
