@@ -35,6 +35,7 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/docsify-edit-on-github"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
 </head>
 
 <body>
@@ -73,6 +74,13 @@
         // Headline depth, 1 - 6
         depth: 6,
         hideOtherSidebarContent: false, // whether or not to hide other sidebar content
+      },
+      tabs: {
+        persist    : true,      // default
+        sync       : true,      // default
+        theme      : 'classic', // default
+        tabComments: true,      // default
+        tabHeadings: true       // default
       },
       plantuml: {
         skin: 'classic',
