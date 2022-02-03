@@ -1,5 +1,3 @@
-[[ << Running NubesGen from the command line ](command-line.md) | [ Main documentation page ](../README.md) |[ Using Java with NubesGen >> ](java.md)]
-
 # Using Docker with NubesGen
 
 Docker is the default option with NubesGen, and allows to run any kind of application supporting Docker.
@@ -88,5 +86,3 @@ Spring Boot is a Java framework that can use a Dockerfile, but which uses by def
 
 If you have selected Spring Boot, NubesGen will also configure the same configuration properties as the ones described in [Spring Boot with NubesGen](spring-boot.md).
 For example, your database should be automatically configured.
-
-[[ << Running NubesGen from the command line ](command-line.md) | [ Main documentation page ](../README.md) |[ Using Java with NubesGen >> ](java.md)]
