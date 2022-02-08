@@ -34,7 +34,6 @@ resource "azurerm_key_vault" "application" {
       "Get",
       "List",
       "Delete",
-      "Purge",
       "Recover"
     ]
   }
