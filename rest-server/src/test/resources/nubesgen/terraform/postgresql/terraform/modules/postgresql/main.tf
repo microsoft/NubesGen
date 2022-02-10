@@ -37,6 +37,10 @@ resource "azurerm_postgresql_flexible_server" "database" {
     "environment"      = var.environment
     "application-name" = var.application_name
   }
+
+  lifecycle {
+    ignore_changes = [ zone, high_availability.0.standby_availability_zone ]
+  }
 }
 
 resource "azurecaf_name" "postgresql_database" {
