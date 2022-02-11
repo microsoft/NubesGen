@@ -3,6 +3,7 @@ package io.github.nubesgen.cli.subcommand;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.concurrent.Callable;
@@ -28,7 +29,7 @@ public class ProjectnameCommand implements Callable<Integer> {
     public static String projectName(String workingDirectory) {
         Output.printTitle("Creating a name for the current project...");
         Output.printMessage("Current directory: " + workingDirectory);
-        String projectName = workingDirectory.substring(workingDirectory.lastIndexOf("/") + 1);
+        String projectName = workingDirectory.substring(workingDirectory.lastIndexOf(File.separator) + 1);
         projectName = projectName.replaceAll(" ", "-").replaceAll("_", "-");
         if (projectName.length() > 8) {
             projectName = projectName.substring(0, 8);
