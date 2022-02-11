@@ -37,7 +37,7 @@ __Steps:__
    ```bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=dotnet&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
