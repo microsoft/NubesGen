@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen-cli</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <name>nubesgen-cli</name>
     <packaging>jar</packaging>
     <description>NubesGen CLI</description>
