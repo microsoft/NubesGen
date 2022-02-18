@@ -1,7 +1,7 @@
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = "nubesgen-testapp"
+  default     = "nubesgen-testapp-python"
 }
 
 variable "environment" {
