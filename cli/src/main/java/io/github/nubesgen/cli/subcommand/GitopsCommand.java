@@ -25,7 +25,7 @@ public class GitopsCommand implements Callable<Integer> {
 
     public static Integer gitops(String tfStorageAccount, boolean refresh) {
         Output.printTitle("Setting up GitOps...");
-        Output.printInfo("(1/8) Checking if the project is configured on GitHub...");
+        Output.printInfo("(1/10) Checking if the project is configured on GitHub...");
         try {
             int exitCode = ProcessExecutor.execute("gh secret set NUBESGEN_TEST -b\"test\"");
             if (exitCode != 0) {
@@ -41,7 +41,7 @@ public class GitopsCommand implements Callable<Integer> {
             return -1;
         }
 
-        Output.printInfo("(2/8) Checking if the project already has GitOps configured...");
+        Output.printInfo("(2/10) Checking if the project already has GitOps configured...");
         try {
             String secretList = ProcessExecutor.executeAndReturnString("gh secret list");
             if (secretList.contains("AZURE_CREDENTIALS")) {
@@ -89,7 +89,7 @@ public class GitopsCommand implements Callable<Integer> {
 
         // Run commands
         try {
-            Output.printInfo("(3/8) Create resource group \"" + resourceGroup + "\"");
+            Output.printInfo("(3/10) Create resource group \"" + resourceGroup + "\"");
             String resourceGroupExists = ProcessExecutor
                     .executeAndReturnString("az group exists --name " + resourceGroup);
             if (!resourceGroupExists.equals("true")) {
@@ -97,25 +97,39 @@ public class GitopsCommand implements Callable<Integer> {
                         .execute("az group create --name " + resourceGroup + " --location " + location + " -o none");
             }
 
-            Output.printInfo("(4/8) Create storage account \"" + tfStorageAccount + "\"");
+            Output.printInfo("(4/10) Create storage account \"" + tfStorageAccount + "\"");
             ProcessExecutor.execute("az storage account create --resource-group " + resourceGroup + " --name "
                     + tfStorageAccount
                     + " --sku Standard_LRS --allow-blob-public-access false --encryption-services blob -o none");
 
-            Output.printInfo("(5/8) Get storage account key");
+            Output.printInfo("(5/10) Get storage account key");
             String storageAccountKey = ProcessExecutor
                     .executeAndReturnString("az storage account keys list --resource-group " + resourceGroup
                             + " --account-name " + tfStorageAccount + " --query '[0].value' -o tsv");
 
-            Output.printInfo("(6/8) Create blob container");
+            Output.printInfo("(6/10) Create blob container");
             ProcessExecutor.execute("az storage container create --name " + containerName + " --account-name "
                     + tfStorageAccount + " --account-key " + storageAccountKey + " -o none");
 
-            Output.printInfo("(7/8) Get current subscription");
+            Output.printInfo("(7/10) Create a virtual network");
+            String vnet = "vnet-" + tfStorageAccount;
+            String subnet = "snet-" + tfStorageAccount;
+            ProcessExecutor.execute("az network vnet create --resource-group " + resourceGroup
+                + " --name " + vnet + " --subnet-name " + subnet + " -o none");
+            ProcessExecutor.execute("az network vnet subnet update --resource-group " + resourceGroup
+                + " --name " + subnet + " --vnet-name " + vnet + " --service-endpoints \"Microsoft.Storage\" -o none");"");
+
+            Output.printInfo("(8/10) Secure the storage account in the virtual network");
+            ProcessExecutor.execute("az storage account network-rule add --account-name " + tfStorageAccount
+                + " --vnet-name " + vnet + " --subnet " + subnet + " -o none");
+            ProcessExecutor.execute("az storage account update --name " + tfStorageAccount
+                + " --default-action Deny --bypass None -o none");
+
+            Output.printInfo("(9/10) Get current subscription");
             String subscriptionId = ProcessExecutor
                     .executeAndReturnString("az account show --query id --output tsv --only-show-errors");
 
-            Output.printInfo("(8/8) Create secrets in GitHub");
+            Output.printInfo("(10/10) Create secrets in GitHub");
             Output.printInfo("Using the GitHub CLI to set secrets.");
             String remoteRepo = ProcessExecutor.executeAndReturnString("git config --get remote.origin.url");
             ProcessExecutor.execute("SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role=\"Contributor\" --scopes=\"/subscriptions/"
