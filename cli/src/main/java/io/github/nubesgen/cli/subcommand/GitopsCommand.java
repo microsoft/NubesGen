@@ -117,7 +117,7 @@ public class GitopsCommand implements Callable<Integer> {
             ProcessExecutor.execute("az network vnet create --resource-group " + resourceGroup
                 + " --name " + vnet + " --subnet-name " + subnet + " -o none");
             ProcessExecutor.execute("az network vnet subnet update --resource-group " + resourceGroup
-                + " --name " + subnet + " --vnet-name " + vnet + " --service-endpoints \"Microsoft.Storage\" -o none");"");
+                + " --name " + subnet + " --vnet-name " + vnet + " --service-endpoints \"Microsoft.Storage\" -o none");
 
             Output.printInfo("(8/10) Secure the storage account in the virtual network");
             ProcessExecutor.execute("az storage account network-rule add --account-name " + tfStorageAccount
