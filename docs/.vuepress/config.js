@@ -45,17 +45,17 @@ module.exports = {
             ],
           },
           {
-            title: '⌨️ Language support',
+            title: '⌨️ Runtimes support',
             
             collapsable: false,
             sidebarDepth: 0,
             children: [
-              '/language-support/docker',
-              '/language-support/dot-net',
-              '/language-support/java',
-              '/language-support/quarkus',
-              '/language-support/spring-boot',
-              '/language-support/nodejs',
+              '/runtimes/docker',
+              '/runtimes/dot-net',
+              '/runtimes/java',
+              '/runtimes/quarkus',
+              '/runtimes/spring-boot',
+              '/runtimes/nodejs',
             ],
           },
           {
