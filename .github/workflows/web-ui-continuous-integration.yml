@@ -29,6 +29,7 @@ jobs:
     - name: Scan for accessibility issues
       uses: microsoft/accessibility-insights-action@v2
       with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
         site-dir: ${{ github.workspace }}/rest-server/src/main/resources/static
     - name: Upload report artifact
       uses: actions/upload-artifact@v2
