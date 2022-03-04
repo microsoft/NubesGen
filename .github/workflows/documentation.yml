@@ -1,12 +1,16 @@
 name: 📗 Documentation Build
 
 on:
-  pull_request:
-     paths:
-    - 'docs/'
   push:
     paths:
-    - 'docs/'
+      - 'docs/**'
+      - '.github/workflows/documentation.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - '.github/workflows/documentation.yml'
 jobs:
   deploy:
     runs-on: ubuntu-20.04
