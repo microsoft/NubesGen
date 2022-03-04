@@ -5,7 +5,7 @@ module.exports = {
         logo: '/assets/nubesgen-logo.svg',
         repo: 'microsoft/nubesgen',
         docsDir: 'docs',
-        docsBranch: 'docs-v2',
+        docsBranch: 'main',
         editLinks: true,
         lastUpdated: 'Last Updated',
         sidebarDepth: 1,

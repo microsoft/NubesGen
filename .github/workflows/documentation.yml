@@ -3,7 +3,9 @@ name: 📗 Documentation Build
 on:
   push:
     branches:
-      - docs-v2
+      - main
+    paths:
+    - 'docs/'
 jobs:
   deploy:
     runs-on: ubuntu-20.04
@@ -20,7 +22,7 @@ jobs:
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/docs-v2'
+        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/.vuepress/dist
