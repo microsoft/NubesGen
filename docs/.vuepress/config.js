@@ -95,5 +95,14 @@ module.exports = {
           }
       ]
     },
-    
+    plugins: [
+      [
+        'vuepress-plugin-clean-urls',
+        {
+          normalSuffix: '/',
+          indexSuffix: '/',
+          notFoundPath: '/404.html',
+        },
+      ],
+    ],
   };
