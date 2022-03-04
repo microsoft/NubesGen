@@ -28,6 +28,7 @@ module.exports = {
               },
               '/what-is-nubesgen/features',
               '/what-is-nubesgen/philosophy',
+              '/what-is-nubesgen/roadmap',
               '/what-is-nubesgen/telemetry',
               '/what-is-nubesgen/contact',
             ],
@@ -79,7 +80,6 @@ module.exports = {
           },
           {
             title: '📚 Reference',
-            path: '/reference',
             collapsable: true,
             sidebarDepth: 0,
             children: [
