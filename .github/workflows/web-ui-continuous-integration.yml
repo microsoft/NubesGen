@@ -7,7 +7,7 @@ name: Web UI - Continuous Integration
 on:
   push:
     branches:
-      - *
+      - '*'
     paths:
       - 'rest-server/src/main/resources/static/**'
       - '.github/workflows/web-ui-continuous-integration.yml'
