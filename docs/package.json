@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Welcome to the Nubesgen documentation. Here you'll find everything you need to learn and **deploy applications and services on Azure in minutes**.",
   "scripts": {
+    "docs:dev": "vuepress dev",
     "docs:build": "vuepress build"
   },
   "keywords": [],
