@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -348,12 +348,12 @@
 
                 </div>
                 <div class="border-t border-b border-gray-200">
-                    <dl>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-sm font-medium text-black-500">
+
+                        <div class="text-sm font-medium text-black-500">
                             Infrastructure as Code tool
-                        </dt>
-                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        </div>
+                        <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
 
                             <div>
                                 <div class="mt-1 relative">
@@ -429,13 +429,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </dd>
+                        </div>
                     </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-black-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Project name <span class="text-red-600">*</span>
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <input id="projectNameInput" type="text"
                                        class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                                        placeholder="demo" style="transition: all 0.15s ease 0s;" x-model="projectName"
@@ -448,13 +448,13 @@
                                 <p class="text-black-500 italic" x-show="projectSlug"> We will use <span
                                         class="font-mono"
                                         x-text="projectSlug"></span> slug in resources names.</p>
-                            </dd>
+                            </div>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-black-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Region
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div>
                                     <div class="mt-1 relative">
                                         <button type="button" aria-haspopup="listbox" aria-expanded="true"
@@ -536,14 +536,14 @@
                                         </div>
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
 
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-black-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Application
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div class="container sm:mx-auto py-4 px-3">
                                     <div class="text-lg font-bold">Application type</div>
                                     <hr/>
@@ -844,13 +844,13 @@
 
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-black-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Database
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
 
                                 <div class="grid grid-cols-4 gap-6">
 
@@ -989,14 +989,14 @@
                                     </div>
                                 </div>
 
-                            </dd>
+                            </div>
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                         x-show="iaCToolId !== 'BICEP'">
-                            <dt class="text-sm font-medium text-black-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Network
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div class="grid grid-rows-1 mt-4 gap-4">
                                     <div class="border bg-white rounded content-center py-2 px-4">
 
@@ -1017,13 +1017,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-black-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Add-Ons
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div class="grid grid-rows-1 mt-4 gap-4">
 
                                     <div class="border bg-white rounded flex content-center py-2 px-4"
@@ -1086,14 +1086,14 @@
                                         </label>
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
 
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-black-500">
+                            <div class="text-sm font-medium text-black-500">
                                 GitOps
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div class="grid grid-rows-1 mt-4 gap-4">
 
                                     <div class="border bg-white rounded flex content-center py-2 px-4"
@@ -1109,16 +1109,13 @@
                                         </label>
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
 
                         <div class="bg-gray-200 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-black-500">
-
-
-
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <div class="text-sm font-medium text-black-500">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div
                                 x-show="components.frontApp.type==='SPRING_CLOUD' && network === 'VIRTUAL_NETWORK' && gitops === true"
                                 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -1149,7 +1146,7 @@
                                                               x-show="copySuccessful === true">Copied!</span>
                                 </div>
                             </button>
-                            </dd>
+                            </div>
                         </div>
                         <div class="">
                             <div class="bg-gray-200 border-gray-400 border m-10" x-show="curlScript !== ''">
@@ -1197,10 +1194,10 @@
                             <div class="text-center text-2xl pt-5 text-green-700">Coming soon</div>
 
                             <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-black-500">
+                                <div class="text-sm font-medium text-black-500">
                                     Security
-                                </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                </div>
+                                <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <div class="flex row-auto items-center mt-4"><i
                                             class="fa fa-check-circle-o text-gray-400"></i>
                                         <span class="ml-3 text-black-500">Azure-managed encryption at rest</span>
@@ -1209,40 +1206,35 @@
                                             class="fa fa-check-circle-o text-gray-400"></i>
                                         <span class="ml-3 text-black-500">Basic DDOS Protection</span>
                                     </div>
-                                </dd>
+                                </div>
                             </div>
 
                             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-black-500">
+                                <div class="text-sm font-medium text-black-500">
                                     Product & Business metrics
-                                </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                </div>
+                                <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <p>Track <strong>Users, Sessons, Funnels, Cohorts & User Flows</strong> easily with
                                         Azure Application
                                         Insights.</p>
-                                </dd>
+                                </div>
                             </div>
 
                             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-black-500">
+                                <div class="text-sm font-medium text-black-500">
                                     Cost
-                                </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                </div>
+                                <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <div class="flex row-auto items-center mt-4"><i
                                             class="fa fa-check-circle-o text-gray-400"></i>
                                         <span class="ml-3 font-bold text-black-500">Cost alerts</span>
                                         <span class="ml-1 text-black-500">You'll receive automatic email alerts when actual costs reaches
                           50%, 75%, 100% and 125%.</span>
                                     </div>
-
-                                </dd>
+                                </div>
                             </div>
-
                         </div>
-
-                    </dl>
                 </div>
-
             </div>
         </div>
     </section>
