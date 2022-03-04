@@ -19,6 +19,7 @@ on:
       - '.github/workflows/web-ui-continuous-integration.yml'
 jobs:
   accessibility:
+    name: Accessibility Scan
     runs-on: ubuntu-latest
     defaults:
       run:
