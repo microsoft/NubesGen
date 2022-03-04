@@ -1,5 +1,3 @@
-[[ << Using Spring Boot with NubesGen ](spring-boot.md) | [ Main documentation page ](../README.md) |[ Using .NET with NubesGen >> ](dot-net.md)]
-
 # Using Quarkus with NubesGen
 
 This documentation is for running Quarkus applications with NubesGen. There are two other options that might interest you:
@@ -135,5 +133,3 @@ properties, so your Spring Boot application should be automatically configured
 - `AZURE_STORAGE_ACCOUNT_NAME`: the storage account name
 - `AZURE_STORAGE_ACCOUNT_KEY`: the storage account key
 - `AZURE_STORAGE_BLOB_ENDPOINT`: the blob storage endpoint
-
-[[ << Using Spring Boot with NubesGen ](spring-boot.md) | [ Main documentation page ](../README.md) |[ Using .NET with NubesGen >> ](dot-net.md)]
