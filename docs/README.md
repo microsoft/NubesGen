@@ -1,19 +1,24 @@
-# NubesGen documentation
+# Nubesgen Documentation
 
-- [What is NubesGen?](what-is-nubesgen.md)
-- [Getting started](getting-started.md)
-- GitOps
-  - [GitOps overview](gitops-overview.md)
-  - [GitOps quick start](gitops-quick-start.md)
-- [What is being generated](what-is-being-generated.md)
-- [Running NubesGen from the command line](command-line.md)
-- Using NubesGen with your favorite language or framework
-  - [Using Docker with NubesGen](runtimes/docker.md)
-  - [Using Java with NubesGen](runtimes/java.md)
-  - [Using Spring Boot with NubesGen](runtimes/spring-boot.md)
-  - [Using Quarkus with NubesGen](runtimes/quarkus.md)
-  - [Using .NET with NubesGen](runtimes/dot-net.md)
-  - [Using Node.js with NubesGen](runtimes/nodejs.md)
-- [Frequently asked questions](frequently-asked-questions.md)
-- [Troubleshooting](troubleshooting.md)
-- [References](references.md)
+Welcome to the Nubesgen documentation. Here you'll find everything you need to learn and **deploy applications and services on Azure in minutes**.
+
+
+<!--
+## Getting started with Nubesgen
+
+- 👩‍💻 You love to learn by doing?
+- 📺 You prefer watch
+-->
+
+## Version compatibility
+
+This documentation only reflects the latest version of Nubesgen.
+
+
+## Open-source
+
+Nubesgen and it's documentation are both completely open source. You can **support the project by starring** [our main GitHub repository](https://github.com/microsoft/nubesgen) or contributing to the docs. 
+
+<a class="github-button" href="https://github.com/microsoft/nubesgen" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star microsoft/nubesgen on GitHub">Star</a>
+<a class="github-button" href="https://github.com/microsoft/nubesgen/subscription" data-icon="octicon-eye" data-size="large" data-show-count="true" aria-label="Watch microsoft/nubesgen on GitHub">Watch</a>
+

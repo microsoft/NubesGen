@@ -1,5 +1,3 @@
-[[ << Using .NET with NubesGen ](dot-net.md) | [ Main documentation page ](../README.md) |[ Frequently asked questions >> ](../frequently-asked-questions.md)]
-
 # Using Node.js with NubesGen
 
 This documentation is for running Node.js applications with NubesGen, and there is another options that might interest you:
@@ -126,5 +124,3 @@ NubesGen will configure some environment variables for your application.
 - `AZURE_STORAGE_BLOB_ENDPOINT`: the blob storage endpoint
 - `MONGODB_DATABASE`: the MongoDB database name
 - `MONGODB_URI`: the MongoDB database URL
-
-[[ << Using .NET with NubesGen ](dot-net.md) | [ Main documentation page ](../README.md) |[ Frequently asked questions >> ](../frequently-asked-questions.md)]

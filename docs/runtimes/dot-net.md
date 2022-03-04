@@ -1,5 +1,3 @@
-[[ << Using Spring Boot with NubesGen ](spring-boot.md) | [ Main documentation page ](../README.md) |[ Using Node.js with NubesGen >> ](nodejs.md)]
-
 # Using .NET with NubesGen
 
 This documentation is for running .NET applications with NubesGen, and there is another other options that might interest you:
@@ -95,5 +93,3 @@ for your application.
 - `AZURE_STORAGE_BLOB_ENDPOINT`: the blob storage endpoint
 - `MONGODB_DATABASE`: the MongoDB database name
 - `MONGODB_URI`: the MongoDB database URL
-  
-[[ << Using Spring Boot with NubesGen ](spring-boot.md) | [ Main documentation page ](../README.md) |[ Using Node.js with NubesGen >> ](nodejs.md)]

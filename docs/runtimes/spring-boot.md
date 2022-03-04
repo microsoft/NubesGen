@@ -1,5 +1,3 @@
-[[ << Using Java with NubesGen ](java.md) | [ Main documentation page ](../README.md) |[ Using Quarkus with NubesGen >> ](quarkus.md)]
-
 # Using Spring Boot with NubesGen
 
 This documentation is for running Spring Boot applications with NubesGen. There are two other options that might interest you:
@@ -137,5 +135,3 @@ properties, so your Spring Boot application should be automatically configured
 - `AZURE_STORAGE_BLOB_ENDPOINT`: the blob storage endpoint
 - `SPRING_DATA_MONGODB_DATABASE`: the MongoDB database name
 - `SPRING_DATA_MONGODB_URI`: the MongoDB database URL
-
-[[ << Using Java with NubesGen ](java.md) | [ Main documentation page ](../README.md) |[ Using Quarkus with NubesGen >> ](quarkus.md)]
