@@ -561,7 +561,7 @@
                                                 <div x-show="components.frontApp.type==='APP_SERVICE'">
                                                     <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                         framework:</p>
-                                                    <select class="text-sm" x-model="runtime">
+                                                    <select class="text-sm" x-model="runtime" aria-label="Select the runtime framework">
                                                         <template x-for="rt in appServiceRuntimes" :key="rt.id">
                                                             <option x-bind:value="rt.id" x-text="rt.name"/>
                                                         </template>
@@ -998,7 +998,7 @@
                                             <div>
                                                 <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                     configuration:</p>
-                                                <select class="text-sm" x-model="network">
+                                                <select class="text-sm" x-model="network" aria-label="Select the network configuration">
                                                     <template x-for="nc in networkConfigurations" :key="nc.id">
                                                         <option x-bind:value="nc.id" x-text="nc.name"/>
                                                     </template>
