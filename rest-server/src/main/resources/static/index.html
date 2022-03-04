@@ -238,7 +238,7 @@
 
 <header x-data="{ isOpen: false}" class="bg-white shadow">
     <div class="text-center font-bold text-sm py-2 bg-blue-200">
-        ⭐ If you like NubesGen, give it a <a class="github-button" href="https://github.com/microsoft/nubesgen" data-icon="octicon-star" data-show-count="true" aria-label="Star microsoft/nubesgen on GitHub">Star</a> on <a href="https://github.com/microsoft/nubesgen">GitHub</a>. Thanks 🙏
+        ⭐ If you like NubesGen, give it a <a class="github-button" href="https://github.com/microsoft/nubesgen" data-icon="octicon-star" data-show-count="true" aria-label="Star microsoft/nubesgen on GitHub" tabindex="1">Star</a> on <a href="https://github.com/microsoft/nubesgen" tabindex="2">GitHub</a>. Thanks 🙏
     </div>
     <nav class="container mx-auto px-6 py-3">
         <div class="flex flex-col md:flex-row md:justify-between md:items-center">
@@ -265,13 +265,13 @@
             <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
             <div class="md:flex items-center" :class="isOpen ? 'block' : 'hidden'">
                 <div class="flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1">
-                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="3"
                        href="https://docs.nubesgen.com/getting-started/terraform/">Getting Started</a>
-                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="4"
                        href="https://docs.nubesgen.com/">Documentation</a>
-                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="5"
                        href="https://github.com/microsoft/nubesgen">GitHub</a>
-                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="6"
                        href="https://github.com/microsoft/nubesgen/discussions">Help</a>
                 </div>
             </div>
@@ -299,10 +299,11 @@
             <div class="my-12 text-xl font-light text-true-gray-500 antialiased">
                 NubesGen is an <strong>Open Source project</strong> and we are always looking for
                 <a class="text-gray-700 leading-5 hover:text-blue-600 hover:underline"
-                   href="https://github.com/microsoft/nubesgen">feedbacks and contributions</a>.
+                   href="https://github.com/microsoft/nubesgen" tabindex="7">feedbacks and contributions</a>.
             </div>
             <a href="#generator-form"
-               class="mt-24 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out">
+               class="mt-24 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out"
+               tabindex="8">
                 Generate your project infrastructure now
             </a>
             <div class="mt-12 lg:mt-32 lg:ml-20 text-left">
