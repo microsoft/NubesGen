@@ -15,7 +15,7 @@ We would **love** to showcase your content here. Feel free to click on "Edit thi
     * [Episode 3 - Protect production resources](https://docs.microsoft.com/en-us/shows/devops-lab/devops-lab--infra-as-code-in-action-protect-production-resources--ep-3-of-4-episode-series)
     * [Episode 4 - Tagging strategy](https://docs.microsoft.com/en-us/shows/devops-lab/devops-lab--infra-as-code-in-action-tagging-strategy--ep-4-of-4-episode-series)
 
-## Article & Blogs
+## Articles & Blogs
 
 * [How to Manually Deploy a Quarkus Application to Azure with Terraform Thanks to NubesGen](https://antoniogoncalves.org/2021/07/12/how-to-manually-deploy-a-quarkus-application-to-azure-with-terraform-thanks-to-nubesgen/), by [Antonio Goncalves](https://twitter.com/agoncal), 13. July 2021
 * [Announcing NubesGen, an Open Source tool to automate Azure deployments](https://dev.to/azure/announcing-nubesgen-an-open-source-tool-to-automate-azure-deployments-1l4a), from Microsoft by [Julien Dubois](https://twitter.com/juliendubois), 5. May 2021
