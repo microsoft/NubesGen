@@ -34,7 +34,6 @@ module.exports = {
           },
           {
             title: '🚀 Getting started',
-            path: '/getting-started',
             collapsable: false,
             sidebarDepth: 0,
             children: [
@@ -46,7 +45,6 @@ module.exports = {
           },
           {
             title: '⌨️ Runtimes support',
-            
             collapsable: false,
             sidebarDepth: 0,
             children: [
