@@ -3,11 +3,12 @@
 Welcome to the Nubesgen documentation. Here you'll find everything you need to learn and **deploy applications and services on Azure in minutes**.
 
 
-
+<!--
 ## Getting started with Nubesgen
 
 - 👩‍💻 You love to learn by doing?
 - 📺 You prefer watch
+-->
 
 ## Version compatibility
 

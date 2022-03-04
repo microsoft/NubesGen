@@ -12,8 +12,10 @@ The following steps will guide you through creating those resources, and authori
 
 _Prerequisites_
 
-__Tip:__ You can go to [https://shell.azure.com](https://shell.azure.com) and login with the Azure subscription you want to use. This will provide you with the 
+:::tip
+You can go to [https://shell.azure.com](https://shell.azure.com) and login with the Azure subscription you want to use. This will provide you with the 
 mandatory prerequisites below (Bash, Azure CLI, and GitHub CLI).
+:::
 
 For setting up GitOps (using the NubesGen CLI or the manual installation), you need to have installed and configured the following tools:
 
@@ -23,21 +25,21 @@ For setting up GitOps (using the NubesGen CLI or the manual installation), you n
 
 ### Automatic Installation (with the NubesGen CLI)
 
-__Tip:__ Full documentation for the NubesGen CLI is available [here](../cli/README.md).
+::: tip
+Full documentation for the NubesGen CLI is available [here](../cli/README.md).
+:::
 
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
 1. Open up a terminal in the repository you just cloned, and setup GitOps using the NubesGen CLI:
-   <details>
-   <summary>Installing and running the CLI with Java</summary>
+::: details Installing and running the CLI with Java
    
    To run the Java archive, you need to have a Java Virtual Machine (version 11 or higher) installed.
 
    - Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-*.jar'`
    - Setup GitOps: `java -jar nubesgen-*.jar gitops`
-   </details>
-   
-   <details>
-   <summary>Installing and running the CLI on Linux</summary>
+:::
+
+::: details Installing and running the CLI on Linux
    
    To run the binary on Linux, you need to:
 
@@ -45,9 +47,8 @@ __Tip:__ Full documentation for the NubesGen CLI is available [here](../cli/READ
    - Make the binary executable: `chmod +x nubesgen-cli-linux`
    - Setup GitOps: `./nubesgen-cli-linux gitops`
 
-   </details>
-   <details>
-   <summary>Installing and running the CLI on a Mac OS</summary>
+:::
+::: details Installing and running the CLI on a Mac OS
 
    To run the binary on a Mac OS, you need to:
 
@@ -56,16 +57,15 @@ __Tip:__ Full documentation for the NubesGen CLI is available [here](../cli/READ
    - Allow Mac OS X to execute it: `xattr -d com.apple.quarantine nubesgen-cli-macos`
    - Setup GitOps: `./nubesgen-cli-macos gitops`
 
-   </details>
-   <details>
-   <summary>Installing and running the CLI on Windows</summary>
+:::
+::: details Installing and running the CLI on Windows
 
    To run the binary on Windows, you need to:
 
    - Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-windows.exe'`
    - Setup GitOps; `nubesgen-cli-windows gitops`
 
-   </details>
+:::
 
    To learn more about the NubesGen CLI, [read the project documentation here](../cli/README.md), or run the CLI using the `-h` flag.
    
@@ -77,8 +77,7 @@ __Tip:__ Full documentation for the NubesGen CLI is available [here](../cli/READ
 
 ### Manual Installation (without the NubesGen CLI)
 
-<details>
-<summary>This setup only replaces step 2 of the automatic installation, described above (click to expand)</summary>
+::: details This setup only replaces step 2 of the automatic installation, described above (click to expand)
 
 Instead of running the NubesGen CLI, you will manually create one Azure Storage account, and two GitHub secrets.
 
@@ -116,7 +115,7 @@ REMOTE_REPO=$(git config --get remote.origin.url)
 # Set the two GitHub secrets
 gh secret set AZURE_CREDENTIALS -b"$SERVICE_PRINCIPAL" -R $REMOTE_REPO && gh secret set TF_STORAGE_ACCOUNT -b"$TF_STORAGE_ACCOUNT" -R $REMOTE_REPO
 ```
-</details>
+:::
 
 __Congratulations, you have set up GitOps with NubesGen on your project!__
 

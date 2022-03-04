@@ -19,19 +19,19 @@ _Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesge
 __Steps:__
 1. Fork the project on your GitHub account.
 2. Clone the fork on your computer. Change `<your-github-account>` by the name of your GitHub account:
-   ```bash
+   ``` bash
    git clone https://github.com/<your-github-account>/golang-sample-app.git
    ``` 
 3. In the cloned project (`cd golang-sample-app`), set up GitOps with NubesGen by using the NubesGen CLI ([more information here](../gitops-quick-start.md)):
-   ```bash
+   ``` bash
     ./nubesgen-cli-linux gitops
     ```
 4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
-   ```bash
+   ``` bash
    curl "https://nubesgen.com/demo.tgz?application=app_service.standard&gitops=true" | tar -xzvf -
    ```
 5. Create a new branch called `env-dev`, and push your code:
-   ```bash
+   ``` bash
    git checkout -b env-dev
    git add .
    git commit -m 'Configure GitOps with NubesGen'
