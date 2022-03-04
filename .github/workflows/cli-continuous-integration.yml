@@ -1,4 +1,4 @@
-name: CLI - Continuous Integration
+name: ⌨️ CLI - Continuous Integration
 on:
   push:
     branches:
