@@ -41,7 +41,7 @@ To run the binary on Linux, you need to:
 - Run the binary: `./nubesgen-cli-linux -h`
 
 :::
-::: detailsDownloading and installing the CLI on a Mac OS
+::: details Downloading and installing the CLI on a Mac OS
 
    To run the binary on a Mac OS, you need to:
 

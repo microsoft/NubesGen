@@ -29,4 +29,4 @@ If you want to contribute, do not hesitate to reach out to us on [this issue](ht
 
 ## 🍪 Cookies
 
-NubesGen.com website does **not** use cookies to store Personally Identifiable Information. In future versions, we might use
+NubesGen.com website does **not** use cookies to store Personally Identifiable Information. In future versions, we might use cookies to save user preference.
