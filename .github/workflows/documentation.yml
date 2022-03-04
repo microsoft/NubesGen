@@ -20,7 +20,6 @@ jobs:
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        working-directory: ${{ github.workspace }}/docs
         if: github.ref == 'refs/heads/docs-v2'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
