@@ -245,7 +245,7 @@
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
                     <img src="img/nubesgen-logo.svg"
-                         class="h-12 sm:h-12">
+                         class="h-12 sm:h-12" alt="NubesGen logo">
                 </div>
 
                 <!-- Mobile menu button -->
@@ -325,10 +325,10 @@
             <div class="text-center mx-auto">
                 <p class="text-black-500">Supported platforms (more to come)</p>
                 <div class="flex w-60 gap-4 mx-auto">
-                    <img class="max-w-12 max-h-12" src="img/docker.svg"/>
-                    <img class="max-w-12 max-h-12" src="img/lang-netcore.svg"/>
-                    <img class="max-w-12 max-h-12" src="img/lang-java.svg"/>
-                    <img class="max-w-12 max-h-12" src="img/lang-nodejs.svg"/>
+                    <img class="max-w-12 max-h-12" src="img/docker.svg" alt="Docker logo"/>
+                    <img class="max-w-12 max-h-12" src="img/lang-netcore.svg" alt=".NET logo"/>
+                    <img class="max-w-12 max-h-12" src="img/lang-java.svg" alt="Java logo"/>
+                    <img class="max-w-12 max-h-12" src="img/lang-nodejs.svg" alt="Node.js logo"/>
                 </div>
             </div>
         </div>
@@ -361,7 +361,7 @@
                                         class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         x-on:click="iaCToolSelectorOpened = true">
                                         <span class="flex items-center">
-                                            <img :src="iaCTool.flag" alt="" class="flex-shrink-0 h-12 w-12 rounded">
+                                            <img :src="iaCTool.flag" alt="Infrastructure as Code tool logo" class="flex-shrink-0 h-12 w-12 rounded">
                                             <span x-text="iaCTool.name" class="ml-3 block text-xl truncate">
                                             </span>
                                         </span>
@@ -388,7 +388,6 @@
                                     <div x-show="iaCToolSelectorOpened" x-on:click.away="iaCToolSelectorOpened = false"
                                         class="absolute mt-1 w-full rounded-md bg-white shadow-lg">
                                         <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label"
-                                            aria-activedescendant="listbox-item-3"
                                             class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                             <!--
                                                                                                                       Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
@@ -396,11 +395,11 @@
                                                                                                                     -->
 
                                             <template x-for="iac in allIaCTools" :key="iac.id">
-                                                <li id="listbox-item-0" role="option"
+                                                <li role="option"
                                                     class="text-gray-900 hover:bg-blue-100 cursor-default select-none relative py-2 pl-3 pr-9"
                                                     @click="selectIaCTool(iac)">
                                                     <div class="flex items-center">
-                                                        <img :src="iac.flag" alt="" class="flex-shrink-0 h-6 w-6 rounded">
+                                                        <img :src="iac.flag" alt="Infrastructure as Code tool logo" class="flex-shrink-0 h-6 w-6 rounded">
                                                         <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                                                         <span x-text="iac.name" class="ml-3 block font-normal truncate">
                                                         </span>
@@ -462,7 +461,7 @@
                                                 class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 x-on:click="regionSelectorOpened = true">
                                             <span class="flex items-center">
-                                              <img :src="region2.flag" alt="" class="flex-shrink-0 h-12 w-12 rounded">
+                                              <img :src="region2.flag" alt="Azure region flag" class="flex-shrink-0 h-12 w-12 rounded">
                                               <span x-text="region2.name" class="ml-3 block text-xl truncate">
                                               </span>
                                             </span>
@@ -504,7 +503,7 @@
                                                         class="text-gray-900 hover:bg-blue-100 cursor-default select-none relative py-2 pl-3 pr-9"
                                                         @click="selectRegion(reg)">
                                                         <div class="flex items-center">
-                                                            <img :src="reg.flag" alt=""
+                                                            <img :src="reg.flag" alt="Azure region flag"
                                                                  class="flex-shrink-0 h-6 w-6 rounded">
                                                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                                                             <span x-text="reg.name"
@@ -553,7 +552,7 @@
                                              @click="updateAppType('APP_SERVICE')"
                                              :class="components.frontApp.type==='APP_SERVICE' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                             <img class="w-8 h-8"
-                                                 src="img/icon-app-services.svg"></img>
+                                                 src="img/icon-app-services.svg" alt="Azure Application Service logo">
                                             <div class="text-lg font-semibold text-blue-900">
                                                 Web Application
                                                 <p class="text-sm font-normal text-black-500">Azure App Service</p>
@@ -575,7 +574,7 @@
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('FUNCTION')"
                                              :class="components.frontApp.type==='FUNCTION' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                            <img class="w-8 h-8" src="img/icon-functions.svg"></img>
+                                            <img class="w-8 h-8" src="img/icon-functions.svg" alt="Azure Functions logo">
                                             <div class="text-lg font-semibold">
                                                 Serverless Application
                                                 <p class="text-sm font-normal text-black-500">Azure Functions</p>
@@ -596,7 +595,7 @@
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('SPRING_CLOUD')"
                                              :class="components.frontApp.type==='SPRING_CLOUD' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                            <img class="w-8 h-8" src="img/icon-spring-cloud.svg"></img>
+                                            <img class="w-8 h-8" src="img/icon-spring-cloud.svg" alt="Azure Spring Cloud logo">
                                             <div class="text-lg font-semibold">
                                                 Spring Boot Application
                                                 <p class="text-sm font-normal text-black-500">Azure Spring Cloud</p>
@@ -612,15 +611,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
-                                          <img class="w-8 h-8" src="img/01007-icon-Static Apps-Preview.svg"></img>
-                                          <div class="text-lg font-semibold">
-                                            Static Web App
-                                            <p class="text-sm font-normal text-black-500">Great for blogs & Single-Page Applications</p>
-                                          </div>
-                                        </div> -->
-
                                     </div>
 
                                     <div class="text-lg font-bold mt-6">App size</div>
@@ -868,7 +858,7 @@
 
                                     <div class="p-4 bg-white border-2" @click="components.database.type='SQL_SERVER'"
                                          :class="components.database.type==='SQL_SERVER' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                        <img class="w-8 h-8" src="img/icon-azure-database-mssql.svg"></img>
+                                        <img class="w-8 h-8" src="img/icon-azure-database-mssql.svg" alt="Azure SQL Database logo">
                                         <div class="text-lg font-semibold text-blue-900">
                                             Azure SQL Database
                                             <p class="text-sm font-normal text-black-500">Managed, intelligent SQL in the cloud</p>
@@ -879,7 +869,7 @@
                                          @click="components.database.type='POSTGRESQL'"
                                          :class="components.database.type==='POSTGRESQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                         <img class="w-8 h-8"
-                                             src="img/icon-azure-database-postgresql.svg"></img>
+                                             src="img/icon-azure-database-postgresql.svg" alt="Azure Database for PostgreSQL logo">
                                         <div class="text-lg font-semibold">
                                             Azure Database for PostgreSQL
                                             <p class="text-sm font-normal text-black-500">Fully managed, intelligent and scalable PostgreSQL</p>
@@ -890,7 +880,7 @@
                                          @click="components.database.type='MYSQL'"
                                          :class="components.database.type==='MYSQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                         <img class="w-8 h-8"
-                                             src="img/icon-azure-database-mysql.svg"></img>
+                                             src="img/icon-azure-database-mysql.svg" alt="Azure Database for MySQL logo">
                                         <div class="text-lg font-semibold">
                                             Azure Database for MySQL
                                             <p class="text-sm font-normal text-black-500">Fully managed, scalable MySQL database</p>
@@ -1000,7 +990,7 @@
                                 <div class="grid grid-rows-1 mt-4 gap-4">
                                     <div class="border bg-white rounded content-center py-2 px-4">
 
-                                        <img class="w-8 h-8" src="img/icon-virtual-network.svg"></img>
+                                        <img class="w-8 h-8" src="img/icon-virtual-network.svg" alt="Network configuration logo">
                                         <div class="text-lg font-semibold">
                                             Network configuration
                                             <p class="text-sm font-normal text-black-500">Use either a public network (default option), or a dedicated virtual network (VNet) for increased security.</p>
