@@ -266,9 +266,9 @@
             <div class="md:flex items-center" :class="isOpen ? 'block' : 'hidden'">
                 <div class="flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1">
                     <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="3"
-                       href="https://github.com/microsoft/NubesGen/blob/main/docs/getting-started.md">Getting Started</a>
+                       href="https://docs.nubesgen.com/getting-started/terraform/">Getting Started</a>
                     <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="4"
-                       href="https://github.com/microsoft/NubesGen/blob/main/docs/README.md">Documentation</a>
+                       href="https://docs.nubesgen.com">Documentation</a>
                     <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="5"
                        href="https://github.com/microsoft/nubesgen">GitHub</a>
                     <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="6"
@@ -1095,7 +1095,7 @@
                                             <div>
                                                 <span class="ml-3 font-normal text-base text-black-500">Deploy your infrastructure & code with GitHub Actions</span>
                                                 <span class="ml-3 font-normal text-base text-blue-700 underline"><a
-                                                        href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md">see documentation</a></span>
+                                                        href="https://docs.nubesgen.com/gitops/gitops-quick-start/">see documentation</a></span>
                                             </div>
                                         </label>
                                     </div>
@@ -1270,7 +1270,7 @@
                   We have generated your infrastructure as code configuration. Now it's time to deploy it!
               </div>
               <div x-show="hasGitops">As you've added GitOps to your configuration, all the deployment will happen through your CI/CD pipeline.
-                  Head over to <a class="text-blue-700 underline cursor-pointer" href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md">our documentation</a> to configure it.
+                  Head over to <a class="text-blue-700 underline cursor-pointer" href="https://docs.nubesgen.com/gitops/gitops-quick-start/">our documentation</a> to configure it.
               </div>
               <div x-show="!hasGitops">If you're familiar with Terraform or Bicep, go ahead and deploy your infrastructure.<br/>If not, you can checkout the quick start in our documentation.</div>
               <hr>
@@ -1278,14 +1278,14 @@
                 <a
                     x-show="hasGitops"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
-                    href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md"
+                    href="https://docs.nubesgen.com/gitops/gitops-quick-start/"
                     >
                   Go to the documentation
                 </a>
                 <a
                     x-show="!hasGitops"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
-                    href="https://github.com/microsoft/NubesGen/blob/main/docs/getting-started.md"
+                    href="https://docs.nubesgen.com/getting-started/terraform/"
                     >
                   Go to the quick start
                 </a>
