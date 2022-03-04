@@ -1,10 +1,11 @@
-* [Home](./README.md)
+<img style="margin: auto;" width="200" height="100" title="Nubesgen" src="https://docs.nubesgen.com/assets/nubesgen-logo.svg">
 
-* Getting started
+* 🔎 What is Nubesgen?
+
+* 🚀 Getting started
     * [Getting Started](getting-started.md)
-    * [NubesGen.com](https://nubesgen.com)
  
-* Language support
+* ⌨️ Language support
     * [Docker](docker.md)
     * [Java](java.md)
     * [Spring Boot](spring-boot.md)
@@ -12,11 +13,16 @@
     * [.NET](dot-net.md)
     * [Node.js](nodejs.md)
 
-* GitOps
+* 👐 Contributing
+    * []() Found a bug 🐛 or have an idea 💡?
+    * []() Contributing to Nubesgen
+    * []() Contributing to documentation
+
+* 🪅 GitOps
     * [Overview](gitops-overview.md)
     * [Quick start](gitops-quick-start.md)
 
-* Reference
+* 📚 Reference
     * [Generated content](what-is-being-generated.md)
     * [REST API reference](command-line.md)
     * [Frequently asked questions](frequently-asked-questions.md)

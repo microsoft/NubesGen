@@ -1,6 +1,10 @@
-# References
+# Community content
 
 Here are some external references for you to discover and dig into NubesGen.
+
+:::tip We want your content ! 
+We would **love** to showcase your content here. Feel free to click on "edit
+:::
 
 ## Videos
 
