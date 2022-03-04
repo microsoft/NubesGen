@@ -2,7 +2,7 @@ module.exports = {
     title: "NubesGen Documentation",
     description: "From code to deployment in minutes",
     themeConfig: {
-        logo: '/assets/nubesgen-logo.svg',
+        logo: 'assets/nubesgen-logo.svg',
         repo: 'microsoft/nubesgen',
         docsDir: 'docs',
         docsBranch: 'docs-v2',
