@@ -7,6 +7,12 @@
         "pattern": "^https://linkedin.com"
       }
     ],
+    "replacementPatterns": [
+        {
+          "pattern": "^/",
+          "replacement": "{{DOCS_BASE_PATH}}/"
+        }
+      ],    
     "timeout": "20s",
     "retryOn429": true,
     "retryCount": 5,

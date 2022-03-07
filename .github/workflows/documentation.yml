@@ -37,7 +37,9 @@ jobs:
     steps: 
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 1    
+          fetch-depth: 1
+      - name: Set Docs Base path
+        run:  echo "DOCS_BASE_PATH=${{ github.workspace }}/docs" >> $GITHUB_ENV    
       - uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
           # use-quiet-mode: 'yes'
