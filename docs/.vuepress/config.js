@@ -59,10 +59,10 @@ module.exports = {
           },
           {
             title: '🪅 GitOps',
-            path: '/gitops/gitops-overview',
             collapsable: false,
             sidebarDepth: 0,
             children: [
+              '/gitops/gitops-overview',
               '/gitops/gitops-quick-start',
             ],
           },
@@ -72,7 +72,7 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 0,
             children: [
-                '/contributing/contributing',
+              '/contributing/contributing',
               '/contributing/bug-report',
               '/contributing/feature-request',
               '/contributing/documentation',

@@ -53,4 +53,4 @@ In any case, NubesGen creates all cloud infrastructures in specific resource gro
 
 ## Next step: go to the quickstart
 
-To setup GitOps with NubesGen, follow the [GitOps with NubesGen quickstart](gitops-quick-start.md).
+To setup GitOps with NubesGen, follow the [GitOps with NubesGen quickstart](gitops-quick-start/).
