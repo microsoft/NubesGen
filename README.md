@@ -3,15 +3,15 @@
 
 __Going to production on Azure is only one `git push` away__
 
-❔ [What is NubesGen?](docs/what-is-nubesgen.md)
+❔ [What is NubesGen?](https://docs.nubesgen.com/what-is-nubesgen/overview/)
 
 🎉 Online instance available at [https://nubesgen.com/](https://nubesgen.com/)
 
-📖 [Full documentation](docs/README.md)
+📖 [Full documentation](https://docs.nubesgen.com)
 
 ## Detailed documentation
 
-Are you ready to get started with NubesGen? Our full documentation is available at [here](docs/README.md).
+Are you ready to get started with NubesGen? Our full documentation is available at [here](https://docs.nubesgen.com).
 
 ## Trademarks
 

@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -238,20 +238,20 @@
 
 <header x-data="{ isOpen: false}" class="bg-white shadow">
     <div class="text-center font-bold text-sm py-2 bg-blue-200">
-        ⭐ If you like NubesGen, give it a <a class="github-button" href="https://github.com/microsoft/nubesgen" data-icon="octicon-star" data-show-count="true" aria-label="Star microsoft/nubesgen on GitHub">Star</a> on <a href="https://github.com/microsoft/nubesgen">GitHub</a>. Thanks 🙏
+        ⭐ If you like NubesGen, give it a <a class="github-button" href="https://github.com/microsoft/nubesgen" data-icon="octicon-star" data-show-count="true" aria-label="Star microsoft/nubesgen on GitHub" tabindex="1">Star</a> on <a href="https://github.com/microsoft/nubesgen" tabindex="2">GitHub</a>. Thanks 🙏
     </div>
     <nav class="container mx-auto px-6 py-3">
         <div class="flex flex-col md:flex-row md:justify-between md:items-center">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
                     <img src="img/nubesgen-logo.svg"
-                         class="h-12 sm:h-12">
+                         class="h-12 sm:h-12" alt="NubesGen logo">
                 </div>
 
                 <!-- Mobile menu button -->
                 <div class="flex md:hidden">
                     <button @click="isOpen = !isOpen" type="button"
-                            class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                            class="text-black-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
                             aria-label="toggle menu">
                         <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
                             <path fill-rule="evenodd"
@@ -265,13 +265,13 @@
             <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
             <div class="md:flex items-center" :class="isOpen ? 'block' : 'hidden'">
                 <div class="flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1">
-                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
-                       href="https://github.com/microsoft/NubesGen/blob/main/docs/getting-started.md">Getting Started</a>
-                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
-                       href="https://github.com/microsoft/NubesGen/blob/main/docs/README.md">Documentation</a>
-                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="3"
+                       href="https://docs.nubesgen.com/getting-started/terraform/">Getting Started</a>
+                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="4"
+                       href="https://docs.nubesgen.com">Documentation</a>
+                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="5"
                        href="https://github.com/microsoft/nubesgen">GitHub</a>
-                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0"
+                    <a class="my-1 text-sm text-gray-700 leading-5 hover:text-blue-600 hover:underline md:mx-4 md:my-0" tabindex="6"
                        href="https://github.com/microsoft/nubesgen/discussions">Help</a>
                 </div>
             </div>
@@ -299,10 +299,11 @@
             <div class="my-12 text-xl font-light text-true-gray-500 antialiased">
                 NubesGen is an <strong>Open Source project</strong> and we are always looking for
                 <a class="text-gray-700 leading-5 hover:text-blue-600 hover:underline"
-                   href="https://github.com/microsoft/nubesgen">feedbacks and contributions</a>.
+                   href="https://github.com/microsoft/nubesgen" tabindex="7">feedbacks and contributions</a>.
             </div>
             <a href="#generator-form"
-               class="mt-24 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out">
+               class="mt-24 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out"
+               tabindex="8">
                 Generate your project infrastructure now
             </a>
             <div class="mt-12 lg:mt-32 lg:ml-20 text-left">
@@ -323,12 +324,12 @@
             </div>
             <asciinema-player col=30 autoplay loop src="https://asciinema.org/a/385945.cast"></asciinema-player>
             <div class="text-center mx-auto">
-                <p class="text-gray-500">Supported platforms (more to come)</p>
+                <p class="text-black-500">Supported platforms (more to come)</p>
                 <div class="flex w-60 gap-4 mx-auto">
-                    <img class="max-w-12 max-h-12" src="img/docker.svg"/>
-                    <img class="max-w-12 max-h-12" src="img/lang-netcore.svg"/>
-                    <img class="max-w-12 max-h-12" src="img/lang-java.svg"/>
-                    <img class="max-w-12 max-h-12" src="img/lang-nodejs.svg"/>
+                    <img class="max-w-12 max-h-12" src="img/docker.svg" alt="Docker logo"/>
+                    <img class="max-w-12 max-h-12" src="img/lang-netcore.svg" alt=".NET logo"/>
+                    <img class="max-w-12 max-h-12" src="img/lang-java.svg" alt="Java logo"/>
+                    <img class="max-w-12 max-h-12" src="img/lang-nodejs.svg" alt="Node.js logo"/>
                 </div>
             </div>
         </div>
@@ -348,12 +349,12 @@
 
                 </div>
                 <div class="border-t border-b border-gray-200">
-                    <dl>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-sm font-medium text-gray-500">
+
+                        <div class="text-sm font-medium text-black-500">
                             Infrastructure as Code tool
-                        </dt>
-                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        </div>
+                        <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
 
                             <div>
                                 <div class="mt-1 relative">
@@ -361,7 +362,7 @@
                                         class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         x-on:click="iaCToolSelectorOpened = true">
                                         <span class="flex items-center">
-                                            <img :src="iaCTool.flag" alt="" class="flex-shrink-0 h-12 w-12 rounded">
+                                            <img :src="iaCTool.flag" alt="Infrastructure as Code tool logo" class="flex-shrink-0 h-12 w-12 rounded">
                                             <span x-text="iaCTool.name" class="ml-3 block text-xl truncate">
                                             </span>
                                         </span>
@@ -388,7 +389,6 @@
                                     <div x-show="iaCToolSelectorOpened" x-on:click.away="iaCToolSelectorOpened = false"
                                         class="absolute mt-1 w-full rounded-md bg-white shadow-lg">
                                         <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label"
-                                            aria-activedescendant="listbox-item-3"
                                             class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                             <!--
                                                                                                                       Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
@@ -396,11 +396,11 @@
                                                                                                                     -->
 
                                             <template x-for="iac in allIaCTools" :key="iac.id">
-                                                <li id="listbox-item-0" role="option"
+                                                <li role="option"
                                                     class="text-gray-900 hover:bg-blue-100 cursor-default select-none relative py-2 pl-3 pr-9"
                                                     @click="selectIaCTool(iac)">
                                                     <div class="flex items-center">
-                                                        <img :src="iac.flag" alt="" class="flex-shrink-0 h-6 w-6 rounded">
+                                                        <img :src="iac.flag" alt="Infrastructure as Code tool logo" class="flex-shrink-0 h-6 w-6 rounded">
                                                         <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                                                         <span x-text="iac.name" class="ml-3 block font-normal truncate">
                                                         </span>
@@ -429,32 +429,32 @@
                                     </div>
                                 </div>
                             </div>
-                        </dd>
+                        </div>
                     </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Project name <span class="text-red-600">*</span>
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <input id="projectNameInput" type="text"
                                        class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                                        placeholder="demo" style="transition: all 0.15s ease 0s;" x-model="projectName"
                                        x-init="$watch('projectSlug', value => computeUrl('projectSlug', value))"
                                        x-on:keyup="projectSlug = slugify(event.target.value);">
-                                <p class="text-gray-500 italic" x-show="!(projectSlug)">We will use this name to
+                                <p class="text-black-500 italic" x-show="!(projectSlug)">We will use this name to
                                     generate your
                                     resource names. Make it
                                     short. All spaces will be replaced by dashes. </p>
-                                <p class="text-gray-500 italic" x-show="projectSlug"> We will use <span
+                                <p class="text-black-500 italic" x-show="projectSlug"> We will use <span
                                         class="font-mono"
                                         x-text="projectSlug"></span> slug in resources names.</p>
-                            </dd>
+                            </div>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Region
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div>
                                     <div class="mt-1 relative">
                                         <button type="button" aria-haspopup="listbox" aria-expanded="true"
@@ -462,7 +462,7 @@
                                                 class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 x-on:click="regionSelectorOpened = true">
                                             <span class="flex items-center">
-                                              <img :src="region2.flag" alt="" class="flex-shrink-0 h-12 w-12 rounded">
+                                              <img :src="region2.flag" alt="Azure region flag" class="flex-shrink-0 h-12 w-12 rounded">
                                               <span x-text="region2.name" class="ml-3 block text-xl truncate">
                                               </span>
                                             </span>
@@ -504,7 +504,7 @@
                                                         class="text-gray-900 hover:bg-blue-100 cursor-default select-none relative py-2 pl-3 pr-9"
                                                         @click="selectRegion(reg)">
                                                         <div class="flex items-center">
-                                                            <img :src="reg.flag" alt=""
+                                                            <img :src="reg.flag" alt="Azure region flag"
                                                                  class="flex-shrink-0 h-6 w-6 rounded">
                                                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                                                             <span x-text="reg.name"
@@ -536,14 +536,14 @@
                                         </div>
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
 
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Application
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div class="container sm:mx-auto py-4 px-3">
                                     <div class="text-lg font-bold">Application type</div>
                                     <hr/>
@@ -553,16 +553,16 @@
                                              @click="updateAppType('APP_SERVICE')"
                                              :class="components.frontApp.type==='APP_SERVICE' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                             <img class="w-8 h-8"
-                                                 src="img/icon-app-services.svg"></img>
+                                                 src="img/icon-app-services.svg" alt="Azure Application Service logo">
                                             <div class="text-lg font-semibold text-blue-900">
                                                 Web Application
-                                                <p class="text-sm font-normal text-gray-500">Azure App Service</p>
-                                                <p class="text-sm italic text-gray-500">Supports Docker,
+                                                <p class="text-sm font-normal text-black-500">Azure App Service</p>
+                                                <p class="text-sm italic text-black-500">Supports Docker,
                                                     Java, Spring Boot, .NET, Node.js applications.</p>
                                                 <div x-show="components.frontApp.type==='APP_SERVICE'">
-                                                    <p class="font-normal text-gray-500 text-sm mt-4">Select your
+                                                    <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                         framework:</p>
-                                                    <select class="text-sm" x-model="runtime">
+                                                    <select class="text-sm" x-model="runtime" aria-label="Select the runtime framework">
                                                         <template x-for="rt in appServiceRuntimes" :key="rt.id">
                                                             <option x-bind:value="rt.id" x-text="rt.name"/>
                                                         </template>
@@ -575,14 +575,14 @@
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('FUNCTION')"
                                              :class="components.frontApp.type==='FUNCTION' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                            <img class="w-8 h-8" src="img/icon-functions.svg"></img>
+                                            <img class="w-8 h-8" src="img/icon-functions.svg" alt="Azure Functions logo">
                                             <div class="text-lg font-semibold">
                                                 Serverless Application
-                                                <p class="text-sm font-normal text-gray-500">Azure Functions</p>
-                                                <p class="text-sm italic text-gray-500">Supports Java, Spring Boot,
+                                                <p class="text-sm font-normal text-black-500">Azure Functions</p>
+                                                <p class="text-sm italic text-black-500">Supports Java, Spring Boot,
                                                     .NET, Node.js functions.</p>
                                                 <div x-show="components.frontApp.type==='FUNCTION'">
-                                                    <p class="font-normal text-gray-500 text-sm mt-4">Select your
+                                                    <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                         framework:</p>
                                                     <select class="text-sm" x-model="runtime">
                                                         <template x-for="rt in functionsRuntimes" :key="rt.id">
@@ -596,13 +596,13 @@
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('SPRING_CLOUD')"
                                              :class="components.frontApp.type==='SPRING_CLOUD' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                            <img class="w-8 h-8" src="img/icon-spring-cloud.svg"></img>
+                                            <img class="w-8 h-8" src="img/icon-spring-cloud.svg" alt="Azure Spring Cloud logo">
                                             <div class="text-lg font-semibold">
                                                 Spring Boot Application
-                                                <p class="text-sm font-normal text-gray-500">Azure Spring Cloud</p>
-                                                <p class="text-sm italic text-gray-500">Supports Spring Boot.</p>
+                                                <p class="text-sm font-normal text-black-500">Azure Spring Cloud</p>
+                                                <p class="text-sm italic text-black-500">Supports Spring Boot.</p>
                                                 <div x-show="components.frontApp.type==='SPRING_CLOUD'">
-                                                    <p class="font-normal text-gray-500 text-sm mt-4">Select your
+                                                    <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                         framework:</p>
                                                     <select class="text-sm" x-model="runtime">
                                                         <template x-for="rt in ascRuntimes" :key="rt.id">
@@ -612,15 +612,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- <div class="p-4 bg-white border border-gray-300 rounded shadow hover:bg-blue-100">
-                                          <img class="w-8 h-8" src="img/01007-icon-Static Apps-Preview.svg"></img>
-                                          <div class="text-lg font-semibold">
-                                            Static Web App
-                                            <p class="text-sm font-normal text-gray-500">Great for blogs & Single-Page Applications</p>
-                                          </div>
-                                        </div> -->
-
                                     </div>
 
                                     <div class="text-lg font-bold mt-6">App size</div>
@@ -844,13 +835,13 @@
 
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Database
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
 
                                 <div class="grid grid-cols-4 gap-6">
 
@@ -860,7 +851,7 @@
 
                                         <div class="text-lg mt-8 font-semibold">
                                             No database
-                                            <p class="text-sm font-normal text-gray-500">You can still use an existing
+                                            <p class="text-sm font-normal text-black-500">You can still use an existing
                                                 database in your
                                                 subscription.</p>
                                         </div>
@@ -868,10 +859,10 @@
 
                                     <div class="p-4 bg-white border-2" @click="components.database.type='SQL_SERVER'"
                                          :class="components.database.type==='SQL_SERVER' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                        <img class="w-8 h-8" src="img/icon-azure-database-mssql.svg"></img>
+                                        <img class="w-8 h-8" src="img/icon-azure-database-mssql.svg" alt="Azure SQL Database logo">
                                         <div class="text-lg font-semibold text-blue-900">
                                             Azure SQL Database
-                                            <p class="text-sm font-normal text-gray-500">Managed, intelligent SQL in the cloud</p>
+                                            <p class="text-sm font-normal text-black-500">Managed, intelligent SQL in the cloud</p>
                                         </div>
                                     </div>
 
@@ -879,10 +870,10 @@
                                          @click="components.database.type='POSTGRESQL'"
                                          :class="components.database.type==='POSTGRESQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                         <img class="w-8 h-8"
-                                             src="img/icon-azure-database-postgresql.svg"></img>
+                                             src="img/icon-azure-database-postgresql.svg" alt="Azure Database for PostgreSQL logo">
                                         <div class="text-lg font-semibold">
                                             Azure Database for PostgreSQL
-                                            <p class="text-sm font-normal text-gray-500">Fully managed, intelligent and scalable PostgreSQL</p>
+                                            <p class="text-sm font-normal text-black-500">Fully managed, intelligent and scalable PostgreSQL</p>
                                         </div>
                                     </div>
 
@@ -890,10 +881,10 @@
                                          @click="components.database.type='MYSQL'"
                                          :class="components.database.type==='MYSQL' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                         <img class="w-8 h-8"
-                                             src="img/icon-azure-database-mysql.svg"></img>
+                                             src="img/icon-azure-database-mysql.svg" alt="Azure Database for MySQL logo">
                                         <div class="text-lg font-semibold">
                                             Azure Database for MySQL
-                                            <p class="text-sm font-normal text-gray-500">Fully managed, scalable MySQL database</p>
+                                            <p class="text-sm font-normal text-black-500">Fully managed, scalable MySQL database</p>
                                         </div>
                                     </div>
                                 </div>
@@ -905,7 +896,7 @@
 
                                     <div class="grid lg:grid-cols-3 gap-6 mt-4">
                                         <div class="p-3 border rounded px-5 py-6 "
-                                             :class="components.database.size==='serverless' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                                             :class="components.database.size==='serverless' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-black-500 hover:bg-blue-100'"
                                              @click="components.database.size = 'serverless'"
                                              x-show="components.database.type==='SQL_SERVER'"><span class="text-2xl">Serverless</span>
                                             <p class=" mt-4">For development and small applications</p>
@@ -920,7 +911,7 @@
                                         </div>
 
                                         <div class="p-3 border rounded px-5 py-6 "
-                                             :class="components.database.size==='general_purpose' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                                             :class="components.database.size==='general_purpose' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-black-500 hover:bg-blue-100'"
                                              @click="components.database.size = 'general_purpose'"
                                              x-show="components.database.type==='SQL_SERVER'"><span class="text-2xl">General purpose</span>
                                             <p class=" mt-4">For most workloads</p>
@@ -940,7 +931,7 @@
 
 
                                         <div class="p-3 border rounded px-5 py-6 "
-                                             :class="components.database.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                                             :class="components.database.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-black-500 hover:bg-blue-100'"
                                              @click="components.database.size = 'basic'"
                                              x-show="components.database.type!=='SQL_SERVER'"><span class="text-2xl">Basic</span>
                                             <p class="mt-4">For workloads requiring light compute and I/O
@@ -963,7 +954,7 @@
                                             </div>
                                         </div>
                                         <div class="p-3 bg-white border rounded px-5 py-6"
-                                             :class="components.database.size==='general_purpose' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-gray-500 hover:bg-blue-100'"
+                                             :class="components.database.size==='general_purpose' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-black-500 hover:bg-blue-100'"
                                              @click="components.database.size = 'general_purpose'"
                                              x-show="components.database.type!=='SQL_SERVER'"> <span
                                                 class="text-2xl">General Purpose</span>
@@ -989,26 +980,26 @@
                                     </div>
                                 </div>
 
-                            </dd>
+                            </div>
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                         x-show="iaCToolId !== 'BICEP'">
-                            <dt class="text-sm font-medium text-gray-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Network
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div class="grid grid-rows-1 mt-4 gap-4">
                                     <div class="border bg-white rounded content-center py-2 px-4">
 
-                                        <img class="w-8 h-8" src="img/icon-virtual-network.svg"></img>
+                                        <img class="w-8 h-8" src="img/icon-virtual-network.svg" alt="Network configuration logo">
                                         <div class="text-lg font-semibold">
                                             Network configuration
-                                            <p class="text-sm font-normal text-gray-500">Use either a public network (default option), or a dedicated virtual network (VNet) for increased security.</p>
-                                            <p class="text-sm italic text-gray-500">VNet support is currently in preview with NubesGen.</p>
+                                            <p class="text-sm font-normal text-black-500">Use either a public network (default option), or a dedicated virtual network (VNet) for increased security.</p>
+                                            <p class="text-sm italic text-black-500">VNet support is currently in preview with NubesGen.</p>
                                             <div>
-                                                <p class="font-normal text-gray-500 text-sm mt-4">Select your
+                                                <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                     configuration:</p>
-                                                <select class="text-sm" x-model="network">
+                                                <select class="text-sm" x-model="network" aria-label="Select the network configuration">
                                                     <template x-for="nc in networkConfigurations" :key="nc.id">
                                                         <option x-bind:value="nc.id" x-text="nc.name"/>
                                                     </template>
@@ -1017,13 +1008,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">
+                            <div class="text-sm font-medium text-black-500">
                                 Add-Ons
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div class="grid grid-rows-1 mt-4 gap-4">
 
                                     <div class="border bg-white rounded flex content-center py-2 px-4"
@@ -1033,7 +1024,7 @@
                                                    class="form-checkbox h-5 w-5 mr-2"
                                                    x-model="addons">Application Insights
                                             <div>
-                                                <span class="ml-3 font-normal text-base text-gray-500">Application Performance Management (APM)</span>
+                                                <span class="ml-3 font-normal text-base text-black-500">Application Performance Management (APM)</span>
                                             </div>
                                         </label>
                                     </div>
@@ -1046,7 +1037,7 @@
                                                    class="form-checkbox h-5 w-5 mr-2"
                                                    x-model="addons">Azure Key Vault
                                             <div>
-                                                <span class="ml-3 font-normal text-base text-gray-500">Safeguard and maintain control of keys and other secrets</span>
+                                                <span class="ml-3 font-normal text-base text-black-500">Safeguard and maintain control of keys and other secrets</span>
                                             </div>
                                         </label>
                                     </div>
@@ -1058,7 +1049,7 @@
                                                    class="form-checkbox h-5 w-5 mr-2"
                                                    x-model="addons">Azure Blob Storage
                                             <div>
-                                                <span class="ml-3 font-normal text-base text-gray-500">Massively scalable and secure object storage</span>
+                                                <span class="ml-3 font-normal text-base text-black-500">Massively scalable and secure object storage</span>
                                             </div>
                                         </label>
                                     </div>
@@ -1069,7 +1060,7 @@
                                             <input type="checkbox" value="redis" class="form-checkbox h-5 w-5 mr-2"
                                                    x-model="addons">Azure Cache for Redis
                                             <div>
-                                                <span class="ml-3 font-normal text-base text-gray-500">Distributed, in-memory, scalable solution providing super-fast data access</span>
+                                                <span class="ml-3 font-normal text-base text-black-500">Distributed, in-memory, scalable solution providing super-fast data access</span>
                                             </div>
                                         </label>
                                     </div>
@@ -1081,19 +1072,19 @@
                                                    class="form-checkbox h-5 w-5 mr-2"
                                                    x-model="addons">MongoDB
                                             <div>
-                                                <span class="ml-3 font-normal text-base text-gray-500">Powered by Azure Cosmos DB</span>
+                                                <span class="ml-3 font-normal text-base text-black-500">Powered by Azure Cosmos DB</span>
                                             </div>
                                         </label>
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
 
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">
+                            <div class="text-sm font-medium text-black-500">
                                 GitOps
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div class="grid grid-rows-1 mt-4 gap-4">
 
                                     <div class="border bg-white rounded flex content-center py-2 px-4"
@@ -1102,23 +1093,20 @@
                                             <input type="checkbox" value="true" class="form-checkbox h-5 w-5 mr-2"
                                                    x-model="gitops">Add GitOps
                                             <div>
-                                                <span class="ml-3 font-normal text-base text-gray-500">Deploy your infrastructure & code with GitHub Actions</span>
+                                                <span class="ml-3 font-normal text-base text-black-500">Deploy your infrastructure & code with GitHub Actions</span>
                                                 <span class="ml-3 font-normal text-base text-blue-700 underline"><a
-                                                        href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md">see documentation</a></span>
+                                                        href="https://docs.nubesgen.com/gitops/gitops-quick-start/">see documentation</a></span>
                                             </div>
                                         </label>
                                     </div>
                                 </div>
-                            </dd>
+                            </div>
                         </div>
 
                         <div class="bg-gray-200 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">
-
-
-
-                            </dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <div class="text-sm font-medium text-black-500">
+                            </div>
+                            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div
                                 x-show="components.frontApp.type==='SPRING_CLOUD' && network === 'VIRTUAL_NETWORK' && gitops === true"
                                 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -1126,7 +1114,7 @@
                                     <span class="block sm:inline">Due to a product limitation, you can't use Spring Cloud with VNet Integration while doing GitOps. Please remove one of those options.</span>
                                 </div>
                             <button type="button"
-                                    class="flex items-center justify-center px-4 py-1 mt-5 ml-2 mr-4 text-center text-white bg-green-600 border border-green-700 rounded-lg focus:outline-none hover:bg-green-700"
+                                    class="flex items-center justify-center px-4 py-1 mt-5 ml-2 mr-4 text-center text-white bg-green-800 border border-green-700 rounded-lg focus:outline-none hover:bg-green-700"
                                     @click="download($dispatch)">
                                 <svg class="w-5 h-5 mr-1" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                      stroke-width="2"
@@ -1136,7 +1124,7 @@
                                 <span class="self-center text-xl font-medium">Download configuration files</span>
                             </button>
 
-                            <button type="button" class="mt-1 max-w-2xl text-sm text-gray-500 inline-block"
+                            <button type="button" class="mt-1 max-w-2xl text-sm text-black-500 inline-block"
                                     @click="generateScriptUrl()">
                                 <div class="flex flex-row px-2 py-1 bg-gray-100 border border-gray-600 border-1 rounded hover:bg-gray-400">
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -1149,7 +1137,7 @@
                                                               x-show="copySuccessful === true">Copied!</span>
                                 </div>
                             </button>
-                            </dd>
+                            </div>
                         </div>
                         <div class="">
                             <div class="bg-gray-200 border-gray-400 border m-10" x-show="curlScript !== ''">
@@ -1197,52 +1185,47 @@
                             <div class="text-center text-2xl pt-5 text-green-700">Coming soon</div>
 
                             <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-gray-500">
+                                <div class="text-sm font-medium text-black-500">
                                     Security
-                                </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                </div>
+                                <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <div class="flex row-auto items-center mt-4"><i
                                             class="fa fa-check-circle-o text-gray-400"></i>
-                                        <span class="ml-3 text-gray-500">Azure-managed encryption at rest</span>
+                                        <span class="ml-3 text-black-500">Azure-managed encryption at rest</span>
                                     </div>
                                     <div class="flex row-auto items-center mt-4"><i
                                             class="fa fa-check-circle-o text-gray-400"></i>
-                                        <span class="ml-3 text-gray-500">Basic DDOS Protection</span>
+                                        <span class="ml-3 text-black-500">Basic DDOS Protection</span>
                                     </div>
-                                </dd>
+                                </div>
                             </div>
 
                             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-gray-500">
+                                <div class="text-sm font-medium text-black-500">
                                     Product & Business metrics
-                                </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                </div>
+                                <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <p>Track <strong>Users, Sessons, Funnels, Cohorts & User Flows</strong> easily with
                                         Azure Application
                                         Insights.</p>
-                                </dd>
+                                </div>
                             </div>
 
                             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-gray-500">
+                                <div class="text-sm font-medium text-black-500">
                                     Cost
-                                </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                </div>
+                                <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <div class="flex row-auto items-center mt-4"><i
                                             class="fa fa-check-circle-o text-gray-400"></i>
-                                        <span class="ml-3 font-bold text-gray-500">Cost alerts</span>
-                                        <span class="ml-1 text-gray-500">You'll receive automatic email alerts when actual costs reaches
+                                        <span class="ml-3 font-bold text-black-500">Cost alerts</span>
+                                        <span class="ml-1 text-black-500">You'll receive automatic email alerts when actual costs reaches
                           50%, 75%, 100% and 125%.</span>
                                     </div>
-
-                                </dd>
+                                </div>
                             </div>
-
                         </div>
-
-                    </dl>
                 </div>
-
             </div>
         </div>
     </section>
@@ -1287,7 +1270,7 @@
                   We have generated your infrastructure as code configuration. Now it's time to deploy it!
               </div>
               <div x-show="hasGitops">As you've added GitOps to your configuration, all the deployment will happen through your CI/CD pipeline.
-                  Head over to <a class="text-blue-700 underline cursor-pointer" href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md">our documentation</a> to configure it.
+                  Head over to <a class="text-blue-700 underline cursor-pointer" href="https://docs.nubesgen.com/gitops/gitops-quick-start/">our documentation</a> to configure it.
               </div>
               <div x-show="!hasGitops">If you're familiar with Terraform or Bicep, go ahead and deploy your infrastructure.<br/>If not, you can checkout the quick start in our documentation.</div>
               <hr>
@@ -1295,14 +1278,14 @@
                 <a
                     x-show="hasGitops"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
-                    href="https://github.com/microsoft/NubesGen/blob/main/docs/gitops-quick-start.md"
+                    href="https://docs.nubesgen.com/gitops/gitops-quick-start/"
                     >
                   Go to the documentation
                 </a>
                 <a
                     x-show="!hasGitops"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 cursor-pointer"
-                    href="https://github.com/microsoft/NubesGen/blob/main/docs/getting-started.md"
+                    href="https://docs.nubesgen.com/getting-started/terraform/"
                     >
                   Go to the quick start
                 </a>
