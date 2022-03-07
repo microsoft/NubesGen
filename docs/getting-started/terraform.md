@@ -3,7 +3,7 @@
 This is the default option with NubesGen: you will need to apply the Terraform configuration manually. If you want a more automated setup, see the next section about GitOps.
 
 1. Go to an existing GitHub repository (or create a new one), and clone it on your machine.
-2. Either using the [Web interface](https://nubesgen.com/) or the [command line](command-line.md), generate a NubesGen package (either a `.tgz` or `.zip` file). The configuration selected in NubesGen should match what is needed for your project to run (for example, if your project needs a MySQL database, select a MySQL database in NubesGen).
+2. Either using the [Web interface](https://nubesgen.com/), [a cURL request](/reference/rest-api/), or the [NubesGen command line](/getting-started/cli/), generate a NubesGen package (either a `.tgz` or `.zip` file). The configuration selected in NubesGen should match what is needed for your project to run (for example, if your project needs a MySQL database, select a MySQL database in NubesGen).
 3. Uncompress that file in your project's directory. You should have a new `terraform` directory inside your project's root folder.
 4. Log into Azure using the Azure CLI, for example by typing `az login`.
 5. Go into the new `terraform` folder, initialize Terraform and apply its configuration:
