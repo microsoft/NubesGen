@@ -33,4 +33,4 @@ By default, NubesGen only generate "[GitOps](/gitops/gitops-overview/)" workflow
 
 ## REST API
 
-Ai it's core, NubesGen is _just_ a REST API. You can use NubesGen [from another application or from the command line with cURL](/reference/rest-api/)?
+At its core, NubesGen is _just_ a REST API. You can use NubesGen [from another application or from the command line with cURL](/reference/rest-api/)?
