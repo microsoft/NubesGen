@@ -2,9 +2,9 @@
 
 This documentation is for running Java applications with NubesGen. There are three other options that might interest you:
 
-- You can use [Spring Boot with NubesGen](spring-boot.md), which is similar to Java, but uses the specific Spring Boot application properties.
-- You can use [Quarkus with NubesGen](quarkus.md), which uses the specific Quarkus application properties.
-- As Java applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- You can use [Spring Boot with NubesGen](spring-boot/), which is similar to Java, but uses the specific Spring Boot application properties.
+- You can use [Quarkus with NubesGen](quarkus/), which uses the specific Quarkus application properties.
+- As Java applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Java application that you wish to deploy.
 

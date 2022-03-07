@@ -84,5 +84,5 @@ Using a Dockerfile is the default way to use Docker, so this will work in most s
 
 Spring Boot is a Java framework that can use a Dockerfile, but which uses by default a Maven plugin: this is supported by NubesGen if you select that option, in which case the Docker image will be built using the `mvn spring-boot:build-image` command.
 
-If you have selected Spring Boot, NubesGen will also configure the same configuration properties as the ones described in [Spring Boot with NubesGen](spring-boot.md).
+If you have selected Spring Boot, NubesGen will also configure the same configuration properties as the ones described in [Spring Boot with NubesGen](spring-boot/).
 For example, your database should be automatically configured.

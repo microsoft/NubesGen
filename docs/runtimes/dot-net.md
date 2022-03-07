@@ -2,7 +2,7 @@
 
 This documentation is for running .NET applications with NubesGen, and there is another other options that might interest you:
 
-- As .NET applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- As .NET applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of .NET application that you which to deploy.
 

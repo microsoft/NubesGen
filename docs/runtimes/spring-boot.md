@@ -2,8 +2,8 @@
 
 This documentation is for running Spring Boot applications with NubesGen. There are two other options that might interest you:
 
-- You can also use [Java with NubesGen](java.md), which is similar to Spring Boot, but does not use the specific Spring Boot application properties.
-- As Spring Boot applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- You can also use [Java with NubesGen](java/), which is similar to Spring Boot, but does not use the specific Spring Boot application properties.
+- As Spring Boot applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Spring Boot application that you wish to deploy.
 
@@ -52,7 +52,7 @@ __Steps:__
 
 ## Tutorial 2: running a Spring Intializr project with NubesGen
 
-This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this simple Spring Boot application is also a Java application.
+This tutorial is similar to the [Java on NubesGen](java/) tutorial, as this simple Spring Boot application is also a Java application.
 
 __Prerequisites:__
 

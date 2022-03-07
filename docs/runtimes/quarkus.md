@@ -2,8 +2,8 @@
 
 This documentation is for running Quarkus applications with NubesGen. There are two other options that might interest you:
 
-- You can also use [Java with NubesGen](java.md), which is similar to Quarkus, but does not use the specific Quarkus application properties.
-- As Quarkus applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- You can also use [Java with NubesGen](java/), which is similar to Quarkus, but does not use the specific Quarkus application properties.
+- As Quarkus applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports deploying Quarkus applications both using the JVM and using the native image compilation (GraalVM).
 
