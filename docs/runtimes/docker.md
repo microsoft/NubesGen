@@ -22,11 +22,11 @@ __Steps:__
    ``` bash
    git clone https://github.com/<your-github-account>/golang-sample-app.git
    ``` 
-3. In the cloned project (`cd golang-sample-app`), set up GitOps with NubesGen by using the NubesGen CLI ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd golang-sample-app`), set up GitOps with NubesGen by using the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ``` bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ``` bash
    curl "https://nubesgen.com/demo.tgz?application=app_service.standard&gitops=true" | tar -xzvf -
    ```
