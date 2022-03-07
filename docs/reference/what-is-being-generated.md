@@ -38,7 +38,7 @@ terraform init && terraform apply -auto-approve
 
 ## GitHub Action
 
-If you selected the [GitOps option](gitops-overview.md), NubesGen will generate a GitHub Action for you, which will manage the Terraform
+If you selected the [GitOps option](/gitops/gitops-overview), NubesGen will generate a GitHub Action for you, which will manage the Terraform
 configuration automatically.
 
 That GitHub Action is located in a hidden GitHub directory, so the file structure will look similar to this:

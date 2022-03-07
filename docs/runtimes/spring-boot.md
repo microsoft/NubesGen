@@ -13,7 +13,7 @@ We're going to deploy [https://github.com/jhipster/jhipster-sample-app](https://
 
 It uses a PostgreSQL database, so creating the database and connecting to it will also be managed by NubesGen.
 
-We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
+We'll use NubesGen's [GitOps support](/gitops/gitops-overview) to automatically build and deploy the application.
 
 __Prerequisites:__
 

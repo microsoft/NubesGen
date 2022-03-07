@@ -74,7 +74,7 @@ need to configure it in two places:
 
 - In the generated `terraform/modules/app-service/main.tf`, you need to modify `linux_fx_version = "DOTNETCORE|6.0"` to be
   `linux_fx_version = "DOTNETCORE|5.0"`
-- If you selected the [GitOps option](../gitops-overview.md), at the beginning of the generated `.github/workflows/gitops.yml` file,
+- If you selected the [GitOps option](/gitops/gitops-overview), at the beginning of the generated `.github/workflows/gitops.yml` file,
   there is a specific `DOTNET_VERSION: '6.0'` environment variable that should be modified to `DOTNET_VERSION: '5.0'`
 
 ## Configuration options

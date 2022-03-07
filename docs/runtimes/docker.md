@@ -7,7 +7,7 @@ It comes with two options: "Docker with a Dockerfile" and "Docker with Spring Bo
 ## Tutorial: running a Docker image with NubesGen
 
 We're going to deploy [https://github.com/jdubois/golang-sample-app](https://github.com/jdubois/golang-sample-app), which is a sample application written in Go.
-We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
+We'll use NubesGen's [GitOps support](/gitops/gitops-overview) to automatically build and deploy the application.
 
 __Prerequisites:__
 
