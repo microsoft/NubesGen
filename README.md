@@ -7,7 +7,11 @@ __Going to production on Azure is only one `git push` away__
 
 🎉 Online instance available at [https://nubesgen.com/](https://nubesgen.com/)
 
+
+
 📖 [Full documentation](docs/README.md)
+
+
 
 ## Detailed documentation
 

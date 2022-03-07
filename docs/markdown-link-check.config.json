@@ -5,12 +5,15 @@
       },
       {
         "pattern": "^https://linkedin.com"
+      },
+      {
+        "pattern": "^https://www.linkedin.com"
       }
     ],
     "replacementPatterns": [
         {
           "pattern": "^/",
-          "replacement": "{{DOCS_BASE_PATH}}/"
+          "replacement": "docs/"
         }
       ],    
     "timeout": "20s",

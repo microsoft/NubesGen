@@ -26,7 +26,7 @@ For setting up GitOps (using the NubesGen CLI or the manual installation), you n
 ### Automatic Installation (with the NubesGen CLI)
 
 ::: tip
-Full documentation for the NubesGen CLI is available [here](../cli/README.md).
+Full documentation for the NubesGen CLI is available [here](/getting-started/cli.md).
 :::
 
 1. Create a GitHub repository to work in (or select one that you already created), and clone it on your local computer.
