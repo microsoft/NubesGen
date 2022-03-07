@@ -3,7 +3,7 @@ name: REST Server - Create Infrastructure
 ###
 # Create infrastructure GitHub Action
 #
-# See https://github.com/microsoft/NubesGen/blob/main/docs/gitops-overview.md 
+# See https://docs.nubesgen.com/gitops/gitops-quick-start/ 
 # for more information about using GitOps with NubesGen.
 ###
 

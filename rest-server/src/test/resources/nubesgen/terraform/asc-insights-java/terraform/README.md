@@ -9,16 +9,17 @@ curl "" | tar -xzvf -
 ```
 
 Resources:
-- [NubesGen documentation](https://github.com/microsoft/NubesGen/blob/main/docs/README.md)
-- [Getting started with NubesGen](https://github.com/microsoft/NubesGen/blob/main/docs/getting-started.md)
+- [NubesGen documentation](https://docs.nubesgen.com)
+- [What is NubesGen?](https://docs.nubesgen.com/what-is-nubesgen/overview/)
 - [NubesGen source code on GitHub](https://github.com/microsoft/NubesGen)
 
 ## Running Terraform
 
 [Terraform](https://www.terraform.io/) is used to automate infrastructure configuration.
 
-As you didn't select the [NubesGen GitOps option](https://github.com/microsoft/NubesGen/blob/main/docs/gitops-overview.md),
-you need to install and run Terraform manually.
+As you didn't select the [NubesGen GitOps option](https://docs.nubesgen.com/gitops/gitops-quick-start/), you need to install and run Terraform manually.
+
+Full documentation is available at [Getting started with Terraform](https://docs.nubesgen.com/getting-started/terraform/), here is a quick version:
 
 - Install [Terraform](https://www.terraform.io/) for your platform.
 - Install the [Azure CLI](https://aka.ms/nubesgen-install-az-cli) and authenticate using `az login`
