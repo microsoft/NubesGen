@@ -8,36 +8,36 @@ Sometimes the best way to learn is to read directly the source code!
 
 We maintain a complete set of sample projects that are used in our tests - so if the tests are green, you are guaranteed to have this output.
 
-- (App Service + Java + Maven + GitOps)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-maven-gitops]
-- (App Service + Java + Gradle + GitOps)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-gradle-gitops]
-- (App Service + Java + Spring Boot + PostgreSQL + Azure Key Vault)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/key-vault]
-- (App Service + Java + Spring Boot + MySQL)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/mysql]
-- (App Service + Java + Quarkus + MySQL)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/mysql-quarkus]
-- (App Service + Java + Spring Boot + PostgreSQL)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/postgresql]
-- (App Service + Java + Spring Boot + Redis)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/redis]
-- (App Service + Java + Spring Boot + Azure SQL)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/sql-server]
-- (App Service + Java + Spring Boot + Blob Storage)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/storage-blob]
-- (App Service + Java + Application Insights)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-insights-java]
-- (App Service + Docker + GitOps)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-docker]
-- (App Service + .NET + GitOps)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-dotnet]
-- (App Service + Node.js + GitOps)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-nodejs]
-- (App Service + Java + Quarkus)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-quarkus]
-- (App Service + Java + Spring Boot)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-spring]
-- (App Service + Docker + VNet)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-vnet-docker]
-- (App Service + Java + App Insights + Key Vault + PostgreSQL + VNet)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-vnet-spring]
-- (Azure Spring Cloud + Java + Application Insights + CosmosDB + Key Vault + Redis + Blob Storage)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-addons-java]
-- (Azure Spring Cloud + Java + Application Insights)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-insights-java]
-- (Azure Spring Cloud + Java + MySQL + GitOps)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-mysql-java]
-- (Azure Spring Cloud + Java)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-public-java]
-- (Azure Spring Cloud + Java + Key Vault + Azure SQL)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-sqlserver-java]
-- (Azure Spring Cloud + Java + Application Insights + CosmosDB + Key Vault + Redis + Blob Storage + VNet)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-vnet-addons-java]
-- (Azure Spring Cloud + Java + VNet)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-vnet-java]
-- (Azure Spring Cloud + Java + Azure SQL + VNet)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-vnet-mssql-java]
-- (Azure Spring Cloud + Java + MySQL + VNet)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-vnet-mysql-java]
-- (App Service + Java + Spring Boot + CosmosDB)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/cosmosdb-mongodb]
-- (Azure Functions + Java + Spring Boot + Maven + GitOps)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/function-maven-gitops]
-- (Azure Functions + Java + Spring Boot + MySQL)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/function-mysql]
-- (Azure Functions + Java + Application Insights + CosmosDB + Key Vault + PostgreSQL + Redis + Blob Storage + VNet)[https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/function-vnet-java]
+- [App Service + Java + Maven + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-maven-gitops)
+- [App Service + Java + Gradle + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-gradle-gitops)
+- [App Service + Java + Spring Boot + PostgreSQL + Azure Key Vault](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/key-vault)
+- [App Service + Java + Spring Boot + MySQL](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/mysql)
+- [App Service + Java + Quarkus + MySQL](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/mysql-quarkus)
+- [App Service + Java + Spring Boot + PostgreSQL](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/postgresql)
+- [App Service + Java + Spring Boot + Redis](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/redis)
+- [App Service + Java + Spring Boot + Azure SQL](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/sql-server)
+- [App Service + Java + Spring Boot + Blob Storage](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/storage-blob)
+- [App Service + Java + Application Insights](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-insights-java)
+- [App Service + Docker + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-docker)
+- [App Service + .NET + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-dotnet)
+- [App Service + Node.js + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-nodejs)
+- [App Service + Java + Quarkus](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-quarkus)
+- [App Service + Java + Spring Boot](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-spring)
+- [App Service + Docker + VNet](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-vnet-docker)
+- [App Service + Java + App Insights + Key Vault + PostgreSQL + VNet](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-vnet-spring)
+- [Azure Spring Cloud + Java + Application Insights + CosmosDB + Key Vault + Redis + Blob Storage](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-addons-java)
+- [Azure Spring Cloud + Java + Application Insights](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-insights-java)
+- [Azure Spring Cloud + Java + MySQL + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-mysql-java)
+- [Azure Spring Cloud + Java](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-public-java)
+- [Azure Spring Cloud + Java + Key Vault + Azure SQL](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-sqlserver-java)
+- [Azure Spring Cloud + Java + Application Insights + CosmosDB + Key Vault + Redis + Blob Storage + VNet](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-vnet-addons-java)
+- [Azure Spring Cloud + Java + VNet](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-vnet-java)
+- [Azure Spring Cloud + Java + Azure SQL + VNet](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-vnet-mssql-java)
+- [Azure Spring Cloud + Java + MySQL + VNet](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/asc-vnet-mysql-java)
+- [App Service + Java + Spring Boot + CosmosDB](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/cosmosdb-mongodb)
+- [Azure Functions + Java + Spring Boot + Maven + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/function-maven-gitops)
+- [Azure Functions + Java + Spring Boot + MySQL](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/function-mysql)
+- [Azure Functions + Java + Application Insights + CosmosDB + Key Vault + PostgreSQL + Redis + Blob Storage + VNet](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/function-vnet-java)
 
 ## Infrastructure as Code configuration files
 
