@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Apply Terraform configuration
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.4.4
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.5.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Build a NodeJS project
-        uses: microsoft/nubesgen-actions/gitops-build-nodejs@v0.4.4
+        uses: microsoft/nubesgen-actions/gitops-build-nodejs@v0.5.0
         with:
           nodejs_version: ${{ env.NODEJS_VERSION }}
           application_package_path: ${{ env.APP_PACKAGE_PATH }}
@@ -38,6 +38,6 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a NodeJS application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-nodejs@v0.4.4
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-nodejs@v0.5.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
