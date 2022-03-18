@@ -2,9 +2,9 @@
 
 This documentation is for running Java applications with NubesGen. There are three other options that might interest you:
 
-- You can use [Spring Boot with NubesGen](spring-boot.md), which is similar to Java, but uses the specific Spring Boot application properties.
-- You can use [Quarkus with NubesGen](quarkus.md), which uses the specific Quarkus application properties.
-- As Java applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- You can use [Spring Boot with NubesGen](spring-boot/), which is similar to Java, but uses the specific Spring Boot application properties.
+- You can use [Quarkus with NubesGen](quarkus/), which uses the specific Quarkus application properties.
+- As Java applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Java application that you wish to deploy.
 
@@ -32,11 +32,11 @@ __Steps:__
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ```bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=java&application=app_service.standard&gitops=true" | tar -xzvf -
    ```

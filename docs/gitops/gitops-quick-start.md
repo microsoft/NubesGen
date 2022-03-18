@@ -72,7 +72,7 @@ Full documentation for the NubesGen CLI is available [here](../cli/README.md).
    If you do not want to use the CLI beyond this setup, you can safely delete it after this step.
 1. Go to [https://nubesgen.com/](https://nubesgen.com/) to create your Terraform configuration, and select the `GitOps` option. Download the generated file and unzip it inside the Git repository you have just cloned.
 1. You can now push the NubesGen code to your repository, for example by typing `git add . && git commit -m 'Configure GitOps with NubesGen' && git push`.
-1. To use the new GitOps features, follow [GitOps overview](gitops-overview.md) and create a specific branch, for example
+1. To use the new GitOps features, follow [GitOps overview](/gitops/gitops-overview) and create a specific branch, for example
    `git checkout -b env-test && git push --set-upstream origin env-test`
 
 ### Manual Installation (without the NubesGen CLI)
@@ -100,12 +100,20 @@ CONTAINER_NAME=tfstate
 #####
 # Create a new Azure Resource Group
 az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
-# Create the storage account
+# Create the Storage Account
 az storage account create --resource-group $RESOURCE_GROUP_NAME --name $TF_STORAGE_ACCOUNT --sku Standard_LRS --allow-blob-public-access false --encryption-services blob
-# Get the storage account key
+# Get the Storage Account key
 ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $TF_STORAGE_ACCOUNT --query '[0].value' -o tsv)
-# Create a blob container
+# Create a Blob Container in the Storage Account
 az storage container create --name $CONTAINER_NAME --account-name $TF_STORAGE_ACCOUNT --account-key $ACCOUNT_KEY
+# Create a Virtual Network
+VNET=vnet-$TF_STORAGE_ACCOUNT
+SUBNET=snet-$TF_STORAGE_ACCOUNT
+az network vnet create --resource-group $RESOURCE_GROUP_NAME --name $VNET --subnet-name $SUBNET
+az network vnet subnet update --resource-group $RESOURCE_GROUP_NAME --name $SUBNET --vnet-name $VNET --service-endpoints "Microsoft.Storage"
+# Secure the storage account in the Virtual Network
+az storage account network-rule add --account-name $TF_STORAGE_ACCOUNT --vnet-name $VNET --subnet $SUBNET
+az storage account update --name $TF_STORAGE_ACCOUNT --default-action Deny --bypass None
 # Get the subscription ID
 SUBSCRIPTION_ID=$(az account show --query id --output tsv --only-show-errors)
 # Create a service principal
@@ -121,7 +129,7 @@ __Congratulations, you have set up GitOps with NubesGen on your project!__
 
 ## Using the GitOps workflow
 
-As described in the [GitOps overview](gitops-overview.md), each time you create an `env-*` branch in Git, a new environment will be created for you.
+As described in the [GitOps overview](/gitops/gitops-overview), each time you create an `env-*` branch in Git, a new environment will be created for you.
 
 That environment is an Azure resource group, containing all the resources configured with Terraform. When that environment is created, and each time you `git push` to that branch, two things will happen:
 

@@ -15,9 +15,9 @@ Welcome to the Nubesgen documentation. Here you'll find everything you need to l
 This documentation only reflects the latest version of Nubesgen.
 
 
-## Open-source
+## Open Source
 
-Nubesgen and it's documentation are both completely open source. You can **support the project by starring** [our main GitHub repository](https://github.com/microsoft/nubesgen) or contributing to the docs. 
+Nubesgen and its documentation are both completely Open Source. You can **support the project by starring** [our main GitHub repository](https://github.com/microsoft/nubesgen) or contributing to the docs. 
 
 <a class="github-button" href="https://github.com/microsoft/nubesgen" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star microsoft/nubesgen on GitHub">Star</a>
 <a class="github-button" href="https://github.com/microsoft/nubesgen/subscription" data-icon="octicon-eye" data-size="large" data-show-count="true" aria-label="Watch microsoft/nubesgen on GitHub">Watch</a>

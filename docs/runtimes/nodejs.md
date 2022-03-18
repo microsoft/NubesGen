@@ -2,7 +2,7 @@
 
 This documentation is for running Node.js applications with NubesGen, and there is another options that might interest you:
 
-- As Node.js applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- As Node.js applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Node.js application that you which to deploy.
 
@@ -44,11 +44,11 @@ __Steps:__
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd nodejs-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd nodejs-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ```bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=nodejs&application=app_service.standard&gitops=true" | tar -xzvf -
    ```

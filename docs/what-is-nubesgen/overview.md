@@ -6,7 +6,7 @@ With NubesGen, going to production on Azure is only one `git push` away.
 
 NubesGen is a Web application that generates a cloud infrastructure using Terraform or Bicep: you select easy-to-understand options ("an application server", "a PostgreSQL database"), and it'll generate a state-of-the-art configuration that you can import and tweak in your project.
 
-Using [GitOps practices](gitops-overview.md), NubesGen can also fully automate applying that configuration: it provides one cloud infrastructure per branch in your project, and will build and deploy your code to this infrastructure.
+Using [GitOps practices](/gitops/gitops-overview), NubesGen can also fully automate applying that configuration: it provides one cloud infrastructure per branch in your project, and will build and deploy your code to this infrastructure.
 
 ## 5-minutes introduction
 
@@ -18,6 +18,6 @@ NubesGen generates a Terraform or Bicep configuration that is hand-made by Azure
 
 For advanced users, this "Infrastructure as Code" configuration can be modified and tweaked as usual: NubesGen is only here to get you started quickly!
 
-Using [GitOps practices](gitops-overview.md), NubesGen can also fully automate applying that configuration: it provides one cloud infrastructure per branch in your project, and will build and deploy your code to this infrastructure.
+Using [GitOps practices](/gitops/gitops-overview), NubesGen can also fully automate applying that configuration: it provides one cloud infrastructure per branch in your project, and will build and deploy your code to this infrastructure.
 
 NubesGen relies on commonly-used technologies like Terraform, Bicep and GitHub Actions, so you still have access to the full power of Azure. If you need to update or tweak any configuration that isn't supported by NubesGen, you can still modify those files manually as you would have done without NubesGen.

@@ -2,7 +2,7 @@
 
 This documentation is for running .NET applications with NubesGen, and there is another other options that might interest you:
 
-- As .NET applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- As .NET applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of .NET application that you which to deploy.
 
@@ -31,11 +31,11 @@ __Steps:__
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd dotnet-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd dotnet-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ```bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=dotnet&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
@@ -74,7 +74,7 @@ need to configure it in two places:
 
 - In the generated `terraform/modules/app-service/main.tf`, you need to modify `linux_fx_version = "DOTNETCORE|6.0"` to be
   `linux_fx_version = "DOTNETCORE|5.0"`
-- If you selected the [GitOps option](../gitops-overview.md), at the beginning of the generated `.github/workflows/gitops.yml` file,
+- If you selected the [GitOps option](/gitops/gitops-overview), at the beginning of the generated `.github/workflows/gitops.yml` file,
   there is a specific `DOTNET_VERSION: '6.0'` environment variable that should be modified to `DOTNET_VERSION: '5.0'`
 
 ## Configuration options

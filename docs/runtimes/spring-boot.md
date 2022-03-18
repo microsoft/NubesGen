@@ -2,8 +2,8 @@
 
 This documentation is for running Spring Boot applications with NubesGen. There are two other options that might interest you:
 
-- You can also use [Java with NubesGen](java.md), which is similar to Spring Boot, but does not use the specific Spring Boot application properties.
-- As Spring Boot applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- You can also use [Java with NubesGen](java/), which is similar to Spring Boot, but does not use the specific Spring Boot application properties.
+- As Spring Boot applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Spring Boot application that you wish to deploy.
 
@@ -13,7 +13,7 @@ We're going to deploy [https://github.com/jhipster/jhipster-sample-app](https://
 
 It uses a PostgreSQL database, so creating the database and connecting to it will also be managed by NubesGen.
 
-We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
+We'll use NubesGen's [GitOps support](/gitops/gitops-overview) to automatically build and deploy the application.
 
 __Prerequisites:__
 
@@ -28,11 +28,11 @@ __Steps:__
    ```bash
    git clone https://github.com/<your-github-account>/jhipster-sample-app.git
    ``` 
-3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ```bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=spring&application=app_service.standard&database=postgresql&gitops=true" | tar -xzvf -
    ```
@@ -52,7 +52,7 @@ __Steps:__
 
 ## Tutorial 2: running a Spring Intializr project with NubesGen
 
-This tutorial is similar to the [Java on NubesGen](java.md) tutorial, as this simple Spring Boot application is also a Java application.
+This tutorial is similar to the [Java on NubesGen](java/) tutorial, as this simple Spring Boot application is also a Java application.
 
 __Prerequisites:__
 
@@ -76,11 +76,11 @@ __Steps:__
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd java-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ```bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=spring&application=app_service.standard&gitops=true" | tar -xzvf -
    ```

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen-cli</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>nubesgen-cli</name>
     <packaging>jar</packaging>
     <description>NubesGen CLI</description>
@@ -33,7 +33,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <!-- annotationProcessorPaths requires maven-compiler-plugin version 3.5 or higher -->
-                <version>3.10.0</version>
+                <version>3.10.1</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
