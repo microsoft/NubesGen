@@ -1,18 +1,21 @@
 name: GitOps
+
 ###
 # GitOps - automatic infrastructure management GitHub Action
 #
 # See https://docs.nubesgen.com/gitops/gitops-quick-start/
 # for more information about using GitOps with NubesGen.
 ###
+
 on:
   push:
     branches:
       - 'env-*'
+
 jobs:
   manage-infrastructure:
     runs-on: ubuntu-20.04
-    outputs: 
+    outputs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
       application_url: ${{ steps.infrastructure-deployment.outputs.application_url }}
       resource_group: ${{ steps.infrastructure-deployment.outputs.resource_group }}
@@ -21,7 +24,7 @@ jobs:
     steps:
       - name: Apply Terraform configuration
         id: infrastructure-deployment
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@3-refactor-composite-actions
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@main
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -29,13 +32,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Build a Java project using Maven
-        uses: microsoft/nubesgen-actions/gitops-build-java-maven@3-refactor-composite-actions
+        uses: microsoft/nubesgen-actions/gitops-build-java-maven@main
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@3-refactor-composite-actions
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@main
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}

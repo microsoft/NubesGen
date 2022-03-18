@@ -33,7 +33,7 @@ jobs:
   manage-infrastructure:
 <%/runtimeDocker%>
     runs-on: ubuntu-20.04
-    outputs: 
+    outputs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
       application_url: ${{ steps.infrastructure-deployment.outputs.application_url }}
       resource_group: ${{ steps.infrastructure-deployment.outputs.resource_group }}
@@ -136,7 +136,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-20.04
     steps:
-      - name: Deploy a Java function to Azure Functionss
+      - name: Deploy a Java function to Azure Functions
         uses: microsoft/nubesgen-actions/gitops-deploy-to-function-java@<%compositeActionsVersion%>
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}

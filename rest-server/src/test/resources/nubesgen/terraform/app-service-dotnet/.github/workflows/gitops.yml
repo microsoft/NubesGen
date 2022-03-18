@@ -1,30 +1,34 @@
 name: GitOps
+
 ###
 # GitOps - automatic infrastructure management GitHub Action
 #
 # See https://docs.nubesgen.com/gitops/gitops-quick-start/
 # for more information about using GitOps with NubesGen.
 ###
+
 on:
   push:
     branches:
       - 'env-*'
+
 env:
   DOTNET_VERSION: '6.0'
   APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+
 jobs:
   manage-infrastructure:
     runs-on: ubuntu-20.04
-    outputs: 
+    outputs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
       application_url: ${{ steps.infrastructure-deployment.outputs.application_url }}
       resource_group: ${{ steps.infrastructure-deployment.outputs.resource_group }}
       container_registry_name: ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
       spring_cloud_service_name: ${{ steps.infrastructure-deployment.outputs.spring_cloud_service_name }}
     steps:
-      - name: Apply Terraform configurations
+      - name: Apply Terraform configuration
         id: infrastructure-deployment
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@3-refactor-composite-actions
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@main
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -32,7 +36,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Build a .NET application
-        uses: microsoft/nubesgen-actions/gitops-build-dotnet@3-refactor-composite-actions
+        uses: microsoft/nubesgen-actions/gitops-build-dotnet@main
         with:
           dotnet_version: ${{ env.DOTNET_VERSION }}
           application_package_path: ${{ env.APP_PACKAGE_PATH }}
@@ -41,7 +45,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a .NET application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-dotnet@3-refactor-composite-actions
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-dotnet@main
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}

@@ -21,8 +21,8 @@ public class NubesgenConfiguration {
 
     private String applicationName;
 
-    private String compositeActionsVersion = "3-refactor-composite-actions";
-    
+    private String compositeActionsVersion = "main";
+
     @JsonProperty("iactool")
     private IaCTool iaCTool;
 
