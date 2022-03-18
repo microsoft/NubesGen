@@ -1,11 +1,9 @@
-[[ << Using Spring Boot with NubesGen ](spring-boot.md) | [ Main documentation page ](../README.md) |[ Using .NET with NubesGen >> ](dot-net.md)]
-
 # Using Quarkus with NubesGen
 
 This documentation is for running Quarkus applications with NubesGen. There are two other options that might interest you:
 
-- You can also use [Java with NubesGen](java.md), which is similar to Quarkus, but does not use the specific Quarkus application properties.
-- As Quarkus applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker.md).
+- You can also use [Java with NubesGen](java/), which is similar to Quarkus, but does not use the specific Quarkus application properties.
+- As Quarkus applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports deploying Quarkus applications both using the JVM and using the native image compilation (GraalVM).
 
@@ -37,11 +35,11 @@ __Steps:__
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ```bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=quarkus&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
@@ -86,11 +84,11 @@ __Steps:__
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](../gitops-quick-start.md)):
+3. In the cloned project (`cd code-with-quarkus`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ```bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration. If you followed the first tutorial, please note the `quarkus_native` parameter.
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration. If you followed the first tutorial, please note the `quarkus_native` parameter.
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=quarkus_native&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
@@ -135,5 +133,3 @@ properties, so your Spring Boot application should be automatically configured
 - `AZURE_STORAGE_ACCOUNT_NAME`: the storage account name
 - `AZURE_STORAGE_ACCOUNT_KEY`: the storage account key
 - `AZURE_STORAGE_BLOB_ENDPOINT`: the blob storage endpoint
-
-[[ << Using Spring Boot with NubesGen ](spring-boot.md) | [ Main documentation page ](../README.md) |[ Using .NET with NubesGen >> ](dot-net.md)]

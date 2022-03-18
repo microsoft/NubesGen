@@ -4,7 +4,7 @@ name: GitOps
 ###
 # GitOps - automatic infrastructure management GitHub Action
 #
-# See https://github.com/microsoft/NubesGen/blob/main/docs/gitops-overview.md
+# See https://docs.nubesgen.com/gitops/gitops-quick-start/
 # for more information about using GitOps with NubesGen.
 ###
 
@@ -136,7 +136,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-20.04
     steps:
-      - name: Deploy a Java function to Azure Functions
+      - name: Deploy a Java function to Azure Functionss
         uses: microsoft/nubesgen-actions/gitops-deploy-to-function-java@<%compositeActionsVersion%>
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}

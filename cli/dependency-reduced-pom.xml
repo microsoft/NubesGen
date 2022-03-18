@@ -4,7 +4,7 @@
   <groupId>io.github.nubesgen</groupId>
   <artifactId>nubesgen-cli</artifactId>
   <name>nubesgen-cli</name>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.5-SNAPSHOT</version>
   <description>NubesGen CLI</description>
   <build>
     <plugins>
@@ -89,7 +89,7 @@
   </build>
   <properties>
     <maven.compiler.target>11</maven.compiler.target>
-    <picocli.version>4.6.2</picocli.version>
+    <picocli.version>4.6.3</picocli.version>
     <java.version>11</java.version>
     <maven.compiler.source>11</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
