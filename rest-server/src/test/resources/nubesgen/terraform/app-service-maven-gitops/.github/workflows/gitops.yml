@@ -3,7 +3,7 @@ name: GitOps
 ###
 # GitOps - automatic infrastructure management GitHub Action
 #
-# See https://github.com/microsoft/NubesGen/blob/main/docs/gitops-overview.md
+# See https://docs.nubesgen.com/gitops/gitops-quick-start/
 # for more information about using GitOps with NubesGen.
 ###
 
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Apply Terraform configuration
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.4.4
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.5.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -25,12 +25,12 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Build a Java project using Maven
-        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.4.4
+        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.5.0
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@v0.4.4
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@v0.5.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}

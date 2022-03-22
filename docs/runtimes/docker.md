@@ -1,5 +1,3 @@
-[[ << Running NubesGen from the command line ](command-line.md) | [ Main documentation page ](../README.md) |[ Using Java with NubesGen >> ](java.md)]
-
 # Using Docker with NubesGen
 
 Docker is the default option with NubesGen, and allows to run any kind of application supporting Docker.
@@ -9,7 +7,7 @@ It comes with two options: "Docker with a Dockerfile" and "Docker with Spring Bo
 ## Tutorial: running a Docker image with NubesGen
 
 We're going to deploy [https://github.com/jdubois/golang-sample-app](https://github.com/jdubois/golang-sample-app), which is a sample application written in Go.
-We'll use NubesGen's [GitOps support](../gitops-overview.md) to automatically build and deploy the application.
+We'll use NubesGen's [GitOps support](/gitops/gitops-overview) to automatically build and deploy the application.
 
 __Prerequisites:__
 
@@ -21,19 +19,19 @@ _Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesge
 __Steps:__
 1. Fork the project on your GitHub account.
 2. Clone the fork on your computer. Change `<your-github-account>` by the name of your GitHub account:
-   ```bash
+   ``` bash
    git clone https://github.com/<your-github-account>/golang-sample-app.git
    ``` 
-3. In the cloned project (`cd golang-sample-app`), set up GitOps with NubesGen by using the NubesGen CLI ([more information here](../gitops-quick-start.md)):
-   ```bash
+3. In the cloned project (`cd golang-sample-app`), set up GitOps with NubesGen by using the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
+   ``` bash
     ./nubesgen-cli-linux gitops
     ```
-4. Use the command-line with NubesGen ([more information here](../command-line.md)) to generate a NubesGen configuration:
-   ```bash
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
+   ``` bash
    curl "https://nubesgen.com/demo.tgz?application=app_service.standard&gitops=true" | tar -xzvf -
    ```
 5. Create a new branch called `env-dev`, and push your code:
-   ```bash
+   ``` bash
    git checkout -b env-dev
    git add .
    git commit -m 'Configure GitOps with NubesGen'
@@ -86,7 +84,5 @@ Using a Dockerfile is the default way to use Docker, so this will work in most s
 
 Spring Boot is a Java framework that can use a Dockerfile, but which uses by default a Maven plugin: this is supported by NubesGen if you select that option, in which case the Docker image will be built using the `mvn spring-boot:build-image` command.
 
-If you have selected Spring Boot, NubesGen will also configure the same configuration properties as the ones described in [Spring Boot with NubesGen](spring-boot.md).
+If you have selected Spring Boot, NubesGen will also configure the same configuration properties as the ones described in [Spring Boot with NubesGen](spring-boot/).
 For example, your database should be automatically configured.
-
-[[ << Running NubesGen from the command line ](command-line.md) | [ Main documentation page ](../README.md) |[ Using Java with NubesGen >> ](java.md)]

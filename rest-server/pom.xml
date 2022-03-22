@@ -4,13 +4,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.3</version>
+        <version>2.6.4</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen</artifactId>
     <!-- Do not modify this version manually, read https://github.com/microsoft/NubesGen/blob/main/CONTRIBUTING.md#doing-a-release -->
-    <version>0.9.4-SNAPSHOT</version>
+    <version>0.10.1-SNAPSHOT</version>
     <name>nubesgen</name>
     <packaging>jar</packaging>
     <description>NubesGen REST server</description>
@@ -36,7 +36,7 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-blob</artifactId>
-            <version>12.15.0-beta.2</version>
+            <version>12.15.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -74,7 +74,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.0.0-M4</version>
+                <version>3.0.0-M5</version>
                 <configuration>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
