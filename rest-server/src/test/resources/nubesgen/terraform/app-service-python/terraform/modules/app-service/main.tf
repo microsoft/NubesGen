@@ -60,5 +60,6 @@ resource "azurerm_app_service" "application" {
 
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+    "SCM_DO_BUILD_DURING_DEPLOYMENT"      = "true"
   }
 }
