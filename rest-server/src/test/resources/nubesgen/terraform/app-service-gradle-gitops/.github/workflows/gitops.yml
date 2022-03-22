@@ -19,8 +19,6 @@ jobs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
       application_url: ${{ steps.infrastructure-deployment.outputs.application_url }}
       resource_group: ${{ steps.infrastructure-deployment.outputs.resource_group }}
-      container_registry_name: ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
-      spring_cloud_service_name: ${{ steps.infrastructure-deployment.outputs.spring_cloud_service_name }}
     steps:
       - name: Apply Terraform configuration
         id: infrastructure-deployment
