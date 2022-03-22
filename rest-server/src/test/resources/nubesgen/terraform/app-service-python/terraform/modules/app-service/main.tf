@@ -55,7 +55,6 @@ resource "azurerm_app_service" "application" {
   site_config {
     linux_fx_version          = "PYTHON|3.9"
     always_on                 = false
-    use_32_bit_worker_process = true
     ftps_state                = "FtpsOnly"
   }
 
