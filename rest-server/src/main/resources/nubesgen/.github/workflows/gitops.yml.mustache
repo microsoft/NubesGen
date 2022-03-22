@@ -235,3 +235,25 @@ jobs:
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
   <%/applicationTypeFunction%>
 <%/runtimeNodejs%>
+  display-information:
+<%#runtimeDocker%>
+    needs: [build-and-deploy]
+<%/runtimeDocker%>
+<%^runtimeDocker%>
+    needs: [manage-infrastructure]
+<%/runtimeDocker%>
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Display Azure infrastructure information
+        uses: microsoft/nubesgen-actions/gitops-display-information@main
+        with:
+<%#runtimeDocker%>
+          application_name: ${{ needs.build-and-deploy.outputs.application_name }}
+          application_url: ${{ needs.build-and-deploy.outputs.application_url }}
+          resource_group: ${{ needs.build-and-deploy.outputs.resource_group }}
+<%/runtimeDocker%>
+<%^runtimeDocker%>
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          application_url: ${{ needs.manage-infrastructure.outputs.application_url }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
+<%/runtimeDocker%>
