@@ -48,13 +48,13 @@ resource "azurerm_linux_web_app" "application" {
   }
 
   site_config {
-    always_on        = true
-    ftps_state       = "FtpsOnly"
     application_stack {
       java_server         = "JAVA"
       java_server_version = "11"
       java_version        = "java11"
     }
+    always_on        = true
+    ftps_state       = "FtpsOnly"
   }
 
   app_settings = {

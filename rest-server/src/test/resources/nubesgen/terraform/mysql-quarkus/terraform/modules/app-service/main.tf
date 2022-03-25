@@ -48,7 +48,11 @@ resource "azurerm_linux_web_app" "application" {
   }
 
   site_config {
-    linux_fx_version          = "JAVA|11-java11"
+    application_stack {
+      java_server         = "JAVA"
+      java_server_version = "11"
+      java_version        = "java11"
+    }
     always_on                 = false
     use_32_bit_worker_process = true
     ftps_state                = "FtpsOnly"
