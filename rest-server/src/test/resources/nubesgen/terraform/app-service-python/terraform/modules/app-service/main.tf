@@ -53,19 +53,13 @@ resource "azurerm_app_service" "application" {
   }
 
   site_config {
-    linux_fx_version          = "JAVA|11-java11"
+    linux_fx_version          = "PYTHON|3.9"
     always_on                 = false
     ftps_state                = "FtpsOnly"
   }
 
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
-
-    # These are app specific environment variables
-    "SPRING_PROFILES_ACTIVE" = "prod,azure"
-
-    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
-    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
-    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
+    "SCM_DO_BUILD_DURING_DEPLOYMENT"      = "true"
   }
 }
