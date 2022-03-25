@@ -20,7 +20,7 @@ resource "azurerm_service_plan" "application" {
   location            = var.location
 
   sku_name = "Y1"
-  kind     = "FunctionApp"
+  os_type  = "Linux"
 
   tags = {
     "environment"      = var.environment
@@ -63,7 +63,6 @@ resource "azurerm_linux_function_app" "application" {
   service_plan_id            = azurerm_service_plan.application.id
   storage_account_name       = azurerm_storage_account.application.name
   storage_account_access_key = azurerm_storage_account.application.primary_access_key
-  os_type                    = "linux"
   https_only                 = true
   version                    = "~3"
 

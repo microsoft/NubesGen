@@ -20,7 +20,7 @@ resource "azurerm_service_plan" "application" {
   location            = var.location
 
   sku_name = "Y1"
-  kind     = "FunctionApp"
+  os_type  = "Linux"
 
   tags = {
     "environment"      = var.environment
@@ -57,15 +57,14 @@ resource "azurecaf_name" "function_app" {
 
 # This creates the service definition
 resource "azurerm_linux_function_app" "application" {
-  name                       = azurecaf_name.function_app.result
-  resource_group_name        = var.resource_group
-  location                   = var.location
-  service_plan_id            = azurerm_service_plan.application.id
-  storage_account_name       = azurerm_storage_account.application.name
-  storage_account_access_key = azurerm_storage_account.application.primary_access_key
-  os_type                    = "linux"
-  https_only                 = true
-  version                    = "~3"
+  name                        = azurecaf_name.function_app.result
+  resource_group_name         = var.resource_group
+  location                    = var.location
+  service_plan_id             = azurerm_service_plan.application.id
+  storage_account_name        = azurerm_storage_account.application.name
+  storage_account_access_key  = azurerm_storage_account.application.primary_access_key
+  https_only                  = true
+  functions_extension_version = "~3"
 
   tags = {
     "environment"      = var.environment
@@ -74,16 +73,12 @@ resource "azurerm_linux_function_app" "application" {
 
   site_config {
     application_stack {
-      java_server         = "JAVA"
-      java_server_version = "11"
-      java_version        = "java11"
+      java_version = "11"
     }
   }
 
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE"    = "1"
-    "FUNCTIONS_EXTENSION_VERSION" = "~3"
-    "FUNCTIONS_WORKER_RUNTIME"    = "java"
 
     # These are app specific environment variables
     "SPRING_PROFILES_ACTIVE" = "prod,azure"

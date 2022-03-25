@@ -331,7 +331,6 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/function"));
         assertTrue(entries.containsKey("terraform/modules/function/main.tf"));
         assertTrue(entries.get("terraform/modules/function/main.tf").contains("azurerm_function_app"));
-        assertTrue(entries.get("terraform/modules/function/main.tf").contains("kind     = \"elastic\""));
         assertTrue(entries.get("terraform/modules/function/main.tf").contains("sku_name = \"EP1\""));
     }
 
