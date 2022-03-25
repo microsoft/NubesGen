@@ -68,15 +68,13 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
     siteConfig: {
 {{#runtimeJava}}
       linuxFxVersion: 'java|11'
-      use32BitWorkerProcess: true
 {{/runtimeJava}}
 {{#runtimeDotnet}}
       linuxFxVersion: 'DOTNET|6.0'
 {{/runtimeDotnet}}
 {{#runtimeNodejs}}
       linuxFxVersion: 'Node|16'
-{{/runtimeNodejs}}      
-      // use32BitWorkerProcess: true
+{{/runtimeNodejs}}
       appSettings: union(environmentVariables, [
         
         // {
@@ -120,6 +118,5 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
     storageAccount
   ]
 }
-
 
 output application_url string = functionApp.properties.hostNames[0]
