@@ -35,11 +35,11 @@ resource "azurecaf_name" "app_service" {
 }
 
 # This creates the service definition
-resource "azurerm_app_service" "application" {
+resource "azurerm_linux_web_app" "application" {
   name                = azurecaf_name.app_service.result
   resource_group_name = var.resource_group
   location            = var.location
-  app_service_plan_id = azurerm_service_plan.application.id
+  service_plan_id     = azurerm_service_plan.application.id
   https_only          = true
 
   tags = {

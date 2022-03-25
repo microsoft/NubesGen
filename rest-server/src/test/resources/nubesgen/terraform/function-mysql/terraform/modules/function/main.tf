@@ -56,11 +56,11 @@ resource "azurecaf_name" "function_app" {
 }
 
 # This creates the service definition
-resource "azurerm_function_app" "application" {
+resource "azurerm_linux_function_app" "application" {
   name                       = azurecaf_name.function_app.result
   resource_group_name        = var.resource_group
   location                   = var.location
-  app_service_plan_id        = azurerm_service_plan.application.id
+  service_plan_id            = azurerm_service_plan.application.id
   storage_account_name       = azurerm_storage_account.application.name
   storage_account_access_key = azurerm_storage_account.application.primary_access_key
   os_type                    = "linux"

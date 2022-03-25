@@ -54,11 +54,11 @@ resource "azurecaf_name" "app_service" {
 }
 
 # This creates the service definition
-resource "azurerm_app_service" "application" {
+resource "azurerm_linux_web_app" "application" {
   name                = azurecaf_name.app_service.result
   resource_group_name = var.resource_group
   location            = var.location
-  app_service_plan_id = azurerm_service_plan.application.id
+  service_plan_id     = azurerm_service_plan.application.id
   https_only          = true
 
   tags = {
@@ -67,7 +67,10 @@ resource "azurerm_app_service" "application" {
   }
 
   site_config {
-    linux_fx_version = "DOCKER|${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}:latest"
+    application_stack {
+      docker_image     = "${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}"
+      docker_image_tag = "latest"
+    }
     always_on        = true
     ftps_state       = "FtpsOnly"
   }

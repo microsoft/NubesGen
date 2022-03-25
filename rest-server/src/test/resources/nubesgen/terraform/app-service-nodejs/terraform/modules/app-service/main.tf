@@ -35,11 +35,11 @@ resource "azurecaf_name" "app_service" {
 }
 
 # This creates the service definition
-resource "azurerm_app_service" "application" {
+resource "azurerm_linux_web_app" "application" {
   name                = azurecaf_name.app_service.result
   resource_group_name = var.resource_group
   location            = var.location
-  app_service_plan_id = azurerm_service_plan.application.id
+  service_plan_id     = azurerm_service_plan.application.id
   https_only          = true
 
   tags = {
@@ -48,7 +48,9 @@ resource "azurerm_app_service" "application" {
   }
 
   site_config {
-    linux_fx_version          = "NODE|16-lts"
+    application_stack {
+      node_version = "16-lts"
+    }
     app_command_line          = "npm run start:prod"
     always_on                 = false
     use_32_bit_worker_process = true
