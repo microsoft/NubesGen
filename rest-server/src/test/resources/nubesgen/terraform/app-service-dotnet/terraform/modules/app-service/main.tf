@@ -52,7 +52,6 @@ resource "azurerm_linux_web_app" "application" {
       dotnet_version = "6.0"
     }
     always_on                 = false
-    use_32_bit_worker_process = true
     ftps_state                = "FtpsOnly"
   }
 

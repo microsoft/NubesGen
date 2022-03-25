@@ -54,7 +54,6 @@ resource "azurerm_linux_web_app" "application" {
       java_version        = "java11"
     }
     always_on                 = false
-    use_32_bit_worker_process = true
     ftps_state                = "FtpsOnly"
   }
 
