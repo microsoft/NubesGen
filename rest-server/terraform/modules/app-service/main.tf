@@ -1,6 +1,6 @@
 resource "azurecaf_name" "app_service_plan" {
   name          = var.application_name
-  resource_type = "azurerm_service_plan"
+  resource_type = "azurerm_app_service_plan"
   suffixes      = [var.environment]
 }
 
