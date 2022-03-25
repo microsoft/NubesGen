@@ -40,13 +40,13 @@ resource "azurecaf_name" "storage_account" {
 }
 
 resource "azurerm_storage_account" "application" {
-  name                      = azurecaf_name.storage_account.result
-  resource_group_name       = var.resource_group
-  location                  = var.location
-  account_tier              = "Standard"
-  account_replication_type  = "LRS"
-  enable_https_traffic_only = true
-  allow_blob_public_access  = false
+  name                             = azurecaf_name.storage_account.result
+  resource_group_name              = var.resource_group
+  location                         = var.location
+  account_tier                     = "Standard"
+  account_replication_type         = "LRS"
+  enable_https_traffic_only        = true
+  allow_nested_items_to_be_public  = false
 
   tags = {
     "environment"      = var.environment
