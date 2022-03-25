@@ -32,8 +32,11 @@ jobs:
     steps:
       - name: Build a Java function using Maven
         uses: microsoft/nubesgen-actions/gitops-build-function-java-maven@main
+        with:
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
   deploy:
-    needs: [build]
+    needs: [manage-infrastructure,build]
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java function to Azure Functions
