@@ -19,18 +19,13 @@ resource "azurerm_service_plan" "application" {
   resource_group_name = var.resource_group
   location            = var.location
 
+  sku_name = "EP1"
   kind     = "elastic"
   reserved = true
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
-  }
-
-  sku {
-    tier     = "ElasticPremium"
-    size     = "EP1"
-    capacity = 1
   }
 }
 

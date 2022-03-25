@@ -332,7 +332,7 @@ public class MainControllerTest {
         assertTrue(entries.containsKey("terraform/modules/function/main.tf"));
         assertTrue(entries.get("terraform/modules/function/main.tf").contains("azurerm_function_app"));
         assertTrue(entries.get("terraform/modules/function/main.tf").contains("kind     = \"elastic\""));
-        assertTrue(entries.get("terraform/modules/function/main.tf").contains("tier     = \"ElasticPremium\""));
+        assertTrue(entries.get("terraform/modules/function/main.tf").contains("sku_name = \"EP1\""));
     }
 
     @Test
@@ -355,8 +355,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("tier = \"Standard\""));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("size = \"S1\""));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("sku_name = \"S1\""));
         assertTrue(entries.containsKey("terraform/modules/mysql/main.tf"));
         assertTrue(entries.get("terraform/modules/mysql/main.tf").contains("sku_name                     = \"GP_Standard_D2ds_v4\""));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));

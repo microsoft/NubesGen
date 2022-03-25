@@ -20,9 +20,11 @@ resource "azurerm_service_plan" "application" {
   location            = var.location
 
 {{#applicationTierConsumption}}
+  sku_name = "Y1"
   kind     = "FunctionApp"
 {{/applicationTierConsumption}}
 {{#applicationTierPremium}}
+  sku_name = "EP1"
   kind     = "elastic"
 {{/applicationTierPremium}}
   reserved = true
@@ -30,18 +32,6 @@ resource "azurerm_service_plan" "application" {
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
-  }
-
-  sku {
-{{#applicationTierConsumption}}
-    tier = "Dynamic"
-    size = "Y1"
-{{/applicationTierConsumption}}
-{{#applicationTierPremium}}
-    tier     = "ElasticPremium"
-    size     = "EP1"
-    capacity = 1
-{{/applicationTierPremium}}
   }
 }
 

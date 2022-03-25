@@ -19,17 +19,13 @@ resource "azurerm_service_plan" "application" {
   resource_group_name = var.resource_group
   location            = var.location
 
+  sku_name = "Y1"
   kind     = "FunctionApp"
   reserved = true
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
-  }
-
-  sku {
-    tier = "Dynamic"
-    size = "Y1"
   }
 }
 

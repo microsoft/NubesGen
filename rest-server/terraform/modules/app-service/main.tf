@@ -16,17 +16,13 @@ resource "azurerm_service_plan" "application" {
   resource_group_name = var.resource_group
   location            = var.location
 
-  kind     = "Linux"
+  sku_name = "P1v2"
+  os_type  = "Linux"
   reserved = true
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
-  }
-
-  sku {
-    tier = var.sku_tier
-    size = var.sku_size
   }
 }
 

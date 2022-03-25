@@ -40,27 +40,21 @@ resource "azurerm_service_plan" "application" {
   resource_group_name = var.resource_group
   location            = var.location
 
-  kind     = "Linux"
+{{#applicationTierFree}}
+  sku_name = "F1"
+{{/applicationTierFree}}
+{{#applicationTierBasic}}
+  sku_name = "B1"
+{{/applicationTierBasic}}
+{{#applicationTierStandard}}
+  sku_name = "S1"
+{{/applicationTierStandard}}
+  os_type  = "Linux"
   reserved = true
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
-  }
-
-  sku {
-{{#applicationTierFree}}
-    tier = "Free"
-    size = "F1"
-{{/applicationTierFree}}
-{{#applicationTierBasic}}
-    tier = "Basic"
-    size = "B1"
-{{/applicationTierBasic}}
-{{#applicationTierStandard}}
-    tier = "Standard"
-    size = "S1"
-{{/applicationTierStandard}}
   }
 }
 
