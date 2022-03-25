@@ -42,16 +42,16 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2020-10-01' = {
 {{/applicationTierConsumption}}
 {{#applicationTierPremium}}
   kind: 'elastic'
-{{/applicationTierPremium}}
+{{/applicationTierPremium}}  
   properties: {
     reserved: true
   }
   sku: {
 {{#applicationTierConsumption}}
-    name: 'Y1'
+    name: 'Y1' 
 {{/applicationTierConsumption}}
 {{#applicationTierPremium}}
-    name: 'EP1'
+    name: 'EP1' 
     capacity: 1
 {{/applicationTierPremium}}
   }
@@ -68,15 +68,17 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
     siteConfig: {
 {{#runtimeJava}}
       linuxFxVersion: 'java|11'
+      use32BitWorkerProcess: true
 {{/runtimeJava}}
 {{#runtimeDotnet}}
       linuxFxVersion: 'DOTNET|6.0'
 {{/runtimeDotnet}}
 {{#runtimeNodejs}}
       linuxFxVersion: 'Node|16'
-{{/runtimeNodejs}}
+{{/runtimeNodejs}}      
+      // use32BitWorkerProcess: true
       appSettings: union(environmentVariables, [
-
+        
         // {
         //   'name': 'APPINSIGHTS_INSTRUMENTATIONKEY'
         //   'value': appInsights.properties.InstrumentationKey
@@ -99,7 +101,7 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
 {{/runtimeDotnet}}
 {{#runtimeNodejs}}
           'value': 'node'
-{{/runtimeNodejs}}
+{{/runtimeNodejs}}           
         }
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
