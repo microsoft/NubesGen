@@ -81,7 +81,7 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_key_vault_access_policy" "application" {
   key_vault_id = var.vault_id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_app_service.application.identity[0].principal_id
+  object_id    = azurerm_linux_web_app.application.identity[0].principal_id
 
   secret_permissions = [
     "Get",
@@ -90,6 +90,6 @@ resource "azurerm_key_vault_access_policy" "application" {
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "swift_connection" {
-  app_service_id = azurerm_app_service.application.id
+  app_service_id = azurerm_linux_web_app.application.id
   subnet_id      = var.subnet_id
 }
