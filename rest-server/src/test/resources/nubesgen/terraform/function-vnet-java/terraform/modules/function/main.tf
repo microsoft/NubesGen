@@ -21,7 +21,6 @@ resource "azurerm_service_plan" "application" {
 
   sku_name = "EP1"
   kind     = "elastic"
-  reserved = true
 
   tags = {
     "environment"      = var.environment

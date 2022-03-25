@@ -40,7 +40,6 @@ resource "azurerm_service_plan" "application" {
 
   sku_name = "S1"
   os_type  = "Linux"
-  reserved = true
 
   tags = {
     "environment"      = var.environment

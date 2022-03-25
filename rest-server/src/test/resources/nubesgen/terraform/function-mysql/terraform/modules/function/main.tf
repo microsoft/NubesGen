@@ -21,7 +21,6 @@ resource "azurerm_service_plan" "application" {
 
   sku_name = "Y1"
   kind     = "FunctionApp"
-  reserved = true
 
   tags = {
     "environment"      = var.environment
