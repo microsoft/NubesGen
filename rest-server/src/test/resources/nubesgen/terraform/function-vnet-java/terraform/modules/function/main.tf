@@ -73,7 +73,11 @@ resource "azurerm_linux_function_app" "application" {
   }
 
   site_config {
-    linux_fx_version = "java|11"
+    application_stack {
+      java_server         = "JAVA"
+      java_server_version = "11"
+      java_version        = "java11"
+    }
   }
 
   identity {
