@@ -9,12 +9,12 @@ terraform {
 
 resource "azurecaf_name" "app_service_plan" {
   name          = var.application_name
-  resource_type = "azurerm_app_service_plan"
+  resource_type = "azurerm_service_plan"
   suffixes      = [var.environment]
 }
 
 # This creates the plan that the service use
-resource "azurerm_app_service_plan" "application" {
+resource "azurerm_service_plan" "application" {
   name                = azurecaf_name.app_service_plan.result
   resource_group_name = var.resource_group
   location            = var.location
@@ -66,7 +66,7 @@ resource "azurerm_function_app" "application" {
   name                       = azurecaf_name.function_app.result
   resource_group_name        = var.resource_group
   location                   = var.location
-  app_service_plan_id        = azurerm_app_service_plan.application.id
+  app_service_plan_id        = azurerm_service_plan.application.id
   storage_account_name       = azurerm_storage_account.application.name
   storage_account_access_key = azurerm_storage_account.application.primary_access_key
   os_type                    = "linux"
