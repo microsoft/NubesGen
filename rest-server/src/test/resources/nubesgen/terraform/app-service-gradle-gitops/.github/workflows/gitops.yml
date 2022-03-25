@@ -31,6 +31,8 @@ jobs:
     steps:
       - name: Build a Java project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@main
+        with:
+          build_command: 'gradle bootJar -Pprod,azure'
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04

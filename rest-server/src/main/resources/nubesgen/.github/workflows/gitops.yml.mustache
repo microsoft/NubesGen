@@ -107,6 +107,10 @@ jobs:
     <%#runtimeGradle%>
       - name: Build a Java project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@<%compositeActionsVersion%>
+      <%#runtimeSpring%>
+        with:
+          build_command: 'gradle bootJar -Pprod,azure'
+      <%/runtimeSpring%>
       <%#runtimeQuarkus%>
         with:
           build_command: gradle quarkusBuild -Dquarkus.package.type=uber-jar
@@ -157,6 +161,8 @@ jobs:
     <%#runtimeGradle%>
       - name: Build a Java project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@<%compositeActionsVersion%>
+        with:
+          build_command: 'gradle bootJar -Pprod,azure'
     <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]
