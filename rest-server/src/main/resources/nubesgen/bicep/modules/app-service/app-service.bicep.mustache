@@ -88,7 +88,6 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
   {{/runtimeNodejs}}
 
       ftpsState: 'FtpsOnly'
-      use32BitWorkerProcess: true
 {{/applicationTierFree}}
 {{^applicationTierFree}}
   {{#runtimeDocker}}
@@ -153,6 +152,8 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
 {{/addonKeyVault}}
 }
 
-// TODO AddonKeyVault - Access policy
-
-output application_hostname string = appServiceApp.properties.hostNames[0]
+output application_name string = appServiceApp.name
+output application_url string = appServiceApp.properties.hostNames[0]
+{{#runtimeDocker}}
+output container_registry_name string = containerRegistry.name
+{{/runtimeDocker}}
