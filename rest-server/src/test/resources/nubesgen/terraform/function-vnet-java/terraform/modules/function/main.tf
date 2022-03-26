@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.11"
+      version = "1.2.16"
     }
   }
 }
@@ -14,23 +14,17 @@ resource "azurecaf_name" "app_service_plan" {
 }
 
 # This creates the plan that the service use
-resource "azurerm_app_service_plan" "application" {
+resource "azurerm_service_plan" "application" {
   name                = azurecaf_name.app_service_plan.result
   resource_group_name = var.resource_group
   location            = var.location
 
-  kind     = "elastic"
-  reserved = true
+  sku_name = "EP1"
+  os_type  = "Linux"
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
-  }
-
-  sku {
-    tier     = "ElasticPremium"
-    size     = "EP1"
-    capacity = 1
   }
 }
 
@@ -41,13 +35,13 @@ resource "azurecaf_name" "storage_account" {
 }
 
 resource "azurerm_storage_account" "application" {
-  name                      = azurecaf_name.storage_account.result
-  resource_group_name       = var.resource_group
-  location                  = var.location
-  account_tier              = "Standard"
-  account_replication_type  = "LRS"
-  enable_https_traffic_only = true
-  allow_blob_public_access  = false
+  name                             = azurecaf_name.storage_account.result
+  resource_group_name              = var.resource_group
+  location                         = var.location
+  account_tier                     = "Standard"
+  account_replication_type         = "LRS"
+  enable_https_traffic_only        = true
+  allow_nested_items_to_be_public  = false
 
   tags = {
     "environment"      = var.environment
@@ -62,16 +56,15 @@ resource "azurecaf_name" "function_app" {
 }
 
 # This creates the service definition
-resource "azurerm_function_app" "application" {
-  name                       = azurecaf_name.function_app.result
-  resource_group_name        = var.resource_group
-  location                   = var.location
-  app_service_plan_id        = azurerm_app_service_plan.application.id
-  storage_account_name       = azurerm_storage_account.application.name
-  storage_account_access_key = azurerm_storage_account.application.primary_access_key
-  os_type                    = "linux"
-  https_only                 = true
-  version                    = "~3"
+resource "azurerm_linux_function_app" "application" {
+  name                        = azurecaf_name.function_app.result
+  resource_group_name         = var.resource_group
+  location                    = var.location
+  service_plan_id             = azurerm_service_plan.application.id
+  storage_account_name        = azurerm_storage_account.application.name
+  storage_account_access_key  = azurerm_storage_account.application.primary_access_key
+  https_only                  = true
+  functions_extension_version = "~3"
 
   tags = {
     "environment"      = var.environment
@@ -79,7 +72,9 @@ resource "azurerm_function_app" "application" {
   }
 
   site_config {
-    linux_fx_version = "java|11"
+    application_stack {
+      java_version = "11"
+    }
   }
 
   identity {
@@ -88,8 +83,6 @@ resource "azurerm_function_app" "application" {
 
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE"    = "1"
-    "FUNCTIONS_EXTENSION_VERSION" = "~3"
-    "FUNCTIONS_WORKER_RUNTIME"    = "java"
 
     // Monitoring with Azure Application Insights
     "APPINSIGHTS_INSTRUMENTATIONKEY" = var.azure_application_insights_instrumentation_key
@@ -118,7 +111,7 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_key_vault_access_policy" "application" {
   key_vault_id = var.vault_id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_function_app.application.identity[0].principal_id
+  object_id    = azurerm_linux_function_app.application.identity[0].principal_id
 
   secret_permissions = [
     "Get",
@@ -127,6 +120,6 @@ resource "azurerm_key_vault_access_policy" "application" {
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "swift_connection" {
-  app_service_id = azurerm_function_app.application.id
+  app_service_id = azurerm_linux_function_app.application.id
   subnet_id      = var.subnet_id
 }
