@@ -1,5 +1,5 @@
 output "application_url" {
-  value       = "https://${azurerm_function_app.application.default_hostname}"
+  value       = "https://${azurerm_linux_function_app.application.name}.azurewebsites.net"
   description = "The Azure Functions application URL."
 }
 

@@ -65,7 +65,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOCKER|"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("docker_image"));
         assertTrue(entries.get(".github/workflows/gitops.yml").contains("name: Build and deploy a Docker image"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
         assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
@@ -100,7 +100,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("java_server"));
         assertTrue(entries.get(".github/workflows/gitops.yml").contains("name: Build a Java project using Maven"));
         assertFalse(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
         assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
@@ -140,7 +140,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("java_server"));
         assertTrue(
             entries
                 .get("terraform/modules/app-service/main.tf")
@@ -183,7 +183,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("java_server"));
         assertTrue(
             entries.get(".github/workflows/gitops.yml").contains("build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar")
         );
@@ -224,7 +224,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|11-java11"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("java_server"));
         assertTrue(
             entries
                 .get("terraform/modules/app-service/main.tf")
@@ -248,7 +248,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DOTNETCORE|"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("dotnet_version"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
         assertTrue(entries.get(".github/workflows/gitops.yml").contains("DOTNET_VERSION"));
     }
@@ -268,7 +268,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/app-service"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("azurerm_app_service"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("JAVA|"));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("java_server"));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
         assertTrue(entries.get(".github/workflows/gitops.yml").contains("name: Build a Java project using Maven"));
         assertFalse(entries.get(".github/workflows/gitops.yml").contains("-Dquarkus.package.type=uber-jar"));
@@ -331,8 +331,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/main.tf").contains("modules/function"));
         assertTrue(entries.containsKey("terraform/modules/function/main.tf"));
         assertTrue(entries.get("terraform/modules/function/main.tf").contains("azurerm_function_app"));
-        assertTrue(entries.get("terraform/modules/function/main.tf").contains("kind     = \"elastic\""));
-        assertTrue(entries.get("terraform/modules/function/main.tf").contains("tier     = \"ElasticPremium\""));
+        assertTrue(entries.get("terraform/modules/function/main.tf").contains("sku_name = \"EP1\""));
     }
 
     @Test
@@ -355,8 +354,7 @@ public class MainControllerTest {
         assertTrue(entries.get("terraform/variables.tf").contains("myapplication"));
         assertTrue(entries.get("terraform/variables.tf").contains("westeurope"));
         assertTrue(entries.containsKey("terraform/modules/app-service/main.tf"));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("tier = \"Standard\""));
-        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("size = \"S1\""));
+        assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("sku_name = \"S1\""));
         assertTrue(entries.containsKey("terraform/modules/mysql/main.tf"));
         assertTrue(entries.get("terraform/modules/mysql/main.tf").contains("sku_name                     = \"GP_Standard_D2ds_v4\""));
         assertTrue(entries.get("terraform/modules/app-service/main.tf").contains("DATABASE_URL"));
