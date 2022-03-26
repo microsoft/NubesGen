@@ -21,6 +21,8 @@ public class NubesgenConfiguration {
 
     private String applicationName;
 
+    private String compositeActionsVersion = "v0.6.0";
+
     @JsonProperty("iactool")
     private IaCTool iaCTool;
 
@@ -163,6 +165,12 @@ public class NubesgenConfiguration {
 
     public void setNetworkConfiguration(NetworkConfiguration networkConfiguration) {
         this.networkConfiguration = networkConfiguration;
+    }
+
+    @JsonIgnore
+    public String getCompositeActionsVersion()
+    {
+        return compositeActionsVersion;
     }
 
     @JsonIgnore

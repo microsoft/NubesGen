@@ -19,18 +19,6 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
 }
 
-variable "sku_tier" {
-  type        = string
-  description = "The Azure App Service plan tier"
-  default     = "PremiumV2"
-}
-
-variable "sku_size" {
-  type        = string
-  description = "The Azure App Service plan size"
-  default     = "P1v2"
-}
-
 variable "azure_storage_account_name" {
   type        = string
   description = "The name of the Azure Storage account"

@@ -11,31 +11,26 @@ resource "azurecaf_name" "app_service" {
 }
 
 # This creates the plan that the service use
-resource "azurerm_app_service_plan" "application" {
+resource "azurerm_service_plan" "application" {
   name                = azurecaf_name.app_service_plan.result
   resource_group_name = var.resource_group
   location            = var.location
 
-  kind     = "Linux"
-  reserved = true
+  sku_name = "P1v2"
+  os_type  = "Linux"
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
   }
-
-  sku {
-    tier = var.sku_tier
-    size = var.sku_size
-  }
 }
 
 # This creates the service definition
-resource "azurerm_app_service" "application" {
+resource "azurerm_linux_web_app" "application" {
   name                = "nubesgen"
   resource_group_name = var.resource_group
   location            = var.location
-  app_service_plan_id = azurerm_app_service_plan.application.id
+  service_plan_id     = azurerm_service_plan.application.id
   https_only          = true
 
   tags = {
@@ -46,7 +41,11 @@ resource "azurerm_app_service" "application" {
   site_config {
     ftps_state       = "FtpsOnly"
     always_on        = true
-    linux_fx_version = "JAVA|11-java11"
+    application_stack {
+      java_server         = "JAVA"
+      java_server_version = "11"
+      java_version        = "java11"
+    }
   }
 
   app_settings = {

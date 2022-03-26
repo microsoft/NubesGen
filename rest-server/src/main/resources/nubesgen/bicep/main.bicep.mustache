@@ -17,8 +17,8 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: location
   tags: defaultTags
 }
-
 {{#addonApplicationInsights}}
+
 module instrumentation 'modules/application-insights/app-insights.bicep' = {
   name: 'instrumentation'
   scope: resourceGroup(rg.name)
@@ -32,6 +32,7 @@ module instrumentation 'modules/application-insights/app-insights.bicep' = {
 }
 {{/addonApplicationInsights}}
 {{#addonStorageBlob}}
+
 module blobStorage 'modules/storage-blob/storage.bicep' = {
   name: 'storage'
   scope: resourceGroup(rg.name)
@@ -44,9 +45,9 @@ module blobStorage 'modules/storage-blob/storage.bicep' = {
   }
 }
 {{/addonStorageBlob}}
-
 {{^databaseTypeNone}}
-{{#addonCosmosdbMongodb}}
+  {{#addonCosmosdbMongodb}}
+
 module mongoDb 'modules/cosmosdb-mongodb/cosmosdb-mongodb.bicep' = {
   name: 'mongoDb'
   scope: resourceGroup(rg.name)
@@ -58,8 +59,9 @@ module mongoDb 'modules/cosmosdb-mongodb/cosmosdb-mongodb.bicep' = {
     tags: defaultTags
   }
 }
-{{/addonCosmosdbMongodb}}  
-{{#databaseTypeSqlServer}}
+  {{/addonCosmosdbMongodb}}
+  {{#databaseTypeSqlServer}}
+
 module database 'modules/sql-server/sql-azure.bicep' = {
   name: 'sqlDb'
   scope: resourceGroup(rg.name)
@@ -71,8 +73,9 @@ module database 'modules/sql-server/sql-azure.bicep' = {
     instanceNumber: instanceNumber
   }
 }
-{{/databaseTypeSqlServer}}
-{{#databaseTypePostgresql}}
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypePostgresql}}
+
 module database 'modules/postgresql/postgresql.bicep' = {
   name: 'sqlDb'
   scope: resourceGroup(rg.name)
@@ -84,8 +87,9 @@ module database 'modules/postgresql/postgresql.bicep' = {
     instanceNumber: instanceNumber
   }
 }
-{{/databaseTypePostgresql}}
-{{#databaseTypeMysql}}
+  {{/databaseTypePostgresql}}
+  {{#databaseTypeMysql}}
+
 module sqlDb 'modules/mysql/mysql.bicep' = {
   name: 'sqldatabase'
   scope: resourceGroup(rg.name)
@@ -97,10 +101,10 @@ module sqlDb 'modules/mysql/mysql.bicep' = {
     instanceNumber: instanceNumber
   }
 }
-{{/databaseTypeMysql}}
+  {{/databaseTypeMysql}}
 {{/databaseTypeNone}}
-
 {{#addonRedis}}
+
 module redis 'modules/redis/redis.bicep' = {
   name: 'redis'
   scope: resourceGroup(rg.name)
@@ -113,17 +117,17 @@ module redis 'modules/redis/redis.bicep' = {
   }
 }
 {{/addonRedis}}
-
 {{^applicationTypeSpringCloud}}
+
 var applicationEnvironmentVariables = [
-// You can add your custom environment variables here      
-{{#addonApplicationInsights}}
+// You can add your custom environment variables here
+  {{#addonApplicationInsights}}
       {
         name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
         value: instrumentation.outputs.appInsightsInstrumentationKey
       }
-{{/addonApplicationInsights}}      
-{{#addonStorageBlob}}
+  {{/addonApplicationInsights}}
+  {{#addonStorageBlob}}
       {
         name: 'azure_storage_account_name'
         value: blobStorage.outputs.storageAccountName
@@ -136,27 +140,27 @@ var applicationEnvironmentVariables = [
         name: 'azure_storage_connectionstring'
         value: 'DefaultEndpointsProtocol=https;AccountName=${blobStorage.outputs.storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${blobStorage.outputs.storageKey}'
       }
-{{/addonStorageBlob}}
-{{^databaseTypeNone}}
-{{#runtimeQuarkus}}
-   {{#databaseTypeSqlServer}}
+  {{/addonStorageBlob}}
+  {{^databaseTypeNone}}
+    {{#runtimeQuarkus}}
+      {{#databaseTypeSqlServer}}
       {
         name: 'QUARKUS_DATASOURCE_JDBC_URL'
         value: 'jdbc:sqlserver://${database.outputs.db_url}'
       }
-    {{/databaseTypeSqlServer}}
-    {{#databaseTypeMysql}}
+      {{/databaseTypeSqlServer}}
+      {{#databaseTypeMysql}}
       {
         name: 'QUARKUS_DATASOURCE_JDBC_URL'
         value: 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
       }
-    {{/databaseTypeMysql}}
-    {{#databaseTypePostgresql}}
+      {{/databaseTypeMysql}}
+      {{#databaseTypePostgresql}}
       {
         name: 'QUARKUS_DATASOURCE_JDBC_URL'
         value: 'jdbc:postgresql://${database.outputs.db_url}'
       }
-    {{/databaseTypePostgresql}} 
+      {{/databaseTypePostgresql}}
     {
         name: 'QUARKUS_DATASOURCE_USERNAME'
         value: database.outputs.db_username
@@ -165,26 +169,26 @@ var applicationEnvironmentVariables = [
         name: 'QUARKUS_DATASOURCE_PASSWORD'
         value: database.outputs.db_password
     }
-{{/runtimeQuarkus}}
-{{#runtimeSpring}}
-{{#databaseTypeSqlServer}}
+    {{/runtimeQuarkus}}
+    {{#runtimeSpring}}
+      {{#databaseTypeSqlServer}}
       {
         name: 'SPRING_DATASOURCE_URL'
         value: 'jdbc:sqlserver://${database.outputs.db_url}'
       }
-    {{/databaseTypeSqlServer}}
-    {{#databaseTypeMysql}}
+      {{/databaseTypeSqlServer}}
+      {{#databaseTypeMysql}}
       {
         name: 'SPRING_DATASOURCE_URL'
         value: 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
       }
-    {{/databaseTypeMysql}}
-    {{#databaseTypePostgresql}}
+      {{/databaseTypeMysql}}
+      {{#databaseTypePostgresql}}
       {
         name: 'SPRING_DATASOURCE_URL'
         value: 'jdbc:postgresql://${database.outputs.db_url}'
       }
-    {{/databaseTypePostgresql}} 
+      {{/databaseTypePostgresql}}
     {
         name: 'SPRING_DATASOURCE_USERNAME'
         value: database.outputs.db_username
@@ -193,8 +197,8 @@ var applicationEnvironmentVariables = [
         name: 'SPRING_DATASOURCE_PASSWORD'
         value: database.outputs.db_password
     }
-{{/runtimeSpring}}
-{{#runtimeDefault}}
+    {{/runtimeSpring}}
+    {{#runtimeDefault}}
       {
         name: 'DATABASE_URL'
         value: database.outputs.db_url
@@ -207,52 +211,52 @@ var applicationEnvironmentVariables = [
         name: 'DATABASE_PASSWORD'
         value: database.outputs.db_password
       }
-{{/runtimeDefault}}
-{{/databaseTypeNone}}   
-{{#addonCosmosdbMongodb}}
-{{#runtimeQuarkus}}
-  { 
+    {{/runtimeDefault}}
+  {{/databaseTypeNone}}
+  {{#addonCosmosdbMongodb}}
+    {{#runtimeQuarkus}}
+  {
     name: 'QUARKUS_MONGODB_HOSTS'
     value: mongoDb.outputs.azure_cosmosdb_mongodb_uri
   }
-  { 
+  {
     name: 'QUARKUS_MONGODB_DATABASE'
     value: mongoDb.outputs.azure_cosmosdb_mongodb_database
   }
-{{/runtimeQuarkus}}
-{{#runtimeSpring}}
-  { 
+    {{/runtimeQuarkus}}
+    {{#runtimeSpring}}
+  {
     name: 'SPRING_DATA_MONGODB_URI'
     value: mongoDb.outputs.azure_cosmosdb_mongodb_uri
   }
-  { 
+  {
     name: 'SPRING_DATA_MONGODB_DATABASE'
     value: mongoDb.outputs.azure_cosmosdb_mongodb_database
   }
-{{/runtimeSpring}}
-{{#runtimeDefault}}
-  { 
+    {{/runtimeSpring}}
+    {{#runtimeDefault}}
+  {
     name: 'MONGODB_HOST'
     value: mongoDb.outputs.azure_cosmosdb_mongodb_uri
   }
-  { 
+  {
     name: 'MONGODB_DATABASE'
     value: mongoDb.outputs.azure_cosmosdb_mongodb_database
   }
-  { 
+  {
     name: 'MONGODB_KEY'
     value: mongoDb.outputs.azure_cosmosdb_mongodb_accountKey
   }
-{{/runtimeDefault}}
-{{/addonCosmosdbMongodb}}      
-{{#addonRedis}}
-{{#runtimeQuarkus}}
+    {{/runtimeDefault}}
+  {{/addonCosmosdbMongodb}}
+  {{#addonRedis}}
+    {{#runtimeQuarkus}}
       {
         name: 'QUARKUS_REDIS_HOSTS'
         value: 'redis://${redis.outputs.redis_key}@${redis.outputs.redis_host}:6380'
       }
-{{/runtimeQuarkus}}
-{{#runtimeSpring}}
+    {{/runtimeQuarkus}}
+    {{#runtimeSpring}}
       {
         name: 'SPRING_REDIS_HOST'
         value: redis.outputs.redis_host
@@ -269,8 +273,8 @@ var applicationEnvironmentVariables = [
         name: 'SPRING_REDIS_SSL'
         value: 'true'
       }
-{{/runtimeSpring}}
-{{#runtimeDefault}}
+    {{/runtimeSpring}}
+    {{#runtimeDefault}}
       {
         name: 'REDIS_HOST'
         value: redis.outputs.redis_host
@@ -283,13 +287,12 @@ var applicationEnvironmentVariables = [
         name: 'REDIS_PORT'
          value: '6380'
       }
-{{/runtimeDefault}}
-{{/addonRedis}}
+    {{/runtimeDefault}}
+  {{/addonRedis}}
 ]
 {{/applicationTypeSpringCloud}}
-
-
 {{#applicationTypeAppService}}
+
 module webApp 'modules/app-service/app-service.bicep' = {
   name: 'webApp'
   scope: resourceGroup(rg.name)
@@ -302,9 +305,16 @@ module webApp 'modules/app-service/app-service.bicep' = {
     environmentVariables: applicationEnvironmentVariables
   }
 }
-{{/applicationTypeAppService}}
 
+output application_name string = webApp.outputs.application_name
+output application_url string = webApp.outputs.application_url
+output resource_group string = rg.name
+  {{#runtimeDocker}}
+output container_registry_name string = webApp.outputs.container_registry_name
+  {{/runtimeDocker}}
+{{/applicationTypeAppService}}
 {{#applicationTypeFunction}}
+
 module function 'modules/function/function.bicep' = {
   name: 'function'
   scope: resourceGroup(rg.name)
@@ -318,82 +328,82 @@ module function 'modules/function/function.bicep' = {
   }
 }
 {{/applicationTypeFunction}}
-
 {{#applicationTypeSpringCloud}}
+
 var applicationEnvironmentVariables = {
-// You can add your custom environment variables here      
-{{#addonApplicationInsights}}
+// You can add your custom environment variables here
+  {{#addonApplicationInsights}}
       'APPINSIGHTS_INSTRUMENTATIONKEY': instrumentation.outputs.appInsightsInstrumentationKey
-{{/addonApplicationInsights}}      
-{{#addonStorageBlob}}
+  {{/addonApplicationInsights}}
+  {{#addonStorageBlob}}
       'azure_storage_account_name': blobStorage.outputs.storageAccountName
       'azure_storage_account_key': blobStorage.outputs.storageKey
       'azure_storage_connectionstring': 'DefaultEndpointsProtocol=https;AccountName=${blobStorage.outputs.storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${blobStorage.outputs.storageKey}'
-{{/addonStorageBlob}}
-{{^databaseTypeNone}}
-{{#runtimeQuarkus}}
-   {{#databaseTypeSqlServer}}
+  {{/addonStorageBlob}}
+  {{^databaseTypeNone}}
+    {{#runtimeQuarkus}}
+      {{#databaseTypeSqlServer}}
       'QUARKUS_DATASOURCE_JDBC_URL': 'jdbc:sqlserver://${database.outputs.db_url}'
-    {{/databaseTypeSqlServer}}
-    {{#databaseTypeMysql}}
+      {{/databaseTypeSqlServer}}
+      {{#databaseTypeMysql}}
       'QUARKUS_DATASOURCE_JDBC_URL': 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
-    {{/databaseTypeMysql}}
-    {{#databaseTypePostgresql}}
+      {{/databaseTypeMysql}}
+      {{#databaseTypePostgresql}}
       'QUARKUS_DATASOURCE_JDBC_URL': 'jdbc:postgresql://${database.outputs.db_url}'
-    {{/databaseTypePostgresql}} 
+      {{/databaseTypePostgresql}}
     'QUARKUS_DATASOURCE_USERNAME': database.outputs.db_username
     'QUARKUS_DATASOURCE_PASSWORD': database.outputs.db_password
-{{/runtimeQuarkus}}
-{{#runtimeSpring}}
-{{#databaseTypeSqlServer}}
+    {{/runtimeQuarkus}}
+    {{#runtimeSpring}}
+      {{#databaseTypeSqlServer}}
       'SPRING_DATASOURCE_URL': 'jdbc:sqlserver://${database.outputs.db_url}'
-    {{/databaseTypeSqlServer}}
-    {{#databaseTypeMysql}}
+      {{/databaseTypeSqlServer}}
+      {{#databaseTypeMysql}}
       'SPRING_DATASOURCE_URL': 'jdbc:mysql://${database.outputs.db_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
-    {{/databaseTypeMysql}}
-    {{#databaseTypePostgresql}}
+      {{/databaseTypeMysql}}
+      {{#databaseTypePostgresql}}
       'SPRING_DATASOURCE_URL': 'jdbc:postgresql://${database.outputs.db_url}'
-    {{/databaseTypePostgresql}} 
+      {{/databaseTypePostgresql}}
       'SPRING_DATASOURCE_USERNAME': database.outputs.db_username
       'SPRING_DATASOURCE_PASSWORD': database.outputs.db_password
-{{/runtimeSpring}}
-{{#runtimeDefault}}
+    {{/runtimeSpring}}
+    {{#runtimeDefault}}
       'DATABASE_URL': database.outputs.db_url
       'DATABASE_USERNAME': database.outputs.db_username
       'DATABASE_PASSWORD': database.outputs.db_password
-{{/runtimeDefault}}
-{{/databaseTypeNone}}   
-{{#addonCosmosdbMongodb}}
-{{#runtimeQuarkus}}
+    {{/runtimeDefault}}
+  {{/databaseTypeNone}}
+  {{#addonCosmosdbMongodb}}
+    {{#runtimeQuarkus}}
       'QUARKUS_MONGODB_HOSTS': mongoDb.outputs.azure_cosmosdb_mongodb_uri
       'QUARKUS_MONGODB_DATABASE': mongoDb.outputs.azure_cosmosdb_mongodb_database
-{{/runtimeQuarkus}}
-{{#runtimeSpring}}
+    {{/runtimeQuarkus}}
+    {{#runtimeSpring}}
       'SPRING_DATA_MONGODB_URI': mongoDb.outputs.azure_cosmosdb_mongodb_uri
       'SPRING_DATA_MONGODB_DATABASE': mongoDb.outputs.azure_cosmosdb_mongodb_database
-{{/runtimeSpring}}
-{{#runtimeDefault}}
+    {{/runtimeSpring}}
+    {{#runtimeDefault}}
       'MONGODB_HOST': mongoDb.outputs.azure_cosmosdb_mongodb_uri
       'MONGODB_DATABASE': mongoDb.outputs.azure_cosmosdb_mongodb_database
       'MONGODB_KEY': mongoDb.outputs.azure_cosmosdb_mongodb_accountKey
-{{/runtimeDefault}}
-{{/addonCosmosdbMongodb}}      
-{{#addonRedis}}
-{{#runtimeQuarkus}}
+    {{/runtimeDefault}}
+  {{/addonCosmosdbMongodb}}
+  {{#addonRedis}}
+    {{#runtimeQuarkus}}
       'QUARKUS_REDIS_HOSTS': 'redis://${redis.outputs.redis_key}@${redis.outputs.redis_host}:6380'
-{{/runtimeQuarkus}}
-{{#runtimeSpring}}
+    {{/runtimeQuarkus}}
+    {{#runtimeSpring}}
       'SPRING_REDIS_HOST': redis.outputs.redis_host
       'SPRING_REDIS_PASSWORD': redis.outputs.redis_key
       'SPRING_REDIS_PORT': '6380'
       'SPRING_REDIS_SSL': 'true'
-{{/runtimeSpring}}
-{{#runtimeDefault}}
+    {{/runtimeSpring}}
+    {{#runtimeDefault}}
       'REDIS_HOST': redis.outputs.redis_host
       'REDIS_PASSWORD': redis.outputs.redis_key
       'REDIS_PORT': '6380'
-{{/runtimeDefault}}
-{{/addonRedis}}
+    {{/runtimeDefault}}
+  {{/addonRedis}}
 }
 module springCloudApp 'modules/spring-cloud/spring-cloud.bicep' = {
   name: 'springCloudApp'

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.11"
+      version = "1.2.16"
     }
   }
 }
@@ -35,32 +35,25 @@ resource "azurecaf_name" "app_service_plan" {
 }
 
 # This creates the plan that the service use
-resource "azurerm_app_service_plan" "application" {
+resource "azurerm_service_plan" "application" {
   name                = azurecaf_name.app_service_plan.result
   resource_group_name = var.resource_group
   location            = var.location
 
-  kind     = "Linux"
-  reserved = true
+{{#applicationTierFree}}
+  sku_name = "F1"
+{{/applicationTierFree}}
+{{#applicationTierBasic}}
+  sku_name = "B1"
+{{/applicationTierBasic}}
+{{#applicationTierStandard}}
+  sku_name = "S1"
+{{/applicationTierStandard}}
+  os_type  = "Linux"
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
-  }
-
-  sku {
-{{#applicationTierFree}}
-    tier = "Free"
-    size = "F1"
-{{/applicationTierFree}}
-{{#applicationTierBasic}}
-    tier = "Basic"
-    size = "B1"
-{{/applicationTierBasic}}
-{{#applicationTierStandard}}
-    tier = "Standard"
-    size = "S1"
-{{/applicationTierStandard}}
   }
 }
 
@@ -71,11 +64,11 @@ resource "azurecaf_name" "app_service" {
 }
 
 # This creates the service definition
-resource "azurerm_app_service" "application" {
+resource "azurerm_linux_web_app" "application" {
   name                = azurecaf_name.app_service.result
   resource_group_name = var.resource_group
   location            = var.location
-  app_service_plan_id = azurerm_app_service_plan.application.id
+  service_plan_id     = azurerm_service_plan.application.id
   https_only          = true
 
   tags = {
@@ -86,34 +79,55 @@ resource "azurerm_app_service" "application" {
   site_config {
 {{#applicationTierFree}}
   {{#runtimeDocker}}
-    linux_fx_version          = "DOCKER|${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}:latest"
+    application_stack {
+      docker_image     = "${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}"
+      docker_image_tag = "latest"
+    }
   {{/runtimeDocker}}
   {{#runtimeJava}}
-    linux_fx_version          = "JAVA|11-java11"
+    application_stack {
+      java_server         = "JAVA"
+      java_server_version = "11"
+      java_version        = "java11"
+    }
   {{/runtimeJava}}
   {{#runtimeDotnet}}
-    linux_fx_version          = "DOTNETCORE|6.0"
+    application_stack {
+      dotnet_version = "6.0"
+    }
   {{/runtimeDotnet}}
   {{#runtimeNodejs}}
-    linux_fx_version          = "NODE|16-lts"
+    application_stack {
+      node_version = "16-lts"
+    }
     app_command_line          = "npm run start:prod"
   {{/runtimeNodejs}}
     always_on                 = false
-    use_32_bit_worker_process = true
     ftps_state                = "FtpsOnly"
 {{/applicationTierFree}}
 {{^applicationTierFree}}
   {{#runtimeDocker}}
-    linux_fx_version = "DOCKER|${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}:latest"
+    application_stack {
+      docker_image     = "${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}"
+      docker_image_tag = "latest"
+    }
   {{/runtimeDocker}}
   {{#runtimeJava}}
-    linux_fx_version = "JAVA|11-java11"
+    application_stack {
+      java_server         = "JAVA"
+      java_server_version = "11"
+      java_version        = "java11"
+    }
   {{/runtimeJava}}
   {{#runtimeDotnet}}
-    linux_fx_version = "DOTNETCORE|6.0"
+    application_stack {
+      dotnet_version = "6.0"
+    }
   {{/runtimeDotnet}}
   {{#runtimeNodejs}}
-    linux_fx_version = "NODE|16-lts"
+    application_stack {
+      node_version = "16-lts"
+    }
     app_command_line = "npm run start:prod"
   {{/runtimeNodejs}}
     always_on        = true
@@ -273,7 +287,7 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_key_vault_access_policy" "application" {
   key_vault_id = var.vault_id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_app_service.application.identity[0].principal_id
+  object_id    = azurerm_linux_web_app.application.identity[0].principal_id
 
   secret_permissions = [
     "Get",
@@ -284,7 +298,7 @@ resource "azurerm_key_vault_access_policy" "application" {
 {{#NetworkVNet}}
 
 resource "azurerm_app_service_virtual_network_swift_connection" "swift_connection" {
-  app_service_id = azurerm_app_service.application.id
+  app_service_id = azurerm_linux_web_app.application.id
   subnet_id      = var.subnet_id
 }
 {{/NetworkVNet}}
