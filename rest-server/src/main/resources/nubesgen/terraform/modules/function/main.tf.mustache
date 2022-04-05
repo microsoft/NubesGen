@@ -69,7 +69,7 @@ resource "azurerm_linux_function_app" "application" {
   storage_account_name        = azurerm_storage_account.application.name
   storage_account_access_key  = azurerm_storage_account.application.primary_access_key
   https_only                  = true
-  functions_extension_version = "~3"
+  functions_extension_version = "~4"
 
   tags = {
     "environment"      = var.environment
