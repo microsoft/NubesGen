@@ -62,6 +62,10 @@ public class ScanCommand implements Callable<Integer> {
             if (mavenFile.exists()) {
                 Output.printInfo("Maven detected");
                 testFile = Files.readString(mavenFile.toPath());
+                if (testFile.contains("spring-cloud-starter-function") || testFile.contains("azure-functions-java-library")) {
+                    Output.printInfo("Project type detected: Azure Functions");
+                    getRequest = "?application=FUNCTION.consumption";
+                }
                 if (testFile.contains("org.springframework.boot")) {
                     Output.printInfo("Runtime selected: Spring Boot + Maven");
                     getRequest += "&runtime=SPRING";
@@ -77,6 +81,10 @@ public class ScanCommand implements Callable<Integer> {
             } else if (gradleFile.exists()) {
                 Output.printInfo("Gradle project detected");
                 testFile = Files.readString(gradleFile.toPath());
+                if (testFile.contains("spring-cloud-starter-function") || testFile.contains("azure-functions-java-library")) {
+                    Output.printInfo("Project type detected: Azure Functions");
+                    getRequest = "?application=FUNCTION.consumption";
+                }
                 if (testFile.contains("org.springframework.boot")) {
                     Output.printInfo("Runtime selected: Spring Boot + Gradle");
                     getRequest += "&runtime=SPRING_GRADLE";
