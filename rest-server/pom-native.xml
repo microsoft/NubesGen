@@ -16,7 +16,7 @@ To build the native image, run `./mvnw spring-boot:build-image -f pom-native.xml
     </parent>
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen</artifactId>
-    <version>0.11.2-native</version>
+    <version>0.11.3-native-SNAPSHOT</version>
     <name>nubesgen-native</name>
     <packaging>jar</packaging>
     <description>NubesGen REST server</description>
