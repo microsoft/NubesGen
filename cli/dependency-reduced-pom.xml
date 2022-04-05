@@ -4,13 +4,13 @@
   <groupId>io.github.nubesgen</groupId>
   <artifactId>nubesgen-cli</artifactId>
   <name>nubesgen-cli</name>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.1.1-SNAPSHOT</version>
   <description>NubesGen CLI</description>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.10.1</version>
         <configuration>
           <annotationProcessorPaths>
             <path>
@@ -27,14 +27,14 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
+        <version>3.0.0</version>
         <configuration>
           <mainClass>${app.main.class}</mainClass>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.2.2</version>
         <configuration>
           <archive>
             <manifest>
@@ -45,7 +45,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <phase>package</phase>
