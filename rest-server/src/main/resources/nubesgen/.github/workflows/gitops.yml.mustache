@@ -240,7 +240,7 @@ jobs:
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
   <%/applicationTypeAppService%>
   <%#applicationTypeFunction%>
-      - name: Deploy a NodeJS application to Azure App Service
+      - name: Deploy a NodeJS application to Azure Functions
         uses: microsoft/nubesgen-actions/gitops-deploy-to-function-nodejs@<%compositeActionsVersion%>
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
