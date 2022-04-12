@@ -59,7 +59,7 @@ To build the native image, run `./mvnw spring-boot:build-image -f pom-native.xml
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-blob</artifactId>
-            <version>12.15.0</version>
+            <version>12.16.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.experimental</groupId>
