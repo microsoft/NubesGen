@@ -111,7 +111,7 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   spring_cloud_app_id = azurerm_spring_cloud_app.application.id
   instance_count      = 1
 {{#runtimeJava}}
-  runtime_version     = "Java_11"
+  runtime_version     = "Java_17"
 {{/runtimeJava}}
 
   quota {
