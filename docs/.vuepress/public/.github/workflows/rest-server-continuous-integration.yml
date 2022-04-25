@@ -80,7 +80,7 @@ jobs:
           check-latest: false
           cache: 'maven'
       - name: Build the Docker image
-        run: mvn -f pom-native.xml spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}:main -DskipTests
+        run: mvn -Pnative spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}:main -DskipTests
         working-directory: ${{ github.workspace }}/rest-server
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
