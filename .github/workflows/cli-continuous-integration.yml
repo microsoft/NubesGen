@@ -45,7 +45,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        graalvm-version: ['22.0.0.2']
+        graalvm-version: ['22.1.0']
         jdk-version: ['17']
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
