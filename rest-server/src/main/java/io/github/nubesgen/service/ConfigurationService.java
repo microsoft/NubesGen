@@ -127,7 +127,7 @@ public class ConfigurationService {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
             applicationConfiguration.setApplicationType(ApplicationType.SPRING_CLOUD);
             if (!runtime.equals(RuntimeType.SPRING.name()) && !runtime.equals(RuntimeType.SPRING_GRADLE.name())) {
-                log.debug("Azure Spring Cloud only supports the Spring runtime, switching to Spring by default");
+                log.debug("Azure Spring Apps only supports the Spring runtime, switching to Spring by default");
                 properties.setRuntimeType(RuntimeType.SPRING);
             }
             if (application.endsWith(Tier.BASIC.name())) {

@@ -15,5 +15,5 @@ output "application_name" {
 
 output "spring_cloud_service_name" {
   value       = module.application.spring_cloud_service_name
-  description = "Azure Spring Cloud service name"
+  description = "Azure Spring Apps service name"
 }

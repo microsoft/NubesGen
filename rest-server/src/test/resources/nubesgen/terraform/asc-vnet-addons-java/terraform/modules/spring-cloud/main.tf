@@ -1,15 +1,15 @@
-# Azure Spring Cloud is not yet supported in azurecaf_name
+# Azure Spring Apps is not yet supported in azurecaf_name
 locals {
   spring_cloud_service_name = "asc-${var.application_name}-${var.environment}"
   spring_cloud_app_name     = "app-${var.application_name}"
   cosmosdb_association_name = "${var.application_name}-cosmos"
   redis_association_name    = "${var.application_name}-redis"
 
-  # Azure Spring Cloud Resource Provider object id. It is a constant and it is required to manage the VNET.
+  # Azure Spring Apps Resource Provider object id. It is a constant and it is required to manage the VNET.
   azure_spring_cloud_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
 }
 
-# Assign Owner role to Azure Spring Cloud Resource Provider on the Virtual Network used by the deployed service
+# Assign Owner role to Azure Spring Apps Resource Provider on the Virtual Network used by the deployed service
 # Make sure the SPID used to provision terraform has privileges to do role assignments.
 resource "azurerm_role_assignment" "provider_owner" {
   scope                = var.virtual_network_id
@@ -17,7 +17,7 @@ resource "azurerm_role_assignment" "provider_owner" {
   principal_id         = local.azure_spring_cloud_provisioner_object_id
 }
 
-# This creates the Azure Spring Cloud that the service use
+# This creates the Azure Spring Apps that the service use
 resource "azurerm_spring_cloud_service" "application" {
   name                = local.spring_cloud_service_name
   resource_group_name = var.resource_group
@@ -43,7 +43,7 @@ resource "azurerm_spring_cloud_service" "application" {
   ]
 }
 
-# Gets the Azure Spring Cloud internal load balancer IP address once it is deployed
+# Gets the Azure Spring Apps internal load balancer IP address once it is deployed
 data "azurerm_lb" "asc_internal_lb" {
   resource_group_name = "ap-svc-rt_${azurerm_spring_cloud_service.application.name}_${azurerm_spring_cloud_service.application.location}"
   name                = "kubernetes-internal"
@@ -58,7 +58,7 @@ resource "azurerm_private_dns_zone" "private_dns_zone" {
   resource_group_name = var.resource_group
 }
 
-# Link DNS to Azure Spring Cloud virtual network
+# Link DNS to Azure Spring Apps virtual network
 resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_link_asc" {
   name                  = "asc-dns-link"
   resource_group_name   = var.resource_group
@@ -66,7 +66,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_link_
   virtual_network_id    = var.virtual_network_id
 }
 
-# Creates an A record that points to Azure Spring Cloud internal balancer IP
+# Creates an A record that points to Azure Spring Apps internal balancer IP
 resource "azurerm_private_dns_a_record" "internal_lb_record" {
   name                = "*"
   zone_name           = azurerm_private_dns_zone.private_dns_zone.name
