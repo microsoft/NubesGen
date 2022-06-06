@@ -596,10 +596,10 @@
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                              @click="updateAppType('SPRING_CLOUD')"
                                              :class="components.frontApp.type==='SPRING_CLOUD' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
-                                            <img class="w-8 h-8" src="img/icon-spring-cloud.svg" alt="Azure Spring Cloud logo">
+                                            <img class="w-8 h-8" src="img/icon-spring-cloud.svg" alt="Azure Spring Apps logo">
                                             <div class="text-lg font-semibold">
                                                 Spring Boot Application
-                                                <p class="text-sm font-normal text-black-500">Azure Spring Cloud</p>
+                                                <p class="text-sm font-normal text-black-500">Azure Spring Apps</p>
                                                 <p class="text-sm italic text-black-500">Supports Spring Boot.</p>
                                                 <div x-show="components.frontApp.type==='SPRING_CLOUD'">
                                                     <p class="font-normal text-black-500 text-sm mt-4">Select your
@@ -765,7 +765,7 @@
 
                                         </div>
 
-                                        <!-- Azure Spring Cloud Tiers -->
+                                        <!-- Azure Spring Apps Tiers -->
                                         <div class="p-3 border bg-white rounded px-5 py-6"
                                              :class="components.frontApp.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
                                              x-show="components.frontApp.type==='SPRING_CLOUD'">

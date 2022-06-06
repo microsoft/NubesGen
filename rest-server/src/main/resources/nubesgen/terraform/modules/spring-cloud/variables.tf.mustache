@@ -107,17 +107,17 @@ variable "azure_cosmosdb_mongodb_uri" {
 
 variable "virtual_network_id" {
   type        = string
-  description = "Virtual Network ID where Azure Spring Cloud will be deployed"
+  description = "Virtual Network ID where Azure Spring Apps will be deployed"
 }
 
 variable "app_subnet_id" {
   type        = string
-  description = "Azure Spring Cloud apps subnet ID"
+  description = "Azure Spring Apps apps subnet ID"
 }
 
 variable "service_subnet_id" {
   type        = string
-  description = "Azure Spring Cloud services subnet ID"
+  description = "Azure Spring Apps services subnet ID"
 }
 
 variable "cidr_ranges" {
