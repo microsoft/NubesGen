@@ -1,6 +1,6 @@
 # Contributing to NubesGen
 
-There are many ways to contribute to Meilisearch, such as:
+There are many ways to contribute to NubesGen, such as:
 
 - Contributing to the [NubesGen engine](https://github.com/microsoft/nubesgen/blob/master/CONTRIBUTING.md)
 - [Contributing to the documentation](/contributing/documentation/)
