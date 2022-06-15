@@ -10,7 +10,7 @@ We _know Azure_, we _know your framework_ and we even know undocumented settings
 Sometimes, the Azure Product groups needs to make a choice about default values. Most of the times, they’ll choose the best common denominator across all languages, or all frameworks in a specific language. We can be more precise than Azure defaults, and thus give you a better experience.
 
 ## Your framework, your project, your rules
-NubesGen is not an _all-in-pne generator_. We will never be better than [start.spring.io](https://start.spring.io) to generate Java Spring projects, we can’t be as versatile as `dotnet new`. So, we do **not** want to generate actual code. 
+NubesGen is not an _all-in-one generator_. We will never be better than [start.spring.io](https://start.spring.io) to generate Java Spring projects, we can’t be as versatile as `dotnet new`. So, we do **not** want to generate actual code. 
 Our mission is to simplify the experience from code to production. Infrastructure as Code, Testing, CD/CI pipelines and developer experience tools are our sweet spot.
 
 ## No future regrets
