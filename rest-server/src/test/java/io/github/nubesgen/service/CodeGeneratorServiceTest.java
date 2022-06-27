@@ -71,6 +71,24 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    void generateDefaultMicronautConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp");
+        properties.setRuntimeType(RuntimeType.MICRONAUT);
+        properties.setRegion("westeurope");
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+            properties,
+            "terraform/app-service-micronaut",
+            configuration,
+            this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+            this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name())
+        );
+    }
+
+    @Test
     void generateGitOpsMavenConfiguration() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-gitops-testapp");

@@ -81,6 +81,40 @@ public class NubesgenConfigurationTest {
     }
 
     @Test
+    void checkConfigurationMicronautRuntime() {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setRuntimeType(RuntimeType.MICRONAUT);
+
+        assertTrue(properties.isRuntimeMicronaut());
+        assertTrue(properties.isRuntimeJava());
+        assertTrue(properties.isRuntimeMaven());
+
+        assertFalse(properties.isRuntimeDefault());
+        assertFalse(properties.isRuntimeSpring());
+        assertFalse(properties.isRuntimeDocker());
+        assertFalse(properties.isRuntimeGradle());
+        assertFalse(properties.isRuntimeDotnet());
+        assertFalse(properties.isRuntimeNodejs());
+    }
+
+    @Test
+    void checkConfigurationMicronautGradleRuntime() {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setRuntimeType(RuntimeType.MICRONAUT_GRADLE);
+
+        assertTrue(properties.isRuntimeMicronaut());
+        assertTrue(properties.isRuntimeJava());
+        assertTrue(properties.isRuntimeGradle());
+
+        assertFalse(properties.isRuntimeDefault());
+        assertFalse(properties.isRuntimeSpring());
+        assertFalse(properties.isRuntimeDocker());
+        assertFalse(properties.isRuntimeMaven());
+        assertFalse(properties.isRuntimeDotnet());
+        assertFalse(properties.isRuntimeNodejs());
+    }
+
+    @Test
     void checkConfigurationJavaRuntime() {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setRuntimeType(RuntimeType.JAVA);

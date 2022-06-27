@@ -21,6 +21,8 @@ public enum RuntimeType {
     SPRING_GRADLE,
     QUARKUS,
     QUARKUS_NATIVE,
+    MICRONAUT_GRADLE,
+    MICRONAUT,
     DOTNET,
     NODEJS,
     PYTHON,

@@ -103,6 +103,10 @@ public class ConfigurationService {
             properties.setRuntimeType(RuntimeType.QUARKUS);
         } else if (runtime.equals(RuntimeType.QUARKUS_NATIVE.name())) {
             properties.setRuntimeType(RuntimeType.QUARKUS_NATIVE);
+        } else if (runtime.equals(RuntimeType.MICRONAUT.name())) {
+            properties.setRuntimeType(RuntimeType.MICRONAUT);
+        } else if (runtime.equals(RuntimeType.MICRONAUT_GRADLE.name())) {
+            properties.setRuntimeType(RuntimeType.MICRONAUT_GRADLE);
         } else if (runtime.equals(RuntimeType.NODEJS.name())) {
             properties.setRuntimeType(RuntimeType.NODEJS);
         } else if (runtime.equals(RuntimeType.PYTHON.name())) {
