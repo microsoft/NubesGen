@@ -419,7 +419,7 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-testapp-app-service-python");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.PYTHON);
-        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.SQL_SERVER, Tier.SERVERLESS));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
         properties.setGitops(true);
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);

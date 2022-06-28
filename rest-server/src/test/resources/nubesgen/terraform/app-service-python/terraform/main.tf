@@ -9,6 +9,7 @@ terraform {
       version = "1.2.16"
     }
   }
+  backend "azurerm" {}
 }
 
 provider "azurerm" {
@@ -35,6 +36,9 @@ resource "azurerm_resource_group" "main" {
     "environment"      = local.environment
     "application-name" = var.application_name
     "nubesgen-version" = "test"
+
+    // Name of the Azure Storage Account that stores the Terraform state
+    "terraform_storage_account" = var.terraform_storage_account
   }
 }
 

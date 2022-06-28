@@ -23,6 +23,7 @@ public class NubesgenConfigurationTest {
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
+        assertFalse(properties.isRuntimePython());
     }
 
     @Test
@@ -40,6 +41,7 @@ public class NubesgenConfigurationTest {
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
+        assertFalse(properties.isRuntimePython());
     }
 
     @Test
@@ -57,6 +59,7 @@ public class NubesgenConfigurationTest {
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
+        assertFalse(properties.isRuntimePython());
     }
 
     @Test
@@ -74,6 +77,7 @@ public class NubesgenConfigurationTest {
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
+        assertFalse(properties.isRuntimePython());
     }
 
     @Test
@@ -91,6 +95,7 @@ public class NubesgenConfigurationTest {
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
+        assertFalse(properties.isRuntimePython());
     }
 
     @Test
@@ -108,6 +113,7 @@ public class NubesgenConfigurationTest {
         assertFalse(properties.isRuntimeDocker());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
+        assertFalse(properties.isRuntimePython());
     }
 
     @Test
@@ -125,6 +131,7 @@ public class NubesgenConfigurationTest {
         assertFalse(properties.isRuntimeDocker());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
+        assertFalse(properties.isRuntimePython());
     }
 
     @Test
@@ -142,6 +149,7 @@ public class NubesgenConfigurationTest {
         assertFalse(properties.isRuntimeMaven());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
+        assertFalse(properties.isRuntimePython());
     }
 
     @Test
@@ -159,6 +167,7 @@ public class NubesgenConfigurationTest {
         assertFalse(properties.isRuntimeDocker());
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeNodejs());
+        assertFalse(properties.isRuntimePython());
     }
 
     @Test
@@ -169,6 +178,25 @@ public class NubesgenConfigurationTest {
         assertTrue(properties.isRuntimeNodejs());
         assertTrue(properties.isRuntimeDefault());
 
+        assertFalse(properties.isRuntimeDotnet());
+        assertFalse(properties.isRuntimeQuarkus());
+        assertFalse(properties.isRuntimeJava());
+        assertFalse(properties.isRuntimeMaven());
+        assertFalse(properties.isRuntimeSpring());
+        assertFalse(properties.isRuntimeDocker());
+        assertFalse(properties.isRuntimeGradle());
+        assertFalse(properties.isRuntimePython());
+    }
+
+    @Test
+    void checkConfigurationPythonRuntime() {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setRuntimeType(RuntimeType.PYTHON);
+
+        assertTrue(properties.isRuntimePython());
+        assertTrue(properties.isRuntimeDefault());
+
+        assertFalse(properties.isRuntimeNodejs());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeJava());

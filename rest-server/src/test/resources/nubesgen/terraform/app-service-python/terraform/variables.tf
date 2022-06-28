@@ -1,7 +1,13 @@
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = "nubesgen-testapp-python"
+  default     = "nubesgen-testapp-app-service-python"
+}
+
+variable "terraform_storage_account" {
+  type        = string
+  description = "When using an Azure back-end, the name of the Azure Storage Account that stores the Terraform state"
+  default     = ""
 }
 
 variable "environment" {

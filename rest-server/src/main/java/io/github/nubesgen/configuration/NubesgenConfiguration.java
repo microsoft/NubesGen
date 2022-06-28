@@ -248,6 +248,11 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isRuntimePython() {
+        return RuntimeType.PYTHON.equals(this.getRuntimeType());
+    }
+
+    @JsonIgnore
     public boolean isRuntimeDefault() {
         return !isRuntimeSpring() && !isRuntimeQuarkus();
     }
