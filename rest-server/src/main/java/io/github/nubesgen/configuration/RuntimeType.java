@@ -23,4 +23,5 @@ public enum RuntimeType {
     QUARKUS_NATIVE,
     DOTNET,
     NODEJS,
+    PYTHON,
 }

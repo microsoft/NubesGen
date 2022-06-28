@@ -1,9 +1,6 @@
 package io.github.nubesgen.cli.subcommand;
 
-import io.github.nubesgen.cli.subcommand.scan.DotNetScanner;
-import io.github.nubesgen.cli.subcommand.scan.GenericScanner;
-import io.github.nubesgen.cli.subcommand.scan.JavaScanner;
-import io.github.nubesgen.cli.subcommand.scan.NodeJsScanner;
+import io.github.nubesgen.cli.subcommand.scan.*;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
@@ -56,6 +53,7 @@ public class ScanCommand implements Callable<Integer> {
         File mavenFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "pom.xml");
         File gradleFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "build.gradle");
         File nodejsFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "package.json");
+        File pythonFile = new File(workingDirectory + FileSystems.getDefault().getSeparator() + "requirements.txt");
         Optional<Path> dotnetFile = dotNetFinder(workingDirectory);
         String testFile;
         try {
@@ -106,6 +104,12 @@ public class ScanCommand implements Callable<Integer> {
                 getRequest += "&runtime=DOTNET";
                 getRequest = DotNetScanner.dotnetDatabaseScanner(testFile, getRequest);
                 getRequest = DotNetScanner.dotnetAddOnScanner(testFile, getRequest);
+            } else if (pythonFile.exists()) {
+                Output.printInfo("Python project detected");
+                testFile = Files.readString(pythonFile.toPath());
+                getRequest += "&runtime=PYTHON";
+                getRequest = PythonScanner.pythonDatabaseScanner(testFile, getRequest);
+                getRequest = PythonScanner.pythonAddOnScanner(testFile, getRequest);
             } else {
                 Output.printInfo("Runtime couldn't be detected, failing back to Docker");
                 List<String> addOns = new ArrayList<>();
