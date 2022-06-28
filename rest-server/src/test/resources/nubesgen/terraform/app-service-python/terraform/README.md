@@ -9,8 +9,8 @@ curl "" | tar -xzvf -
 ```
 
 Resources:
-- [NubesGen documentation](https://github.com/microsoft/NubesGen/blob/main/docs/README.md)
-- [Getting started with NubesGen](https://github.com/microsoft/NubesGen/blob/main/docs/getting-started.md)
+- [NubesGen documentation](https://docs.nubesgen.com)
+- [What is NubesGen?](https://docs.nubesgen.com/what-is-nubesgen/overview/)
 - [NubesGen source code on GitHub](https://github.com/microsoft/NubesGen)
 
 ## Running Terraform
