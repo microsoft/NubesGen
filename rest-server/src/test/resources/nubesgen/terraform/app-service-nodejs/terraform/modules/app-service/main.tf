@@ -51,7 +51,6 @@ resource "azurerm_linux_web_app" "application" {
     application_stack {
       node_version = "16-lts"
     }
-    app_command_line          = "npm run start:prod"
     always_on                 = false
     ftps_state                = "FtpsOnly"
   }
