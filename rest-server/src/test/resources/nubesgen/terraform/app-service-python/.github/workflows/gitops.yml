@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Build a Python project
-        uses: microsoft/nubesgen-actions/gitops-build-python@main
+        uses: microsoft/nubesgen-actions/gitops-build-python@v0.8.0
         with:
           python_version: ${{ env.PYTHON_VERSION }}
           application_package_path: ${{ env.APP_PACKAGE_PATH }}

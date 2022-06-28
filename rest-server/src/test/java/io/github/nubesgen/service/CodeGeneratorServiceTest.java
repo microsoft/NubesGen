@@ -430,8 +430,7 @@ class CodeGeneratorServiceTest {
                 configuration,
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
-                this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name()),
-                this.templateListService.listModuleTemplates("terraform", DatabaseType.SQL_SERVER.name())
+                this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name())
         );
     }
 

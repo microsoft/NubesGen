@@ -58,5 +58,7 @@ resource "azurerm_linux_web_app" "application" {
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "SCM_DO_BUILD_DURING_DEPLOYMENT"      = "true"
+
+    # These are app specific environment variables
   }
 }
