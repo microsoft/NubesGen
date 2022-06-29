@@ -4,7 +4,7 @@ This documentation is for running Node.js applications with NubesGen, and there 
 
 - As Node.js applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
-NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Node.js application that you which to deploy.
+NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Node.js application that you wish to deploy.
 
 ## Tutorial: running a Node.js application with NubesGen
 
