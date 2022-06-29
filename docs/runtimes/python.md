@@ -1,12 +1,12 @@
-# Using Node.js with NubesGen
+# Using Python with NubesGen
 
-This documentation is for running Node.js applications with NubesGen, and there is another option that might interest you:
+This documentation is for running Python applications with NubesGen, and there is another option that might interest you:
 
-- As Node.js applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
+- As Python applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
-NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Node.js application that you wish to deploy.
+NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Python application that you wish to deploy.
 
-## Tutorial: running a Node.js application with NubesGen
+## Tutorial: running a Python application with NubesGen
 
 __Prerequisites:__
 
@@ -16,41 +16,38 @@ _Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesge
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
 __Steps:__
-1. Create a sample Node.js Web application using [NestJs](https://nestjs.com/).
-   We'll follow the beginning of the [NestJs "first steps" guide](https://docs.nestjs.com/first-steps):
-   ```bash
-   npm i -g @nestjs/cli
-   nest new nodejs-sample-app
-   cd nodejs-sample-app
+1. Create a sample Python Web application using [Flask](https://flask.palletsprojects.com/).
+   We'll follow the beginning of the [Flask "a Minimal Application" guide](https://flask.palletsprojects.com/quickstart/#a-minimal-application):
+   Create a new file called `app.py` in the root of your project.
+   ```python
+   from flask import Flask
+
+   app = Flask(__name__)
+
+   @app.route("/")
+   def hello_world():
+    return "<p>Hello, World!</p>"
    ```
-   Select the default package manager (`npm`).
-   In the project, open the `src/main.ts` file, and use the `$PORT` environment variable to bind your application
-   to the correct port: 
-   ```javascript
-   await app.listen(process.env.PORT || 3000);
+   To manage the project's dependencies, create a file called `requirements.txt` in the root of your project.
+   ```text
+   Flask==2.1.2
    ```
-   Open `package.json` file, and add the `files` entry to tell NPM how to package your app:
-   ```json
-   "files": [
-      "dist"
-   ]
-   ```
-2. Create a project on GitHub called `nodejs-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
+2. Create a project on GitHub called `python-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
    git init
    git add .
    git commit -m "first commit"
-   git remote add origin https://github.com/<your-github-account>/nodejs-sample-app.git
+   git remote add origin https://github.com/<your-github-account>/python-sample-app.git
    git branch -M main
    git push -u origin main
    ```
-3. In the cloned project (`cd nodejs-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
+3. In the cloned project (`cd python-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ```bash
     ./nubesgen-cli-linux gitops
     ```
 4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
-   curl "https://nubesgen.com/demo.tgz?runtime=nodejs&application=app_service.standard&gitops=true" | tar -xzvf -
+   curl "https://nubesgen.com/demo.tgz?runtime=python&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
 5. Create a new branch called `env-dev`, and push your code:
    ```bash
@@ -63,51 +60,28 @@ __Steps:__
 7. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
 8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`,
    and you can also find it in the GitHub Action workflow (Job: "display-information", step "Display Azure infrastructure information"), or in the Azure portal.
-   As it is a simple application, it should print by default `Hello, world`.
+   As it is a simple application, it should print by default `Hello, World!`.
 9. Once you have finished, you should clean up your resources:
   1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-demo-XXXX-XXXX-XXXX-XXXX-001`.
   2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group.
 
 ## Which Azure resources are created
 
-If you deploy your Node.js application to an Azure App Service instance, NubesGen will generate:
+If you deploy your Python application to an Azure App Service instance, NubesGen will generate:
 
 - An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of App Service instance you will use.
-- An [Azure App Service instance](https://aka.ms/nubesgen-app-service), configured to run Node.js code natively.
+- An [Azure App Service instance](https://aka.ms/nubesgen-app-service), configured to run Python code natively.
 
-If you deploy your Node.js application to an Azure Function, NubesGen will generate:
+If you deploy your Python application to an Azure Function, NubesGen will generate:
 
 - An [Azure App Service plan](https://aka.ms/nubesgen-app-service-plans) to define the type of Azure Functions instance you will use.
-- An [Azure Functions instance](https://aka.ms/nubesgen-functions), configured to run Node.js code natively.
-- An [Azure Storage Account](https://aka.ms/nubesgen-storage), to store your Node.js application.
+- An [Azure Functions instance](https://aka.ms/nubesgen-functions), configured to run Python code natively.
+- An [Azure Storage Account](https://aka.ms/nubesgen-storage), to store your Python application.
 
 ## Configuration options
 
 In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some variables
 for your application.
-
-### The `app_command_line` parameter
-
-In the `site_config` block, NubesGen generates the following configuration:
-
-```
-app_command_line = "npm run start:prod"
-```
-
-This command is the one used to run the Node.js application. By default, this command
-is `npm run start:prod`, which is the default with [NestJS](https://nestjs.com/), but this
-should be specifically configured depending on the framework used.
-
-### The `PORT` environment variable
-
-Azure App Service automatically assigns the `PORT` variable, so your Node.js application
-can listen to the correct port.
-
-You need to configure it in your application:
-
-```javascript
-app.listen(process.env.PORT || 3000);
-```
 
 ### Other options
 
