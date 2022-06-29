@@ -102,6 +102,11 @@ resource "azurerm_linux_web_app" "application" {
     }
     app_command_line          = "npm run start:prod"
   {{/runtimeNodejs}}
+  {{#runtimePython}}
+    application_stack {
+      python_version = "3.9"
+    }
+  {{/runtimePython}}
     always_on                 = false
     ftps_state                = "FtpsOnly"
 {{/applicationTierFree}}
@@ -130,6 +135,11 @@ resource "azurerm_linux_web_app" "application" {
     }
     app_command_line = "npm run start:prod"
   {{/runtimeNodejs}}
+  {{#runtimePython}}
+    application_stack {
+      python_version = "3.9"
+    }
+  {{/runtimePython}}
     always_on        = true
     ftps_state       = "FtpsOnly"
 {{/applicationTierFree}}
@@ -147,6 +157,9 @@ resource "azurerm_linux_web_app" "application" {
     "WEBSITE_RUN_FROM_PACKAGE"            = "1"
     "WEBSITE_NODE_DEFAULT_VERSION"        = "~16"
 {{/runtimeNodejs}}
+{{#runtimePython}}
+    "SCM_DO_BUILD_DURING_DEPLOYMENT"      = "true"
+{{/runtimePython}}
 {{#runtimeDocker}}
     "DOCKER_REGISTRY_SERVER_URL"          = "https://${azurerm_container_registry.container-registry.name}.azurecr.io"
     "DOCKER_REGISTRY_SERVER_USERNAME"     = azurerm_container_registry.container-registry.admin_username

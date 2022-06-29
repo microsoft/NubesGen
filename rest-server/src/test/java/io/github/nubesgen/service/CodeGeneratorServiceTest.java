@@ -413,6 +413,27 @@ class CodeGeneratorServiceTest {
         );
     }
 
+    @Test
+    void generateAppServicePythonConfiguration() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-testapp-app-service-python");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.PYTHON);
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
+        properties.setGitops(true);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+                properties,
+                "terraform/app-service-python",
+                configuration,
+                this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", ApplicationType.APP_SERVICE.name())
+        );
+    }
+
     // @Test
     // void generateAppServiceWithBicep() throws IOException {
     //     NubesgenConfiguration properties = new NubesgenConfiguration();

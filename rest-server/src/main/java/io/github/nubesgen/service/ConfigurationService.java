@@ -105,6 +105,8 @@ public class ConfigurationService {
             properties.setRuntimeType(RuntimeType.QUARKUS_NATIVE);
         } else if (runtime.equals(RuntimeType.NODEJS.name())) {
             properties.setRuntimeType(RuntimeType.NODEJS);
+        } else if (runtime.equals(RuntimeType.PYTHON.name())) {
+            properties.setRuntimeType(RuntimeType.PYTHON);
         } else if (runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
             properties.setRuntimeType(RuntimeType.DOCKER_SPRING);
         } else {

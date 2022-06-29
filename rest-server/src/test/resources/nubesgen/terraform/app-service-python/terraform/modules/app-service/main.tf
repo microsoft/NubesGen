@@ -51,7 +51,6 @@ resource "azurerm_linux_web_app" "application" {
     application_stack {
       python_version = "3.9"
     }
-    app_command_line          = "npm run start:prod"
     always_on                 = false
     ftps_state                = "FtpsOnly"
   }
@@ -59,5 +58,7 @@ resource "azurerm_linux_web_app" "application" {
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "SCM_DO_BUILD_DURING_DEPLOYMENT"      = "true"
+
+    # These are app specific environment variables
   }
 }

@@ -8,6 +8,8 @@ NubesGen is a Web application that generates a cloud infrastructure using Terraf
 
 Using [GitOps practices](/gitops/gitops-overview), NubesGen can also fully automate applying that configuration: it provides one cloud infrastructure per branch in your project, and will build and deploy your code to this infrastructure.
 
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Aa7g7MUKwXM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## 5-minutes introduction
 
 "Infrastructure as Code" and Azure look complicated to you?
