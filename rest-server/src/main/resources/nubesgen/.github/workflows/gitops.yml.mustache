@@ -109,6 +109,11 @@ jobs:
           build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar
           package_path: ${{ github.workspace }}/target/*.[j,w]ar
       <%/runtimeQuarkus%>
+      <%#runtimeMicronaut%>
+        with:
+          build_command: mvn clean package
+          package_path: ${{ github.workspace }}/target/[^original]*.jar
+      <%/runtimeMicronaut%>
     <%/runtimeMaven%>
     <%#runtimeGradle%>
       - name: Build a Java project using Gradle
@@ -122,6 +127,11 @@ jobs:
           build_command: gradle quarkusBuild -Dquarkus.package.type=uber-jar
           package_path: ${{ github.workspace }}/build/libs/*-runner.jar
       <%/runtimeQuarkus%>
+      <%#runtimeMicronaut%>
+        with:
+          build_command: gradle assemble
+          package_path: ${{ github.workspace }}/build/libs/*-all.jar
+      <%/runtimeMicronaut%>
     <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]
