@@ -857,7 +857,7 @@ class CodeGeneratorServiceTest {
         String filename = template.substring(0, template.length() - ".mustache".length());
         File testFile = new ClassPathResource("nubesgen/" + testDirectory + "/" + filename).getFile();
         String test = new String(Files.readAllBytes(testFile.toPath()));
-log.info("Found {}", result);
+
         assertEquals(test, result);
     }
 }
