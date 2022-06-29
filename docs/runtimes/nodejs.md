@@ -1,6 +1,6 @@
 # Using Node.js with NubesGen
 
-This documentation is for running Node.js applications with NubesGen, and there is another options that might interest you:
+This documentation is for running Node.js applications with NubesGen, and there is another option that might interest you:
 
 - As Node.js applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
