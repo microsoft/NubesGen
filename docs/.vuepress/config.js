@@ -55,6 +55,7 @@ module.exports = {
               '/runtimes/quarkus',
               '/runtimes/spring-boot',
               '/runtimes/nodejs',
+              '/runtimes/python',
             ],
           },
           {
