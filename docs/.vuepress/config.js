@@ -56,6 +56,7 @@ module.exports = {
               '/runtimes/spring-boot',
               '/runtimes/nodejs',
               '/runtimes/python',
+              '/runtimes/micronaut',
             ],
           },
           {
