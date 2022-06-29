@@ -21,54 +21,42 @@ _Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesge
 __Steps:__
 1. Create a sample Java Web application using [https://launch.micronaut.io/](https://launch.micronaut.io/).
    ```bash
-   curl https://start.spring.io/starter.tgz?type=maven-project&language=java&bootVersion=2.6.5.RELEASE&baseDir=java-sample-app&groupId=com.example&artifactId=java-sample-app&name=java-sample-app&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.java-sample-app&packaging=jar&javaVersion=11&dependencies=web | tar -xzvf -
+   curl --location --request GET 'https://launch.micronaut.io/create/default/com.example.micronaut-sample-app?lang=JAVA&build=GRADLE&test=JUNIT&javaVersion=JDK_11' | tar -xzvf -
    ```
-2. Create a project on GitHub called `java-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
+2. Create a project on GitHub called `micronaut-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
-   cd sample-app
+   cd micronaut-sample-app
    git init
    git add .
    git commit -m "first commit"
-   git remote add origin https://github.com/<your-github-account>/java-sample-app.git
+   git remote add origin https://github.com/<your-github-account>/micronaut-sample-app.git
    git branch -M main
    git push -u origin main
    ```
-3. Add a simple controller in `src/main/java/com/example/HelloController.java` so we can check the application is running:
-   ```java
-   package com.example;
-
-   import io.micronaut.http.MediaType;
-   import io.micronaut.http.annotation.Controller;
-   import io.micronaut.http.annotation.Get;
-
-   @Controller
-   public class HelloController {
-    
-       @Get(produces = MediaType.TEXT_PLAIN)
-       String get() {
-           return "Hello World";
-       }
-   }
-   ```
-4. In the cloned project (`cd sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
+3. In the cloned project (`cd micronaut-sample-app`), set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
    ```bash
     ./nubesgen-cli-linux gitops
     ```
-5. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
+4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=micronaut_gradle&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
-6. Create a new branch called `env-dev`, and push your code:
+5. Push the generated terraform and GitHub action to the `main` branch of the repository:
+   ```bash
+   cd micronaut-sample-app
+   git add .
+   git commit -m "Configure GitOps with NubesGen"
+   git push -u origin main
+   ```
+6. Create a new branch called `env-dev`, and push it to trigger a build:
    ```bash
    git checkout -b env-dev
-   git add .
-   git commit -m 'Configure GitOps with NubesGen'
    git push --set-upstream origin env-dev
    ```
 7. Go to your GitHub project, and check that the GitHub Action is running.
 8. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
 9. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`, and you can also find it in the GitHub Action workflow (Job: "display-information", step "Display Azure infrastructure information"), or in the Azure portal.
-As it is an empty application, you should get 404 page called `Whitelabel Error Page`.
+As it is an empty application, you should get a 404 page with JSON describing the request.
 10. Once you have finished, you should clean up your resources:
     1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-demo-XXXX-XXXX-XXXX-XXXX-001`.
     2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group.
@@ -89,13 +77,12 @@ If you deploy your Micronaut application to an Azure Function, NubesGen will gen
 ## Maven vs Gradle
 
 NubesGen supports both Maven and Gradle, so you can use the build system you prefer.
+For Maven, change `runtime=micronaut_gradle` to `runtime=micronaut` in Step 5 above.
 
 ## Configuration options
 
-In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some environment variables
-for your application. Those are standard Micronaut
-properties, so your Micronaut application should be automatically configured 
-(for example: your database connection should be working out-of-the-box).
+In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some environment variables for your application.
+Those are standard Micronaut properties, so your Micronaut application should be automatically configured (for example: your database connection should be working out-of-the-box).
 
 - `DATASOURCES_DEFAULT_URL`: the JDBC URL to your database
 - `DATASOURCES_DEFAULT_USERNAME`: the database user name
