@@ -61,7 +61,7 @@ resource "azurerm_linux_web_app" "application" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 
     # These are app specific environment variables
-    "MICRONAUT_SERVER_PORT" = 80
-    "MICRONAUT_ENVIRONMENTS"   = "prod"
+    "MICRONAUT_ENVIRONMENTS"       = "prod,azure"
+    "MICRONAUT_SERVER_PORT"        = 80
   }
 }
