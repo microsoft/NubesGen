@@ -61,6 +61,64 @@ As it is an empty application, you should get a 404 page with JSON describing th
     1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-demo-XXXX-XXXX-XXXX-XXXX-001`.
     2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group.
 
+## Tutorial 2: running a Micronaut Guide project with a PostgreSQL database
+
+For this tutorial, we will take the Maven/Java Micronaut GraphQL guide project and deploy it to Azure using NubesGen GitOps.
+
+1. Go to the Maven/Java version of the [Micronaut Todos GraphQL guide](https://guides.micronaut.io/latest/micronaut-graphql-todo-maven-java.html).
+2. Download the [solution](https://guides.micronaut.io/latest/micronaut-graphql-todo-maven-java.html#solution) and extract it.
+3. Create a project on Github called `micronaut-graphql-todo-maven-java` and push the downloaded project to that repository. Change `<your-github-account>` by the name of your GitHub account:
+   ```bash
+   cd micronaut-graphql-todo-maven-java
+   git init
+   git add .
+   git commit -m "first commit"
+   git remote add origin https://github.com/<your-github-account>/micronaut-graphql-todo-maven-java.git
+   git branch -M main
+   git push -u origin main
+   ```
+4. In the same directory, set up GitOps with NubesGen by running the NubesGen CLI ([more information here](/gitops/gitops-quick-start/)):
+   ```bash
+    ./nubesgen-cli-linux gitops
+    ```
+5. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
+   ```bash
+   curl "https://nubesgen.com/demo.tgz?database=postgresql&runtime=micronaut&application=app_service.standard&gitops=true" | tar -xzvf -
+   ```
+6. Push the generated terraform and GitHub action to the `main` branch of the repository:
+   ```bash
+   git add .
+   git commit -m "Configure GitOps with NubesGen"
+   git push
+   ```
+7. Create a new branch called `env-dev`, and push it to trigger a build:
+   ```bash
+   git checkout -b env-dev
+   git push -u origin env-dev
+   ```
+8. Go to your GitHub project, and check that the GitHub Action is running.
+9. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
+10. Once deployed, you can access the application at `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`.
+   Add a TODO to the database:
+   ```bash
+   > curl -X POST 'https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/graphql' \
+          -H 'content-type: application/json' \
+          --data-binary '{"query":"mutation { createToDo(title:\"Create GraphQL Guide\", author:\"Tim Yates\") { id } }"}'
+
+   {"data":{"createToDo":{"id":"1"}}}
+   ```
+   List the current TODOs:
+   ```bash
+   > curl -X POST 'https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/graphql' \
+          -H 'content-type: application/json' \
+          --data-binary '{"query":"{ toDos { title, completed, author { username } } }"}'
+
+   {"data":{"toDos":[{"title":"Create GraphQL Guide","completed":false,"author":{"username":"Tim Yates"}}]}}
+   ```
+10. Once you have finished, you should clean up your resources:
+   1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-demo-XXXX-XXXX-XXXX-XXXX-001`.
+   2. Delete the storage account used to store your Terraform state, in the `rg-terraform-001` resource group.
+
 ## Which Azure resources will be created
 
 If you deploy your Micronaut application to an Azure App Service instance, NubesGen will generate:
