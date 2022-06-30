@@ -113,6 +113,10 @@ public class ConfigurationService {
             properties.setRuntimeType(RuntimeType.PYTHON);
         } else if (runtime.equals(RuntimeType.DOCKER_SPRING.name())) {
             properties.setRuntimeType(RuntimeType.DOCKER_SPRING);
+        } else if (runtime.equals(RuntimeType.DOCKER_MICRONAUT.name())) {
+            properties.setRuntimeType(RuntimeType.DOCKER_MICRONAUT);
+        } else if (runtime.equals(RuntimeType.DOCKER_MICRONAUT_GRADLE.name())) {
+            properties.setRuntimeType(RuntimeType.DOCKER_MICRONAUT_GRADLE);
         } else {
             properties.setRuntimeType(RuntimeType.DOCKER);
         }

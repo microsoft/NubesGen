@@ -193,6 +193,8 @@ public class NubesgenConfiguration {
         return (
             RuntimeType.DOCKER.equals(this.getRuntimeType()) ||
             RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_MICRONAUT.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_MICRONAUT_GRADLE.equals(this.getRuntimeType()) ||
             RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType())
         );
     }
@@ -213,6 +215,8 @@ public class NubesgenConfiguration {
     @JsonIgnore
     public boolean isRuntimeMicronaut() {
         return (
+            RuntimeType.DOCKER_MICRONAUT.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_MICRONAUT_GRADLE.equals(this.getRuntimeType()) ||
             RuntimeType.MICRONAUT.equals(this.getRuntimeType()) ||
             RuntimeType.MICRONAUT_GRADLE.equals(this.getRuntimeType())
         );
@@ -239,6 +243,7 @@ public class NubesgenConfiguration {
             RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
             RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType()) ||
             RuntimeType.MICRONAUT.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_MICRONAUT.equals(this.getRuntimeType()) ||
             RuntimeType.JAVA.equals(this.getRuntimeType())
         );
     }
@@ -248,7 +253,8 @@ public class NubesgenConfiguration {
         return (
             RuntimeType.SPRING_GRADLE.equals(this.getRuntimeType()) ||
             RuntimeType.JAVA_GRADLE.equals(this.getRuntimeType()) ||
-            RuntimeType.MICRONAUT_GRADLE.equals(this.getRuntimeType())
+            RuntimeType.MICRONAUT_GRADLE.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_MICRONAUT_GRADLE.equals(this.getRuntimeType())
         );
     }
 

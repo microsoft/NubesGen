@@ -86,6 +86,39 @@ jobs:
           application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
           container_registry_name:  ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
     <%/runtimeQuarkus%>
+    <%#runtimeMicronaut%>
+      <%#runtimeMaven%>
+      - name: Build a Micronaut docker image project using Maven
+        uses: microsoft/nubesgen-actions/gitops-build-java-maven@<%compositeActionsVersion%>
+        with:
+          build_command: mvn clean package -Dpackaging=docker -Djib.to.image=${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
+      <%/runtimeMaven%>
+      <%#runtimeGradle%>
+      - name: Build a Micronaut docker image project using Gradle
+        uses: microsoft/nubesgen-actions/gitops-build-java-gradle@<%compositeActionsVersion%>
+        id: dockerbuild
+        with:
+          build_command: gradle dockerBuild | tee stdout.txt
+      - name: Re-tag the image
+        run: |
+            echo "::group::Retagging docker image"
+            appname=$(grep -o '[^ ]\+:latest' stdout.txt)
+            echo "::debug::Found $appname"
+            docker tag $appname ${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
+        shell: bash
+      <%/runtimeGradle%>
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Push to Azure Container Registry
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          az acr login -n ${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io
+          docker push ${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
+        shell: bash
+    <%/runtimeMicronaut%>
     <%#runtimeDefault%>
       - name: Build and deploy a Docker image
         uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker@<%compositeActionsVersion%>

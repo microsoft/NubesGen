@@ -15,6 +15,8 @@ package io.github.nubesgen.configuration;
 public enum RuntimeType {
     DOCKER,
     DOCKER_SPRING,
+    DOCKER_MICRONAUT,
+    DOCKER_MICRONAUT_GRADLE,
     JAVA,
     JAVA_GRADLE,
     SPRING,
