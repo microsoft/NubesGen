@@ -91,17 +91,17 @@ jobs:
       - name: Build a Micronaut docker image project using Maven
         uses: microsoft/nubesgen-actions/gitops-build-java-maven@<%compositeActionsVersion%>
         with:
-          build_command: mvn clean package -Dpackaging=docker -Djib.to.image=${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
+          build_command: ./mvnw clean package -Dpackaging=docker -Djib.to.image=${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
       <%/runtimeMaven%>
       <%#runtimeGradle%>
       - name: Create an init script with the required image tag
         run: |
-            echo 'allprojects { afterEvaluate { tasks.named("dockerBuild") { images = ["${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}"] } } }' > /tmp/init.gradle
+          echo 'allprojects { afterEvaluate { tasks.named("dockerBuild") { images = ["${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}"] } } }' > /tmp/init.gradle
         shell: bash
       - name: Build a Micronaut docker image project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@<%compositeActionsVersion%>
         with:
-          build_command: gradle -I /tmp/init.gradle dockerBuild
+          build_command: ./gradlew -I /tmp/init.gradle dockerBuild
       <%/runtimeGradle%>
       - name: Login to Azure
         uses: azure/login@v1
@@ -145,7 +145,7 @@ jobs:
       <%/runtimeQuarkus%>
       <%#runtimeMicronaut%>
         with:
-          build_command: mvn clean package
+          build_command: ./mvnw clean package
           package_path: ${{ github.workspace }}/target/[^original]*.jar
       <%/runtimeMicronaut%>
     <%/runtimeMaven%>
@@ -163,7 +163,7 @@ jobs:
       <%/runtimeQuarkus%>
       <%#runtimeMicronaut%>
         with:
-          build_command: gradle assemble
+          build_command: ./gradlew assemble
           package_path: ${{ github.workspace }}/build/libs/*-all.jar
       <%/runtimeMicronaut%>
     <%/runtimeGradle%>

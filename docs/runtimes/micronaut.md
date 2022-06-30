@@ -2,8 +2,8 @@
 
 This documentation is for running Micronaut applications with NubesGen. There are two other options that might interest you:
 
-- You can also use [Java with NubesGen](java/), which is similar to Micronaut, but does not use the specific Micronaut application properties.
-- As Micronaut applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
+- You can also use [Java with NubesGen](java/), which is similar, but does not use the specific Micronaut Framework application properties.
+- As Micronaut Framework applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
 NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Micronaut application that you wish to deploy.
 
@@ -19,7 +19,7 @@ _Tip: You can go to [https://aka.ms/nubesgen-azure-shell](https://aka.ms/nubesge
 - (optional) [GitHub CLI](https://cli.github.com/). To login, use `gh auth login`.
 
 __Steps:__
-1. Create a sample Java Web application using [https://launch.micronaut.io/](https://launch.micronaut.io/).
+1. Create a sample Java Web application using [https://launch.micronaut.io/](https://launch.micronaut.io/). Here we are requesting a Gradle build.
    ```bash
    curl --location --request GET 'https://launch.micronaut.io/create/default/com.example.micronaut-sample-app?lang=JAVA&build=GRADLE&test=JUNIT&javaVersion=JDK_11' | tar -xzvf -
    ```
@@ -40,6 +40,10 @@ __Steps:__
 4. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?runtime=micronaut_gradle&application=app_service.standard&gitops=true" | tar -xzvf -
+   ```
+   Or if you have chosen a Maven build, then use the following command:
+   ```bash
+   curl "https://nubesgen.com/demo.tgz?runtime=micronaut&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
 5. Push the generated terraform and GitHub action to the `main` branch of the repository:
    ```bash
@@ -67,13 +71,13 @@ For this tutorial, we will take the Maven/Java Micronaut GraphQL guide project a
 
 1. Go to the Maven/Java version of the [Micronaut Todos GraphQL guide](https://guides.micronaut.io/latest/micronaut-graphql-todo-maven-java.html).
 2. Download the [solution](https://guides.micronaut.io/latest/micronaut-graphql-todo-maven-java.html#solution) and extract it.
-3. Create a project on Github called `micronaut-graphql-todo-maven-java` and push the downloaded project to that repository. Change `<your-github-account>` by the name of your GitHub account:
+3. Create a project on Github called `micronaut-graphql-todo` and push the downloaded project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
-   cd micronaut-graphql-todo-maven-java
+   cd micronaut-graphql-todo
    git init
    git add .
    git commit -m "first commit"
-   git remote add origin https://github.com/<your-github-account>/micronaut-graphql-todo-maven-java.git
+   git remote add origin https://github.com/<your-github-account>/micronaut-graphql-todo.git
    git branch -M main
    git push -u origin main
    ```
@@ -84,6 +88,10 @@ For this tutorial, we will take the Maven/Java Micronaut GraphQL guide project a
 5. Use the command-line with NubesGen ([more information here](/reference/rest-api/)) to generate a NubesGen configuration:
    ```bash
    curl "https://nubesgen.com/demo.tgz?database=postgresql&runtime=micronaut&application=app_service.standard&gitops=true" | tar -xzvf -
+   ```
+   Or, if you are using a Gradle build, you will need to change runtime to `micronaut_gradle` like so:
+   ```bash
+   curl "https://nubesgen.com/demo.tgz?database=postgresql&runtime=micronaut_gradle&application=app_service.standard&gitops=true" | tar -xzvf -
    ```
 6. Push the generated terraform and GitHub action to the `main` branch of the repository:
    ```bash
