@@ -167,12 +167,16 @@
                 appServiceRuntimes: [
                     {id: 'DOCKER', name: 'Docker with a Dockerfile'},
                     {id: 'DOCKER_SPRING', name: 'Docker with Spring Boot'},
+                    {id: 'DOCKER_MICRONAUT_GRADLE', name: 'Docker with Micronaut and Gradle'},
+                    {id: 'DOCKER_MICRONAUT', name: 'Docker with Micronaut and Maven'},
                     {id: 'JAVA', name: 'Java with Maven'},
                     {id: 'JAVA_GRADLE', name: 'Java with Gradle'},
                     {id: 'SPRING', name: 'Spring Boot (Java) with Maven'},
                     {id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle'},
                     {id: 'QUARKUS', name: 'Quarkus (Java) with Maven'},
                     {id: 'QUARKUS_NATIVE', name: 'Quarkus (Native) with Maven'},
+                    {id: 'MICRONAUT_GRADLE', name: 'Micronaut with Gradle'},
+                    {id: 'MICRONAUT', name: 'Micronaut with Maven'},
                     {id: 'DOTNET', name: '.NET'},
                     {id: 'NODEJS', name: 'Node.js (JavaScript)'},
                     {id: 'PYTHON', name: 'Python'}
@@ -333,6 +337,7 @@
                     <img class="max-w-12 max-h-12" src="img/lang-java.svg" alt="Java logo"/>
                     <img class="max-w-12 max-h-12" src="img/lang-nodejs.svg" alt="Node.js logo"/>
                     <img class="max-w-12 max-h-12" src="img/lang-python.svg" alt="Python logo"/>
+                    <img class="max-w-12 max-h-12" src="img/lang-micronaut.svg" alt="Micronaut logo"/>
                 </div>
             </div>
         </div>
@@ -561,7 +566,7 @@
                                                 Web Application
                                                 <p class="text-sm font-normal text-black-500">Azure App Service</p>
                                                 <p class="text-sm italic text-black-500">Supports Docker,
-                                                    Java, Spring Boot, .NET, Node.js applications.</p>
+                                                    Java, Spring Boot, Micronaut, .NET, Node.js applications.</p>
                                                 <div x-show="components.frontApp.type==='APP_SERVICE'">
                                                     <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                         framework:</p>
