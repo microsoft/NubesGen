@@ -94,18 +94,14 @@ jobs:
           build_command: mvn clean package -Dpackaging=docker -Djib.to.image=${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
       <%/runtimeMaven%>
       <%#runtimeGradle%>
+      - name: Create an init script with the required image tag
+        run: |
+            echo 'allprojects { afterEvaluate { tasks.named("dockerBuild") { images = ["${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}"] } } }' > /tmp/init.gradle
+        shell: bash
       - name: Build a Micronaut docker image project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@<%compositeActionsVersion%>
-        id: dockerbuild
         with:
-          build_command: gradle dockerBuild | tee stdout.txt
-      - name: Re-tag the image
-        run: |
-            echo "::group::Retagging docker image"
-            appname=$(grep -o '[^ ]\+:latest' stdout.txt)
-            echo "::debug::Found $appname"
-            docker tag $appname ${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
-        shell: bash
+          build_command: gradle -I /tmp/init.gradle dockerBuild
       <%/runtimeGradle%>
       - name: Login to Azure
         uses: azure/login@v1
