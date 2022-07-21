@@ -32,7 +32,7 @@ jobs:
       - name: Build a Java project using Maven
         uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.8.0
         with:
-          build_command: mvn clean package
+          build_command: ./mvnw clean package
           package_path: ${{ github.workspace }}/target/[^original]*.jar
   deploy:
     needs: [manage-infrastructure, build]
