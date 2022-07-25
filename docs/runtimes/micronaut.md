@@ -5,8 +5,6 @@ This documentation is for running Micronaut applications with NubesGen. There ar
 - You can also use [Java with NubesGen](java/), which is similar, but does not use the specific Micronaut Framework application properties.
 - As Micronaut Framework applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
-NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Micronaut application that you wish to deploy.
-
 ## Tutorial: running a Micronaut Launch project with NubesGen
 
 This tutorial is similar to the [Java on NubesGen](java/) tutorial, as this simple Micronaut application is also a Java application.

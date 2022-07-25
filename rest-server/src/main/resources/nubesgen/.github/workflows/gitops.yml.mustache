@@ -88,7 +88,7 @@ jobs:
     <%/runtimeQuarkus%>
     <%#runtimeMicronaut%>
       <%#runtimeMaven%>
-      - name: Build a Micronaut docker image project using Maven
+      - name: Build a Micronaut Docker image project using Maven
         uses: microsoft/nubesgen-actions/gitops-build-java-maven@<%compositeActionsVersion%>
         with:
           build_command: ./mvnw clean package -Dpackaging=docker -Djib.to.image=${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
@@ -98,7 +98,7 @@ jobs:
         run: |
           echo 'allprojects { afterEvaluate { tasks.named("dockerBuild") { images = ["${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}"] } } }' > /tmp/init.gradle
         shell: bash
-      - name: Build a Micronaut docker image project using Gradle
+      - name: Build a Micronaut Docker image project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@<%compositeActionsVersion%>
         with:
           build_command: ./gradlew -I /tmp/init.gradle dockerBuild
