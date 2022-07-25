@@ -70,6 +70,9 @@ public class ScanCommand implements Callable<Integer> {
                 } else if (testFile.contains("io.quarkus")) {
                     Output.printInfo("Runtime selected: Quarkus + Maven");
                     getRequest += "&runtime=QUARKUS";
+                } else if (testFile.contains("micronaut")) {
+                    Output.printInfo("Runtime selected: Micronaut + Maven");
+                    getRequest += "&runtime=MICRONAUT";
                 } else {
                     Output.printInfo("Runtime selected: Java + Maven");
                     getRequest += "&runtime=JAVA";
@@ -86,6 +89,9 @@ public class ScanCommand implements Callable<Integer> {
                 if (testFile.contains("org.springframework.boot")) {
                     Output.printInfo("Runtime selected: Spring Boot + Gradle");
                     getRequest += "&runtime=SPRING_GRADLE";
+                } else if (testFile.contains("micronaut")) {
+                    Output.printInfo("Runtime selected: Micronaut + Gradle");
+                    getRequest += "&runtime=MICRONAUT_GRADLE";
                 } else {
                     Output.printInfo("Runtime selected: Java + Gradle");
                     getRequest += "&runtime=JAVA_GRADLE";

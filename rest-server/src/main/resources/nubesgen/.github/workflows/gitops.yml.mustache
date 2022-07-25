@@ -86,6 +86,40 @@ jobs:
           application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
           container_registry_name:  ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
     <%/runtimeQuarkus%>
+    <%#runtimeMicronaut%>
+      <%#runtimeMaven%>
+      - name: Build a Micronaut Docker image project using Maven
+        uses: microsoft/nubesgen-actions/gitops-build-java-maven@<%compositeActionsVersion%>
+        with:
+          build_command: ./mvnw clean package -Dpackaging=docker -Djib.to.image=${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
+      <%/runtimeMaven%>
+      <%#runtimeGradle%>
+      - name: Create an init script with the required image tag
+        run: |
+          echo 'allprojects { afterEvaluate { tasks.named("dockerBuild") { images = ["${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}"] } } }' > /tmp/init.gradle
+        shell: bash
+      - name: Build a Micronaut Docker image project using Gradle
+        uses: microsoft/nubesgen-actions/gitops-build-java-gradle@<%compositeActionsVersion%>
+        with:
+          build_command: ./gradlew -I /tmp/init.gradle dockerBuild
+      <%/runtimeGradle%>
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Push to Azure Container Registry
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          az acr login -n ${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io
+          docker push ${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
+        shell: bash
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ steps.infrastructure-deployment.outputs.application_name }}
+          images: '${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}'
+    <%/runtimeMicronaut%>
     <%#runtimeDefault%>
       - name: Build and deploy a Docker image
         uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker@<%compositeActionsVersion%>
@@ -109,6 +143,11 @@ jobs:
           build_command: mvn package -Pprod,azure -Dquarkus.package.type=uber-jar
           package_path: ${{ github.workspace }}/target/*.[j,w]ar
       <%/runtimeQuarkus%>
+      <%#runtimeMicronaut%>
+        with:
+          build_command: ./mvnw clean package
+          package_path: ${{ github.workspace }}/target/[^original]*.jar
+      <%/runtimeMicronaut%>
     <%/runtimeMaven%>
     <%#runtimeGradle%>
       - name: Build a Java project using Gradle
@@ -122,6 +161,11 @@ jobs:
           build_command: gradle quarkusBuild -Dquarkus.package.type=uber-jar
           package_path: ${{ github.workspace }}/build/libs/*-runner.jar
       <%/runtimeQuarkus%>
+      <%#runtimeMicronaut%>
+        with:
+          build_command: ./gradlew assemble
+          package_path: ${{ github.workspace }}/build/libs/*-all.jar
+      <%/runtimeMicronaut%>
     <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]

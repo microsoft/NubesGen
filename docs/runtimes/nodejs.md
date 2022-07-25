@@ -1,10 +1,10 @@
 # Using Node.js with NubesGen
 
-This documentation is for running Node.js applications with NubesGen, and there is another options that might interest you:
+This documentation is for running Node.js applications with NubesGen, and there is another option that might interest you:
 
 - As Node.js applications can be packaged with Docker, you can also run them as [Docker applications with NubesGen](docker/).
 
-NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Node.js application that you which to deploy.
+NubesGen supports creating Azure App Service instances and Azure Functions instances, depending on the type of Node.js application that you wish to deploy.
 
 ## Tutorial: running a Node.js application with NubesGen
 
@@ -62,7 +62,7 @@ __Steps:__
 6. Go to your GitHub project, and check that the GitHub Action is running.
 7. You can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check the created resources.
 8. The application should be deployed on your App Service instance. Its URL should be in the form `https://app-demo-XXXX-XXXX-XXXX-XXXX-dev-001.azurewebsites.net/`,
-   and you can also find it in the GitHub Action workflow (Job: "manage-infrastructure", step "Apply Terraform"), or in the Azure portal.
+   and you can also find it in the GitHub Action workflow (Job: "display-information", step "Display Azure infrastructure information"), or in the Azure portal.
    As it is a simple application, it should print by default `Hello, world`.
 9. Once you have finished, you should clean up your resources:
   1. Delete the resource group that was created by NubesGen to host your resources, which is named `rg-demo-XXXX-XXXX-XXXX-XXXX-001`.
