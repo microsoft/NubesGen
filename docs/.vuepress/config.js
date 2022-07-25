@@ -52,11 +52,11 @@ module.exports = {
               '/runtimes/docker',
               '/runtimes/dot-net',
               '/runtimes/java',
-              '/runtimes/quarkus',
               '/runtimes/spring-boot',
+              '/runtimes/quarkus',
+              '/runtimes/micronaut',
               '/runtimes/nodejs',
               '/runtimes/python',
-              '/runtimes/micronaut',
             ],
           },
           {
