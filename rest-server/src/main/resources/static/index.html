@@ -166,33 +166,33 @@
                     ],
                 appServiceRuntimes: [
                     {id: 'DOCKER', name: 'Docker with a Dockerfile'},
-                    {id: 'DOCKER_SPRING', name: 'Docker with Spring Boot'},
-                    {id: 'DOCKER_MICRONAUT_GRADLE', name: 'Docker with the Micronaut Framework and Gradle'},
-                    {id: 'DOCKER_MICRONAUT', name: 'Docker with the Micronaut Framework and Maven'},
-                    {id: 'JAVA', name: 'Java with Maven'},
-                    {id: 'JAVA_GRADLE', name: 'Java with Gradle'},
-                    {id: 'SPRING', name: 'Spring Boot (Java) with Maven'},
-                    {id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle'},
-                    {id: 'QUARKUS', name: 'Quarkus (Java) with Maven'},
-                    {id: 'QUARKUS_NATIVE', name: 'Quarkus (Native) with Maven'},
-                    {id: 'MICRONAUT_GRADLE', name: 'Micronaut Framework with Gradle'},
-                    {id: 'MICRONAUT', name: 'Micronaut Framework with Maven'},
+                    {id: 'JAVA', name: 'Java (generic) with Maven'},
+                    {id: 'JAVA_GRADLE', name: 'Java (generic) with Gradle'},
                     {id: 'DOTNET', name: '.NET'},
-                    {id: 'NODEJS', name: 'Node.js (JavaScript)'},
-                    {id: 'PYTHON', name: 'Python'}
+                    {id: 'NODEJS', name: 'JavaScript (Node.js)'},
+                    {id: 'PYTHON', name: 'Python'},
+                    {id: 'SPRING', name: 'Spring Boot: Java build with Maven'},
+                    {id: 'SPRING_GRADLE', name: 'Spring Boot: Java build with Gradle'},
+                    {id: 'DOCKER_SPRING', name: 'Spring Boot: Docker build with Maven'},
+                    {id: 'QUARKUS', name: 'Quarkus: Java build with Maven'},
+                    {id: 'QUARKUS_NATIVE', name: 'Quarkus: Docker build (native) with Maven'},
+                    {id: 'MICRONAUT', name: 'Micronaut: Java build with Maven'},
+                    {id: 'MICRONAUT_GRADLE', name: 'Micronaut: Java build with Gradle'},
+                    {id: 'DOCKER_MICRONAUT', name: 'Micronaut: Docker build with Maven'},
+                    {id: 'DOCKER_MICRONAUT_GRADLE', name: 'Micronaut: Docker build with Gradle'}
                 ],
                 functionsRuntimes: [
-                    {id: 'JAVA', name: 'Java with Maven'},
-                    {id: 'JAVA_GRADLE', name: 'Java with Gradle'},
-                    {id: 'SPRING', name: 'Spring Boot (Java) with Maven'},
-                    {id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle'},
+                    {id: 'JAVA', name: 'Java (generic) with Maven'},
+                    {id: 'JAVA_GRADLE', name: 'Java (generic) with Gradle'},
                     {id: 'DOTNET', name: '.NET'},
-                    {id: 'NODEJS', name: 'Node.js (JavaScript)'},
-                    {id: 'PYTHON', name: 'Python'}
+                    {id: 'NODEJS', name: 'JavaScript (Node.js)'},
+                    {id: 'PYTHON', name: 'Python'},
+                    {id: 'SPRING', name: 'Spring Boot: Java build with Maven'},
+                    {id: 'SPRING_GRADLE', name: 'Spring Boot: Java build with Gradle'}
                 ],
                 ascRuntimes:[
-                    {id: 'SPRING', name: 'Spring Boot (Java) with Maven'},
-                    {id: 'SPRING_GRADLE', name: 'Spring Boot (Java) with Gradle'}
+                    {id: 'SPRING', name: 'Spring Boot: Java build with Maven'},
+                    {id: 'SPRING_GRADLE', name: 'Spring Boot: Java build with Gradle'}
                 ],
                 networkConfigurations:[
                     {id: 'PUBLIC', name: 'Public'},
@@ -568,7 +568,7 @@
                                                 Web Application
                                                 <p class="text-sm font-normal text-black-500">Azure App Service</p>
                                                 <p class="text-sm italic text-black-500">Supports Docker,
-                                                    Java, Spring Boot, Micronaut Framework, .NET, Node.js applications.</p>
+                                                    Java (including Spring Boot, Quarkus, Micronaut), .NET, Node.js, Python applications.</p>
                                                 <div x-show="components.frontApp.type==='APP_SERVICE'">
                                                     <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                         framework:</p>
