@@ -75,6 +75,9 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
 {{#runtimeNodejs}}
       linuxFxVersion: 'Node|16'
 {{/runtimeNodejs}}
+{{#runtimePython}}
+      linuxFxVersion: 'Python|3.9'
+{{/runtimePython}}
       appSettings: union(environmentVariables, [
         
         // {
@@ -100,6 +103,9 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
 {{#runtimeNodejs}}
           'value': 'node'
 {{/runtimeNodejs}}           
+{{#runtimePython}}
+          'value': 'python'
+{{/runtimePython}}
         }
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
