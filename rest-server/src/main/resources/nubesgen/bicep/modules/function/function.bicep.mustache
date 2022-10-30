@@ -112,11 +112,6 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
       ])
     }
   }
-
-  dependsOn: [
-    hostingPlan
-    storageAccount
-  ]
 }
 
 output application_url string = functionApp.properties.hostNames[0]
