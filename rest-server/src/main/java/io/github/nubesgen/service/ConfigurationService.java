@@ -221,7 +221,7 @@ public class ConfigurationService {
                 log.debug("VNET configuration is requested, so the Function configuration was updated to the Premium tier.");
                 properties.getApplicationConfiguration().setTier(Tier.PREMIUM);
             } else if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.SPRING_CLOUD)) {
-                log.debug("VNET configuration is requested, so the Spring Cloud configuration was updated to the Standard tier.");
+                log.debug("VNET configuration is requested, so the Azure Spring Apps configuration was updated to the Standard tier.");
                 properties.getApplicationConfiguration().setTier(Tier.STANDARD);
             }
         }

@@ -42,6 +42,6 @@ variable "database_subnet_prefix" {
 
 variable "cidr_ranges" {
   type        = list(string)
-  description = "A list of (at least 3) CIDR ranges (at least /16) which are used to host the Spring Cloud infrastructure, which must not overlap with any existing CIDR ranges in the Subnet. Changing this forces a new resource to be created"
+  description = "A list of (at least 3) CIDR ranges (at least /16) which are used to host the Azure Spring Apps infrastructure, which must not overlap with any existing CIDR ranges in the Subnet. Changing this forces a new resource to be created"
   default     = ["10.4.0.0/16", "10.5.0.0/16", "10.3.0.1/16"]
 }
