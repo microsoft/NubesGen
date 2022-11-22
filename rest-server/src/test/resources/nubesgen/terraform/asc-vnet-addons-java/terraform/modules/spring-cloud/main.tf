@@ -6,7 +6,7 @@ locals {
   redis_association_name    = "${var.application_name}-redis"
 
   # Azure Spring Apps Resource Provider object id. It is a constant and it is required to manage the VNET.
-  azure_spring_cloud_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
+  azure_spring_apps_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
 }
 
 # Assign Owner role to Azure Spring Apps Resource Provider on the Virtual Network used by the deployed service
@@ -14,7 +14,7 @@ locals {
 resource "azurerm_role_assignment" "provider_owner" {
   scope                = var.virtual_network_id
   role_definition_name = "Owner"
-  principal_id         = local.azure_spring_cloud_provisioner_object_id
+  principal_id         = local.azure_spring_apps_provisioner_object_id
 }
 
 # This creates the Azure Spring Apps that the service use
