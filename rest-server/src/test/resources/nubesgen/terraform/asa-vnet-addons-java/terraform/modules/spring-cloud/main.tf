@@ -2,16 +2,8 @@
 locals {
   spring_cloud_service_name = "asa-${var.application_name}-${var.environment}"
   spring_cloud_app_name     = "app-${var.application_name}"
-{{#addonCosmosdbMongodb}}
   cosmosdb_association_name = "${var.application_name}-cosmos"
-{{/addonCosmosdbMongodb}}
-{{#addonRedis}}
   redis_association_name    = "${var.application_name}-redis"
-{{/addonRedis}}
-{{^NetworkVNet}}
-}
-{{/NetworkVNet}}
-{{#NetworkVNet}}
 
   # Azure Spring Apps Resource Provider object id. It is a constant and it is required to manage the VNET.
   azure_spring_apps_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
@@ -24,30 +16,21 @@ resource "azurerm_role_assignment" "provider_owner" {
   role_definition_name = "Owner"
   principal_id         = local.azure_spring_apps_provisioner_object_id
 }
-{{/NetworkVNet}}
 
 # This creates the Azure Spring Apps that the service use
 resource "azurerm_spring_cloud_service" "application" {
   name                = local.spring_cloud_service_name
   resource_group_name = var.resource_group
   location            = var.location
-{{#applicationTierBasic}}
-  sku_name            = "B0"
-{{/applicationTierBasic}}
-{{#applicationTierStandard}}
   sku_name            = "S0"
-{{/applicationTierStandard}}
 
   tags = {
     "environment"      = var.environment
     "application-name" = var.application_name
   }
-{{#addonApplicationInsights}}
   trace {
     connection_string = var.azure_application_insights_connection_string
   }
-{{/addonApplicationInsights}}
-{{#NetworkVNet}}
 
   network {
     app_subnet_id             = var.app_subnet_id
@@ -58,9 +41,7 @@ resource "azurerm_spring_cloud_service" "application" {
   depends_on = [
     azurerm_role_assignment.provider_owner
   ]
-{{/NetworkVNet}}
 }
-{{#NetworkVNet}}
 
 # Gets the Azure Spring Apps internal load balancer IP address once it is deployed
 data "azurerm_lb" "asc_internal_lb" {
@@ -93,7 +74,6 @@ resource "azurerm_private_dns_a_record" "internal_lb_record" {
   ttl                 = 300
   records             = [data.azurerm_lb.asc_internal_lb.private_ip_address]
 }
-{{/NetworkVNet}}
 
 # This creates the application definition
 resource "azurerm_spring_cloud_app" "application" {
@@ -110,118 +90,41 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
   name                = "default"
   spring_cloud_app_id = azurerm_spring_cloud_app.application.id
   instance_count      = 1
-{{#runtimeJava}}
   runtime_version     = "Java_17"
-{{/runtimeJava}}
 
   quota {
     cpu    = "1"
     memory = "1Gi"
   }
-{{#runtimeJava}}
 
   environment_variables = {
     "SPRING_PROFILES_ACTIVE" = "prod,azure"
-  {{#addonKeyVault}}
 
     # Required for configuring the azure-spring-boot-starter-keyvault-secrets library
     "AZURE_KEYVAULT_ENABLED" = "true"
     "AZURE_KEYVAULT_URI"     = var.vault_uri
-  {{/addonKeyVault}}
-  {{#databaseTypeSqlServer}}
-    {{#addonKeyVault}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:sqlserver://${var.database_url}"
-    # Credentials should be retrieved from Azure Key Vault
-    "SPRING_DATASOURCE_USERNAME" = "stored-in-azure-key-vault"
-    "SPRING_DATASOURCE_PASSWORD" = "stored-in-azure-key-vault"
-    {{/addonKeyVault}}
-    {{^addonKeyVault}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:sqlserver://${var.database_url}"
-    "SPRING_DATASOURCE_USERNAME" = var.database_username
-    "SPRING_DATASOURCE_PASSWORD" = var.database_password
-    {{/addonKeyVault}}
-  {{/databaseTypeSqlServer}}
-  {{#databaseTypeMysql}}
-    {{#addonKeyVault}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
-    # Credentials should be retrieved from Azure Key Vault
-    "SPRING_DATASOURCE_USERNAME" = "stored-in-azure-key-vault"
-    "SPRING_DATASOURCE_PASSWORD" = "stored-in-azure-key-vault"
-    {{/addonKeyVault}}
-    {{^addonKeyVault}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
-    "SPRING_DATASOURCE_USERNAME" = var.database_username
-    "SPRING_DATASOURCE_PASSWORD" = var.database_password
-    {{/addonKeyVault}}
-  {{/databaseTypeMysql}}
-  {{#databaseTypePostgresql}}
-    {{#addonKeyVault}}
 
     "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
     # Credentials should be retrieved from Azure Key Vault
     "SPRING_DATASOURCE_USERNAME" = "stored-in-azure-key-vault"
     "SPRING_DATASOURCE_PASSWORD" = "stored-in-azure-key-vault"
-    {{/addonKeyVault}}
-    {{^addonKeyVault}}
-
-    "SPRING_DATASOURCE_URL"      = "jdbc:postgresql://${var.database_url}"
-    "SPRING_DATASOURCE_USERNAME" = var.database_username
-    "SPRING_DATASOURCE_PASSWORD" = var.database_password
-    {{/addonKeyVault}}
-  {{/databaseTypePostgresql}}
-  {{#addonRedis}}
-    {{#addonKeyVault}}
 
     "SPRING_REDIS_HOST"     = var.azure_redis_host
     # Credentials should be retrieved from Azure Key Vault
     "SPRING_REDIS_PASSWORD" = "stored-in-azure-key-vault"
     "SPRING_REDIS_PORT"     = "6380"
     "SPRING_REDIS_SSL"      = "true"
-    {{/addonKeyVault}}
-    {{^addonKeyVault}}
-
-    "SPRING_REDIS_HOST"     = var.azure_redis_host
-    "SPRING_REDIS_PASSWORD" = var.azure_redis_password
-    "SPRING_REDIS_PORT"     = "6380"
-    "SPRING_REDIS_SSL"      = "true"
-    {{/addonKeyVault}}
-  {{/addonRedis}}
-  {{#addonStorageBlob}}
-    {{#addonKeyVault}}
 
     "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
     # Credentials should be retrieved from Azure Key Vault
     "AZURE_STORAGE_ACCOUNT_KEY"   = "stored-in-azure-key-vault"
     "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
-    {{/addonKeyVault}}
-    {{^addonKeyVault}}
-
-    "AZURE_STORAGE_ACCOUNT_NAME"  = var.azure_storage_account_name
-    "AZURE_STORAGE_ACCOUNT_KEY"   = var.azure_storage_account_key
-    "AZURE_STORAGE_BLOB_ENDPOINT" = var.azure_storage_blob_endpoint
-    {{/addonKeyVault}}
-  {{/addonStorageBlob}}
-  {{#addonCosmosdbMongodb}}
-    {{#addonKeyVault}}
 
     "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
     # Credentials should be retrieved from Azure Key Vault
     "SPRING_DATA_MONGODB_URI"      = "stored-in-azure-key-vault"
-    {{/addonKeyVault}}
-    {{^addonKeyVault}}
-
-    "SPRING_DATA_MONGODB_DATABASE" = var.azure_cosmosdb_mongodb_database
-    "SPRING_DATA_MONGODB_URI"      = var.azure_cosmosdb_mongodb_uri
-    {{/addonKeyVault}}
-  {{/addonCosmosdbMongodb}}
   }
-{{/runtimeJava}}
 }
-{{#addonKeyVault}}
 
 data "azurerm_client_config" "current" {}
 
@@ -235,4 +138,3 @@ resource "azurerm_key_vault_access_policy" "application" {
     "List"
   ]
 }
-{{/addonKeyVault}}

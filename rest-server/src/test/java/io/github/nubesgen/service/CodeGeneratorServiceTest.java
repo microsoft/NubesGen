@@ -529,7 +529,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/asc-public-java",
+            "terraform/asa-public-java",
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name())
@@ -553,7 +553,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/asc-insights-java",
+            "terraform/asa-insights-java",
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
@@ -582,7 +582,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/asc-addons-java",
+            "terraform/asa-addons-java",
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
@@ -613,7 +613,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/asc-mysql-java",
+            "terraform/asa-mysql-java",
             configuration,
             this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
@@ -641,7 +641,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/asc-sqlserver-java",
+            "terraform/asa-sqlserver-java",
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
@@ -653,7 +653,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudVNetInjectionTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-asc-vnet-java");
+        properties.setApplicationName("nubesgen-asa-vnet-java");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
         properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK));
@@ -665,7 +665,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/asc-vnet-java",
+            "terraform/asa-vnet-java",
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
@@ -676,7 +676,7 @@ class CodeGeneratorServiceTest {
     @Test
     void generateSpringCloudAddonsVNetInjectionTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
-        properties.setApplicationName("nubesgen-asc-vnet-addons");
+        properties.setApplicationName("nubesgen-asa-vnet-addons");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
         properties.setNetworkConfiguration(new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK));
@@ -697,7 +697,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/asc-vnet-addons-java",
+            "terraform/asa-vnet-addons-java",
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
@@ -728,7 +728,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/asc-vnet-mssql-java",
+            "terraform/asa-vnet-mssql-java",
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
@@ -754,7 +754,7 @@ class CodeGeneratorServiceTest {
 
         testGeneratedFiles(
             properties,
-            "terraform/asc-vnet-mysql-java",
+            "terraform/asa-vnet-mysql-java",
             configuration,
             this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
             this.templateListService.listModuleTemplates("terraform", ApplicationType.SPRING_CLOUD.name()),
