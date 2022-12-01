@@ -5,7 +5,7 @@ RUN chown 1001 /work \
     && chown 1001:root /work
 COPY --chown=1001:root target/nubesgen /work/application
 
-EXPOSE 8703
+EXPOSE 8080
 USER 1001
 
 CMD ["./application"]
