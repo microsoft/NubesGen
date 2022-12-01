@@ -1,0 +1,11 @@
+FROM ubuntu:22.10
+WORKDIR /work/
+RUN chown 1001 /work \
+    && chmod "g+rwX" /work \
+    && chown 1001:root /work
+COPY --chown=1001:root target/springboot-app /work/application
+
+EXPOSE 8703
+USER 1001
+
+CMD ["./application"]
