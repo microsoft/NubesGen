@@ -54,8 +54,15 @@ jobs:
           java-version: '19'
           check-latest: false
           cache: 'maven'
-      - name: Build the Docker image
-        run: mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }}
-        working-directory: ${{ github.workspace }}/rest-server
+      - name: Build application with Java
+        run: |
+          cd rest-server && mvn package  && mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+      - name: Build the JVM-based Docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }}
+          file: ./rest-server/src/main/docker/Dockerfile.jvm
+          context: ./rest-server/
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }}
