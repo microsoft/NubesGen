@@ -21,7 +21,7 @@ public class NubesgenConfiguration {
 
     private String applicationName;
 
-    private String compositeActionsVersion = "v0.8.0";
+    private String compositeActionsVersion = "v0.9.0";
 
     @JsonProperty("iactool")
     private IaCTool iaCTool;
