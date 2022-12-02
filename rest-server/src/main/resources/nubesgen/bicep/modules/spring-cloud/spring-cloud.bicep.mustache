@@ -30,7 +30,7 @@ var springCloudSkuTier = 'Standard'
 {{/applicationTierStandard}}
 
 resource springCloudService 'Microsoft.AppPlatform/Spring@2020-07-01' = {
-  name: 'asc-${applicationName}-${environment}'
+  name: 'asa-${applicationName}-${environment}'
   location: location
   tags: resourceTags
   sku: {

@@ -75,48 +75,49 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
 {{#runtimeNodejs}}
       linuxFxVersion: 'Node|16'
 {{/runtimeNodejs}}
+{{#runtimePython}}
+      linuxFxVersion: 'Python|3.9'
+{{/runtimePython}}
       appSettings: union(environmentVariables, [
         
         // {
-        //   'name': 'APPINSIGHTS_INSTRUMENTATIONKEY'
-        //   'value': appInsights.properties.InstrumentationKey
+        //   name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        //   value: appInsights.properties.InstrumentationKey
         // }
         {
           name: 'AzureWebJobsStorage'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
         }
         {
-          'name': 'FUNCTIONS_EXTENSION_VERSION'
-          'value': '~4'
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
         }
         {
-          'name': 'FUNCTIONS_WORKER_RUNTIME'
+          name: 'FUNCTIONS_WORKER_RUNTIME'
 {{#runtimeJava}}
-          'value': 'java'
+          value: 'java'
 {{/runtimeJava}}
 {{#runtimeDotnet}}
-          'value': 'dotnet'
+          value: 'dotnet'
 {{/runtimeDotnet}}
 {{#runtimeNodejs}}
-          'value': 'node'
+          value: 'node'
 {{/runtimeNodejs}}           
+{{#runtimePython}}
+          value: 'python'
+{{/runtimePython}}
         }
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
         }
         {
-          'name': 'WEBSITE_RUN_FROM_PACKAGE'
-          'value': '1'
+          name: 'WEBSITE_RUN_FROM_PACKAGE'
+          value: '1'
         }
       ])
     }
   }
-
-  dependsOn: [
-    hostingPlan
-    storageAccount
-  ]
 }
 
 output application_url string = functionApp.properties.hostNames[0]

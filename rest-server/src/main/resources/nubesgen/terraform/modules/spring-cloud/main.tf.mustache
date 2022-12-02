@@ -1,6 +1,6 @@
 # Azure Spring Apps is not yet supported in azurecaf_name
 locals {
-  spring_cloud_service_name = "asc-${var.application_name}-${var.environment}"
+  spring_cloud_service_name = "asa-${var.application_name}-${var.environment}"
   spring_cloud_app_name     = "app-${var.application_name}"
 {{#addonCosmosdbMongodb}}
   cosmosdb_association_name = "${var.application_name}-cosmos"
@@ -14,7 +14,7 @@ locals {
 {{#NetworkVNet}}
 
   # Azure Spring Apps Resource Provider object id. It is a constant and it is required to manage the VNET.
-  azure_spring_cloud_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
+  azure_spring_apps_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
 }
 
 # Assign Owner role to Azure Spring Apps Resource Provider on the Virtual Network used by the deployed service
@@ -22,7 +22,7 @@ locals {
 resource "azurerm_role_assignment" "provider_owner" {
   scope                = var.virtual_network_id
   role_definition_name = "Owner"
-  principal_id         = local.azure_spring_cloud_provisioner_object_id
+  principal_id         = local.azure_spring_apps_provisioner_object_id
 }
 {{/NetworkVNet}}
 
@@ -79,7 +79,7 @@ resource "azurerm_private_dns_zone" "private_dns_zone" {
 
 # Link DNS to Azure Spring Apps virtual network
 resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_link_asc" {
-  name                  = "asc-dns-link"
+  name                  = "asa-dns-link"
   resource_group_name   = var.resource_group
   private_dns_zone_name = azurerm_private_dns_zone.private_dns_zone.name
   virtual_network_id    = var.virtual_network_id

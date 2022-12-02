@@ -27,61 +27,74 @@ jobs:
       run:
         working-directory: ${{ github.workspace }}/rest-server
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 17
-      uses: actions/setup-java@v2
+    - uses: actions/checkout@v3
+    - name: Set up JDK
+      uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
-        java-version: 17
+        java-version: 19
         check-latest: false
         cache: 'maven'
     - name: Run tests
       run: mvn verify
   build_java_docker_image:
-    name: Build and publish a JVM-based Docker image
+    name: Build and publish the JVM-based Docker image
     needs: [ test ]
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Login to GitHub Packages
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 17
+          java-version: 19
           check-latest: false
           cache: 'maven'
-      - name: Build the Docker image
-        run: mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}:main -DskipTests
-        working-directory: ${{ github.workspace }}/rest-server
+      - name: Build application with Java
+        run: |
+          cd rest-server && mvn package  && mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+      - name: Build the JVM-based Docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: ${{ env.DOCKER_IMAGE_NAME }}:main
+          file: ./rest-server/src/main/docker/Dockerfile.jvm
+          context: ./rest-server/
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
         if: ${{ github.repository == 'microsoft/nubesgen' && github.event_name != 'pull_request' }}
   build_native_docker_image:
-    name: Build and publish a native (Linux) Docker image
+    name: Build and publish the native (Linux) Docker image
     needs: [ test ]
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Login to GitHub Packages
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
+      - uses: graalvm/setup-graalvm@v1
         with:
-          distribution: 'temurin'
-          java-version: 17
-          check-latest: false
-          cache: 'maven'
-      - name: Build the Docker image
-        run: mvn -Pnative spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.DOCKER_IMAGE_NAME }}:main -DskipTests
-        working-directory: ${{ github.workspace }}/rest-server
+          version: 'latest'
+          java-version: '19'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build application with GraalVM
+        run: |
+          cd rest-server && mvn -Pnative native:compile
+      - name: Build the native (GraalVM) Docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: ${{ env.DOCKER_IMAGE_NAME }}:main
+          file: ./rest-server/src/main/docker/Dockerfile.native
+          context: ./rest-server/
       - name: Push to GitHub Packages
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
         if: ${{ github.repository == 'microsoft/nubesgen' && github.event_name != 'pull_request' }}

@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Apply Terraform configuration
         id: infrastructure-deployment
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.8.0
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.9.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Build a Java project using Gradle
-        uses: microsoft/nubesgen-actions/gitops-build-java-gradle@v0.8.0
+        uses: microsoft/nubesgen-actions/gitops-build-java-gradle@v0.9.0
         with:
           build_command: ./gradlew assemble
           package_path: ${{ github.workspace }}/build/libs/*-all.jar
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@v0.8.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@v0.9.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.8.0
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.9.0
         with:
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
           application_url: ${{ needs.manage-infrastructure.outputs.application_url }}
