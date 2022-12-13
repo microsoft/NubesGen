@@ -120,8 +120,8 @@ be configured with Docker.
 ## Configuration options
 
 In the generated `terraform/modules/app-service/main.tf` file, NubesGen will configure some environment variables
-for your application. Those are standard Spring Boot
-properties, so your Spring Boot application should be automatically configured 
+for your application. Those are standard Quarkus
+properties, so your Quarkus application should be automatically configured 
 (for example: your database connection should be working out-of-the-box).
 
 - `QUARKUS_DATASOURCE_JDBC_URL`: the JDBC URL to your database
