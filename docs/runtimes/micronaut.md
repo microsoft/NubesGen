@@ -69,7 +69,7 @@ For this tutorial, we will take the Maven/Java Micronaut GraphQL guide project a
 
 1. Go to the Maven/Java version of the [Micronaut Todos GraphQL guide](https://guides.micronaut.io/latest/micronaut-graphql-todo-maven-java.html).
 2. Download the [solution](https://guides.micronaut.io/latest/micronaut-graphql-todo-maven-java.html#solution) and extract it.
-3. Create a project on Github called `micronaut-graphql-todo` and push the downloaded project to that repository. Change `<your-github-account>` by the name of your GitHub account:
+3. Create a project on GitHub called `micronaut-graphql-todo` and push the downloaded project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
    cd micronaut-graphql-todo
    git init
