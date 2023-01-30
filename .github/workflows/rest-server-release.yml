@@ -58,7 +58,7 @@ jobs:
         run: |
           cd rest-server && mvn package  && mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
       - name: Build the JVM-based Docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: false
           tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }}
