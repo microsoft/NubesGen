@@ -943,7 +943,7 @@
                                         <div class="p-3 border rounded px-5 py-6 "
                                              :class="components.database.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-black-500 hover:bg-blue-100'"
                                              @click="components.database.size = 'basic'"
-                                             x-show="components.database.type!=='SQL_SERVER'"><span class="text-2xl">Basic</span>
+                                             x-show="components.database.type==='MYSQL'"><span class="text-2xl">Basic</span>
                                             <p class="mt-4">For workloads requiring light compute and I/O
                                                 performance</p>
                                             <div class="flex row-auto items-center mt-4"><i
@@ -963,6 +963,51 @@
                                                 <span class="ml-3 ">99,9% SLA</span>
                                             </div>
                                         </div>
+
+
+                                        <div class="p-3 border rounded px-5 py-6 "
+                                             :class="components.database.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-black-500 hover:bg-blue-100'"
+                                             @click="components.database.size = 'basic'"
+                                             x-show="components.database.type==='POSTGRESQL'"><span class="text-2xl">Burstable</span>
+                                            <p class="mt-4">For workloads with flexible compute requirements</p>
+                                            <div class="flex row-auto items-center mt-4"><i
+                                                    class="fa fa-check-circle-o text-gray-400"></i>
+                                                <span class="ml-3 ">1 vCore and 2GiB Memory</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-2"><i
+                                                    class="fa fa-check-circle-o text-gray-400"></i>
+                                                <span class="ml-3 ">Up to 16Tb of storage</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-2"><i
+                                                    class="fa fa-check-circle-o text-gray-400"></i>
+                                                <span class="ml-3 ">Included PITR backups</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-4"><i
+                                                    class="fa fa-check-circle-o text-gray-400"></i>
+                                                <span class="ml-3 ">99,99% SLA with High Availability</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="p-3 border rounded px-5 py-6 "
+                                             :class="components.database.size==='general_purpose' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-black-500 hover:bg-blue-100'"
+                                             @click="components.database.size = 'general_purpose'"
+                                             x-show="components.database.type==='SQL_SERVER'"><span class="text-2xl">General purpose</span>
+                                            <p class=" mt-4">For most workloads</p>
+                                            <div class="flex row-auto items-center mt-4"><i
+                                                    class="fa fa-check-circle-o text-gray-400"></i>
+                                                <span class="ml-3 ">2 vCore and 10.2 Gb of Memory</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-2"><i
+                                                    class="fa fa-check-circle-o text-gray-400"></i>
+                                                <span class="ml-3 ">5Gb of storage, up to 4Tb</span>
+                                            </div>
+                                            <div class="flex row-auto items-center mt-4"><i
+                                                    class="fa fa-check-circle-o "></i>
+                                                <span class="ml-3 ">99,99% SLA</span>
+                                            </div>
+                                        </div>
+
                                         <div class="p-3 bg-white border rounded px-5 py-6"
                                              :class="components.database.size==='general_purpose' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-black-500 hover:bg-blue-100'"
                                              @click="components.database.size = 'general_purpose'"
