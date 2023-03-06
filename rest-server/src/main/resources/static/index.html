@@ -604,14 +604,14 @@
                                         </div>
 
                                         <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
-                                             @click="updateAppType('SPRING_CLOUD')"
-                                             :class="components.frontApp.type==='SPRING_CLOUD' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
+                                             @click="updateAppType('SPRING_APPS')"
+                                             :class="components.frontApp.type==='SPRING_APPS' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
                                             <img class="w-8 h-8" src="img/icon-spring-cloud.svg" alt="Azure Spring Apps logo">
                                             <div class="text-lg font-semibold">
                                                 Spring Boot Application
                                                 <p class="text-sm font-normal text-black-500">Azure Spring Apps</p>
                                                 <p class="text-sm italic text-black-500">Supports Spring Boot.</p>
-                                                <div x-show="components.frontApp.type==='SPRING_CLOUD'">
+                                                <div x-show="components.frontApp.type==='SPRING_APPS'">
                                                     <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                         framework:</p>
                                                     <select class="text-sm" x-model="runtime">
@@ -778,7 +778,7 @@
                                         <!-- Azure Spring Apps Tiers -->
                                         <div class="p-3 border bg-white rounded px-5 py-6"
                                              :class="components.frontApp.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
-                                             x-show="components.frontApp.type==='SPRING_CLOUD'">
+                                             x-show="components.frontApp.type==='SPRING_APPS'">
                                             <span class="text-2xl">Basic</span>
                                             <p class="mt-4">For dedicated dev/test</p>
                                             <div class="flex row-auto items-center mt-4"><i
@@ -805,7 +805,7 @@
 
                                         <div class="p-3 border bg-white rounded px-5 py-6"
                                              :class="components.frontApp.size==='standard' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
-                                             x-show="components.frontApp.type==='SPRING_CLOUD'">
+                                             x-show="components.frontApp.type==='SPRING_APPS'">
                                             <span class="text-2xl">Standard</span>
                                             <p class="mt-4">Run production workloads</p>
                                             <div class="flex row-auto items-center mt-4"><i
@@ -1118,7 +1118,7 @@
                             </div>
                             <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <div
-                                x-show="components.frontApp.type==='SPRING_CLOUD' && network === 'VIRTUAL_NETWORK' && gitops === true"
+                                x-show="components.frontApp.type==='SPRING_APPS' && network === 'VIRTUAL_NETWORK' && gitops === true"
                                 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                                     <strong class="font-bold">Incompatibility detected in your configuration!</strong>
                                     <span class="block sm:inline">Due to a product limitation, you can't use Azure Spring Apps with VNet Integration while doing GitOps. Please remove one of those options.</span>

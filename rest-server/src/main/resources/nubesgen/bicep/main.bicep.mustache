@@ -117,7 +117,7 @@ module redis 'modules/redis/redis.bicep' = {
   }
 }
 {{/addonRedis}}
-{{^applicationTypeSpringCloud}}
+{{^applicationTypeSpringApps}}
 
 var applicationEnvironmentVariables = [
 // You can add your custom environment variables here
@@ -290,7 +290,7 @@ var applicationEnvironmentVariables = [
     {{/runtimeDefault}}
   {{/addonRedis}}
 ]
-{{/applicationTypeSpringCloud}}
+{{/applicationTypeSpringApps}}
 {{#applicationTypeAppService}}
 
 module webApp 'modules/app-service/app-service.bicep' = {
@@ -328,7 +328,7 @@ module function 'modules/function/function.bicep' = {
   }
 }
 {{/applicationTypeFunction}}
-{{#applicationTypeSpringCloud}}
+{{#applicationTypeSpringApps}}
 
 var applicationEnvironmentVariables = {
 // You can add your custom environment variables here
@@ -405,7 +405,7 @@ var applicationEnvironmentVariables = {
     {{/runtimeDefault}}
   {{/addonRedis}}
 }
-module springCloudApp 'modules/spring-cloud/spring-cloud.bicep' = {
+module springCloudApp 'modules/spring-apps/spring-apps.bicep' = {
   name: 'springCloudApp'
   scope: resourceGroup(rg.name)
   params: {
@@ -417,4 +417,4 @@ module springCloudApp 'modules/spring-cloud/spring-cloud.bicep' = {
     environmentVariables: applicationEnvironmentVariables
   }
 }
-{{/applicationTypeSpringCloud}}
+{{/applicationTypeSpringApps}}

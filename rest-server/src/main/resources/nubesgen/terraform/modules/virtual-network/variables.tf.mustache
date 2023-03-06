@@ -28,13 +28,13 @@ variable "app_subnet_prefix" {
   type        = string
   description = "Application subnet prefix"
 }
-{{#applicationTypeSpringCloud}}
+{{#applicationTypeSpringApps}}
 
 variable "service_subnet_prefix" {
   type        = string
   description = "Azure Spring Apps service subnet prefix"
 }
-{{/applicationTypeSpringCloud}}
+{{/applicationTypeSpringApps}}
 {{#NetworkServiceEndpointsRequired}}
 
 variable "service_endpoints" {
