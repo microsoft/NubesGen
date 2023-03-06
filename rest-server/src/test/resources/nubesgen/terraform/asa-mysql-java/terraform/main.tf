@@ -43,7 +43,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 module "application" {
-  source           = "./modules/spring-cloud"
+  source           = "./modules/spring-apps"
   resource_group   = azurerm_resource_group.main.name
   application_name = var.application_name
   environment      = local.environment

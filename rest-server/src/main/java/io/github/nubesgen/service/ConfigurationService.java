@@ -133,9 +133,9 @@ public class ConfigurationService {
                 applicationConfiguration.setTier(Tier.CONSUMPTION);
             }
             properties.setApplicationConfiguration(applicationConfiguration);
-        } else if (application.startsWith(ApplicationType.SPRING_CLOUD.name())) {
+        } else if (application.startsWith(ApplicationType.SPRING_APPS.name())) {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
-            applicationConfiguration.setApplicationType(ApplicationType.SPRING_CLOUD);
+            applicationConfiguration.setApplicationType(ApplicationType.SPRING_APPS);
             if (!runtime.equals(RuntimeType.SPRING.name()) && !runtime.equals(RuntimeType.SPRING_GRADLE.name())) {
                 log.debug("Azure Spring Apps only supports the Spring runtime, switching to Spring by default");
                 properties.setRuntimeType(RuntimeType.SPRING);
@@ -220,7 +220,7 @@ public class ConfigurationService {
             } else if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.FUNCTION)) {
                 log.debug("VNET configuration is requested, so the Function configuration was updated to the Premium tier.");
                 properties.getApplicationConfiguration().setTier(Tier.PREMIUM);
-            } else if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.SPRING_CLOUD)) {
+            } else if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.SPRING_APPS)) {
                 log.debug("VNET configuration is requested, so the Azure Spring Apps configuration was updated to the Standard tier.");
                 properties.getApplicationConfiguration().setTier(Tier.STANDARD);
             }

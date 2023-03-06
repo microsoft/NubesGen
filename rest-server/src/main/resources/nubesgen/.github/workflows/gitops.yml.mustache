@@ -46,9 +46,9 @@ jobs:
   <%#runtimeDocker%>
       container_registry_name: ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
   <%/runtimeDocker%>
-  <%#applicationTypeSpringCloud%>
-      spring_cloud_service_name: ${{ steps.infrastructure-deployment.outputs.spring_cloud_service_name }}
-  <%/applicationTypeSpringCloud%>
+  <%#applicationTypeSpringApps%>
+      spring_apps_service_name: ${{ steps.infrastructure-deployment.outputs.spring_apps_service_name }}
+  <%/applicationTypeSpringApps%>
 <%#iacToolTerraform%>
     steps:
       - name: Apply Terraform configuration
@@ -206,7 +206,7 @@ jobs:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
   <%/applicationTypeFunction%>
-  <%#applicationTypeSpringCloud%>
+  <%#applicationTypeSpringApps%>
   build:
     runs-on: ubuntu-20.04
     steps:
@@ -225,12 +225,12 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java application to Azure Spring Apps
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-spring-cloud-java@<%compositeActionsVersion%>
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-spring-apps-java@<%compositeActionsVersion%>
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
-          spring_cloud_service_name: ${{ needs.manage-infrastructure.outputs.spring_cloud_service_name }}
-  <%/applicationTypeSpringCloud%>
+          spring_apps_service_name: ${{ needs.manage-infrastructure.outputs.spring_apps_service_name }}
+  <%/applicationTypeSpringApps%>
 <%/runtimeJava%>
 <%#runtimeDotnet%>
   build:
@@ -335,7 +335,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.9.0
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.10.0
         with:
 <%#runtimeDocker%>
           application_name: ${{ needs.build-and-deploy.outputs.application_name }}

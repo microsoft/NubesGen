@@ -21,7 +21,7 @@ public class NubesgenConfiguration {
 
     private String applicationName;
 
-    private String compositeActionsVersion = "v0.9.0";
+    private String compositeActionsVersion = "v0.10.0";
 
     @JsonProperty("iactool")
     private IaCTool iaCTool;
@@ -284,8 +284,8 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
-    public boolean isApplicationTypeSpringCloud() {
-        return ApplicationType.SPRING_CLOUD.equals(this.getApplicationConfiguration().getApplicationType());
+    public boolean isApplicationTypeSpringApps() {
+        return ApplicationType.SPRING_APPS.equals(this.getApplicationConfiguration().getApplicationType());
     }
 
     @JsonIgnore

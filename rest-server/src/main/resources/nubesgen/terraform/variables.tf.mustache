@@ -30,7 +30,7 @@ variable "address_space" {
   description = "Virtual Network address space"
   default     = "10.11.0.0/16"
 }
-  {{#applicationTypeSpringCloud}}
+  {{#applicationTypeSpringApps}}
 
 variable "app_subnet_prefix" {
   type        = string
@@ -67,8 +67,8 @@ variable "cidr_ranges" {
   description = "A list of (at least 3) CIDR ranges (at least /16) which are used to host the Azure Spring Apps infrastructure, which must not overlap with any existing CIDR ranges in the Subnet. Changing this forces a new resource to be created"
   default     = ["10.4.0.0/16", "10.5.0.0/16", "10.3.0.1/16"]
 }
-  {{/applicationTypeSpringCloud}}
-  {{^applicationTypeSpringCloud}}
+  {{/applicationTypeSpringApps}}
+  {{^applicationTypeSpringApps}}
 
 variable "app_subnet_prefix" {
   type        = string
@@ -93,5 +93,5 @@ variable "redis_subnet_prefix" {
   default     = "10.11.2.0/24"
 }
     {{/addonRedis}}
-  {{/applicationTypeSpringCloud}}
+  {{/applicationTypeSpringApps}}
 {{/NetworkVNet}}
