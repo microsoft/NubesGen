@@ -497,6 +497,26 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    void generateContainerAppSpring() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-ca-test");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
+        properties.setGitops(false);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+                properties,
+                "terraform/aca-spring",
+                configuration,
+                this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", ApplicationType.CONTAINER_APPS.name())
+        );
+    }
+
+    @Test
     void generateSpringAppsWithTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-spring");
