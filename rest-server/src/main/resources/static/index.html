@@ -28,7 +28,8 @@
     <link rel="apple-touch-icon" href="icon.png">
     <!-- Place favicon.ico in the root directory -->
 
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./js/main.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/fontawesome.css" rel="stylesheet">
     <link href="./css/asciinema-player.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/9c869dd423.js" crossorigin="anonymous"></script>
@@ -47,186 +48,7 @@
     <meta name="theme-color" content="#fafafa">
 
     <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () {
-                (c[a].q = c[a].q || []).push(arguments)
-            };
-            t = l.createElement(r);
-            t.async = 1;
-            t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0];
-            y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "4zmkonp2tw");
-
-
-        function slugify(text) {
-            return text.toString().toLowerCase()
-                .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-                .replace(/^-+/, '')             // Trim - from start of text
-                .replace(/-+$/, '');            // Trim - from end of text
-        }
-
-        function nubesGen() {
-            return {
-                projectName: 'demo',
-                projectSlug: 'demo',
-                region: 'eastus',
-                region2: {id: 'eastus', name: 'USA - East (Virginia)', flag: './img/us.svg'},
-                regionName: 'USA - East',
-                regionFlag: './img/us.svg',
-                iaCToolId: 'TERRAFORM',
-                iaCTool: { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
-                iaCToolName: 'Terraform',
-                iaCToolFlag: './img/terraform.png',
-                components: {frontApp: {type: 'APP_SERVICE', size: 'free'}, database: {type: 'NONE', size: 'free'}},
-                addons: [],
-                runtime: "DOCKER",
-                network: '',
-                gitops: false,
-                curlScript: '',
-                poshScript: '',
-                copySuccessful: false,
-                updatePageParameters() {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('frontApp.type', this.components.frontApp.type);
-                    url.searchParams.set('frontApp.size', this.components.frontApp.size);
-                    history.pushState(null, document.title, url.toString());
-
-                },
-                updateAppType(appType) {
-                    this.components.frontApp.type = appType;
-                    if (appType === 'APP_SERVICE') {
-                        this.components.frontApp.size = 'free'
-                    } else if (appType === 'FUNCTION') {
-                        this.components.frontApp.size = 'consumption'
-                    } else {
-                        this.components.frontApp.size = 'basic'
-                    }
-                },
-                generateScriptUrl() {
-                    var url = this.generateUrl();
-                    this.curlScript = `curl "${window.location.protocol}//${window.location.host}/${this.projectSlug}.tgz${url}" | tar -xzvf -`;
-                    this.poshScript = `Invoke-WebRequest -Uri "${window.location.protocol}//${window.location.host}/${this.projectSlug}.zip${url}" -OutFile ${this.projectSlug}.zip; Expand-Archive ${this.projectSlug}.zip -DestinationPath '.' -Force; Remove-Item ${this.projectSlug}.zip`;
-
-                },
-                async copyScript(scriptContents, $dispatch) {
-                    this.copySuccessful = await navigator.clipboard.writeText(scriptContents);
-                    $dispatch('downloadpackage', { hasGitops: this.gitops});
-                },
-                download($dispatch) {
-                    var url = `${this.projectSlug}.zip${this.generateUrl()}`;
-                    window.open(url, '_blank');
-                    $dispatch('downloadpackage', { hasGitops: this.gitops});
-                },
-                generateUrl() {
-                    if (this.projectSlug.trim() === '') {
-                        document.getElementById('projectNameInput').focus();
-                        return;
-                    }
-                    this.updatePageParameters();
-                    var url = `?iactool=${this.iaCToolId}&region=${this.region}&application=${this.components.frontApp.type}.${this.components.frontApp.size}&runtime=${this.runtime}&database=${this.components.database.type}.${this.components.database.size}`;
-
-                    if (this.addons.length > 0) {
-                        url += `&addons=${this.addons.join(",")}`;
-                    }
-                    if (this.gitops === true) {
-                        url += "&gitops=true";
-                    }
-                    if (this.network === 'VIRTUAL_NETWORK') {
-                        url += "&network=VIRTUAL_NETWORK";
-                    }
-                    return url;
-                },
-                allRegions:
-                    [
-                        {id: 'eastus', name: 'USA - East (Virginia)', flag: './img/us.svg'},
-                        {id: 'eastus2', name: 'USA - East 2 (Virginia)', flag: './img/us.svg'},
-                        {id: 'centralus', name: 'USA - Central (Iowa)', flag: './img/us.svg'},
-                        {id: 'northcentralus', name: 'USA - North Central (Illinois)', flag: './img/us.svg'},
-                        {id: 'southcentralus', name: 'USA - South Central (Texas)', flag: './img/us.svg'},
-                        {id: 'westus', name: 'USA - West (California)', flag: './img/us.svg'},
-                        {id: 'westus2', name: 'USA - West 2 (California)', flag: './img/us.svg'},
-                        {
-                            id: 'brazilsouth',
-                            name: 'South America - Brazil South (São Paulo State)',
-                            flag: './img/br.svg'
-                        },
-                        {id: 'francecentral', name: 'Europe - France Central (Paris)', flag: './img/fr.svg'},
-                        {id: 'francesouth', name: 'Europe - France South (Marseille)', flag: './img/fr.svg'},
-                        {id: 'northeurope', name: 'Europe - North Europe (Ireland)', flag: './img/eu.svg'},
-                        {id: 'westeurope', name: 'Europe - West Europe (Netherlands)', flag: './img/eu.svg'},
-                        {id: 'australiaeast', name: 'Asia Pacific - Australia East (Sydney)', flag: './img/au.svg'},
-                        {
-                            id: 'australiasoutheast',
-                            name: 'Asia Pacific - Australia Southeast (Melbourne)',
-                            flag: './img/au.svg'
-                        },
-                    ],
-                appServiceRuntimes: [
-                    {id: 'DOCKER', name: 'Docker with a Dockerfile'},
-                    {id: 'JAVA', name: 'Java (generic) with Maven'},
-                    {id: 'JAVA_GRADLE', name: 'Java (generic) with Gradle'},
-                    {id: 'DOTNET', name: '.NET'},
-                    {id: 'NODEJS', name: 'JavaScript (Node.js)'},
-                    {id: 'PYTHON', name: 'Python'},
-                    {id: 'SPRING', name: 'Spring Boot: Java build with Maven'},
-                    {id: 'SPRING_GRADLE', name: 'Spring Boot: Java build with Gradle'},
-                    {id: 'DOCKER_SPRING', name: 'Spring Boot: Docker build with Maven'},
-                    {id: 'QUARKUS', name: 'Quarkus: Java build with Maven'},
-                    {id: 'QUARKUS_NATIVE', name: 'Quarkus: Docker build (native) with Maven'},
-                    {id: 'MICRONAUT', name: 'Micronaut: Java build with Maven'},
-                    {id: 'MICRONAUT_GRADLE', name: 'Micronaut: Java build with Gradle'},
-                    {id: 'DOCKER_MICRONAUT', name: 'Micronaut: Docker build with Maven'},
-                    {id: 'DOCKER_MICRONAUT_GRADLE', name: 'Micronaut: Docker build with Gradle'}
-                ],
-                functionsRuntimes: [
-                    {id: 'JAVA', name: 'Java (generic) with Maven'},
-                    {id: 'JAVA_GRADLE', name: 'Java (generic) with Gradle'},
-                    {id: 'DOTNET', name: '.NET'},
-                    {id: 'NODEJS', name: 'JavaScript (Node.js)'},
-                    {id: 'PYTHON', name: 'Python'},
-                    {id: 'SPRING', name: 'Spring Boot: Java build with Maven'},
-                    {id: 'MICRONAUT', name: 'Micronaut: Java build with Maven'},
-                    {id: 'MICRONAUT_GRADLE', name: 'Micronaut: Java build with Gradle'}
-                ],
-                ascRuntimes:[
-                    {id: 'SPRING', name: 'Spring Boot: Java build with Maven'},
-                    {id: 'SPRING_GRADLE', name: 'Spring Boot: Java build with Gradle'}
-                ],
-                networkConfigurations:[
-                    {id: 'PUBLIC', name: 'Public'},
-                    {id: 'VIRTUAL_NETWORK', name: 'Virtual Network (VNet) - Preview'}
-                ],
-                regionSelectorOpened: false,
-                selectRegion(selectedRegion) {
-                    this.region2 = selectedRegion;
-                    this.region = selectedRegion.id;
-                    this.regionSelectorOpened = false;
-                },
-                allIaCTools: [
-                        { id: 'TERRAFORM', name: 'Terraform', flag: './img/terraform.png' },
-                        { id: 'BICEP', name: 'Bicep (preview)', flag: './img/bicep.png' },
-                    ],
-                selectIaCTool(selectedIaCTool) {
-                    this.iaCTool = selectedIaCTool;
-                    this.iaCToolId = selectedIaCTool.id;
-                    this.iaCToolSelectorOpened = false;
-                },
-                iaCToolSelectorOpened: false,
-            }
-        }
-
-        function replaceState(value) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('frontApp.type', value.frontApp.type);
-            url.searchParams.set('frontApp.size', value.frontApp.size);
-            url.searchParams.set('database.type', value.database.type);
-            url.searchParams.set('database.size', value.database.size);
-            history.pushState(null, document.title, url.toString());
-        }
-
+ 
     </script>
 
     <!--
@@ -289,63 +111,63 @@
 <!-- MAIN CONTENT -->
 <main class="flex-grow w-full">
 
-    <!-- hero section -->
+  <!-- hero section -->
 
-    <div class="min-h-32 mt-48 mb-24 flex mx-auto px-6 py-3 max-w-screen-2xl">
+  <div class="min-h-32 mt-48 mb-24 flex mx-auto px-6 py-3 max-w-screen-2xl">
 
-        <div class=" w-screen lg:w-1/3 min-h-16">
+    <div class=" w-screen lg:w-1/3 min-h-16">
 
-            <div class="text-6xl font-semibold text-gray-900 leading-none">Kickstart your project on Azure <br><span
-                    class="text-blue-700">in minutes</span>!
-            </div>
-            <div class="my-12 text-xl font-light text-true-gray-500 antialiased">
-                Easily generate
-                <strong>Terraform</strong> and <strong>Bicep</strong> templates for your project.<br>Automate your infrastructure using GitOps best practices
-                with <strong>GitHub Actions</strong>.
-            </div>
-            <div class="my-12 text-xl font-light text-true-gray-500 antialiased">
-                NubesGen is an <strong>Open Source project</strong> and we are always looking for
-                <a class="text-gray-700 leading-5 hover:text-blue-600 hover:underline"
-                   href="https://github.com/microsoft/nubesgen" tabindex="7">feedbacks and contributions</a>.
-            </div>
-            <a href="#generator-form"
-               class="mt-24 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out"
-               tabindex="8">
-                Generate your project infrastructure now
-            </a>
-            <div class="mt-12 lg:mt-32 lg:ml-20 text-left">
-                <bottom type="button"
-                        class="flex items-center justify-center w-12 h-12 rounded-full bg-cool-gray-100 text-gray-800 animate-bounce hover:text-gray-900 hover:bg-cool-gray-50 transition duration-300 ease-in-out cursor-pointer">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 14l-7 7m0 0l-7-7m7 7V3">
-                        </path>
-                    </svg>
-                </bottom>
-            </div>
+        <div class="text-6xl font-semibold text-gray-900 leading-none">Kickstart your project on Azure <br><span
+                class="text-blue-700">in minutes</span>!
         </div>
-        <div class="w-2/3 min-h-16 rounded-b-xl hidden lg:inline">
-            <div class="h-8 rounded-t-xl bg-gradient-to-b to-black from-blue-900 to-black text-center">
-                <span class="font-mono text-sm text-center text-gray-200">bash | NubesGen </span>
-            </div>
-            <asciinema-player col=30 autoplay loop src="https://asciinema.org/a/385945.cast"></asciinema-player>
-            <div class="text-center mx-auto">
-                <p class="text-black-500">Supported platforms</p>
-                <div class="flex gap-20 mx-auto">
-                    <img class="max-w-12 max-h-12" src="img/docker.svg" alt="Docker logo"/>
-                    <img class="max-w-12 max-h-12" src="img/platform-netcore.svg" alt=".NET logo"/>
-                    <img class="max-w-12 max-h-12" src="img/platform-java.svg" alt="Java logo"/>
-                    <img class="max-w-12 max-h-12" src="img/platform-nodejs.svg" alt="Node.js logo"/>
-                    <img class="max-w-12 max-h-12" src="img/platform-python.svg" alt="Python logo"/>
-                    <img class="max-w-12 max-h-12" src="img/platform-spring-boot.svg" alt="Spring Boot logo"/>
-                    <img class="max-w-12 max-h-12" src="img/platform-quarkus.svg" alt="Quarkus logo"/>
-                    <img class="max-w-12 max-h-12" src="img/platform-micronaut.svg" alt="Micronaut logo"/>
-                </div>
-            </div>
+        <div class="my-12 text-xl font-light text-true-gray-500 antialiased">
+            Easily generate
+            <strong>Terraform</strong> and <strong>Bicep</strong> templates for your project.<br>Automate your infrastructure using GitOps best practices
+            with <strong>GitHub Actions</strong>.
         </div>
-
+        <div class="my-12 text-xl font-light text-true-gray-500 antialiased">
+            NubesGen is an <strong>Open Source project</strong> and we are always looking for
+            <a class="text-gray-700 leading-5 hover:text-blue-600 hover:underline"
+               href="https://github.com/microsoft/nubesgen" tabindex="7">feedbacks and contributions</a>.
+        </div>
+        <a href="#generator-form"
+           class="mt-24 px-8 py-4 rounded-full font-normal tracking-wide bg-gradient-to-b from-blue-600 to-blue-700 text-white outline-none focus:outline-none hover:shadow-lg hover:from-blue-700 transition duration-200 ease-in-out"
+           tabindex="8">
+            Generate your project infrastructure now
+        </a>
+        <div class="mt-12 lg:mt-32 lg:ml-20 text-left">
+            <bottom type="button"
+                    class="flex items-center justify-center w-12 h-12 rounded-full bg-cool-gray-100 text-gray-800 animate-bounce hover:text-gray-900 hover:bg-cool-gray-50 transition duration-300 ease-in-out cursor-pointer">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 14l-7 7m0 0l-7-7m7 7V3">
+                    </path>
+                </svg>
+            </bottom>
+        </div>
     </div>
+    <div class="w-2/3 min-h-16 rounded-b-xl hidden lg:inline">
+        <div class="h-8 rounded-t-xl bg-gradient-to-b to-black from-blue-900 to-black text-center">
+            <span class="font-mono text-sm text-center text-gray-200">bash | NubesGen </span>
+        </div>
+        <asciinema-player col=30 autoplay loop src="https://asciinema.org/a/385945.cast"></asciinema-player>
+        <div class="text-center mx-auto">
+            <p class="text-black-500">Supported platforms</p>
+            <div class="flex gap-20 mx-auto">
+                <img class="max-w-12 max-h-12" src="img/docker.svg" alt="Docker logo"/>
+                <img class="max-w-12 max-h-12" src="img/platform-netcore.svg" alt=".NET logo"/>
+                <img class="max-w-12 max-h-12" src="img/platform-java.svg" alt="Java logo"/>
+                <img class="max-w-12 max-h-12" src="img/platform-nodejs.svg" alt="Node.js logo"/>
+                <img class="max-w-12 max-h-12" src="img/platform-python.svg" alt="Python logo"/>
+                <img class="max-w-12 max-h-12" src="img/platform-spring-boot.svg" alt="Spring Boot logo"/>
+                <img class="max-w-12 max-h-12" src="img/platform-quarkus.svg" alt="Quarkus logo"/>
+                <img class="max-w-12 max-h-12" src="img/platform-micronaut.svg" alt="Micronaut logo"/>
+            </div>
+        </div>
+    </div>
+
+</div>
 
     <section id="main-section" class="content-center py-12 w-full "
         x-data="nubesGen()"
