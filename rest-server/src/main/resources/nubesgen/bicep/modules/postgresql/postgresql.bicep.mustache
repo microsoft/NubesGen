@@ -31,6 +31,14 @@ param administratorLogin string = 'sql${replace(applicationName, '-', '')}root'
 @secure()
 param administratorPassword string = newGuid()
 
+@description('The high availability setting for the PostgreSQL Flexible server.')
+@allowed([
+  'Disabled'
+  'SameZone',
+  'ZoneRedundant'
+])
+param highAvailability string = 'Disabled'
+
 resource postgresServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
   name: serverName
   location: location
@@ -53,7 +61,7 @@ resource postgresServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' =
       storageSizeGB: 128
     }
     highAvailability: {
-      mode: 'ZoneRedundant'
+      mode: highAvailability
     }
   }
 
