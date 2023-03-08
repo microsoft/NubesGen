@@ -1,7 +1,7 @@
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = "nubesgen-testapp-container-apps"
+  default     = "nubesgen-ca-test"
 }
 
 variable "terraform_storage_account" {
