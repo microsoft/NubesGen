@@ -20,7 +20,7 @@ The Azure CLI is a command-line tool that provides a convenient way to create an
 Run the following command to provision the resources in your Azure account:
 
 ```
-az deployment sub create --template-file main.bicep
+az deployment sub create --template-file main.bicep --location eastus
 ```
 
 If you just want to provision a single resource in an existing resource group, use a command of this form:
