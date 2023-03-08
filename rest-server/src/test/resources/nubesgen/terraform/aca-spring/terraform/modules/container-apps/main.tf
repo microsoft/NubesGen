@@ -80,6 +80,12 @@ resource "azurerm_container_app" "application" {
   resource_group_name          = var.resource_group
   revision_mode                = "Single"
 
+  lifecycle {
+    ignore_changes = [
+      template.0.container["image"]
+    ]
+  }
+
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.application.id]
@@ -101,7 +107,8 @@ resource "azurerm_container_app" "application" {
   template {
     container {
       name   = azurecaf_name.app_service.result
-      image  = "${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}"
+      image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
+      #image  = "${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}"
       cpu    = 0.25
       memory = "0.5Gi"
       /*
