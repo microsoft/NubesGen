@@ -7,13 +7,13 @@ output "app_subnet_id" {
   value       = azurerm_subnet.app_subnet.id
   description = "Application Subnet"
 }
-{{#applicationTypeSpringCloud}}
+{{#applicationTypeSpringApps}}
 
 output "service_subnet_id" {
   value       = azurerm_subnet.service_subnet.id
   description = "Azure Spring Apps services subnet"
 }
-{{/applicationTypeSpringCloud}}
+{{/applicationTypeSpringApps}}
 {{^databaseTypeNone}}
   {{^databaseTypeSqlServer}}
 

@@ -1,12 +1,12 @@
 # Azure Spring Apps is not yet supported in azurecaf_name
 locals {
-  spring_cloud_service_name = "asa-${var.application_name}-${var.environment}"
-  spring_cloud_app_name     = "app-${var.application_name}"
+  spring_apps_service_name = "asa-${var.application_name}-${var.environment}"
+  spring_apps_app_name     = "app-${var.application_name}"
 }
 
 # This creates the Azure Spring Apps that the service use
 resource "azurerm_spring_cloud_service" "application" {
-  name                = local.spring_cloud_service_name
+  name                = local.spring_apps_service_name
   resource_group_name = var.resource_group
   location            = var.location
   sku_name            = "B0"
@@ -19,7 +19,7 @@ resource "azurerm_spring_cloud_service" "application" {
 
 # This creates the application definition
 resource "azurerm_spring_cloud_app" "application" {
-  name                = local.spring_cloud_app_name
+  name                = local.spring_apps_app_name
   resource_group_name = var.resource_group
   service_name        = azurerm_spring_cloud_service.application.name
   identity {
@@ -46,7 +46,7 @@ resource "azurerm_spring_cloud_java_deployment" "application_deployment" {
     "AZURE_KEYVAULT_ENABLED" = "true"
     "AZURE_KEYVAULT_URI"     = var.vault_uri
 
-    "SPRING_DATASOURCE_URL"      = "jdbc:sqlserver://${var.database_url}"
+    "SPRING_DATASOURCE_URL"      = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
     # Credentials should be retrieved from Azure Key Vault
     "SPRING_DATASOURCE_USERNAME" = "stored-in-azure-key-vault"
     "SPRING_DATASOURCE_PASSWORD" = "stored-in-azure-key-vault"

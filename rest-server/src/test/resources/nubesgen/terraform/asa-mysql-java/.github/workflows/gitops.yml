@@ -19,11 +19,11 @@ jobs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
       application_url: ${{ steps.infrastructure-deployment.outputs.application_url }}
       resource_group: ${{ steps.infrastructure-deployment.outputs.resource_group }}
-      spring_cloud_service_name: ${{ steps.infrastructure-deployment.outputs.spring_cloud_service_name }}
+      spring_apps_service_name: ${{ steps.infrastructure-deployment.outputs.spring_apps_service_name }}
     steps:
       - name: Apply Terraform configuration
         id: infrastructure-deployment
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.9.0
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.10.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -31,23 +31,23 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Build a Java project using Maven
-        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.9.0
+        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.10.0
   deploy:
     needs: [manage-infrastructure, build]
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy a Java application to Azure Spring Apps
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-spring-cloud-java@v0.9.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-spring-apps-java@v0.10.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
-          spring_cloud_service_name: ${{ needs.manage-infrastructure.outputs.spring_cloud_service_name }}
+          spring_apps_service_name: ${{ needs.manage-infrastructure.outputs.spring_apps_service_name }}
   display-information:
     needs: [manage-infrastructure]
     runs-on: ubuntu-20.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.9.0
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.10.0
         with:
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
           application_url: ${{ needs.manage-infrastructure.outputs.application_url }}
