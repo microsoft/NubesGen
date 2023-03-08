@@ -34,7 +34,7 @@ param administratorPassword string = newGuid()
 @description('The high availability setting for the PostgreSQL Flexible server.')
 @allowed([
   'Disabled'
-  'SameZone',
+  'SameZone'
   'ZoneRedundant'
 ])
 param highAvailability string = 'Disabled'

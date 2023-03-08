@@ -989,6 +989,7 @@
                                         </div>
 
 
+                                        
                                         <div class="p-3 bg-white border rounded px-5 py-6"
                                              :class="components.database.size==='general_purpose' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-black-500 hover:bg-blue-100'"
                                              @click="components.database.size = 'general_purpose'"
@@ -1009,9 +1010,13 @@
                                             </div>
                                             <div class="flex row-auto items-center mt-4"><i
                                                     class="fa fa-check-circle-o text-gray-400"></i>
-                                                <span class="ml-3 ">99,99% SLA with High Availability</span>
+                                                <span class="ml-3 " x-show="components.database.type==='POSTGRESQL'">
+                                                    99,9% SLA with High Availability
+                                                </span>
+                                                <span class="ml-3 " x-show="components.database.type==='MYSQL'">
+                                                    99,99% SLA with High Availability
+                                                </span>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
