@@ -177,6 +177,9 @@ module "database" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  {{#databaseTypePostgresql}}
+  high_availability= false
+  {{/databaseTypePostgresql}}
   {{#NetworkVNet}}
     {{#databaseTypeSqlServer}}
 
