@@ -131,11 +131,11 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
         }
         {
           name: 'DOCKER_REGISTRY_SERVER_USERNAME'
-          value: '${containerRegistry.name}'
+          value: containerRegistry.name
         }
         {
           name: 'DOCKER_REGISTRY_SERVER_PASSWORD'
-          value: listCredentials(containerRegistry.id, containerRegistry.apiVersion).passwords[0].value
+          value: containerRegistry.listCredentials().passwords[0].value
         }
         {
           name: 'WEBSITES_PORT'
