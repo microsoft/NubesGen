@@ -7,6 +7,12 @@ terraform {
   }
 }
 
+locals {
+  feature_flags = {
+    high_available_type = var.high_availability ? ["ZoneRedundant"] : []
+  }
+}
+
 resource "azurecaf_name" "postgresql_server" {
   name          = var.application_name
   resource_type = "azurerm_postgresql_flexible_server"
@@ -32,8 +38,11 @@ resource "azurerm_postgresql_flexible_server" "database" {
   backup_retention_days        = 7
   version                      = "13"
   geo_redundant_backup_enabled = true
-  high_availability {
-    mode = "ZoneRedundant"
+  dynamic "high_availability" {
+    for_each = local.feature_flags.high_available_type
+    content {
+      mode = high_availability.value
+    }
   }
   delegated_subnet_id          = var.subnet_id
   private_dns_zone_id          = azurerm_private_dns_zone.database.id
