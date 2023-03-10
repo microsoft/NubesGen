@@ -28,6 +28,12 @@ variable "administrator_login" {
   default     = "postgresqladmin"
 }
 
+variable "high_availability" {
+  type        = bool
+  description = "Enables PostgreSQL high availability"
+  default     = false
+}
+
 variable "virtual_network_id" {
   type        = string
   description = "Azure Virtual Network ID"

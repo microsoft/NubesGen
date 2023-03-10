@@ -63,9 +63,9 @@ module "application" {
 {{#applicationTypeFunction}}
   source           = "./modules/function"
 {{/applicationTypeFunction}}
-{{#applicationTypeSpringCloud}}
-  source           = "./modules/spring-cloud"
-{{/applicationTypeSpringCloud}}
+{{#applicationTypeSpringApps}}
+  source           = "./modules/spring-apps"
+{{/applicationTypeSpringApps}}
   resource_group   = azurerm_resource_group.main.name
   application_name = var.application_name
   environment      = local.environment
@@ -90,12 +90,12 @@ module "application" {
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
 
-  {{^applicationTypeSpringCloud}}
+  {{^applicationTypeSpringApps}}
   azure_application_insights_instrumentation_key = module.application-insights.azure_application_insights_instrumentation_key
-  {{/applicationTypeSpringCloud}}
-  {{#applicationTypeSpringCloud}}
+  {{/applicationTypeSpringApps}}
+  {{#applicationTypeSpringApps}}
   azure_application_insights_connection_string = module.application-insights.azure_application_insights_connection_string
-  {{/applicationTypeSpringCloud}}
+  {{/applicationTypeSpringApps}}
 {{/addonApplicationInsights}}
 {{#addonKeyVault}}
 
@@ -150,15 +150,15 @@ module "application" {
 {{/addonCosmosdbMongodb}}
 {{#NetworkVNet}}
 
-  {{^applicationTypeSpringCloud}}
+  {{^applicationTypeSpringApps}}
   subnet_id = module.network.app_subnet_id
-  {{/applicationTypeSpringCloud}}
-  {{#applicationTypeSpringCloud}}
+  {{/applicationTypeSpringApps}}
+  {{#applicationTypeSpringApps}}
   virtual_network_id = module.network.virtual_network_id
   app_subnet_id      = module.network.app_subnet_id
   service_subnet_id  = module.network.service_subnet_id
   cidr_ranges        = var.cidr_ranges
-  {{/applicationTypeSpringCloud}}
+  {{/applicationTypeSpringApps}}
 {{/NetworkVNet}}
 }
 {{^databaseTypeNone}}
@@ -177,6 +177,9 @@ module "database" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  {{#databaseTypePostgresql}}
+  high_availability= false
+  {{/databaseTypePostgresql}}
   {{#NetworkVNet}}
     {{#databaseTypeSqlServer}}
 
@@ -287,10 +290,10 @@ module "network" {
 
   address_space     = var.address_space
   app_subnet_prefix = var.app_subnet_prefix
-  {{#applicationTypeSpringCloud}}
+  {{#applicationTypeSpringApps}}
 
   service_subnet_prefix = var.service_subnet_prefix
-  {{/applicationTypeSpringCloud}}
+  {{/applicationTypeSpringApps}}
   {{^databaseTypeNone}}
     {{^databaseTypeSqlServer}}
 

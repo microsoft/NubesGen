@@ -47,7 +47,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 module "application" {
-  source           = "./modules/spring-cloud"
+  source           = "./modules/spring-apps"
   resource_group   = azurerm_resource_group.main.name
   application_name = var.application_name
   environment      = local.environment
@@ -79,6 +79,7 @@ module "database" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  high_availability= false
 
   subnet_id          = module.network.database_subnet_id
   virtual_network_id = module.network.virtual_network_id

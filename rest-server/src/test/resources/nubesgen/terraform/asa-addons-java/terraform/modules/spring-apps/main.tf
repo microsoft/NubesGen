@@ -1,14 +1,14 @@
 # Azure Spring Apps is not yet supported in azurecaf_name
 locals {
-  spring_cloud_service_name = "asa-${var.application_name}-${var.environment}"
-  spring_cloud_app_name     = "app-${var.application_name}"
+  spring_apps_service_name = "asa-${var.application_name}-${var.environment}"
+  spring_apps_app_name     = "app-${var.application_name}"
   cosmosdb_association_name = "${var.application_name}-cosmos"
   redis_association_name    = "${var.application_name}-redis"
 }
 
 # This creates the Azure Spring Apps that the service use
 resource "azurerm_spring_cloud_service" "application" {
-  name                = local.spring_cloud_service_name
+  name                = local.spring_apps_service_name
   resource_group_name = var.resource_group
   location            = var.location
   sku_name            = "B0"
@@ -24,7 +24,7 @@ resource "azurerm_spring_cloud_service" "application" {
 
 # This creates the application definition
 resource "azurerm_spring_cloud_app" "application" {
-  name                = local.spring_cloud_app_name
+  name                = local.spring_apps_app_name
   resource_group_name = var.resource_group
   service_name        = azurerm_spring_cloud_service.application.name
   identity {

@@ -76,12 +76,12 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    void checkSpringCloudOnlySupportsSpring() {
+    void checkSpringAppsOnlySupportsSpring() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
                 "",
             "TERRAFORM",
             "DOCKER",
-            "SPRING_CLOUD",
+            "SPRING_APPS",
             "eastus",
             "POSTGRESQL",
             false,
@@ -91,7 +91,7 @@ public class ConfigurationServiceTest {
 
         assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
         assertEquals(RuntimeType.SPRING, configuration.getRuntimeType());
-        assertEquals(ApplicationType.SPRING_CLOUD, configuration.getApplicationConfiguration().getApplicationType());
+        assertEquals(ApplicationType.SPRING_APPS, configuration.getApplicationConfiguration().getApplicationType());
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
         assertEquals(Tier.BASIC, configuration.getDatabaseConfiguration().getTier());
@@ -178,12 +178,12 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    void updateSpringCloudTierIfVnetIsSelected() {
+    void updateSpringAppsTierIfVnetIsSelected() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
                 "",
                 "TERRAFORM",
                 "SPRING",
-                "SPRING_CLOUD.BASIC",
+                "SPRING_APPS.BASIC",
                 "eastus",
                 "POSTGRESQL",
                 false,
@@ -193,7 +193,7 @@ public class ConfigurationServiceTest {
 
         assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
         assertEquals(RuntimeType.SPRING, configuration.getRuntimeType());
-        assertEquals(ApplicationType.SPRING_CLOUD, configuration.getApplicationConfiguration().getApplicationType());
+        assertEquals(ApplicationType.SPRING_APPS, configuration.getApplicationConfiguration().getApplicationType());
         assertEquals(Tier.STANDARD, configuration.getApplicationConfiguration().getTier());
         assertEquals("eastus", configuration.getRegion());
         assertEquals(DatabaseType.POSTGRESQL, configuration.getDatabaseConfiguration().getDatabaseType());
