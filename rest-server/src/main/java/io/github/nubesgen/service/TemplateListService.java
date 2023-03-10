@@ -55,8 +55,13 @@ public class TemplateListService {
 
         for (Resource resource : resources) {
             if (Objects.requireNonNull(resource.getFilename()).endsWith(".mustache")) {
-                String fullTemplateName = resource.getURL().getPath().substring(rootDirectoryLength);
-
+                String templatePath = resource.getURL().getPath();
+                if (templatePath.startsWith("file:///resources!")) {
+                    // When running in native mode, the path is prefixed with "file:///resources!" by GraalVM
+                    templatePath = templatePath.substring("file:///resources!".length());
+                }
+                String fullTemplateName = templatePath.substring(rootDirectoryLength);
+                
                 int endIndex = fullTemplateName.indexOf("/");
                 String templatePackName = fullTemplateName.substring(0, endIndex);
                 if (!templates.containsKey(templatePackName)) {
