@@ -6,7 +6,7 @@ terraform {
     }
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.23"
+      version = "1.2.24"
     }
   }
 {{#gitops}}
@@ -60,6 +60,9 @@ module "application" {
 {{#applicationTypeAppService}}
   source           = "./modules/app-service"
 {{/applicationTypeAppService}}
+{{#applicationTypeContainerApps}}
+  source           = "./modules/container-apps"
+{{/applicationTypeContainerApps}}
 {{#applicationTypeFunction}}
   source           = "./modules/function"
 {{/applicationTypeFunction}}
