@@ -30,6 +30,6 @@ variable "administrator_login" {
 
 variable "high_availability" {
   type        = bool
-  description = "Enables Postgres SQL high availability"
+  description = "Enables PostgreSQL high availability"
   default     = false
 }
