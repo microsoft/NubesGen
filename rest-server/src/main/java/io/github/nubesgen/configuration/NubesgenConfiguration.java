@@ -284,6 +284,11 @@ public class NubesgenConfiguration {
     }
 
     @JsonIgnore
+    public boolean isApplicationTypeContainerApps() {
+        return ApplicationType.CONTAINER_APPS.equals(this.getApplicationConfiguration().getApplicationType());
+    }
+
+    @JsonIgnore
     public boolean isApplicationTypeSpringApps() {
         return ApplicationType.SPRING_APPS.equals(this.getApplicationConfiguration().getApplicationType());
     }

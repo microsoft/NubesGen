@@ -502,6 +502,8 @@ class CodeGeneratorServiceTest {
         properties.setApplicationName("nubesgen-ca-test");
         properties.setRegion("westeurope");
         properties.setRuntimeType(RuntimeType.SPRING);
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.CONTAINER_APPS, Tier.CONSUMPTION));
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
         properties.setGitops(false);
 
