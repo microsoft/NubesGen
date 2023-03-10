@@ -104,7 +104,6 @@ resource "azurerm_container_app" "application" {
     container {
       name   = azurecaf_name.application.result
       image  = "ghcr.io/microsoft/nubesgen/nubesgen-native:main"
-      #image  = "${azurerm_container_registry.container-registry.name}.azurecr.io/${var.application_name}/${var.application_name}"
       cpu    = 0.25
       memory = "0.5Gi"
     }

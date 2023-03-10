@@ -1,0 +1,62 @@
+name: GitOps
+
+###
+# GitOps - automatic infrastructure management GitHub Action
+#
+# See https://docs.nubesgen.com/gitops/gitops-quick-start/
+# for more information about using GitOps with NubesGen.
+###
+
+on:
+  push:
+    branches:
+      - 'env-*'
+
+jobs:
+  manage-infrastructure:
+    runs-on: ubuntu-20.04
+    outputs:
+      application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
+      resource_group: ${{ steps.infrastructure-deployment.outputs.resource_group }}
+      container_registry_name: ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
+    steps:
+      - name: Apply Terraform configuration
+        id: infrastructure-deployment
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.10.0
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
+  build-and-deploy:
+    needs: [manage-infrastructure]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Build a Java native image using Maven
+        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.10.0
+        with:
+          build_command: './mvnw -Pnative spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}'
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ inputs.azure_credentials }}
+      - name: Push to Azure Container Registry
+        env:
+          AZURE_CREDENTIALS: ${{ inputs.azure_credentials }}
+        run: |
+          az acr login -n ${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io
+          docker push ${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}
+        shell: bash
+      - name: Deploy to Container App
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp update -n ${{ needs.manage-infrastructure.outputs.application_name }} -g ${{ needs.manage-infrastructure.outputs.resource_group }} --image ${{ needs.manage-infrastructure.outputs.container_registry_name }}/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}
+  display-information:
+    needs: [manage-infrastructure]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Display Azure infrastructure information
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.10.0
+        with:
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
