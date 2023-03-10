@@ -27,3 +27,9 @@ variable "administrator_login" {
   description = "The PostgreSQL administrator login"
   default     = "postgresqladmin"
 }
+
+variable "high_availability" {
+  type        = bool
+  description = "Enables Postgres SQL high availability"
+  default     = false
+}
