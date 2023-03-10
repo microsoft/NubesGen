@@ -58,6 +58,7 @@ module "database" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
+  high_availability= false
 }
 
 module "key-vault" {
