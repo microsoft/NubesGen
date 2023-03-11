@@ -8,6 +8,7 @@ Sometimes the best way to learn is to read directly the source code!
 
 We maintain a complete set of sample projects that are used in our tests - so if the tests are green, you are guaranteed to have this output.
 
+- [Azure Container Apps + Spring Boot + Maven + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/aca-spring)
 - [App Service + Java + Maven + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-maven-gitops)
 - [App Service + Java + Gradle + GitOps](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/app-service-gradle-gitops)
 - [App Service + Java + Spring Boot + PostgreSQL + Azure Key Vault](https://github.com/microsoft/NubesGen/tree/main/rest-server/src/test/resources/nubesgen/terraform/key-vault)
