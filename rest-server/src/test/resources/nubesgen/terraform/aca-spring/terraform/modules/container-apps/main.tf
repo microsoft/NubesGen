@@ -17,6 +17,7 @@ resource "azurerm_container_registry" "container-registry" {
   name                = azurecaf_name.container_registry.result
   resource_group_name = var.resource_group
   location            = var.location
+  admin_enabled       = true
   sku                 = "Basic"
 
   tags = {
@@ -52,27 +53,6 @@ resource "azurerm_container_app_environment" "application" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.application.id
 }
 
-resource "azurecaf_name" "user_assigned_identity" {
-  name          = var.application_name
-  resource_type = "azurerm_user_assigned_identity"
-  suffixes      = [var.environment]
-}
-
-resource "azurerm_user_assigned_identity" "application" {
-  name                = azurecaf_name.user_assigned_identity.result
-  resource_group_name = var.resource_group
-  location            = var.location
-}
-
-resource "azurerm_role_assignment" "application" {
-  scope                = azurerm_container_registry.container-registry.id
-  role_definition_name = "acrpull"
-  principal_id         = azurerm_user_assigned_identity.application.principal_id
-  depends_on = [
-    azurerm_user_assigned_identity.application
-  ]
-}
-
 resource "azurecaf_name" "application" {
   name          = var.application_name
   resource_type = "azurerm_container_app"
@@ -89,6 +69,17 @@ resource "azurerm_container_app" "application" {
     ignore_changes = [
       template.0.container["image"]
     ]
+  }
+
+  secret {
+    name  = "registry-credentials"
+    value = azurerm_container_registry.container-registry.admin_password
+  }
+
+  registry {
+    server               = azurerm_container_registry.container-registry.login_server
+    username             = azurerm_container_registry.container-registry.admin_username
+    password_secret_name = "registry-credentials"
   }
 
   ingress {
