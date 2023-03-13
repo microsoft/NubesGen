@@ -97,6 +97,10 @@ resource "azurerm_container_app" "application" {
       image  = "ghcr.io/microsoft/nubesgen/nubesgen-native:main"
       cpu    = 0.25
       memory = "0.5Gi"
+      env {
+        name  = "SPRING_PROFILES_ACTIVE"
+        value = "prod,azure"
+      }
     }
     min_replicas = 1
   }

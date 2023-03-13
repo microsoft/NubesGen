@@ -97,6 +97,342 @@ resource "azurerm_container_app" "application" {
       image  = "ghcr.io/microsoft/nubesgen/nubesgen-native:main"
       cpu    = 0.25
       memory = "0.5Gi"
+{{#addonApplicationInsights}}
+      env {
+        name  = "APPINSIGHTS_INSTRUMENTATIONKEY"
+        value = var.azure_application_insights_instrumentation_key
+      }
+{{/addonApplicationInsights}}
+{{#runtimeQuarkus}}
+      env {
+        name  = "QUARKUS_HTTP_PORT"
+        value = 8080
+      }
+      env {
+        name  = "QUARKUS_PROFILE"
+        value = prod
+      }
+  {{#databaseTypeSqlServer}}
+      env {
+        name  = "QUARKUS_DATASOURCE_JDBC_URL"
+        value = "jdbc:sqlserver://${var.database_url}"
+      }
+      env {
+        name  = "QUARKUS_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "QUARKUS_DATASOURCE_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+      env {
+        name  = "QUARKUS_DATASOURCE_JDBC_URL"
+        value = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+      }
+      env {
+        name  = "QUARKUS_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "QUARKUS_DATASOURCE_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+      env {
+        name  = "QUARKUS_DATASOURCE_JDBC_URL"
+        value = "jdbc:postgresql://${var.database_url}"
+      }
+      env {
+        name  = "QUARKUS_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "QUARKUS_DATASOURCE_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+      env {
+        name  = "QUARKUS_REDIS_HOSTS"
+        value = "redis://${var.azure_redis_password}@${var.azure_redis_host}:6380"
+      }
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+      env {
+        name  = "AZURE_STORAGE_ACCOUNT_NAME"
+        value = var.azure_storage_account_name
+      }
+      env {
+        name  = "AZURE_STORAGE_ACCOUNT_KEY"
+        value = var.azure_storage_account_key
+      }
+      env {
+        name  = "AZURE_STORAGE_BLOB_ENDPOINT"
+        value = var.azure_storage_blob_endpoint
+      }
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+      env {
+        name  = "QUARKUS_MONGODB_DATABASE"
+        value = var.azure_cosmosdb_mongodb_database
+      }
+      env {
+        name  = "QUARKUS_MONGODB_HOSTS"
+        value = var.azure_cosmosdb_mongodb_uri
+      }
+  {{/addonCosmosdbMongodb}}
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+      env {
+        name  = "SPRING_PROFILES_ACTIVE"
+        value = "prod,azure"
+      }
+  {{#databaseTypeSqlServer}}
+      env {
+        name  = "SPRING_DATASOURCE_URL"
+        value = "jdbc:sqlserver://${var.database_url}"
+      }
+      env {
+        name  = "SPRING_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "SPRING_DATASOURCE_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+      env {
+        name  = "SPRING_DATASOURCE_URL"
+        value = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+      }
+      env {
+        name  = "SPRING_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "SPRING_DATASOURCE_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+      env {
+        name  = "SPRING_DATASOURCE_URL"
+        value = "jdbc:postgresql://${var.database_url}"
+      }
+      env {
+        name  = "SPRING_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "SPRING_DATASOURCE_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+      env {
+        name  = "SPRING_REDIS_HOST"
+        value = var.azure_redis_host
+      }
+      env {
+        name  = "SPRING_REDIS_PASSWORD"
+        value = var.azure_redis_password
+      }
+      env {
+        name  = "SPRING_REDIS_PORT"
+        value = "6380"
+      }
+      env {
+        name  = "SPRING_REDIS_SSL"
+        value = "true"
+      }
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+      env {
+        name  = "AZURE_STORAGE_ACCOUNT_NAME"
+        value = var.azure_storage_account_name
+      }
+      env {
+        name  = "AZURE_STORAGE_BLOB_ENDPOINT"
+        value = var.azure_storage_blob_endpoint
+      }
+      env {
+        name  = "AZURE_STORAGE_ACCOUNT_KEY"
+        value = var.azure_storage_account_key
+      }
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+      env {
+        name  = "SPRING_DATA_MONGODB_DATABASE"
+        value = var.azure_cosmosdb_mongodb_database
+      }
+      env {
+        name  = "SPRING_DATA_MONGODB_URI"
+        value = var.azure_cosmosdb_mongodb_uri
+      }
+  {{/addonCosmosdbMongodb}}
+{{/runtimeSpring}}
+{{#runtimeMicronaut}}
+      env {
+        name  = "MICRONAUT_ENVIRONMENTS"
+        value = "prod,azure"
+      }
+      env {
+        name  = "MICRONAUT_SERVER_PORT"
+        value = 8080
+      }
+  {{#databaseTypeSqlServer}}
+      env {
+        name  = "DATASOURCES_DEFAULT_URL"
+        value = "jdbc:sqlserver://${var.database_url}"
+      }
+      env {
+        name  = "DATASOURCES_DEFAULT_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "DATASOURCES_DEFAULT_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+      env {
+        name  = "DATASOURCES_DEFAULT_URL"
+        value = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+      }
+      env {
+        name  = "DATASOURCES_DEFAULT_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "DATASOURCES_DEFAULT_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+      env {
+        name  = "DATASOURCES_DEFAULT_URL"
+        value = "jdbc:postgresql://${var.database_url}"
+      }
+      env {
+        name  = "DATASOURCES_DEFAULT_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "DATASOURCES_DEFAULT_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+      env {
+        name  = "REDIS_HOST"
+        value = var.azure_redis_host
+      }
+      env {
+        name  = "REDIS_PASSWORD"
+        value = var.azure_redis_password
+      }
+      env {
+        name  = "REDIS_PORT"
+        value = "6380"
+      }
+      env {
+        name  = "REDIS_SSL"
+        value = "true"
+      }
+  {{/addonRedis}}
+  {{#addonCosmosdbMongodb}}
+      env {
+        name  = "MONGODB_URI"
+        value = "${var.azure_cosmosdb_mongodb_uri}/${var.azure_cosmosdb_mongodb_database}"
+      }
+  {{/addonCosmosdbMongodb}}
+{{/runtimeMicronaut}}
+{{#runtimeDefault}}
+  {{#databaseTypeSqlServer}}
+      env {
+        name  = "DATABASE_URL"
+        value = var.database_url
+      }
+      env {
+        name  = "DATABASE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "DATABASE_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+      env {
+        name  = "DATABASE_URL"
+        value = var.database_url
+      }
+      env {
+        name  = "DATABASE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "DATABASE_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+      env {
+        name  = "DATABASE_URL"
+        value = var.database_url
+      }
+      env {
+        name  = "DATABASE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name  = "DATABASE_PASSWORD"
+        value = var.database_password
+      }
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+      env {
+        name  = "REDIS_HOST"
+        value = var.azure_redis_host
+      }
+      env {
+        name  = "REDIS_PASSWORD"
+        value = var.azure_redis_password
+      }
+      env {
+        name  = "REDIS_PORT"
+        value = "6380"
+      }
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+      env {
+        name  = "AZURE_STORAGE_ACCOUNT_NAME"
+        value = var.azure_storage_account_name
+      }
+      env {
+        name  = "AZURE_STORAGE_BLOB_ENDPOINT"
+        value = var.azure_storage_blob_endpoint
+      }
+      env {
+        name  = "AZURE_STORAGE_ACCOUNT_KEY"
+        value = var.azure_storage_account_key
+      }
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+      env {
+        name  = "MONGODB_DATABASE"
+        value = var.azure_cosmosdb_mongodb_database
+      }
+      env {
+        name  = "MONGODB_URI"
+        value = var.azure_cosmosdb_mongodb_uri
+      }
+  {{/addonCosmosdbMongodb}}
+{{/runtimeDefault}}
     }
     min_replicas = 1
   }
