@@ -4,6 +4,12 @@ variable "application_name" {
   default     = "nubesgen-ca-test"
 }
 
+variable "terraform_storage_account" {
+  type        = string
+  description = "When using an Azure back-end, the name of the Azure Storage Account that stores the Terraform state"
+  default     = ""
+}
+
 variable "environment" {
   type        = string
   description = "The environment (dev, test, prod...)"

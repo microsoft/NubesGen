@@ -505,7 +505,7 @@ class CodeGeneratorServiceTest {
 
         properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.CONTAINER_APPS, Tier.CONSUMPTION));
         properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
-        properties.setGitops(false);
+        properties.setGitops(true);
 
         Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
 
@@ -513,6 +513,7 @@ class CodeGeneratorServiceTest {
                 properties,
                 "terraform/aca-spring",
                 configuration,
+                this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
                 this.templateListService.listModuleTemplates("terraform", ApplicationType.CONTAINER_APPS.name())
         );
