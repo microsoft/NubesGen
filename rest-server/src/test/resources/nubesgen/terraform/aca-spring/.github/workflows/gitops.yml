@@ -26,31 +26,27 @@ jobs:
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
-  build-and-deploy:
-    needs: [manage-infrastructure]
+  build:
     runs-on: ubuntu-20.04
     steps:
-      - name: Build a Java native image using Maven
-        uses: microsoft/nubesgen-actions/gitops-build-java-maven@v0.10.0
+      - name: Build a Docker image
+        id: build
+        uses: jdubois/nubesgen-actions-1/gitops-build-container-spring-maven@main
         with:
-          build_command: './mvnw -Pnative spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}'
-      - name: Login to Azure
-        uses: azure/login@v1
+          build_command: './mvnw -Pnative spring-boot:build-image -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.imageName=application/application:${{ github.sha }}'
+  deploy:
+    needs: [manage-infrastructure,build]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Deploy a Docker image to Azure Container Apps
+        id: deploy
+        uses: jdubois/nubesgen-actions-1/gitops-deploy-to-container-apps@main
         with:
-          creds: ${{ inputs.azure_credentials }}
-      - name: Push to Azure Container Registry
-        env:
-          AZURE_CREDENTIALS: ${{ inputs.azure_credentials }}
-        run: |
-          az acr login -n ${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io
-          docker push ${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}
-        shell: bash
-      - name: Deploy to Container App
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp update -n ${{ needs.manage-infrastructure.outputs.application_name }} -g ${{ needs.manage-infrastructure.outputs.resource_group }} --image ${{ needs.manage-infrastructure.outputs.container_registry_name }}/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
+          container_registry_name: ${{ needs.manage-infrastructure.outputs.container_registry_name }}
+          image_name: ${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}
   display-information:
     needs: [manage-infrastructure]
     runs-on: ubuntu-20.04

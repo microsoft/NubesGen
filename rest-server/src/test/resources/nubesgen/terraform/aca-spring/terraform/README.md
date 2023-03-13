@@ -17,14 +17,8 @@ Resources:
 
 [Terraform](https://www.terraform.io/) is used to automate infrastructure configuration.
 
-As you didn't select the [NubesGen GitOps option](https://docs.nubesgen.com/gitops/gitops-quick-start/), you need to install and run Terraform manually.
-
-Full documentation is available at [Getting started with Terraform](https://docs.nubesgen.com/getting-started/terraform/), here is a quick version:
-
-- Install [Terraform](https://www.terraform.io/) for your platform.
-- Install the [Azure CLI](https://aka.ms/nubesgen-install-az-cli) and authenticate using `az login`
-- In the current directory, initialize Terraform: `terraform init`
-- Apply the current Terraform configuration: `terraform apply`
+As you selected the [NubesGen GitOps option](https://docs.nubesgen.com/gitops/gitops-quick-start/),
+Terraform should be run by a generated GitHub Action called `gitops.yml`.
 
 Once your Terraform configuration has been applied, you can go to the [Azure Portal](https://aka.ms/nubesgen-portal) to check your resources.
 
