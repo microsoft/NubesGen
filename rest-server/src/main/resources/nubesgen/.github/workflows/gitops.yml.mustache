@@ -391,15 +391,19 @@ jobs:
       - name: Display Azure infrastructure information
         uses: microsoft/nubesgen-actions/gitops-display-information@v0.10.0
         with:
-<%#runtimeDocker%>
+<%#applicationTypeContainerApps%>
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
+<%/applicationTypeContainerApps%>
+<%^applicationTypeContainerApps%>
+  <%#runtimeDocker%>
           application_name: ${{ needs.build-and-deploy.outputs.application_name }}
           application_url: ${{ needs.build-and-deploy.outputs.application_url }}
           resource_group: ${{ needs.build-and-deploy.outputs.resource_group }}
-<%/runtimeDocker%>
-<%^runtimeDocker%>
+  <%/runtimeDocker%>
+  <%^runtimeDocker%>
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
-  <%^applicationTypeContainerApps%>
           application_url: ${{ needs.manage-infrastructure.outputs.application_url }}
-  <%/applicationTypeContainerApps%>
           resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
-<%/runtimeDocker%>
+  <%/runtimeDocker%>
+<%/applicationTypeContainerApps%>

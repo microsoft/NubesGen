@@ -497,6 +497,29 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    void generateContainerAppDocker() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-ca-test");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.DOCKER);
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.CONTAINER_APPS, Tier.CONSUMPTION));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
+        properties.setGitops(true);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+                properties,
+                "terraform/aca-docker",
+                configuration,
+                this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", ApplicationType.CONTAINER_APPS.name())
+        );
+    }
+
+    @Test
     void generateContainerAppSpring() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-ca-test");
