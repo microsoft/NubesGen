@@ -32,7 +32,7 @@ jobs:
       - name: Build a Java project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@v0.10.0
         with:
-          build_command: ./gradlew assemble
+          build_command: gradle assemble
           package_path: ${{ github.workspace }}/build/libs/*-all.jar
   deploy:
     needs: [manage-infrastructure, build]
