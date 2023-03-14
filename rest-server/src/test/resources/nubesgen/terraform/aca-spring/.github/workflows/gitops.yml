@@ -33,7 +33,7 @@ jobs:
         id: build
         uses: jdubois/nubesgen-actions-1/gitops-build-container-spring-maven@main
         with:
-          build_command: './mvnw -Pnative spring-boot:build-image -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.imageName=application/application:${{ github.sha }}'
+          build_command: 'mvn -Pnative spring-boot:build-image -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.imageName=application/application:${{ github.sha }}'
   deploy:
     needs: [manage-infrastructure,build]
     runs-on: ubuntu-20.04
