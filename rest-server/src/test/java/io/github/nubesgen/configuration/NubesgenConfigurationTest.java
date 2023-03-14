@@ -175,12 +175,12 @@ public class NubesgenConfigurationTest {
 
         assertTrue(properties.isRuntimeSpring());
         assertTrue(properties.isRuntimeDocker());
+        assertTrue(properties.isRuntimeMaven());
 
         assertFalse(properties.isRuntimeGradle());
         assertFalse(properties.isRuntimeQuarkus());
         assertFalse(properties.isRuntimeDefault());
         assertFalse(properties.isRuntimeJava());
-        assertFalse(properties.isRuntimeMaven());
         assertFalse(properties.isRuntimeDotnet());
         assertFalse(properties.isRuntimeNodejs());
         assertFalse(properties.isRuntimePython());

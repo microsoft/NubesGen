@@ -240,6 +240,7 @@ public class NubesgenConfiguration {
     public boolean isRuntimeMaven() {
         return (
             RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()) ||
             RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
             RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType()) ||
             RuntimeType.MICRONAUT.equals(this.getRuntimeType()) ||
