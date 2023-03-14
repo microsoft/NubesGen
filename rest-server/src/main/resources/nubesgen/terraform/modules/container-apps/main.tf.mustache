@@ -90,6 +90,52 @@ resource "azurerm_container_app" "application" {
       latest_revision = true
     }
   }
+  {{^databaseTypeNone}}
+
+  secret {
+    name  = "database-password"
+    value = var.database_password
+  }
+  {{/databaseTypeNone}}
+  {{#addonRedis}}
+    {{#runtimeQuarkus}}
+
+  secret {
+    name  = "redis-hosts"
+    value = "redis://${var.azure_redis_password}@${var.azure_redis_host}:6380"
+  }
+    {{/runtimeQuarkus}}
+    {{^runtimeQuarkus}}
+
+  secret {
+    name  = "redis-password"
+    value = var.azure_redis_password
+  }
+    {{/runtimeQuarkus}}
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+
+  secret {
+    name  = "azure-storage-account-key"
+    value = var.azure_storage_account_key
+  }
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+    {{#runtimeMicronaut}}
+
+  secret {
+    name  = "cosmosdb-mongodb-uri"
+    value = "${var.azure_cosmosdb_mongodb_uri}/${var.azure_cosmosdb_mongodb_database}"
+  }
+    {{/runtimeMicronaut}}
+    {{^runtimeMicronaut}}
+
+  secret {
+    name  = "cosmosdb-mongodb-uri"
+    value = var.azure_cosmosdb_mongodb_uri
+  }
+    {{/runtimeMicronaut}}
+  {{/addonCosmosdbMongodb}}
 
   template {
     container {
@@ -122,8 +168,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "QUARKUS_DATASOURCE_PASSWORD"
-        value = var.database_password
+        name        = "QUARKUS_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypeSqlServer}}
   {{#databaseTypeMysql}}
@@ -136,8 +182,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "QUARKUS_DATASOURCE_PASSWORD"
-        value = var.database_password
+        name        = "QUARKUS_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypeMysql}}
   {{#databaseTypePostgresql}}
@@ -150,14 +196,14 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "QUARKUS_DATASOURCE_PASSWORD"
-        value = var.database_password
+        name        = "QUARKUS_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
       env {
-        name  = "QUARKUS_REDIS_HOSTS"
-        value = "redis://${var.azure_redis_password}@${var.azure_redis_host}:6380"
+        name        = "QUARKUS_REDIS_HOSTS"
+        secret_name = "redis-hosts"
       }
   {{/addonRedis}}
   {{#addonStorageBlob}}
@@ -166,12 +212,12 @@ resource "azurerm_container_app" "application" {
         value = var.azure_storage_account_name
       }
       env {
-        name  = "AZURE_STORAGE_ACCOUNT_KEY"
-        value = var.azure_storage_account_key
-      }
-      env {
         name  = "AZURE_STORAGE_BLOB_ENDPOINT"
         value = var.azure_storage_blob_endpoint
+      }
+      env {
+        name        = "AZURE_STORAGE_ACCOUNT_KEY"
+        secret_name = "azure-storage-account-key"
       }
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
@@ -180,8 +226,8 @@ resource "azurerm_container_app" "application" {
         value = var.azure_cosmosdb_mongodb_database
       }
       env {
-        name  = "QUARKUS_MONGODB_HOSTS"
-        value = var.azure_cosmosdb_mongodb_uri
+        name        = "QUARKUS_MONGODB_HOSTS"
+        secret_name = "cosmosdb-mongodb-uri"
       }
   {{/addonCosmosdbMongodb}}
 {{/runtimeQuarkus}}
@@ -200,8 +246,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "SPRING_DATASOURCE_PASSWORD"
-        value = var.database_password
+        name        = "SPRING_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypeSqlServer}}
   {{#databaseTypeMysql}}
@@ -214,8 +260,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "SPRING_DATASOURCE_PASSWORD"
-        value = var.database_password
+        name        = "SPRING_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypeMysql}}
   {{#databaseTypePostgresql}}
@@ -228,8 +274,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "SPRING_DATASOURCE_PASSWORD"
-        value = var.database_password
+        name        = "SPRING_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
@@ -238,8 +284,8 @@ resource "azurerm_container_app" "application" {
         value = var.azure_redis_host
       }
       env {
-        name  = "SPRING_REDIS_PASSWORD"
-        value = var.azure_redis_password
+        name        = "SPRING_REDIS_PASSWORD"
+        secret_name = "redis-password"
       }
       env {
         name  = "SPRING_REDIS_PORT"
@@ -260,8 +306,8 @@ resource "azurerm_container_app" "application" {
         value = var.azure_storage_blob_endpoint
       }
       env {
-        name  = "AZURE_STORAGE_ACCOUNT_KEY"
-        value = var.azure_storage_account_key
+        name        = "AZURE_STORAGE_ACCOUNT_KEY"
+        secret_name = "azure-storage-account-key"
       }
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
@@ -270,8 +316,8 @@ resource "azurerm_container_app" "application" {
         value = var.azure_cosmosdb_mongodb_database
       }
       env {
-        name  = "SPRING_DATA_MONGODB_URI"
-        value = var.azure_cosmosdb_mongodb_uri
+        name        = "SPRING_DATA_MONGODB_URI"
+        secret_name = "cosmosdb-mongodb-uri"
       }
   {{/addonCosmosdbMongodb}}
 {{/runtimeSpring}}
@@ -294,8 +340,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "DATASOURCES_DEFAULT_PASSWORD"
-        value = var.database_password
+        name        = "DATASOURCES_DEFAULT_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypeSqlServer}}
   {{#databaseTypeMysql}}
@@ -308,8 +354,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "DATASOURCES_DEFAULT_PASSWORD"
-        value = var.database_password
+        name        = "DATASOURCES_DEFAULT_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypeMysql}}
   {{#databaseTypePostgresql}}
@@ -322,8 +368,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "DATASOURCES_DEFAULT_PASSWORD"
-        value = var.database_password
+        name        = "DATASOURCES_DEFAULT_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
@@ -332,8 +378,8 @@ resource "azurerm_container_app" "application" {
         value = var.azure_redis_host
       }
       env {
-        name  = "REDIS_PASSWORD"
-        value = var.azure_redis_password
+        name        = "SPRING_REDIS_PASSWORD"
+        secret_name = "redis-password"
       }
       env {
         name  = "REDIS_PORT"
@@ -346,7 +392,8 @@ resource "azurerm_container_app" "application" {
   {{/addonRedis}}
   {{#addonCosmosdbMongodb}}
       env {
-        name  = "MONGODB_URI"
+        name        = "MONGODB_URI"
+        secret_name = "cosmosdb-mongodb-uri"
         value = "${var.azure_cosmosdb_mongodb_uri}/${var.azure_cosmosdb_mongodb_database}"
       }
   {{/addonCosmosdbMongodb}}
@@ -362,8 +409,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "DATABASE_PASSWORD"
-        value = var.database_password
+        name        = "DATABASE_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypeSqlServer}}
   {{#databaseTypeMysql}}
@@ -376,8 +423,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "DATABASE_PASSWORD"
-        value = var.database_password
+        name        = "DATABASE_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypeMysql}}
   {{#databaseTypePostgresql}}
@@ -390,8 +437,8 @@ resource "azurerm_container_app" "application" {
         value = var.database_username
       }
       env {
-        name  = "DATABASE_PASSWORD"
-        value = var.database_password
+        name        = "DATABASE_PASSWORD"
+        secret_name = "database-password"
       }
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
@@ -400,8 +447,8 @@ resource "azurerm_container_app" "application" {
         value = var.azure_redis_host
       }
       env {
-        name  = "REDIS_PASSWORD"
-        value = var.azure_redis_password
+        name        = "SPRING_REDIS_PASSWORD"
+        secret_name = "redis-password"
       }
       env {
         name  = "REDIS_PORT"
@@ -418,8 +465,8 @@ resource "azurerm_container_app" "application" {
         value = var.azure_storage_blob_endpoint
       }
       env {
-        name  = "AZURE_STORAGE_ACCOUNT_KEY"
-        value = var.azure_storage_account_key
+        name        = "AZURE_STORAGE_ACCOUNT_KEY"
+        secret_name = "azure-storage-account-key"
       }
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
@@ -428,8 +475,8 @@ resource "azurerm_container_app" "application" {
         value = var.azure_cosmosdb_mongodb_database
       }
       env {
-        name  = "MONGODB_URI"
-        value = var.azure_cosmosdb_mongodb_uri
+        name        = "MONGODB_URI"
+        secret_name = "cosmosdb-mongodb-uri"
       }
   {{/addonCosmosdbMongodb}}
 {{/runtimeDefault}}
