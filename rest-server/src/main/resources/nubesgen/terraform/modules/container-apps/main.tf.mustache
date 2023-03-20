@@ -4,6 +4,12 @@ terraform {
       source  = "aztfmod/azurecaf"
       version = "1.2.24"
     }
+{{#addonKeyVault}}
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "2.36.0"
+    }
+{{/addonKeyVault}}
   }
 }
 
@@ -70,6 +76,12 @@ resource "azurerm_container_app" "application" {
       template.0.container["image"]
     ]
   }
+{{#addonKeyVault}}
+
+  identity {
+    type = "SystemAssigned"
+  }
+{{/addonKeyVault}}
 
   secret {
     name  = "registry-credentials"
@@ -91,11 +103,12 @@ resource "azurerm_container_app" "application" {
     }
   }
   {{^databaseTypeNone}}
-
+    {{^addonKeyVault}}
   secret {
     name  = "database-password"
     value = var.database_password
   }
+    {{/addonKeyVault}}
   {{/databaseTypeNone}}
   {{#addonRedis}}
     {{#runtimeQuarkus}}
@@ -106,35 +119,41 @@ resource "azurerm_container_app" "application" {
   }
     {{/runtimeQuarkus}}
     {{^runtimeQuarkus}}
+      {{^addonKeyVault}}
 
   secret {
     name  = "redis-password"
     value = var.azure_redis_password
   }
+      {{/addonKeyVault}}
     {{/runtimeQuarkus}}
   {{/addonRedis}}
   {{#addonStorageBlob}}
+    {{^addonKeyVault}}
 
   secret {
     name  = "azure-storage-account-key"
     value = var.azure_storage_account_key
   }
+    {{/addonKeyVault}}
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
-    {{#runtimeMicronaut}}
+    {{^addonKeyVault}}
+      {{#runtimeMicronaut}}
 
   secret {
     name  = "cosmosdb-mongodb-uri"
     value = "${var.azure_cosmosdb_mongodb_uri}/${var.azure_cosmosdb_mongodb_database}"
   }
-    {{/runtimeMicronaut}}
-    {{^runtimeMicronaut}}
+      {{/runtimeMicronaut}}
+      {{^runtimeMicronaut}}
 
   secret {
     name  = "cosmosdb-mongodb-uri"
     value = var.azure_cosmosdb_mongodb_uri
   }
-    {{/runtimeMicronaut}}
+      {{/runtimeMicronaut}}
+    {{/addonKeyVault}}
   {{/addonCosmosdbMongodb}}
 
   template {
@@ -163,6 +182,7 @@ resource "azurerm_container_app" "application" {
         name  = "QUARKUS_DATASOURCE_JDBC_URL"
         value = "jdbc:sqlserver://${var.database_url}"
       }
+    {{^addonKeyVault}}
       env {
         name  = "QUARKUS_DATASOURCE_USERNAME"
         value = var.database_username
@@ -171,12 +191,14 @@ resource "azurerm_container_app" "application" {
         name        = "QUARKUS_DATASOURCE_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypeSqlServer}}
   {{#databaseTypeMysql}}
       env {
         name  = "QUARKUS_DATASOURCE_JDBC_URL"
         value = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
       }
+    {{^addonKeyVault}}
       env {
         name  = "QUARKUS_DATASOURCE_USERNAME"
         value = var.database_username
@@ -185,12 +207,14 @@ resource "azurerm_container_app" "application" {
         name        = "QUARKUS_DATASOURCE_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypeMysql}}
   {{#databaseTypePostgresql}}
       env {
         name  = "QUARKUS_DATASOURCE_JDBC_URL"
         value = "jdbc:postgresql://${var.database_url}"
       }
+    {{^addonKeyVault}}
       env {
         name  = "QUARKUS_DATASOURCE_USERNAME"
         value = var.database_username
@@ -199,6 +223,7 @@ resource "azurerm_container_app" "application" {
         name        = "QUARKUS_DATASOURCE_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
       env {
@@ -215,20 +240,24 @@ resource "azurerm_container_app" "application" {
         name  = "AZURE_STORAGE_BLOB_ENDPOINT"
         value = var.azure_storage_blob_endpoint
       }
+    {{^addonKeyVault}}
       env {
         name        = "AZURE_STORAGE_ACCOUNT_KEY"
         secret_name = "azure-storage-account-key"
       }
+    {{/addonKeyVault}}
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
       env {
         name  = "QUARKUS_MONGODB_DATABASE"
         value = var.azure_cosmosdb_mongodb_database
       }
+    {{^addonKeyVault}}
       env {
         name        = "QUARKUS_MONGODB_HOSTS"
         secret_name = "cosmosdb-mongodb-uri"
       }
+    {{/addonKeyVault}}
   {{/addonCosmosdbMongodb}}
 {{/runtimeQuarkus}}
 {{#runtimeSpring}}
@@ -241,6 +270,7 @@ resource "azurerm_container_app" "application" {
         name  = "SPRING_DATASOURCE_URL"
         value = "jdbc:sqlserver://${var.database_url}"
       }
+    {{^addonKeyVault}}
       env {
         name  = "SPRING_DATASOURCE_USERNAME"
         value = var.database_username
@@ -249,12 +279,14 @@ resource "azurerm_container_app" "application" {
         name        = "SPRING_DATASOURCE_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypeSqlServer}}
   {{#databaseTypeMysql}}
       env {
         name  = "SPRING_DATASOURCE_URL"
         value = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
       }
+    {{^addonKeyVault}}
       env {
         name  = "SPRING_DATASOURCE_USERNAME"
         value = var.database_username
@@ -263,12 +295,14 @@ resource "azurerm_container_app" "application" {
         name        = "SPRING_DATASOURCE_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypeMysql}}
   {{#databaseTypePostgresql}}
       env {
         name  = "SPRING_DATASOURCE_URL"
         value = "jdbc:postgresql://${var.database_url}"
       }
+    {{^addonKeyVault}}
       env {
         name  = "SPRING_DATASOURCE_USERNAME"
         value = var.database_username
@@ -277,16 +311,19 @@ resource "azurerm_container_app" "application" {
         name        = "SPRING_DATASOURCE_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
       env {
         name  = "SPRING_REDIS_HOST"
         value = var.azure_redis_host
       }
+    {{^addonKeyVault}}
       env {
         name        = "SPRING_REDIS_PASSWORD"
         secret_name = "redis-password"
       }
+    {{/addonKeyVault}}
       env {
         name  = "SPRING_REDIS_PORT"
         value = "6380"
@@ -305,20 +342,24 @@ resource "azurerm_container_app" "application" {
         name  = "AZURE_STORAGE_BLOB_ENDPOINT"
         value = var.azure_storage_blob_endpoint
       }
+    {{^addonKeyVault}}
       env {
         name        = "AZURE_STORAGE_ACCOUNT_KEY"
         secret_name = "azure-storage-account-key"
       }
+    {{/addonKeyVault}}
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
       env {
         name  = "SPRING_DATA_MONGODB_DATABASE"
         value = var.azure_cosmosdb_mongodb_database
       }
+    {{^addonKeyVault}}
       env {
         name        = "SPRING_DATA_MONGODB_URI"
         secret_name = "cosmosdb-mongodb-uri"
       }
+    {{/addonKeyVault}}
   {{/addonCosmosdbMongodb}}
 {{/runtimeSpring}}
 {{#runtimeMicronaut}}
@@ -335,6 +376,7 @@ resource "azurerm_container_app" "application" {
         name  = "DATASOURCES_DEFAULT_URL"
         value = "jdbc:sqlserver://${var.database_url}"
       }
+    {{^addonKeyVault}}
       env {
         name  = "DATASOURCES_DEFAULT_USERNAME"
         value = var.database_username
@@ -343,12 +385,14 @@ resource "azurerm_container_app" "application" {
         name        = "DATASOURCES_DEFAULT_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypeSqlServer}}
   {{#databaseTypeMysql}}
       env {
         name  = "DATASOURCES_DEFAULT_URL"
         value = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
       }
+    {{^addonKeyVault}}
       env {
         name  = "DATASOURCES_DEFAULT_USERNAME"
         value = var.database_username
@@ -357,12 +401,14 @@ resource "azurerm_container_app" "application" {
         name        = "DATASOURCES_DEFAULT_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypeMysql}}
   {{#databaseTypePostgresql}}
       env {
         name  = "DATASOURCES_DEFAULT_URL"
         value = "jdbc:postgresql://${var.database_url}"
       }
+    {{^addonKeyVault}}
       env {
         name  = "DATASOURCES_DEFAULT_USERNAME"
         value = var.database_username
@@ -371,16 +417,19 @@ resource "azurerm_container_app" "application" {
         name        = "DATASOURCES_DEFAULT_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
       env {
         name  = "REDIS_HOST"
         value = var.azure_redis_host
       }
+    {{^addonKeyVault}}
       env {
         name        = "SPRING_REDIS_PASSWORD"
         secret_name = "redis-password"
       }
+    {{/addonKeyVault}}
       env {
         name  = "REDIS_PORT"
         value = "6380"
@@ -391,11 +440,13 @@ resource "azurerm_container_app" "application" {
       }
   {{/addonRedis}}
   {{#addonCosmosdbMongodb}}
+    {{^addonKeyVault}}
       env {
         name        = "MONGODB_URI"
         secret_name = "cosmosdb-mongodb-uri"
         value = "${var.azure_cosmosdb_mongodb_uri}/${var.azure_cosmosdb_mongodb_database}"
       }
+    {{/addonKeyVault}}
   {{/addonCosmosdbMongodb}}
 {{/runtimeMicronaut}}
 {{#runtimeDefault}}
@@ -404,6 +455,7 @@ resource "azurerm_container_app" "application" {
         name  = "DATABASE_URL"
         value = var.database_url
       }
+    {{^addonKeyVault}}
       env {
         name  = "DATABASE_USERNAME"
         value = var.database_username
@@ -412,12 +464,14 @@ resource "azurerm_container_app" "application" {
         name        = "DATABASE_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypeSqlServer}}
   {{#databaseTypeMysql}}
       env {
         name  = "DATABASE_URL"
         value = var.database_url
       }
+    {{^addonKeyVault}}
       env {
         name  = "DATABASE_USERNAME"
         value = var.database_username
@@ -426,12 +480,14 @@ resource "azurerm_container_app" "application" {
         name        = "DATABASE_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypeMysql}}
   {{#databaseTypePostgresql}}
       env {
         name  = "DATABASE_URL"
         value = var.database_url
       }
+    {{^addonKeyVault}}
       env {
         name  = "DATABASE_USERNAME"
         value = var.database_username
@@ -440,16 +496,19 @@ resource "azurerm_container_app" "application" {
         name        = "DATABASE_PASSWORD"
         secret_name = "database-password"
       }
+    {{/addonKeyVault}}
   {{/databaseTypePostgresql}}
   {{#addonRedis}}
       env {
         name  = "REDIS_HOST"
         value = var.azure_redis_host
       }
+    {{^addonKeyVault}}
       env {
         name        = "SPRING_REDIS_PASSWORD"
         secret_name = "redis-password"
       }
+    {{/addonKeyVault}}
       env {
         name  = "REDIS_PORT"
         value = "6380"
@@ -464,23 +523,56 @@ resource "azurerm_container_app" "application" {
         name  = "AZURE_STORAGE_BLOB_ENDPOINT"
         value = var.azure_storage_blob_endpoint
       }
+    {{^addonKeyVault}}
       env {
         name        = "AZURE_STORAGE_ACCOUNT_KEY"
         secret_name = "azure-storage-account-key"
       }
+    {{/addonKeyVault}}
   {{/addonStorageBlob}}
   {{#addonCosmosdbMongodb}}
       env {
         name  = "MONGODB_DATABASE"
         value = var.azure_cosmosdb_mongodb_database
       }
+    {{^addonKeyVault}}
       env {
         name        = "MONGODB_URI"
         secret_name = "cosmosdb-mongodb-uri"
       }
+    {{/addonKeyVault}}
   {{/addonCosmosdbMongodb}}
 {{/runtimeDefault}}
+{{#addonKeyVault}}
+      env {
+        name  = "AZURE_KEYVAULT_ENABLED"
+        value = "true"
+      }
+      env {
+        name  = "AZURE_KEYVAULT_URI"
+        value = var.vault_uri
+      }
+{{/addonKeyVault}}
     }
     min_replicas = 1
   }
 }
+{{#addonKeyVault}}
+
+data "azuread_service_principal" "application" {
+  display_name = azurerm_container_app.application.name
+}
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault_access_policy" "application" {
+  key_vault_id = var.vault_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azuread_service_principal.application.id
+
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
+}
+{{/addonKeyVault}}

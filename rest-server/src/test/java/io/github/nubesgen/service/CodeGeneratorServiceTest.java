@@ -543,6 +543,31 @@ class CodeGeneratorServiceTest {
     }
 
     @Test
+    void generateContainerAppSpringKeyVault() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-ca-kv-test");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.CONTAINER_APPS, Tier.CONSUMPTION));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC));
+        List<AddonConfiguration> addons = new ArrayList<>();
+        addons.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.BASIC));
+        properties.setAddons(addons);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+                properties,
+                "terraform/aca-spring-keyvault",
+                configuration,
+                this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", ApplicationType.CONTAINER_APPS.name()),
+                this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
+                this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name())
+        );
+    }
+
+    @Test
     void generateSpringAppsWithTerraform() throws IOException {
         NubesgenConfiguration properties = new NubesgenConfiguration();
         properties.setApplicationName("nubesgen-testapp-spring");
