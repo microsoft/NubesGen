@@ -376,7 +376,7 @@ jobs:
 <%/applicationTypeContainerApps%>
   display-information:
 <%#applicationTypeContainerApps%>
-    needs: [manage-infrastructure]
+    needs: [manage-infrastructure,deploy]
 <%/applicationTypeContainerApps%>
 <%^applicationTypeContainerApps%>
   <%#runtimeDocker%>
@@ -389,10 +389,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.11.0
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.0
         with:
 <%#applicationTypeContainerApps%>
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          application_url: ${{ needs.deploy.outputs.application_url }}
           resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
 <%/applicationTypeContainerApps%>
 <%^applicationTypeContainerApps%>
