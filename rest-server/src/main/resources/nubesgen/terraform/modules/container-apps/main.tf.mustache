@@ -561,6 +561,9 @@ resource "azurerm_container_app" "application" {
 
 data "azuread_service_principal" "application" {
   display_name = azurerm_container_app.application.name
+  depends_on = [
+    azurerm_container_app.application
+  ]
 }
 
 data "azurerm_client_config" "current" {}
