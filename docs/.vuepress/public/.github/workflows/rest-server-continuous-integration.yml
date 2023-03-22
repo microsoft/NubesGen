@@ -22,7 +22,7 @@ on:
       - '.github/workflows/rest-server-continuous-integration.yml'
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: ${{ github.workspace }}/rest-server
@@ -40,7 +40,7 @@ jobs:
   build_java_docker_image:
     name: Build and publish a JVM-based Docker image
     needs: [ test ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen'
     steps:
@@ -64,7 +64,7 @@ jobs:
   build_native_docker_image:
     name: Build and publish a native (Linux) Docker image
     needs: [ test ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
     steps:

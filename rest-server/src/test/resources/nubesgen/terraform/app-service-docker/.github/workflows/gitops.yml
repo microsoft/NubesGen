@@ -14,7 +14,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
       application_url: ${{ steps.infrastructure-deployment.outputs.application_url }}
@@ -35,7 +35,7 @@ jobs:
           container_registry_name:  ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
   display-information:
     needs: [build-and-deploy]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Display Azure infrastructure information
         uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.0
