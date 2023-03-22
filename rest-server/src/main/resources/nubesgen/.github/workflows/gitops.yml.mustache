@@ -32,20 +32,32 @@ env:
 <%/runtimePython%>
 
 jobs:
-<%#runtimeDocker%>
-  build-and-deploy:
-<%/runtimeDocker%>
-<%^runtimeDocker%>
+<%#applicationTypeContainerApps%>
   manage-infrastructure:
-<%/runtimeDocker%>
+<%/applicationTypeContainerApps%>
+<%^applicationTypeContainerApps%>
+  <%#runtimeDocker%>
+  build-and-deploy:
+  <%/runtimeDocker%>
+  <%^runtimeDocker%>
+  manage-infrastructure:
+  <%/runtimeDocker%>
+<%/applicationTypeContainerApps%>
     runs-on: ubuntu-20.04
     outputs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
+  <%^applicationTypeContainerApps%>
       application_url: ${{ steps.infrastructure-deployment.outputs.application_url }}
+  <%/applicationTypeContainerApps%>
       resource_group: ${{ steps.infrastructure-deployment.outputs.resource_group }}
-  <%#runtimeDocker%>
+  <%#applicationTypeContainerApps%>
       container_registry_name: ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
-  <%/runtimeDocker%>
+  <%/applicationTypeContainerApps%>
+  <%^applicationTypeContainerApps%>
+    <%#runtimeDocker%>
+      container_registry_name: ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
+    <%/runtimeDocker%>
+  <%/applicationTypeContainerApps%>
   <%#applicationTypeSpringApps%>
       spring_apps_service_name: ${{ steps.infrastructure-deployment.outputs.spring_apps_service_name }}
   <%/applicationTypeSpringApps%>
@@ -91,7 +103,7 @@ jobs:
       - name: Build a Micronaut Docker image project using Maven
         uses: microsoft/nubesgen-actions/gitops-build-java-maven@<%compositeActionsVersion%>
         with:
-          build_command: ./mvnw clean package -Dpackaging=docker -Djib.to.image=${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
+          build_command: mvn clean package -Dpackaging=docker -Djib.to.image=${{ steps.infrastructure-deployment.outputs.container_registry_name }}.azurecr.io/${{ steps.infrastructure-deployment.outputs.application_name }}/${{ steps.infrastructure-deployment.outputs.application_name }}:${{ github.sha }}
       <%/runtimeMaven%>
       <%#runtimeGradle%>
       - name: Create an init script with the required image tag
@@ -101,7 +113,7 @@ jobs:
       - name: Build a Micronaut Docker image project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@<%compositeActionsVersion%>
         with:
-          build_command: ./gradlew -I /tmp/init.gradle dockerBuild
+          build_command: gradle -I /tmp/init.gradle dockerBuild
       <%/runtimeGradle%>
       - name: Login to Azure
         uses: azure/login@v1
@@ -145,7 +157,7 @@ jobs:
       <%/runtimeQuarkus%>
       <%#runtimeMicronaut%>
         with:
-          build_command: ./mvnw clean package
+          build_command: mvn clean package
           package_path: ${{ github.workspace }}/target/[^original]*.jar
       <%/runtimeMicronaut%>
     <%/runtimeMaven%>
@@ -163,7 +175,7 @@ jobs:
       <%/runtimeQuarkus%>
       <%#runtimeMicronaut%>
         with:
-          build_command: ./gradlew assemble
+          build_command: gradle assemble
           package_path: ${{ github.workspace }}/build/libs/*-all.jar
       <%/runtimeMicronaut%>
     <%/runtimeGradle%>
@@ -325,25 +337,74 @@ jobs:
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
   <%/applicationTypeFunction%>
 <%/runtimePython%>
+<%#applicationTypeContainerApps%>
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Build a Docker image
+        id: build
+  <%^runtimeSpring%>
+        uses: microsoft/nubesgen-actions/gitops-build-container@<%compositeActionsVersion%>
+        with:
+          build_command: 'docker build . -t application/application:${{ github.sha }}'
+  <%/runtimeSpring%>
+  <%#runtimeSpring%>
+    <%#runtimeMaven%>
+        uses: microsoft/nubesgen-actions/gitops-build-container-spring-maven@<%compositeActionsVersion%>
+        with:
+          build_command: 'mvn -Pnative spring-boot:build-image -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.imageName=application/application:${{ github.sha }}'
+    <%/runtimeMaven%>
+    <%#runtimeGradle%>
+        uses: microsoft/nubesgen-actions/gitops-build-container-spring-gradle@<%compositeActionsVersion%>
+        with:
+          build_command: 'gradle bootBuildImage -x test --publishImage=false --imageName=application/application:${{ github.sha }}'
+    <%/runtimeGradle%>
+  <%/runtimeSpring%>
+  deploy:
+    needs: [manage-infrastructure,build]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Deploy a Docker image to Azure Container Apps
+        id: deploy
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-container-apps@<%compositeActionsVersion%>
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
+          container_registry_name: ${{ needs.manage-infrastructure.outputs.container_registry_name }}
+          image_name: ${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}
+<%/applicationTypeContainerApps%>
   display-information:
-<%#runtimeDocker%>
+<%#applicationTypeContainerApps%>
+    needs: [manage-infrastructure,deploy]
+<%/applicationTypeContainerApps%>
+<%^applicationTypeContainerApps%>
+  <%#runtimeDocker%>
     needs: [build-and-deploy]
-<%/runtimeDocker%>
-<%^runtimeDocker%>
+  <%/runtimeDocker%>
+  <%^runtimeDocker%>
     needs: [manage-infrastructure]
-<%/runtimeDocker%>
+  <%/runtimeDocker%>
+<%/applicationTypeContainerApps%>
     runs-on: ubuntu-20.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.10.0
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.0
         with:
-<%#runtimeDocker%>
+<%#applicationTypeContainerApps%>
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          application_url: ${{ needs.deploy.outputs.application_url }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
+<%/applicationTypeContainerApps%>
+<%^applicationTypeContainerApps%>
+  <%#runtimeDocker%>
           application_name: ${{ needs.build-and-deploy.outputs.application_name }}
           application_url: ${{ needs.build-and-deploy.outputs.application_url }}
           resource_group: ${{ needs.build-and-deploy.outputs.resource_group }}
-<%/runtimeDocker%>
-<%^runtimeDocker%>
+  <%/runtimeDocker%>
+  <%^runtimeDocker%>
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
           application_url: ${{ needs.manage-infrastructure.outputs.application_url }}
           resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
-<%/runtimeDocker%>
+  <%/runtimeDocker%>
+<%/applicationTypeContainerApps%>
