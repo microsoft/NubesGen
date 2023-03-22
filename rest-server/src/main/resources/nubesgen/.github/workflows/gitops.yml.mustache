@@ -43,7 +43,7 @@ jobs:
   manage-infrastructure:
   <%/runtimeDocker%>
 <%/applicationTypeContainerApps%>
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
   <%^applicationTypeContainerApps%>
@@ -145,7 +145,7 @@ jobs:
 <%#runtimeJava%>
   <%#applicationTypeAppService%>
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     <%#runtimeMaven%>
       - name: Build a Java project using Maven
@@ -181,7 +181,7 @@ jobs:
     <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Deploy a Java application to Azure App Service
         uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@<%compositeActionsVersion%>
@@ -192,7 +192,7 @@ jobs:
   <%#applicationTypeFunction%>
   build:
     needs: [manage-infrastructure]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     <%#runtimeMaven%>
       - name: Build a Java function using Maven
@@ -210,7 +210,7 @@ jobs:
     <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure,build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Deploy a Java function to Azure Functions
         uses: microsoft/nubesgen-actions/gitops-deploy-to-function-java@<%compositeActionsVersion%>
@@ -220,7 +220,7 @@ jobs:
   <%/applicationTypeFunction%>
   <%#applicationTypeSpringApps%>
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     <%#runtimeMaven%>
       - name: Build a Java project using Maven
@@ -234,7 +234,7 @@ jobs:
     <%/runtimeGradle%>
   deploy:
     needs: [manage-infrastructure, build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Deploy a Java application to Azure Spring Apps
         uses: microsoft/nubesgen-actions/gitops-deploy-to-spring-apps-java@<%compositeActionsVersion%>
@@ -246,7 +246,7 @@ jobs:
 <%/runtimeJava%>
 <%#runtimeDotnet%>
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
   <%#applicationTypeAppService%>
       - name: Build a .NET application
@@ -264,7 +264,7 @@ jobs:
   <%/applicationTypeFunction%>
   deploy:
     needs: [manage-infrastructure, build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
   <%#applicationTypeAppService%>
       - name: Deploy a .NET application to Azure App Service
@@ -283,7 +283,7 @@ jobs:
 <%/runtimeDotnet%>
 <%#runtimeNodejs%>
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Build a NodeJS project
         uses: microsoft/nubesgen-actions/gitops-build-nodejs@<%compositeActionsVersion%>
@@ -292,7 +292,7 @@ jobs:
           application_package_path: ${{ env.APP_PACKAGE_PATH }}
   deploy:
     needs: [manage-infrastructure, build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
   <%#applicationTypeAppService%>
       - name: Deploy a NodeJS application to Azure App Service
@@ -311,7 +311,7 @@ jobs:
 <%/runtimeNodejs%>
 <%#runtimePython%>
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Build a Python project
         uses: microsoft/nubesgen-actions/gitops-build-python@<%compositeActionsVersion%>
@@ -320,7 +320,7 @@ jobs:
           application_package_path: ${{ env.APP_PACKAGE_PATH }}
   deploy:
     needs: [manage-infrastructure, build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
   <%#applicationTypeAppService%>
       - name: Deploy a Python application to Azure App Service
@@ -339,7 +339,7 @@ jobs:
 <%/runtimePython%>
 <%#applicationTypeContainerApps%>
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Build a Docker image
         id: build
@@ -362,7 +362,7 @@ jobs:
   <%/runtimeSpring%>
   deploy:
     needs: [manage-infrastructure,build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Deploy a Docker image to Azure Container Apps
         id: deploy
@@ -386,7 +386,7 @@ jobs:
     needs: [manage-infrastructure]
   <%/runtimeDocker%>
 <%/applicationTypeContainerApps%>
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Display Azure infrastructure information
         uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.0
