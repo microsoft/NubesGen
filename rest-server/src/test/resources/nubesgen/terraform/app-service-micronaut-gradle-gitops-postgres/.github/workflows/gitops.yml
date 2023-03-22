@@ -14,7 +14,7 @@ on:
 
 jobs:
   manage-infrastructure:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
       application_url: ${{ steps.infrastructure-deployment.outputs.application_url }}
@@ -27,7 +27,7 @@ jobs:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Build a Java project using Gradle
         uses: microsoft/nubesgen-actions/gitops-build-java-gradle@v0.12.0
@@ -36,7 +36,7 @@ jobs:
           package_path: ${{ github.workspace }}/build/libs/*-all.jar
   deploy:
     needs: [manage-infrastructure, build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Deploy a Java application to Azure App Service
         uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-java@v0.12.0
@@ -45,7 +45,7 @@ jobs:
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
   display-information:
     needs: [manage-infrastructure]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Display Azure infrastructure information
         uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.0

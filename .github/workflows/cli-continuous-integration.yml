@@ -15,7 +15,7 @@ on:
 jobs:
   build-jar:
     name: 'Build JAR package'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: ${{ github.workspace }}/cli
@@ -47,7 +47,7 @@ jobs:
       matrix:
         graalvm-version: ['latest']
         jdk-version: ['17']
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-22.04, macos-latest, windows-latest]
     steps:
       - name: Download application package
         uses: actions/download-artifact@v3
