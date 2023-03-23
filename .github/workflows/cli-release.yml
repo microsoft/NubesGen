@@ -53,7 +53,6 @@ jobs:
           java-version: '17'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          cache: 'maven'
       - name: Build native image on Linux
         run: native-image --enable-url-protocols=https --static -jar nubesgen-cli-*.jar nubesgen-cli-linux
         if: runner.os == 'Linux'
