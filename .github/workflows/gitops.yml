@@ -25,9 +25,9 @@ jobs:
         id: infrastructure-deployment
         uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.12.2
         env:
-          TF_VAR_application_name: ${{ vars.TF_VAR_application_name }}
-          TF_VAR_container_certificate: ${{ secrets.TF_VAR_container_certificate }}
-          TF_VAR_container_certificate_password: ${{ secrets.TF_VAR_container_certificate_password }}
+          TF_VAR_application_name: ${{ vars.TF_VAR_APPLICATION_NAME }}
+          TF_VAR_container_certificate: ${{ secrets.TF_VAR_CONTAINER_CERTIFICATE }}
+          TF_VAR_container_certificate_password: ${{ secrets.TF_VAR_CONTAINER_CERTIFICATE_PASSWORD }}
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
