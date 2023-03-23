@@ -59,6 +59,13 @@ resource "azurecaf_name" "application" {
   suffixes      = [var.environment]
 }
 
+resource "azurerm_container_app_environment_certificate" "application" {
+  name                         = "nubesgen-dev-container-certificate"
+  container_app_environment_id = azurerm_container_app_environment.application.id
+  certificate_blob             = var.container_certificate
+  certificate_password         = var.container_certificate_password
+}
+
 resource "azurerm_container_app" "application" {
   name                         = azurecaf_name.application.result
   container_app_environment_id = azurerm_container_app_environment.application.id
@@ -67,8 +74,7 @@ resource "azurerm_container_app" "application" {
 
   lifecycle {
     ignore_changes = [
-      template.0.container["image"],
-      custom_domain
+      template.0.container["image"]
     ]
   }
 
@@ -90,6 +96,11 @@ resource "azurerm_container_app" "application" {
       percentage = 100
       latest_revision = true
     }
+  }
+
+  custom_domain {
+    name           = "dev.nubesgen.com"
+    certificate_id = azurerm_container_app_environment_certificate.application.id
   }
 
   secret {
