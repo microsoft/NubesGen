@@ -10,7 +10,7 @@ name: GitOps
 on:
   push:
     branches:
-      - 'main'
+      - main
 
 jobs:
   manage-infrastructure:
