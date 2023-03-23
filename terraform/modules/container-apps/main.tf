@@ -103,10 +103,6 @@ resource "azurerm_container_app" "application" {
       cpu    = 0.25
       memory = "0.5Gi"
       env {
-        name  = "SPRING_PROFILES_ACTIVE"
-        value = "prod,azure"
-      }
-      env {
         name  = "AZURE_STORAGE_ACCOUNT_NAME"
         value = var.azure_storage_account_name
       }
