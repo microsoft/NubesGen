@@ -10,7 +10,6 @@ name: GitOps
 on:
   push:
     branches:
-      - 'env-*'
       - 'main'
 
 jobs:
@@ -26,8 +25,8 @@ jobs:
         id: infrastructure-deployment
         uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.12.1
         env:
-          TF_VAR_CONTAINER_CERTIFICATE: ${{ secrets.TF_VAR_CONTAINER_CERTIFICATE }}
-          TF_VAR_CONTAINER_CERTIFICATE_PASSWORD: ${{ secrets.TF_VAR_CONTAINER_CERTIFICATE_PASSWORD }}
+          TF_VAR_container_certificate: ${{ secrets.TF_VAR_CONTAINER_CERTIFICATE }}
+          TF_VAR_container_certificate_password: ${{ secrets.TF_VAR_CONTAINER_CERTIFICATE_PASSWORD }}
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
