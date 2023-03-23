@@ -43,7 +43,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 module "application" {
-  source           = "modules/container-apps"
+  source           = "./modules/container-apps"
   resource_group   = azurerm_resource_group.main.name
   application_name = var.application_name
   environment      = local.environment
@@ -55,7 +55,7 @@ module "application" {
 }
 
 module "storage-blob" {
-  source           = "modules/storage-blob"
+  source           = "./modules/storage-blob"
   resource_group   = azurerm_resource_group.main.name
   application_name = var.application_name
   environment      = local.environment
