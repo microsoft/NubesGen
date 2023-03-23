@@ -24,12 +24,12 @@ variable "location" {
 
 variable "container_certificate" {
   type        = string
-  secret      = true
+  sensitive   = true
   description = "The domain certificate for Azure Container Apps"
 }
 
 variable "container_certificate_password" {
   type        = string
-  secret      = true
+  sensitive   = true
   description = "The password for the domain certificate for Azure Container Apps"
 }
