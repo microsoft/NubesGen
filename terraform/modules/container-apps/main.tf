@@ -67,7 +67,7 @@ resource "azurerm_container_app" "application" {
 
   lifecycle {
     ignore_changes = [
-      template.0.container["image"]
+      template.0.container["image"],
       custom_domain
     ]
   }
