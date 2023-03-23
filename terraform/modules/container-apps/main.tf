@@ -62,7 +62,7 @@ resource "azurecaf_name" "application" {
 resource "azurerm_container_app_environment_certificate" "application" {
   name                         = "nubesgen-dev-container-certificate"
   container_app_environment_id = azurerm_container_app_environment.application.id
-  certificate_blob             = var.container_certificate
+  certificate_blob_base64      = var.container_certificate
   certificate_password         = var.container_certificate_password
 }
 
@@ -96,11 +96,10 @@ resource "azurerm_container_app" "application" {
       percentage = 100
       latest_revision = true
     }
-  }
-
-  custom_domain {
-    name           = "dev.nubesgen.com"
-    certificate_id = azurerm_container_app_environment_certificate.application.id
+    custom_domain {
+      name           = "dev.nubesgen.com"
+      certificate_id = azurerm_container_app_environment_certificate.application.id
+    }
   }
 
   secret {
