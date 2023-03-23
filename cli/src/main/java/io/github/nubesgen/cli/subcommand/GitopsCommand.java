@@ -70,7 +70,6 @@ public class GitopsCommand implements Callable<Integer> {
 
             return -1;
         }
-
         // The resource group used by Terraform to store its remote state.
         String resourceGroup = "rg-terraform-001";
         // The location of the resource group.
@@ -123,9 +122,11 @@ public class GitopsCommand implements Callable<Integer> {
                 + " --name " + subnet + " --vnet-name " + vnet + " --service-endpoints \"Microsoft.Storage\" -o none");
 
             Output.printInfo("(8/10) Secure the storage account in the virtual network");
-            ProcessExecutor.execute("az storage account network-rule add --account-name " + tfStorageAccount
+            ProcessExecutor.execute("az storage account network-rule add --resource-group " + resourceGroup
+                + " --account-name " + tfStorageAccount
                 + " --vnet-name " + vnet + " --subnet " + subnet + " -o none");
-            ProcessExecutor.execute("az storage account update --name " + tfStorageAccount
+            ProcessExecutor.execute("az storage account update --resource-group " + resourceGroup
+                + " --name " + tfStorageAccount
                 + " --default-action Deny --bypass None -o none");
 
             Output.printInfo("(9/10) Get current subscription");
@@ -137,7 +138,7 @@ public class GitopsCommand implements Callable<Integer> {
             String remoteRepo = ProcessExecutor.executeAndReturnString("git config --get remote.origin.url");
             ProcessExecutor.execute("SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role=\"Contributor\" --scopes=\"/subscriptions/"
                 + subscriptionId + "\" --sdk-auth --only-show-errors) &&" +
-                " gh secret set AZURE_CREDENTIALS -b\"$SERVICE_PRINCIPAL\" -R " + 
+                " gh secret set AZURE_CREDENTIALS -b\"$SERVICE_PRINCIPAL\" -R " +
                 remoteRepo);
             ProcessExecutor.execute("gh secret set TF_STORAGE_ACCOUNT -b\"" + tfStorageAccount + "\" -R " + remoteRepo);
             Output.printTitle("Congratulations! You have successfully configured GitOps with NubesGen.");
