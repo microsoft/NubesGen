@@ -32,9 +32,9 @@ jobs:
     steps:
       - name: Build a Docker image
         id: build
-        uses: microsoft/nubesgen-actions/gitops-build-container@v0.12.0
+        uses: microsoft/nubesgen-actions/gitops-build-container-spring-maven@v0.12.0
         with:
-          build_command: 'docker build . -t application/application:${{ github.sha }}'
+          build_command: 'cd rest-server && mvn -Pnative spring-boot:build-image -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.imageName=application/application:${{ github.sha }}'
   deploy:
     needs: [manage-infrastructure,build]
     runs-on: ubuntu-22.04
