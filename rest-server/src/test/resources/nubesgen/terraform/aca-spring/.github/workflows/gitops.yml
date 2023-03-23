@@ -1,0 +1,59 @@
+name: GitOps
+
+###
+# GitOps - automatic infrastructure management GitHub Action
+#
+# See https://docs.nubesgen.com/gitops/gitops-quick-start/
+# for more information about using GitOps with NubesGen.
+###
+
+on:
+  push:
+    branches:
+      - 'env-*'
+
+jobs:
+  manage-infrastructure:
+    runs-on: ubuntu-22.04
+    outputs:
+      application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
+      resource_group: ${{ steps.infrastructure-deployment.outputs.resource_group }}
+      container_registry_name: ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
+    steps:
+      - name: Apply Terraform configuration
+        id: infrastructure-deployment
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.12.0
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Build a Docker image
+        id: build
+        uses: microsoft/nubesgen-actions/gitops-build-container-spring-maven@v0.12.0
+        with:
+          build_command: 'mvn -Pnative spring-boot:build-image -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.imageName=application/application:${{ github.sha }}'
+  deploy:
+    needs: [manage-infrastructure,build]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Deploy a Docker image to Azure Container Apps
+        id: deploy
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-container-apps@v0.12.0
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
+          container_registry_name: ${{ needs.manage-infrastructure.outputs.container_registry_name }}
+          image_name: ${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}
+  display-information:
+    needs: [manage-infrastructure,deploy]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Display Azure infrastructure information
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.0
+        with:
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          application_url: ${{ needs.deploy.outputs.application_url }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}

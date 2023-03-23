@@ -5,7 +5,7 @@ on:
 jobs:
   build-jar:
     name: 'Build JAR package'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: ${{ github.workspace }}/cli
@@ -36,7 +36,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             artifact_name: linux-binary
           - os: macos-latest
             artifact_name: macos-binary
@@ -74,7 +74,7 @@ jobs:
   publish-binaries:
     name: 'Publish binaries to GitHub packages'
     needs: [ build-native-image ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         include:

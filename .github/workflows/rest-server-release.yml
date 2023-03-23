@@ -12,7 +12,7 @@ on:
 jobs:
   build_jar:
     name: Build and publish Jar file
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: ${{ github.workspace }}/rest-server
@@ -37,7 +37,7 @@ jobs:
           tag: ${{ github.ref }}
   build_docker_image:
     name: Build and publish Docker image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       DOCKER_IMAGE_NAME: 'docker.pkg.github.com/microsoft/nubesgen/nubesgen'
     steps:

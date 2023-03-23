@@ -1,0 +1,581 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source  = "aztfmod/azurecaf"
+      version = "1.2.24"
+    }
+{{#addonKeyVault}}
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "2.36.0"
+    }
+{{/addonKeyVault}}
+  }
+}
+
+resource "azurecaf_name" "container_registry" {
+  name          = var.application_name
+  resource_type = "azurerm_container_registry"
+  suffixes      = [var.environment]
+}
+
+resource "azurerm_container_registry" "container-registry" {
+  name                = azurecaf_name.container_registry.result
+  resource_group_name = var.resource_group
+  location            = var.location
+  admin_enabled       = true
+  sku                 = "Basic"
+
+  tags = {
+    "environment"      = var.environment
+    "application-name" = var.application_name
+  }
+}
+
+resource "azurecaf_name" "log_analytics_workspace" {
+  name          = var.application_name
+  resource_type = "azurerm_log_analytics_workspace"
+  suffixes      = [var.environment]
+}
+
+resource "azurerm_log_analytics_workspace" "application" {
+  name                = azurecaf_name.log_analytics_workspace.result
+  resource_group_name = var.resource_group
+  location            = var.location
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+}
+
+resource "azurecaf_name" "application-environment" {
+  name          = var.application_name
+  resource_type = "azurerm_container_app_environment"
+  suffixes      = [var.environment]
+}
+
+resource "azurerm_container_app_environment" "application" {
+  name                       = azurecaf_name.application-environment.result
+  resource_group_name        = var.resource_group
+  location                   = var.location
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application.id
+}
+
+resource "azurecaf_name" "application" {
+  name          = var.application_name
+  resource_type = "azurerm_container_app"
+  suffixes      = [var.environment]
+}
+
+resource "azurerm_container_app" "application" {
+  name                         = azurecaf_name.application.result
+  container_app_environment_id = azurerm_container_app_environment.application.id
+  resource_group_name          = var.resource_group
+  revision_mode                = "Single"
+
+  lifecycle {
+    ignore_changes = [
+      template.0.container["image"]
+    ]
+  }
+{{#addonKeyVault}}
+
+  identity {
+    type = "SystemAssigned"
+  }
+{{/addonKeyVault}}
+
+  secret {
+    name  = "registry-credentials"
+    value = azurerm_container_registry.container-registry.admin_password
+  }
+
+  registry {
+    server               = azurerm_container_registry.container-registry.login_server
+    username             = azurerm_container_registry.container-registry.admin_username
+    password_secret_name = "registry-credentials"
+  }
+
+  ingress {
+    external_enabled = true
+    target_port      = 8080
+    traffic_weight {
+      percentage = 100
+      latest_revision = true
+    }
+  }
+  {{^databaseTypeNone}}
+    {{^addonKeyVault}}
+  secret {
+    name  = "database-password"
+    value = var.database_password
+  }
+    {{/addonKeyVault}}
+  {{/databaseTypeNone}}
+  {{#addonRedis}}
+    {{#runtimeQuarkus}}
+
+  secret {
+    name  = "redis-hosts"
+    value = "redis://${var.azure_redis_password}@${var.azure_redis_host}:6380"
+  }
+    {{/runtimeQuarkus}}
+    {{^runtimeQuarkus}}
+      {{^addonKeyVault}}
+
+  secret {
+    name  = "redis-password"
+    value = var.azure_redis_password
+  }
+      {{/addonKeyVault}}
+    {{/runtimeQuarkus}}
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+    {{^addonKeyVault}}
+
+  secret {
+    name  = "azure-storage-account-key"
+    value = var.azure_storage_account_key
+  }
+    {{/addonKeyVault}}
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+    {{^addonKeyVault}}
+      {{#runtimeMicronaut}}
+
+  secret {
+    name  = "cosmosdb-mongodb-uri"
+    value = "${var.azure_cosmosdb_mongodb_uri}/${var.azure_cosmosdb_mongodb_database}"
+  }
+      {{/runtimeMicronaut}}
+      {{^runtimeMicronaut}}
+
+  secret {
+    name  = "cosmosdb-mongodb-uri"
+    value = var.azure_cosmosdb_mongodb_uri
+  }
+      {{/runtimeMicronaut}}
+    {{/addonKeyVault}}
+  {{/addonCosmosdbMongodb}}
+
+  template {
+    container {
+      name   = azurecaf_name.application.result
+      image  = "ghcr.io/microsoft/nubesgen/nubesgen-native:main"
+      cpu    = 0.25
+      memory = "0.5Gi"
+{{#addonApplicationInsights}}
+      env {
+        name  = "APPINSIGHTS_INSTRUMENTATIONKEY"
+        value = var.azure_application_insights_instrumentation_key
+      }
+{{/addonApplicationInsights}}
+{{#runtimeQuarkus}}
+      env {
+        name  = "QUARKUS_HTTP_PORT"
+        value = 8080
+      }
+      env {
+        name  = "QUARKUS_PROFILE"
+        value = prod
+      }
+  {{#databaseTypeSqlServer}}
+      env {
+        name  = "QUARKUS_DATASOURCE_JDBC_URL"
+        value = "jdbc:sqlserver://${var.database_url}"
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "QUARKUS_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "QUARKUS_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+      env {
+        name  = "QUARKUS_DATASOURCE_JDBC_URL"
+        value = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "QUARKUS_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "QUARKUS_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+      env {
+        name  = "QUARKUS_DATASOURCE_JDBC_URL"
+        value = "jdbc:postgresql://${var.database_url}"
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "QUARKUS_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "QUARKUS_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+      env {
+        name        = "QUARKUS_REDIS_HOSTS"
+        secret_name = "redis-hosts"
+      }
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+      env {
+        name  = "AZURE_STORAGE_ACCOUNT_NAME"
+        value = var.azure_storage_account_name
+      }
+      env {
+        name  = "AZURE_STORAGE_BLOB_ENDPOINT"
+        value = var.azure_storage_blob_endpoint
+      }
+    {{^addonKeyVault}}
+      env {
+        name        = "AZURE_STORAGE_ACCOUNT_KEY"
+        secret_name = "azure-storage-account-key"
+      }
+    {{/addonKeyVault}}
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+      env {
+        name  = "QUARKUS_MONGODB_DATABASE"
+        value = var.azure_cosmosdb_mongodb_database
+      }
+    {{^addonKeyVault}}
+      env {
+        name        = "QUARKUS_MONGODB_HOSTS"
+        secret_name = "cosmosdb-mongodb-uri"
+      }
+    {{/addonKeyVault}}
+  {{/addonCosmosdbMongodb}}
+{{/runtimeQuarkus}}
+{{#runtimeSpring}}
+      env {
+        name  = "SPRING_PROFILES_ACTIVE"
+        value = "prod,azure"
+      }
+  {{#databaseTypeSqlServer}}
+      env {
+        name  = "SPRING_DATASOURCE_URL"
+        value = "jdbc:sqlserver://${var.database_url}"
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "SPRING_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "SPRING_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+      env {
+        name  = "SPRING_DATASOURCE_URL"
+        value = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "SPRING_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "SPRING_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+      env {
+        name  = "SPRING_DATASOURCE_URL"
+        value = "jdbc:postgresql://${var.database_url}"
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "SPRING_DATASOURCE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "SPRING_DATASOURCE_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+      env {
+        name  = "SPRING_REDIS_HOST"
+        value = var.azure_redis_host
+      }
+    {{^addonKeyVault}}
+      env {
+        name        = "SPRING_REDIS_PASSWORD"
+        secret_name = "redis-password"
+      }
+    {{/addonKeyVault}}
+      env {
+        name  = "SPRING_REDIS_PORT"
+        value = "6380"
+      }
+      env {
+        name  = "SPRING_REDIS_SSL"
+        value = "true"
+      }
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+      env {
+        name  = "AZURE_STORAGE_ACCOUNT_NAME"
+        value = var.azure_storage_account_name
+      }
+      env {
+        name  = "AZURE_STORAGE_BLOB_ENDPOINT"
+        value = var.azure_storage_blob_endpoint
+      }
+    {{^addonKeyVault}}
+      env {
+        name        = "AZURE_STORAGE_ACCOUNT_KEY"
+        secret_name = "azure-storage-account-key"
+      }
+    {{/addonKeyVault}}
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+      env {
+        name  = "SPRING_DATA_MONGODB_DATABASE"
+        value = var.azure_cosmosdb_mongodb_database
+      }
+    {{^addonKeyVault}}
+      env {
+        name        = "SPRING_DATA_MONGODB_URI"
+        secret_name = "cosmosdb-mongodb-uri"
+      }
+    {{/addonKeyVault}}
+  {{/addonCosmosdbMongodb}}
+{{/runtimeSpring}}
+{{#runtimeMicronaut}}
+      env {
+        name  = "MICRONAUT_ENVIRONMENTS"
+        value = "prod,azure"
+      }
+      env {
+        name  = "MICRONAUT_SERVER_PORT"
+        value = 8080
+      }
+  {{#databaseTypeSqlServer}}
+      env {
+        name  = "DATASOURCES_DEFAULT_URL"
+        value = "jdbc:sqlserver://${var.database_url}"
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "DATASOURCES_DEFAULT_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "DATASOURCES_DEFAULT_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+      env {
+        name  = "DATASOURCES_DEFAULT_URL"
+        value = "jdbc:mysql://${var.database_url}?useUnicode=true&characterEncoding=utf8&useSSL=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "DATASOURCES_DEFAULT_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "DATASOURCES_DEFAULT_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+      env {
+        name  = "DATASOURCES_DEFAULT_URL"
+        value = "jdbc:postgresql://${var.database_url}"
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "DATASOURCES_DEFAULT_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "DATASOURCES_DEFAULT_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+      env {
+        name  = "REDIS_HOST"
+        value = var.azure_redis_host
+      }
+    {{^addonKeyVault}}
+      env {
+        name        = "SPRING_REDIS_PASSWORD"
+        secret_name = "redis-password"
+      }
+    {{/addonKeyVault}}
+      env {
+        name  = "REDIS_PORT"
+        value = "6380"
+      }
+      env {
+        name  = "REDIS_SSL"
+        value = "true"
+      }
+  {{/addonRedis}}
+  {{#addonCosmosdbMongodb}}
+    {{^addonKeyVault}}
+      env {
+        name        = "MONGODB_URI"
+        secret_name = "cosmosdb-mongodb-uri"
+        value = "${var.azure_cosmosdb_mongodb_uri}/${var.azure_cosmosdb_mongodb_database}"
+      }
+    {{/addonKeyVault}}
+  {{/addonCosmosdbMongodb}}
+{{/runtimeMicronaut}}
+{{#runtimeDefault}}
+  {{#databaseTypeSqlServer}}
+      env {
+        name  = "DATABASE_URL"
+        value = var.database_url
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "DATABASE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "DATABASE_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypeSqlServer}}
+  {{#databaseTypeMysql}}
+      env {
+        name  = "DATABASE_URL"
+        value = var.database_url
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "DATABASE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "DATABASE_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypeMysql}}
+  {{#databaseTypePostgresql}}
+      env {
+        name  = "DATABASE_URL"
+        value = var.database_url
+      }
+    {{^addonKeyVault}}
+      env {
+        name  = "DATABASE_USERNAME"
+        value = var.database_username
+      }
+      env {
+        name        = "DATABASE_PASSWORD"
+        secret_name = "database-password"
+      }
+    {{/addonKeyVault}}
+  {{/databaseTypePostgresql}}
+  {{#addonRedis}}
+      env {
+        name  = "REDIS_HOST"
+        value = var.azure_redis_host
+      }
+    {{^addonKeyVault}}
+      env {
+        name        = "SPRING_REDIS_PASSWORD"
+        secret_name = "redis-password"
+      }
+    {{/addonKeyVault}}
+      env {
+        name  = "REDIS_PORT"
+        value = "6380"
+      }
+  {{/addonRedis}}
+  {{#addonStorageBlob}}
+      env {
+        name  = "AZURE_STORAGE_ACCOUNT_NAME"
+        value = var.azure_storage_account_name
+      }
+      env {
+        name  = "AZURE_STORAGE_BLOB_ENDPOINT"
+        value = var.azure_storage_blob_endpoint
+      }
+    {{^addonKeyVault}}
+      env {
+        name        = "AZURE_STORAGE_ACCOUNT_KEY"
+        secret_name = "azure-storage-account-key"
+      }
+    {{/addonKeyVault}}
+  {{/addonStorageBlob}}
+  {{#addonCosmosdbMongodb}}
+      env {
+        name  = "MONGODB_DATABASE"
+        value = var.azure_cosmosdb_mongodb_database
+      }
+    {{^addonKeyVault}}
+      env {
+        name        = "MONGODB_URI"
+        secret_name = "cosmosdb-mongodb-uri"
+      }
+    {{/addonKeyVault}}
+  {{/addonCosmosdbMongodb}}
+{{/runtimeDefault}}
+{{#addonKeyVault}}
+      env {
+        name  = "AZURE_KEYVAULT_ENABLED"
+        value = "true"
+      }
+      env {
+        name  = "AZURE_KEYVAULT_URI"
+        value = var.vault_uri
+      }
+{{/addonKeyVault}}
+    }
+    min_replicas = 1
+  }
+}
+{{#addonKeyVault}}
+
+data "azuread_service_principal" "application" {
+  display_name = azurerm_container_app.application.name
+  depends_on = [
+    azurerm_container_app.application
+  ]
+}
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault_access_policy" "application" {
+  key_vault_id = var.vault_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azuread_service_principal.application.id
+
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
+}
+{{/addonKeyVault}}

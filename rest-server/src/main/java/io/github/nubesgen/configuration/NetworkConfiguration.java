@@ -19,6 +19,10 @@ public class NetworkConfiguration {
         return this.networkType;
     }
 
+    public void setNetworkType(NetworkType networkType) {
+        this.networkType = networkType;
+    }
+
     @Override
     public String toString() {
         return "NetworkConfiguration{" + "networkType=" + networkType + '}';
