@@ -78,6 +78,7 @@ public class GitopsCommand implements Callable<Integer> {
         // The storage account (inside the resource group) used by Terraform to store
         // its remote state.
         tfStorageAccount = tfStorageAccount.replaceAll("-", "");
+        tfStorageAccount = tfStorageAccount.toLowerCase();
         if (tfStorageAccount.length() > 16) {
             tfStorageAccount = tfStorageAccount.substring(0, 16);
         }
