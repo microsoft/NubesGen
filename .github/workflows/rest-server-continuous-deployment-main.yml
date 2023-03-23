@@ -1,4 +1,4 @@
-name: GitOps
+name: REST Server - Deployment - main branch
 
 ###
 # GitOps - automatic infrastructure management GitHub Action
