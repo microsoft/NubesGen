@@ -389,7 +389,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.0
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.1
         with:
 <%#applicationTypeContainerApps%>
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
