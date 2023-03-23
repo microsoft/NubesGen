@@ -38,6 +38,7 @@ jobs:
           java-version: '19'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          cache: 'maven'
       - name: Build application with GraalVM
         run: |
           cd rest-server && mvn -Pnative native:compile
