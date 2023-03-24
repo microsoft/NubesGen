@@ -27,12 +27,13 @@ public class GitopsCommand implements Callable<Integer> {
         Output.printTitle("Setting up GitOps...");
         Output.printInfo("(1/10) Checking if the project is configured on GitHub...");
         try {
-            int exitCode = ProcessExecutor.execute("gh secret set NUBESGEN_TEST -b\"test\"");
+            String remoteRepo = ProcessExecutor.executeAndReturnString("git config --get remote.origin.url");
+            int exitCode = ProcessExecutor.execute("gh secret set NUBESGEN_TEST -b\"test\" -R " + remoteRepo);
             if (exitCode != 0) {
                 Output.printError("The project isn't configured on GitHub, GitOps configuration is disabled.");
                 return -1;
             } else {
-                ProcessExecutor.execute("gh secret remove NUBESGEN_TEST");
+                ProcessExecutor.execute("gh secret remove NUBESGEN_TEST -R " + remoteRepo);
             }
         } catch (Exception e) {
             Output.printError("The project isn't configured on GitHub, GitOps configuration is disabled. Error: "
@@ -43,7 +44,8 @@ public class GitopsCommand implements Callable<Integer> {
 
         Output.printInfo("(2/10) Checking if the project already has GitOps configured...");
         try {
-            String secretList = ProcessExecutor.executeAndReturnString("gh secret list");
+            String remoteRepo = ProcessExecutor.executeAndReturnString("git config --get remote.origin.url");
+            String secretList = ProcessExecutor.executeAndReturnString("gh secret list -R " + remoteRepo);
             if (secretList.contains("AZURE_CREDENTIALS")) {
                 Output.printInfo("The project already has a \"AZURE_CREDENTIALS\" secret.");
                 if (refresh) {
@@ -68,7 +70,6 @@ public class GitopsCommand implements Callable<Integer> {
 
             return -1;
         }
-
         // The resource group used by Terraform to store its remote state.
         String resourceGroup = "rg-terraform-001";
         // The location of the resource group.
@@ -76,6 +77,7 @@ public class GitopsCommand implements Callable<Integer> {
         // The storage account (inside the resource group) used by Terraform to store
         // its remote state.
         tfStorageAccount = tfStorageAccount.replaceAll("-", "");
+        tfStorageAccount = tfStorageAccount.toLowerCase();
         if (tfStorageAccount.length() > 16) {
             tfStorageAccount = tfStorageAccount.substring(0, 16);
         }
@@ -120,9 +122,11 @@ public class GitopsCommand implements Callable<Integer> {
                 + " --name " + subnet + " --vnet-name " + vnet + " --service-endpoints \"Microsoft.Storage\" -o none");
 
             Output.printInfo("(8/10) Secure the storage account in the virtual network");
-            ProcessExecutor.execute("az storage account network-rule add --account-name " + tfStorageAccount
+            ProcessExecutor.execute("az storage account network-rule add --resource-group " + resourceGroup
+                + " --account-name " + tfStorageAccount
                 + " --vnet-name " + vnet + " --subnet " + subnet + " -o none");
-            ProcessExecutor.execute("az storage account update --name " + tfStorageAccount
+            ProcessExecutor.execute("az storage account update --resource-group " + resourceGroup
+                + " --name " + tfStorageAccount
                 + " --default-action Deny --bypass None -o none");
 
             Output.printInfo("(9/10) Get current subscription");
@@ -134,7 +138,7 @@ public class GitopsCommand implements Callable<Integer> {
             String remoteRepo = ProcessExecutor.executeAndReturnString("git config --get remote.origin.url");
             ProcessExecutor.execute("SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --role=\"Contributor\" --scopes=\"/subscriptions/"
                 + subscriptionId + "\" --sdk-auth --only-show-errors) &&" +
-                " gh secret set AZURE_CREDENTIALS -b\"$SERVICE_PRINCIPAL\" -R " + 
+                " gh secret set AZURE_CREDENTIALS -b\"$SERVICE_PRINCIPAL\" -R " +
                 remoteRepo);
             ProcessExecutor.execute("gh secret set TF_STORAGE_ACCOUNT -b\"" + tfStorageAccount + "\" -R " + remoteRepo);
             Output.printTitle("Congratulations! You have successfully configured GitOps with NubesGen.");

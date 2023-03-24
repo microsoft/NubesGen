@@ -496,24 +496,76 @@ class CodeGeneratorServiceTest {
         );
     }
 
-    // @Test
-    // void generateAppServiceWithBicep() throws IOException {
-    //     NubesgenConfiguration properties = new NubesgenConfiguration();
-    //     properties.setApplicationName("nubesgen-testapp-app-service-bicep");
-    //     properties.setRegion("westeurope");
-    //     properties.setRuntimeType(RuntimeType.SPRING);
-    //     properties.setIaCTool(IaCTool.BICEP);
+    @Test
+    void generateContainerAppDocker() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-ca-test");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.DOCKER);
 
-    //     Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.CONTAINER_APPS, Tier.CONSUMPTION));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
+        properties.setGitops(true);
 
-    //     testGeneratedFiles(
-    //         properties,
-    //         "bicep/app-service-spring",
-    //         configuration,
-    //         this.templateListService.listModuleTemplates("bicep", TemplateListService.ROOT_DIRECTORY),
-    //         this.templateListService.listModuleTemplates("bicep", ApplicationType.APP_SERVICE.name())
-    //     );
-    // }
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+                properties,
+                "terraform/aca-docker",
+                configuration,
+                this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", ApplicationType.CONTAINER_APPS.name())
+        );
+    }
+
+    @Test
+    void generateContainerAppSpring() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-ca-test");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.CONTAINER_APPS, Tier.CONSUMPTION));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.NONE, Tier.BASIC));
+        properties.setGitops(true);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+                properties,
+                "terraform/aca-spring",
+                configuration,
+                this.templateListService.listModuleTemplates(".github", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", ApplicationType.CONTAINER_APPS.name())
+        );
+    }
+
+    @Test
+    void generateContainerAppSpringKeyVault() throws IOException {
+        NubesgenConfiguration properties = new NubesgenConfiguration();
+        properties.setApplicationName("nubesgen-ca-kv-test");
+        properties.setRegion("westeurope");
+        properties.setRuntimeType(RuntimeType.SPRING);
+        properties.setApplicationConfiguration(new ApplicationConfiguration(ApplicationType.CONTAINER_APPS, Tier.CONSUMPTION));
+        properties.setDatabaseConfiguration(new DatabaseConfiguration(DatabaseType.POSTGRESQL, Tier.BASIC));
+        List<AddonConfiguration> addons = new ArrayList<>();
+        addons.add(new AddonConfiguration(AddonType.KEY_VAULT, Tier.BASIC));
+        properties.setAddons(addons);
+
+        Map<String, String> configuration = this.codeGeneratorService.generateAzureConfiguration(properties);
+
+        testGeneratedFiles(
+                properties,
+                "terraform/aca-spring-keyvault",
+                configuration,
+                this.templateListService.listModuleTemplates("terraform", TemplateListService.ROOT_DIRECTORY),
+                this.templateListService.listModuleTemplates("terraform", ApplicationType.CONTAINER_APPS.name()),
+                this.templateListService.listModuleTemplates("terraform", DatabaseType.POSTGRESQL.name()),
+                this.templateListService.listModuleTemplates("terraform", AddonType.KEY_VAULT.name())
+        );
+    }
 
     @Test
     void generateSpringAppsWithTerraform() throws IOException {

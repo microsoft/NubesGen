@@ -14,7 +14,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
       application_url: ${{ steps.infrastructure-deployment.outputs.application_url }}
@@ -23,22 +23,22 @@ jobs:
     steps:
       - name: Apply Terraform configuration
         id: infrastructure-deployment
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.10.0
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.12.2
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
       - name: Build and deploy a Docker image of a Spring Boot project
-        uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker-spring@v0.10.0
+        uses: microsoft/nubesgen-actions/gitops-build-and-deploy-to-app-service-docker-spring@v0.12.2
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
           container_registry_name:  ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
   display-information:
     needs: [build-and-deploy]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.10.0
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.2
         with:
           application_name: ${{ needs.build-and-deploy.outputs.application_name }}
           application_url: ${{ needs.build-and-deploy.outputs.application_url }}

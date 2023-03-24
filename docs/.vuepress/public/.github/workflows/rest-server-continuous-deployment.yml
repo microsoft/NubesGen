@@ -20,7 +20,7 @@ on:
       - prod
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: ${{ github.workspace }}/rest-server
@@ -43,7 +43,7 @@ jobs:
           retention-days: 1
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/download-artifact@v2
         with:

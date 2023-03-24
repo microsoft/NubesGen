@@ -21,7 +21,7 @@ public class NubesgenConfiguration {
 
     private String applicationName;
 
-    private String compositeActionsVersion = "v0.10.0";
+    private String compositeActionsVersion = "v0.12.2";
 
     @JsonProperty("iactool")
     private IaCTool iaCTool;
@@ -240,6 +240,7 @@ public class NubesgenConfiguration {
     public boolean isRuntimeMaven() {
         return (
             RuntimeType.SPRING.equals(this.getRuntimeType()) ||
+            RuntimeType.DOCKER_SPRING.equals(this.getRuntimeType()) ||
             RuntimeType.QUARKUS.equals(this.getRuntimeType()) ||
             RuntimeType.QUARKUS_NATIVE.equals(this.getRuntimeType()) ||
             RuntimeType.MICRONAUT.equals(this.getRuntimeType()) ||
@@ -281,6 +282,11 @@ public class NubesgenConfiguration {
     @JsonIgnore
     public boolean isApplicationTypeAppService() {
         return ApplicationType.APP_SERVICE.equals(this.getApplicationConfiguration().getApplicationType());
+    }
+
+    @JsonIgnore
+    public boolean isApplicationTypeContainerApps() {
+        return ApplicationType.CONTAINER_APPS.equals(this.getApplicationConfiguration().getApplicationType());
     }
 
     @JsonIgnore

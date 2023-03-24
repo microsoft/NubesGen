@@ -22,7 +22,7 @@ on:
       - '.github/workflows/rest-server-continuous-integration.yml'
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: ${{ github.workspace }}/rest-server
@@ -40,7 +40,7 @@ jobs:
   build_java_docker_image:
     name: Build and publish the JVM-based Docker image
     needs: [ test ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen'
     steps:
@@ -71,7 +71,7 @@ jobs:
   build_native_docker_image:
     name: Build and publish the native (Linux) Docker image
     needs: [ test ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
     steps:
@@ -85,6 +85,7 @@ jobs:
           java-version: '19'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          cache: 'maven'
       - name: Build application with GraalVM
         run: |
           cd rest-server && mvn -Pnative native:compile

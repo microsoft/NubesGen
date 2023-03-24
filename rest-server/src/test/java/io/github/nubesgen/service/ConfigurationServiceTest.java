@@ -100,6 +100,51 @@ public class ConfigurationServiceTest {
         assertEquals(NetworkType.PUBLIC, configuration.getNetworkConfiguration().getNetworkType());
     }
 
+
+    @Test
+    void checkContainerAppsDefaultConfig() {
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "",
+                "TERRAFORM",
+                "DOCKER",
+                "CONTAINER_APPS",
+                "eastus",
+                "",
+                false,
+                "",
+                ""
+        );
+
+        assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
+        assertEquals(RuntimeType.DOCKER, configuration.getRuntimeType());
+        assertEquals(ApplicationType.CONTAINER_APPS, configuration.getApplicationConfiguration().getApplicationType());
+        assertEquals("eastus", configuration.getRegion());
+        assertEquals(Tier.CONSUMPTION, configuration.getApplicationConfiguration().getTier());
+        assertEquals(NetworkType.PUBLIC, configuration.getNetworkConfiguration().getNetworkType());
+    }
+
+    @Test
+    void checkContainerAppsDoesNotSupportVNet() {
+        NubesgenConfiguration configuration = service.generateNubesgenConfiguration(
+                "",
+                "TERRAFORM",
+                "DOCKER",
+                "CONTAINER_APPS",
+                "eastus",
+                "",
+                false,
+                "",
+                "VIRTUAL_NETWORK"
+        );
+
+        assertEquals(IaCTool.TERRAFORM, configuration.getIaCTool());
+        assertEquals(RuntimeType.DOCKER, configuration.getRuntimeType());
+        assertEquals(ApplicationType.CONTAINER_APPS, configuration.getApplicationConfiguration().getApplicationType());
+        assertEquals("eastus", configuration.getRegion());
+        assertEquals(Tier.CONSUMPTION, configuration.getApplicationConfiguration().getTier());
+        assertEquals(NetworkType.PUBLIC, configuration.getNetworkConfiguration().getNetworkType());
+    }
+
     @Test
     void dontUpdateDatabaseTierIfVnetIsSelected() {
         NubesgenConfiguration configuration = service.generateNubesgenConfiguration(

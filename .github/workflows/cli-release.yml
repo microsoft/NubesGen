@@ -5,7 +5,7 @@ on:
 jobs:
   build-jar:
     name: 'Build JAR package'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: ${{ github.workspace }}/cli
@@ -36,7 +36,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             artifact_name: linux-binary
           - os: macos-latest
             artifact_name: macos-binary
@@ -49,7 +49,7 @@ jobs:
           name: java-binary
       - uses: graalvm/setup-graalvm@v1
         with:
-          version: '22.1.0'
+          version: 'latest'
           java-version: '17'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -74,7 +74,7 @@ jobs:
   publish-binaries:
     name: 'Publish binaries to GitHub packages'
     needs: [ build-native-image ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         include:

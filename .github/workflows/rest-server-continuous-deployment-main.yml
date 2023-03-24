@@ -1,0 +1,99 @@
+name: REST Server - Deployment - main branch
+
+###
+# GitOps - automatic infrastructure management GitHub Action
+#
+# See https://docs.nubesgen.com/gitops/gitops-quick-start/
+# for more information about using GitOps with NubesGen.
+#
+# To set up this workflow, you need to configure the following variables:
+# - TF_VAR_APPLICATION_NAME: the name of the application (for example "nubesgen")
+# - TF_VAR_CUSTOM_DOMAIN_NAME: the custom domain name (for example "dev.nubesgen.com")
+#
+# You also need to configure the following secrets:
+# - AZURE_CREDENTIALS: the Azure credentials
+# - TF_STORAGE_ACCOUNT: the Azure Storage Account used to store the Terraform state
+# - TF_VAR_CONTAINER_CERTIFICATE: the certificate for the custom domain name, encoded in Base64
+# - TF_VAR_CONTAINER_CERTIFICATE_PASSWORD: the password for the certificate
+###
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  manage-infrastructure:
+    environment: dev
+    runs-on: ubuntu-22.04
+    outputs:
+      application_name: ${{ steps.infrastructure-deployment.outputs.application_name }}
+      resource_group: ${{ steps.infrastructure-deployment.outputs.resource_group }}
+      container_registry_name: ${{ steps.infrastructure-deployment.outputs.container_registry_name }}
+    steps:
+      - name: Apply Terraform configuration
+        id: infrastructure-deployment
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.12.2
+        env:
+          TF_VAR_application_name: ${{ vars.TF_VAR_APPLICATION_NAME }}
+          TF_VAR_custom_domain_name: ${{ vars.TF_VAR_CUSTOM_DOMAIN_NAME }}
+          TF_VAR_container_certificate: ${{ secrets.TF_VAR_CONTAINER_CERTIFICATE }}
+          TF_VAR_container_certificate_password: ${{ secrets.TF_VAR_CONTAINER_CERTIFICATE_PASSWORD }}
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          version: 'latest'
+          java-version: '19'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          cache: 'maven'
+      - name: Build application with GraalVM
+        run: |
+          cd rest-server && mvn -Pnative native:compile
+      - name: Build the native (GraalVM) Docker image
+        uses: docker/build-push-action@v4
+        with:
+          push: false
+          tags: application/application:${{ github.sha }}
+          file: ./rest-server/src/main/docker/Dockerfile.native
+          context: ./rest-server/
+      - name: Save the Docker image
+        run: |
+          docker save application/application:${{ github.sha }} | gzip > /tmp/application.tar.gz
+        shell: bash
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: /tmp/application.tar.gz
+          retention-days: 1
+  deploy:
+    needs: [manage-infrastructure,build]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Deploy a Docker image to Azure Container Apps
+        id: deploy
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-container-apps@v0.12.2
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}
+          container_registry_name: ${{ needs.manage-infrastructure.outputs.container_registry_name }}
+          image_name: ${{ needs.manage-infrastructure.outputs.container_registry_name }}.azurecr.io/${{ needs.manage-infrastructure.outputs.application_name }}/${{ needs.manage-infrastructure.outputs.application_name }}:${{ github.sha }}
+  display-information:
+    needs: [manage-infrastructure,deploy]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Display Azure infrastructure information
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.2
+        with:
+          application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
+          application_url: ${{ needs.deploy.outputs.application_url }}
+          resource_group: ${{ needs.manage-infrastructure.outputs.resource_group }}

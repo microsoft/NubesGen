@@ -146,6 +146,11 @@ public class ConfigurationService {
                 applicationConfiguration.setTier(Tier.STANDARD);
             }
             properties.setApplicationConfiguration(applicationConfiguration);
+        } else if (application.startsWith(ApplicationType.CONTAINER_APPS.name())) {
+            ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
+            applicationConfiguration.setApplicationType(ApplicationType.CONTAINER_APPS);
+            applicationConfiguration.setTier(Tier.CONSUMPTION);
+            properties.setApplicationConfiguration(applicationConfiguration);
         } else {
             ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
             applicationConfiguration.setApplicationType(ApplicationType.APP_SERVICE);
@@ -217,6 +222,9 @@ public class ConfigurationService {
                     log.debug("VNET configuration is requested, so the App Service configuration was updated to the Standard tier.");
                     properties.getApplicationConfiguration().setTier(Tier.STANDARD);
                 }
+            } else if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.CONTAINER_APPS)) {
+                log.debug("VNET configuration is requested, but it is not supported by Container Apps, switching to a public network instead.");
+                properties.getNetworkConfiguration().setNetworkType(NetworkType.PUBLIC);
             } else if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.FUNCTION)) {
                 log.debug("VNET configuration is requested, so the Function configuration was updated to the Premium tier.");
                 properties.getApplicationConfiguration().setTier(Tier.PREMIUM);
