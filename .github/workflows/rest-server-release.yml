@@ -1,9 +1,11 @@
 name: REST Server - Create a release
 
 #######################################
-# This builds a NubesGen release:
+# This creates a NubesGen REST server release:
 # - An executable Jar file
-# - A Docker image
+# - A JVM-based Docker image
+# - A native (GraalVM) Docker image
+# - It deploys the native (GraalVM) Docker image to the production environment
 #######################################
 
 on:
@@ -61,8 +63,60 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: false
-          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }}
+          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }},${{ env.DOCKER_IMAGE_NAME }}:latest
           file: ./rest-server/src/main/docker/Dockerfile.jvm
           context: ./rest-server/
       - name: Push to GitHub Packages
-        run: docker push ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }}
+        run: docker push ${{ env.DOCKER_IMAGE_NAME }} --all-tags
+  build_docker_image_native:
+    name: Build and publish Docker image to GitHub Packages
+    runs-on: ubuntu-22.04
+    env:
+      DOCKER_IMAGE_NAME: 'docker.pkg.github.com/microsoft/nubesgen/nubesgen-native'
+    steps:
+      - name: Set Tag name environment variable
+        run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          version: 'latest'
+          java-version: '19'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          cache: 'maven'
+      - name: Build application with GraalVM
+        run: |
+          cd rest-server && mvn -Pnative native:compile
+      - name: Login to GitHub Packages
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+      - name: Build the native (GraalVM) Docker image
+        uses: docker/build-push-action@v4
+        with:
+          push: false
+          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }},${{ env.DOCKER_IMAGE_NAME }}:latest
+          file: ./rest-server/src/main/docker/Dockerfile.native
+          context: ./rest-server/
+      - name: Push to GitHub Packages
+        run: docker push ${{ env.DOCKER_IMAGE_NAME }} --all-tags
+  deploy:
+    name: Deploy to production on https://nubesgen.com
+    environment: prod
+    runs-on: ubuntu-22.04
+    needs: [build_docker_image_native]
+    env:
+      DOCKER_IMAGE_NAME: 'docker.pkg.github.com/microsoft/nubesgen/nubesgen-native'
+    steps:
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy to Container App
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp update \
+              -n ${{ vars.APPLICATION_NAME }} \
+              -g ${{ vars.RESOURCE_GROUP_NAME }} \
+              --image ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }}
