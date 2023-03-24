@@ -107,6 +107,8 @@ jobs:
     env:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
     steps:
+      - name: Set Tag name environment variable
+        run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Login to Azure
         uses: azure/login@v1
         with:
