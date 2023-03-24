@@ -5,6 +5,16 @@ name: REST Server - Deployment - main branch
 #
 # See https://docs.nubesgen.com/gitops/gitops-quick-start/
 # for more information about using GitOps with NubesGen.
+#
+# To set up this workflow, you need to configure the following variables:
+# - TF_VAR_APPLICATION_NAME: the name of the application (for example "nubesgen")
+# - TF_VAR_CUSTOM_DOMAIN_NAME: the custom domain name (for example "dev.nubesgen.com")
+#
+# You also need to configure the following secrets:
+# - AZURE_CREDENTIALS: the Azure credentials
+# - TF_STORAGE_ACCOUNT: the Azure Storage Account used to store the Terraform state
+# - TF_VAR_CONTAINER_CERTIFICATE: the certificate for the custom domain name, encoded in Base64
+# - TF_VAR_CONTAINER_CERTIFICATE_PASSWORD: the password for the certificate
 ###
 
 on:
