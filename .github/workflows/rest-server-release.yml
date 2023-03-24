@@ -105,7 +105,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [build_docker_image_native]
     env:
-      DOCKER_IMAGE_NAME: 'docker.pkg.github.com/microsoft/nubesgen/nubesgen-native'
+      DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
     steps:
       - name: Login to Azure
         uses: azure/login@v1
