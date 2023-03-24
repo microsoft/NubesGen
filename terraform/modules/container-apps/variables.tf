@@ -34,6 +34,11 @@ variable "azure_storage_blob_endpoint" {
   description = "The blob endpoint URL of the Azure Storage account"
 }
 
+variable "custom_domain_name" {
+  type        = string
+  description = "The domain name for Azure Container Apps"
+}
+
 variable "container_certificate" {
   type        = string
   sensitive   = true

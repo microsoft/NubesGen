@@ -52,6 +52,7 @@ module "application" {
   azure_storage_account_name     = module.storage-blob.azurerm_storage_account_name
   azure_storage_blob_endpoint    = module.storage-blob.azurerm_storage_blob_endpoint
   azure_storage_account_key      = module.storage-blob.azurerm_storage_account_key
+  custom_domain_name             = var.custom_domain_name
   container_certificate          = var.container_certificate
   container_certificate_password = var.container_certificate_password
 }

@@ -97,7 +97,7 @@ resource "azurerm_container_app" "application" {
       latest_revision = true
     }
     custom_domain {
-      name           = "dev.nubesgen.com"
+      name           = var.custom_domain_name
       certificate_id = azurerm_container_app_environment_certificate.application.id
     }
   }

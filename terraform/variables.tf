@@ -22,6 +22,11 @@ variable "location" {
   default     = "westeurope"
 }
 
+variable "custom_domain_name" {
+  type        = string
+  description = "The domain name for Azure Container Apps"
+}
+
 variable "container_certificate" {
   type        = string
   sensitive   = true
