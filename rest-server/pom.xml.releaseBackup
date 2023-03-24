@@ -4,13 +4,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.4</version>
+        <version>3.0.5</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen</artifactId>
     <!-- Do not modify this version manually, read https://github.com/microsoft/NubesGen/blob/main/CONTRIBUTING.md#doing-a-release -->
-    <version>0.14.1-SNAPSHOT</version>
+    <version>0.14.2-SNAPSHOT</version>
     <name>nubesgen</name>
     <packaging>jar</packaging>
     <description>NubesGen REST server</description>
@@ -36,12 +36,12 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-blob</artifactId>
-            <version>12.20.2</version>
+            <version>12.21.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.22</version>
+            <version>1.23.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -52,6 +52,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.0.4</version>
         </dependency>
     </dependencies>
 
@@ -67,6 +76,15 @@
                     </layers>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <configuration>
+                    <buildArgs>
+                        <arg>--initialize-at-build-time=org.slf4j.impl.StaticLoggerBinder,org.slf4j.LoggerFactory,ch.qos.logback.classic.Logger,ch.qos.logback.core.spi.AppenderAttachableImpl,ch.qos.logback.core.status.StatusBase,ch.qos.logback.classic.Level,ch.qos.logback.core.status.InfoStatus,ch.qos.logback.classic.PatternLayout,ch.qos.logback.core.CoreConstants,ch.qos.logback.core.util.Loader,ch.qos.logback.core.util.StatusPrinter,ch.qos.logback.core.pattern.parser.Parser</arg>
+                    </buildArgs>
+                </configuration>
+            </plugin>
             <!--
                 To do a NubesGen release:
                 - mvn release:clean release:prepare
@@ -75,7 +93,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <version>3.0.0</version>
                 <configuration>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
