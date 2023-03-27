@@ -32,7 +32,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
-        java-version: 19
+        java-version: 20
         check-latest: false
         cache: 'maven'
     - name: Run tests
@@ -52,7 +52,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 19
+          java-version: 20
           check-latest: false
           cache: 'maven'
       - name: Build application with Java
@@ -81,8 +81,8 @@ jobs:
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - uses: graalvm/setup-graalvm@v1
         with:
-          version: 'latest'
-          java-version: '19'
+          version: '22.3.1'
+          java-version: '20'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: 'maven'
