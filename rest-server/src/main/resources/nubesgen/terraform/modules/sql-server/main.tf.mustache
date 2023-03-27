@@ -58,7 +58,7 @@ resource "azurerm_mssql_database" "database" {
 
 resource "azurecaf_name" "mssql_firewall_rule" {
   name          = var.application_name
-  resource_type = "azurerm_sql_firewall_rule"
+  resource_type = "mssql_firewall_rule"
   suffixes      = [var.environment]
 }
 
@@ -69,7 +69,6 @@ resource "azurerm_mssql_firewall_rule" "database" {
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
 }
-
 {{/NetworkVNet}}
 {{#NetworkVNet}}
 
