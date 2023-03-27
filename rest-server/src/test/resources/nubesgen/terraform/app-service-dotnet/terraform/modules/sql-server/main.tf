@@ -52,7 +52,7 @@ resource "azurerm_mssql_database" "database" {
 
 resource "azurecaf_name" "mssql_firewall_rule" {
   name          = var.application_name
-  resource_type = "mssql_firewall_rule"
+  resource_type = "azurerm_mssql_firewall_rule"
   suffixes      = [var.environment]
 }
 
