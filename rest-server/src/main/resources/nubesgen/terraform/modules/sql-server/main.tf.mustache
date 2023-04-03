@@ -56,19 +56,18 @@ resource "azurerm_mssql_database" "database" {
 }
 {{^NetworkVNet}}
 
-resource "azurecaf_name" "sql_firewall_rule" {
+resource "azurecaf_name" "mssql_firewall_rule" {
   name          = var.application_name
-  resource_type = "azurerm_sql_firewall_rule"
+  resource_type = "azurerm_mssql_firewall_rule"
   suffixes      = [var.environment]
 }
 
 # This rule is to enable the 'Allow access to Azure services' checkbox
-resource "azurerm_sql_firewall_rule" "database" {
-  name                = azurecaf_name.sql_firewall_rule.result
-  resource_group_name = var.resource_group
-  server_name         = azurerm_mssql_server.database.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
+resource "azurerm_mssql_firewall_rule" "database" {
+  name             = azurecaf_name.mssql_firewall_rule.result
+  server_id        = azurerm_mssql_server.database.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
 }
 {{/NetworkVNet}}
 {{#NetworkVNet}}
