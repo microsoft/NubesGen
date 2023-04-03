@@ -101,7 +101,7 @@ function nubesGen() {
                 {id: 'westus2', name: 'USA - West 2 (California)', flag: './img/us.svg'},
                 {
                     id: 'brazilsouth',
-                    name: 'South America - Brazil South (São Paulo State)',
+                    name: 'South America - Brazil South (Sã²o Paulo State)',
                     flag: './img/br.svg'
                 },
                 {id: 'francecentral', name: 'Europe - France Central (Paris)', flag: './img/fr.svg'},
@@ -144,6 +144,11 @@ function nubesGen() {
         ascRuntimes:[
             {id: 'SPRING', name: 'Spring Boot: Java build with Maven'},
             {id: 'SPRING_GRADLE', name: 'Spring Boot: Java build with Gradle'}
+        ],
+        acaRuntimes:[
+            {id: 'DOCKER', name: 'Docker App'},
+            {id: 'SPRING', name: 'Spring Boot: Java build with Maven'},
+            {id: 'SPRING_GRADLE', name: 'Spring Boot: Java build with Gradle'},
         ],
         networkConfigurations:[
             {id: 'PUBLIC', name: 'Public'},

@@ -365,6 +365,26 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
+                                         @click="updateAppType('CONTAINER_APPS')"
+                                         :class="components.frontApp.type==='CONTAINER_APPS' ? 'border-blue-900 border-2 bg-blue-100' : 'border-gray-300 bg-white'">
+                                        <img class="w-8 h-8" src="img/icon-container-apps.svg" alt="Azure Container Apps logo">
+                                        <div class="text-lg font-semibold">
+                                            Containerized apps
+                                            <p class="text-sm font-normal text-black-500">Azure Container Apps</p>
+                                            <p class="text-sm italic text-black-500">Scales to zero.</p>
+                                            <div x-show="components.frontApp.type==='CONTAINER_APPS'">
+                                                <p class="font-normal text-black-500 text-sm mt-4">Select your
+                                                    framework:</p>
+                                                <select class="text-sm" x-model="runtime">
+                                                    <template x-for="rt in acaRuntimes" :key="rt.id">
+                                                        <option x-bind:value="rt.id" x-text="rt.name"/>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>                                    
     
                                     <div class="p-4 bg-white border-gray-300 rounded shadow hover:bg-blue-100"
                                          @click="updateAppType('SPRING_APPS')"
@@ -605,7 +625,25 @@
                                         </div>
                                     </div>
     
-    
+                                        <!-- Azure Container Apps -->
+                                    <div class="p-3 border bg-white rounded px-5 py-6 bg-blue-900 text-white"
+                                    x-show="components.frontApp.type==='CONTAINER_APPS'">
+                                    <span class="text-2xl">Default Plan</span>
+                                    <p class="mt-4"></p>
+                                    <div class="flex row-auto items-center mt-4"><i
+                                            class="fa fa-check-circle-o "></i>
+                                        <span class="ml-3 ">Scale to Zero</span>
+                                    </div>
+                                    <div class="flex row-auto items-center mt-4"><i
+                                        class="fa fa-check-circle-o "></i>
+                                        <span class="ml-3 ">As small as 0.25 vCPU and 0.5 Gib</span>
+                                    </div>
+                                    <div class="flex row-auto items-center mt-2"><i
+                                            class="fa fa-check-circle-o"></i>
+                                        <span class="ml-3">Single and multi-container support</span>
+                                    </div>
+                                </div>
+
                                 </div>
                             </div>
                         </div>
@@ -769,7 +807,8 @@
                                         Network configuration
                                         <p class="text-sm font-normal text-black-500">Use either a public network (default option), or a dedicated virtual network (VNet) for increased security.</p>
                                         <p class="text-sm italic text-black-500">VNet support is currently in preview with NubesGen.</p>
-                                        <div>
+                                        <div
+                                            x-show="components.frontApp.type!=='CONTAINER_APPS'">
                                             <p class="font-normal text-black-500 text-sm mt-4">Select your
                                                 configuration:</p>
                                             <select class="text-sm" x-model="network" aria-label="Select the network configuration">
@@ -777,6 +816,9 @@
                                                     <option x-bind:value="nc.id" x-text="nc.name"/>
                                                 </template>
                                             </select>
+                                        </div>
+                                        <div x-show="components.frontApp.type==='CONTAINER_APPS'">
+                                            <p class="font-normal text-black-500 text-sm mt-4">For now, NubesGen only supports public network with Azure Container Apps.</p>
                                         </div>
                                     </div>
                                 </div>
