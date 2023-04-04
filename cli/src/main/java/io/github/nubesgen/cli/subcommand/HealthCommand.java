@@ -29,7 +29,7 @@ public class HealthCommand  implements Callable<Integer> {
         } else {
             Output.printInfo("You are authenticated with Azure CLI.");
         }
-        Output.printInfo("GitHub Azure CLI status...");
+        Output.printInfo("GitHub CLI status...");
         if (ProcessExecutor.execute("gh version > /dev/null") != 0) {
             Output.printError("GitHub CLI is not installed. Please install it first, go to https://github.com/cli/cli#installation for more information.");
             return -1;
