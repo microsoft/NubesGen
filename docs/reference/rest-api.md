@@ -1,5 +1,9 @@
 # NubesGen REST API reference
 
+## Generating a project using Swagger
+
+The NubesGen API is automatically documented using Swagger. The production version is available at [https://nubesgen.com/swagger-ui/index.html](https://nubesgen.com/swagger-ui/index.html).
+
 ## Generating a project using cURL
 
 To automate your workflow, you don't need to use a Web interface! Use cURL to directly download and use your NubesGen configuration.
