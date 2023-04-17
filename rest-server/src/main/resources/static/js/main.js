@@ -101,7 +101,7 @@ function nubesGen() {
                 {id: 'westus2', name: 'USA - West 2 (California)', flag: './img/us.svg'},
                 {
                     id: 'brazilsouth',
-                    name: 'South America - Brazil South (Sã²o Paulo State)',
+                    name: 'South America - Brazil South (São Paulo State)',
                     flag: './img/br.svg'
                 },
                 {id: 'francecentral', name: 'Europe - France Central (Paris)', flag: './img/fr.svg'},
