@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:20-jre
 RUN addgroup spring && adduser spring --ingroup spring
 USER spring:spring
 ARG DEPENDENCY=target/dependency
