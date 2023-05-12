@@ -427,8 +427,8 @@
 
                                     <div class="grid lg:grid-cols-3 gap-6 mt-4">
                                         <!-- App service tiers -->
-                                        <div class="p-3 border bg-white rounded px-5 py-6"
-                                            :class="components.frontApp.size==='free' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                                        <div class="p-3 border rounded px-5 py-6"
+                                            :class="components.frontApp.size==='free' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-blue-900 hover:bg-blue-100'"
                                             x-show="components.frontApp.type==='APP_SERVICE'">
                                             <span class="text-2xl">Free</span>
                                             <p class="mt-4">For development and hobbyist projects</p>
@@ -450,8 +450,8 @@
                                             </div>
                                         </div>
 
-                                        <div class="p-3 border bg-white rounded px-5 py-6"
-                                            :class="components.frontApp.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                                        <div class="p-3 border rounded px-5 py-6"
+                                            :class="components.frontApp.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-blue-900 hover:bg-blue-100'"
                                             x-show="components.frontApp.type==='APP_SERVICE'">
                                             <span class="text-2xl">Basic</span>
                                             <p class="mt-4">For dedicated dev/test</p>
@@ -477,8 +477,8 @@
                                             </div>
                                         </div>
 
-                                        <div class="p-3 border bg-white rounded px-5 py-6"
-                                            :class="components.frontApp.size==='standard' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                                        <div class="p-3 border rounded px-5 py-6"
+                                            :class="components.frontApp.size==='standard' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-blue-900 hover:bg-blue-100'"
                                             x-show="components.frontApp.type==='APP_SERVICE'">
                                             <span class="text-2xl">Standard</span>
                                             <p class="mt-4">Run production workloads</p>
@@ -510,8 +510,9 @@
 
 
                                         <!-- Functions tiers -->
-                                        <div class="p-3 bg-white border rounded px-5 py-6 "
-                                            :class="components.frontApp.size==='consumption' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                                        <div 
+                                            class="p-3 border rounded px-5 py-6"
+                                            :class="components.frontApp.size==='consumption' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-blue-900 hover:bg-blue-100'"    
                                             x-show="components.frontApp.type==='FUNCTION'">
                                             <span class="text-2xl">Consumption</span>
                                             <p class="mt-4">Scale automatically and per-second billing</p>
@@ -542,8 +543,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="p-3 bg-white border rounded px-5 py-6 "
-                                            :class="components.frontApp.size==='premium' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                                        <div                                             
+                                            class="p-3 border rounded px-5 py-6"
+                                            :class="components.frontApp.size==='premium' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-blue-900 hover:bg-blue-100'"    
                                             x-show="components.frontApp.type==='FUNCTION'">
                                             <span class="text-2xl">Premium</span>
                                             <p class="mt-4">For most businesses that want to optimize the web series</p>
@@ -575,8 +577,9 @@
                                         </div>
 
                                         <!-- Azure Spring Apps Tiers -->
-                                        <div class="p-3 border bg-white rounded px-5 py-6"
-                                            :class="components.frontApp.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                                        <div 
+                                            class="p-3 border rounded px-5 py-6"
+                                            :class="components.frontApp.size==='basic' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-blue-900 hover:bg-blue-100'"    
                                             x-show="components.frontApp.type==='SPRING_APPS'">
                                             <span class="text-2xl">Basic</span>
                                             <p class="mt-4">For dedicated dev/test</p>
@@ -602,8 +605,8 @@
                                             </div>
                                         </div>
 
-                                        <div class="p-3 border bg-white rounded px-5 py-6"
-                                            :class="components.frontApp.size==='standard' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white hover:bg-blue-100'"
+                                        <div class="p-3 border rounded px-5 py-6"
+                                            :class="components.frontApp.size==='standard' ? 'bg-blue-900 text-white' : 'border-gray-300 bg-white text-blue-900 hover:bg-blue-100'"    
                                             x-show="components.frontApp.type==='SPRING_APPS'">
                                             <span class="text-2xl">Standard</span>
                                             <p class="mt-4">Run production workloads</p>
@@ -642,7 +645,8 @@
                                         </div>
 
                                         <!-- Azure Container Apps -->
-                                        <div class="p-3 border bg-white rounded px-5 py-6 bg-blue-900 text-white"
+                                        <div 
+                                        class="p-3 border rounded px-5 py-6 bg-blue-900 text-white"
                                             x-show="components.frontApp.type==='CONTAINER_APPS'">
                                             <span class="text-2xl">Default Plan</span>
                                             <p class="mt-4"></p>
