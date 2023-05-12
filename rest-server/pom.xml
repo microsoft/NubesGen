@@ -10,14 +10,14 @@
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen</artifactId>
     <!-- Do not modify this version manually, read https://github.com/microsoft/NubesGen/blob/main/CONTRIBUTING.md#doing-a-release -->
-    <version>0.16.0</version>
+    <version>0.16.1-SNAPSHOT</version>
     <name>nubesgen</name>
     <packaging>jar</packaging>
     <description>NubesGen REST server</description>
     <scm>
         <url>https://github.com/microsoft/NubesGen</url>
         <connection>scm:git:https://github.com/microsoft/NubesGen.git</connection>
-        <tag>v0.16.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
