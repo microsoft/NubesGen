@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Apply Terraform configuration
         id: infrastructure-deployment
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.12.4
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.12.5
         env:
           TF_VAR_application_name: ${{ vars.TF_VAR_APPLICATION_NAME }}
           TF_VAR_custom_domain_name: ${{ vars.TF_VAR_CUSTOM_DOMAIN_NAME }}
@@ -80,7 +80,7 @@ jobs:
     steps:
       - name: Deploy a Docker image to Azure Container Apps
         id: deploy
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-container-apps@v0.12.4
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-container-apps@v0.12.5
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.4
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.5
         with:
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
           application_url: ${{ needs.deploy.outputs.application_url }}

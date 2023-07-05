@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Apply Terraform configuration
         id: infrastructure-deployment
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.12.4
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.12.5
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Build a .NET application
-        uses: microsoft/nubesgen-actions/gitops-build-dotnet@v0.12.4
+        uses: microsoft/nubesgen-actions/gitops-build-dotnet@v0.12.5
         with:
           dotnet_version: ${{ env.DOTNET_VERSION }}
           application_package_path: ${{ env.APP_PACKAGE_PATH }}
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Deploy a .NET application to Azure App Service
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-dotnet@v0.12.4
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-app-service-dotnet@v0.12.5
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.4
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.5
         with:
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
           application_url: ${{ needs.manage-infrastructure.outputs.application_url }}
