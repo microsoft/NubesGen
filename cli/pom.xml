@@ -13,7 +13,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
-        <picocli.version>4.7.4</picocli.version>
+        <picocli.version>4.7.5</picocli.version>
     </properties>
     <dependencies>
         <dependency>
