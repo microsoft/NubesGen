@@ -27,7 +27,7 @@ jobs:
       run:
         working-directory: ${{ github.workspace }}/rest-server
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
@@ -45,7 +45,7 @@ jobs:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Login to GitHub Packages
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Set up Java
@@ -76,7 +76,7 @@ jobs:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Login to GitHub Packages
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - uses: graalvm/setup-graalvm@v1
