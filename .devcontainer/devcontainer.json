@@ -8,22 +8,27 @@
 		}
 	},
 
-	"extensions": [
-		"dawhite.mustache",
-		"eamodio.gitlens",
-		"esbenp.prettier-vscode",
-		"github.vscode-pull-request-github",
-		"hashicorp.terraform",
-		"ms-azuretools.vscode-azureterraform",
-		"ms-dotnettools.vscode-dotnet-runtime",
-		"ms-vscode.vscode-node-azure-pack",
-		"ms-vsliveshare.vsliveshare",
-		"redhat.fabric8-analytics",
-		"redhat.vscode-xml",
-		"streetsidesoftware.code-spell-checker",
-		"visualstudioexptteam.vscodeintellicode",
-		"vscjava.vscode-java-pack"
-	],
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"dawhite.mustache",
+				"eamodio.gitlens",
+				"esbenp.prettier-vscode",
+				"github.vscode-pull-request-github",
+				"hashicorp.terraform",
+				"ms-azuretools.vscode-azureterraform",
+				"ms-dotnettools.vscode-dotnet-runtime",
+				"ms-vscode.vscode-node-azure-pack",
+				"ms-vsliveshare.vsliveshare",
+				"redhat.fabric8-analytics",
+				"redhat.vscode-xml",
+				"streetsidesoftware.code-spell-checker",
+				"visualstudioexptteam.vscodeintellicode",
+				"vscjava.vscode-java-pack"
+			]
+		}
+	},
 
 	"features": {
 		"azure-cli": "latest",
