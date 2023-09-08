@@ -49,7 +49,7 @@ resource "azurerm_linux_web_app" "application" {
 
   site_config {
     application_stack {
-      python_version = "3.9"
+      python_version = "3.11"
     }
     always_on                 = false
     ftps_state                = "FtpsOnly"

@@ -104,7 +104,7 @@ resource "azurerm_linux_web_app" "application" {
   {{/runtimeNodejs}}
   {{#runtimePython}}
     application_stack {
-      python_version = "3.9"
+      python_version = "3.11"
     }
   {{/runtimePython}}
     always_on                 = false
@@ -137,7 +137,7 @@ resource "azurerm_linux_web_app" "application" {
   {{/runtimeNodejs}}
   {{#runtimePython}}
     application_stack {
-      python_version = "3.9"
+      python_version = "3.11"
     }
   {{/runtimePython}}
     always_on        = true
@@ -155,7 +155,7 @@ resource "azurerm_linux_web_app" "application" {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
 {{#runtimeNodejs}}
     "WEBSITE_RUN_FROM_PACKAGE"            = "1"
-    "WEBSITE_NODE_DEFAULT_VERSION"        = "~16"
+    "WEBSITE_NODE_DEFAULT_VERSION"        = "~18"
 {{/runtimeNodejs}}
 {{#runtimePython}}
     "SCM_DO_BUILD_DURING_DEPLOYMENT"      = "true"
