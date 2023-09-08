@@ -59,7 +59,7 @@ resource "azurerm_linux_web_app" "application" {
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "WEBSITE_RUN_FROM_PACKAGE"            = "1"
-    "WEBSITE_NODE_DEFAULT_VERSION"        = "~16"
+    "WEBSITE_NODE_DEFAULT_VERSION"        = "~18"
 
     # These are app specific environment variables
   }
