@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.24"
+      version = "1.2.26"
     }
   }
 }
@@ -49,7 +49,7 @@ resource "azurerm_linux_web_app" "application" {
 
   site_config {
     application_stack {
-      node_version = "16-lts"
+      node_version = "18-lts"
     }
     app_command_line          = "npm run start:prod"
     always_on                 = false
@@ -59,7 +59,7 @@ resource "azurerm_linux_web_app" "application" {
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "WEBSITE_RUN_FROM_PACKAGE"            = "1"
-    "WEBSITE_NODE_DEFAULT_VERSION"        = "~16"
+    "WEBSITE_NODE_DEFAULT_VERSION"        = "~18"
 
     # These are app specific environment variables
   }

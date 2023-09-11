@@ -45,7 +45,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.4.1</version>
+        <version>3.5.0</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -65,7 +65,7 @@
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
         <artifactId>git-commit-id-maven-plugin</artifactId>
-        <version>5.0.0</version>
+        <version>6.0.0</version>
         <executions>
           <execution>
             <id>get-the-git-infos</id>
@@ -91,7 +91,7 @@
     <java.version>17</java.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <picocli.version>4.7.1</picocli.version>
+    <picocli.version>4.7.5</picocli.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <app.main.class>io.github.nubesgen.cli.Nubesgen</app.main.class>
   </properties>

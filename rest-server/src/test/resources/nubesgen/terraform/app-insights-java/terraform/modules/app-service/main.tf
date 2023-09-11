@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.24"
+      version = "1.2.26"
     }
   }
 }
@@ -51,7 +51,7 @@ resource "azurerm_linux_web_app" "application" {
     application_stack {
       java_server         = "JAVA"
       java_server_version = "17"
-      java_version        = "java17"
+      java_version        = "17"
     }
     always_on        = true
     ftps_state       = "FtpsOnly"

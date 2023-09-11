@@ -15,19 +15,19 @@ on:
 <%#runtimeDotnet%>
 
 env:
-  DOTNET_VERSION: '6.0'
+  DOTNET_VERSION: '7.0'
   APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
 <%/runtimeDotnet%>
 <%#runtimeNodejs%>
 
 env:
-  NODEJS_VERSION: '16'
+  NODEJS_VERSION: '18'
   APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
 <%/runtimeNodejs%>
 <%#runtimePython%>
 
 env:
-  PYTHON_VERSION: '3.9'
+  PYTHON_VERSION: '3.11'
   APP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
 <%/runtimePython%>
 
@@ -389,7 +389,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.12.5
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.13.0
         with:
 <%#applicationTypeContainerApps%>
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}

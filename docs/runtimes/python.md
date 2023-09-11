@@ -30,7 +30,7 @@ __Steps:__
    ```
    To manage the project's dependencies, create a file called `requirements.txt` in the root of your project.
    ```text
-   Flask==2.1.2
+   Flask==2.3.3
    ```
 2. Create a project on GitHub called `python-sample-app`, and push the generated project to that repository. Change `<your-github-account>` by the name of your GitHub account:
    ```bash
