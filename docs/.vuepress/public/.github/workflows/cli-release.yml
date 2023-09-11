@@ -49,7 +49,7 @@ jobs:
           name: java-binary
       - uses: graalvm/setup-graalvm@v1
         with:
-          version: '22.1.0'
+          distribution: 'graalvm'
           java-version: '17'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}

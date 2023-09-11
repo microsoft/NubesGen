@@ -45,7 +45,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        graalvm-version: ['22.1.0']
         jdk-version: ['17']
         os: [ubuntu-22.04, macos-latest, windows-latest]
     steps:
@@ -55,7 +54,7 @@ jobs:
           name: java-binary
       - uses: graalvm/setup-graalvm@v1
         with:
-          version: ${{ matrix.graalvm-version }}
+          distribution: 'graalvm'
           java-version: ${{ matrix.jdk-version }}
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}

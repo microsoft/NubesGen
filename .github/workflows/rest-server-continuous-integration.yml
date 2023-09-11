@@ -81,7 +81,7 @@ jobs:
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - uses: graalvm/setup-graalvm@v1
         with:
-          version: '22.3.2'
+          distribution: 'graalvm'
           java-version: '17'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
