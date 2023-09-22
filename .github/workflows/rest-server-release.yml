@@ -24,12 +24,12 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '20'
+          distribution: 'oracle'
+          java-version: '21'
           check-latest: false
           cache: 'maven'
       - name: Package the application
-        run: mvn package
+        run: ./mvnw package
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -50,13 +50,13 @@ jobs:
       - uses: graalvm/setup-graalvm@v1
         with:
           distribution: 'graalvm'
-          java-version: '17'
+          java-version: '21'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: 'maven'
       - name: Build application with GraalVM
         run: |
-          cd rest-server && mvn -Pnative native:compile
+          cd rest-server && ./mvnw -Pnative native:compile
       - name: Login to GitHub Packages
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
       - name: Build the native (GraalVM) Docker image

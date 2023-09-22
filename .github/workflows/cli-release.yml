@@ -15,12 +15,12 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '20'
+          distribution: 'oracle'
+          java-version: '21'
           check-latest: false
           cache: 'maven'
       - name: Build with Maven
-        run: 'mvn package'
+        run: './mvnw package'
       - name: Temporarily save package
         uses: actions/upload-artifact@v3
         with:
@@ -50,7 +50,7 @@ jobs:
       - uses: graalvm/setup-graalvm@v1
         with:
           distribution: 'graalvm'
-          java-version: '17'
+          java-version: '21'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build native image on Linux
