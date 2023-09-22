@@ -37,37 +37,6 @@ jobs:
           file: rest-server/target/*.jar
           file_glob: true
           tag: ${{ github.ref }}
-  build_docker_image:
-    name: Build and publish Docker image to GitHub Packages
-    runs-on: ubuntu-22.04
-    env:
-      DOCKER_IMAGE_NAME: 'docker.pkg.github.com/microsoft/nubesgen/nubesgen'
-    steps:
-      - name: Set Tag name environment variable
-        run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Login to GitHub Packages
-        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '20'
-          check-latest: false
-          cache: 'maven'
-      - name: Build application with Java
-        run: |
-          cd rest-server && mvn package  && mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
-      - name: Build the JVM-based Docker image
-        uses: docker/build-push-action@v5
-        with:
-          push: false
-          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }},${{ env.DOCKER_IMAGE_NAME }}:latest
-          file: ./rest-server/src/main/docker/Dockerfile.jvm
-          context: ./rest-server/
-      - name: Push to GitHub Packages
-        run: docker push ${{ env.DOCKER_IMAGE_NAME }} --all-tags
   build_docker_image_native:
     name: Build and publish Docker image to GitHub Packages
     runs-on: ubuntu-22.04
