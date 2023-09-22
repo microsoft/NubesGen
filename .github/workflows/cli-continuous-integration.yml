@@ -23,7 +23,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up Java
-        uses: jdubois/setup-java@openjdk
+        uses: jdubois/setup-java@openjdk21
         with:
           distribution: 'oracle'
           java-version: '21'
