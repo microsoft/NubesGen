@@ -1,23 +1,20 @@
 package io.github.nubesgen.cli.subcommand;
 
+import io.github.nubesgen.cli.Nubesgen;
+import io.github.nubesgen.cli.util.Output;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.concurrent.Callable;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import io.github.nubesgen.cli.Nubesgen;
-import io.github.nubesgen.cli.util.Output;
 
 @CommandLine.Command(name = "download", description = "Download the NubesGen configuration")
 public class DownloadCommand implements Callable<Integer> {
@@ -42,8 +39,8 @@ public class DownloadCommand implements Callable<Integer> {
             if (Nubesgen.development) {
                 server = "http://localhost:8080";
             }
-            URL url = new URL(server + "/" + projectName + ".zip" + getRequest);
-            Output.printMessage("Downloading from: " + url.toString());
+            URL url = (new URI(server + "/" + projectName + ".zip" + getRequest)).toURL();
+            Output.printMessage("Downloading from: " + url);
             Files.copy(
                     url.openStream(),
                     Paths.get(workingDirectory + FileSystems.getDefault().getSeparator() + projectName + ".zip"),
@@ -54,7 +51,7 @@ public class DownloadCommand implements Callable<Integer> {
             Path target = Paths.get(workingDirectory);
             unzipFolder(source, target);
             Files.delete(source);
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             Output.printError("Error: " + e.getMessage());
             return 1;
         }
