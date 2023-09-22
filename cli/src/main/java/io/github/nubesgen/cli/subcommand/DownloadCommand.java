@@ -66,10 +66,7 @@ public class DownloadCommand implements Callable<Integer> {
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(source.toFile()))) {
             ZipEntry zipEntry = zis.getNextEntry();
             while (zipEntry != null) {
-                boolean isDirectory = false;
-                if (zipEntry.getName().endsWith(File.separator)) {
-                    isDirectory = true;
-                }
+                boolean isDirectory = zipEntry.getName().endsWith(File.separator);
                 Path newPath = zipSlipProtect(zipEntry, target);
                 if (isDirectory) {
                     Files.createDirectories(newPath);
