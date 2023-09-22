@@ -1,11 +1,15 @@
 {
 	"name": "Java",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			"VARIANT": "17-bullseye",
-			"NODE_VERSION": "lts/*"
-		}
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+	"features": {
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "21",
+			"jdkDistro": "oracle"
+		},
+		"azure-cli": "latest",
+		"docker-in-docker": "latest",
+		"github-cli": "latest",
+		"terraform": "latest"
 	},
 
 	"customizations": {
@@ -28,13 +32,6 @@
 				"vscjava.vscode-java-pack"
 			]
 		}
-	},
-
-	"features": {
-		"azure-cli": "latest",
-		"docker-in-docker": "latest",
-		"github-cli": "latest",
-		"terraform": "latest"
 	},
 
     "forwardPorts": [8000, 8080],
