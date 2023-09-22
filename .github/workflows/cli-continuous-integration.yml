@@ -25,7 +25,7 @@ jobs:
       - name: Set up Java
         uses: jdubois/setup-java@openjdk21
         with:
-          distribution: 'temurin'
+          distribution: 'oracle'
           java-version: '21'
           check-latest: false
           cache: 'maven'
