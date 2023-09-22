@@ -29,14 +29,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK
-      uses: actions/setup-java@v3
+      uses: jdubois/setup-java@openjdk
       with:
-        distribution: 'temurin'
-        java-version: '20'
+        distribution: 'oracle'
+        java-version: '21'
         check-latest: false
         cache: 'maven'
     - name: Run tests
-      run: mvn verify
+      run: ./mvnw verify
   build_java_docker_image:
     name: Build and publish the JVM-based Docker image
     needs: [ test ]
@@ -49,15 +49,15 @@ jobs:
       - name: Login to GitHub Packages
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Set up Java
-        uses: actions/setup-java@v3
+        uses: jdubois/setup-java@openjdk
         with:
-          distribution: 'temurin'
-          java-version: '20'
+          distribution: 'oracle'
+          java-version: '21'
           check-latest: false
           cache: 'maven'
       - name: Build application with Java
         run: |
-          cd rest-server && mvn package  && mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+          cd rest-server && ./mvnw package  && mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
       - name: Build the JVM-based Docker image
         uses: docker/build-push-action@v5
         with:
@@ -82,13 +82,13 @@ jobs:
       - uses: graalvm/setup-graalvm@v1
         with:
           distribution: 'graalvm'
-          java-version: '17'
+          java-version: '21'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: 'maven'
       - name: Build application with GraalVM
         run: |
-          cd rest-server && mvn -Pnative native:compile
+          cd rest-server && ./mvnw -Pnative native:compile
       - name: Build the native (GraalVM) Docker image
         uses: docker/build-push-action@v5
         with:

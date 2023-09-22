@@ -23,14 +23,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up Java
-        uses: actions/setup-java@v3
+        uses: jdubois/setup-java@openjdk
         with:
-          distribution: 'temurin'
-          java-version: '20'
+          distribution: 'oracle'
+          java-version: '21'
           check-latest: false
           cache: 'maven'
       - name: Build with Maven
-        run: 'mvn package'
+        run: './mvnw package'
       - name: Temporarily save package
         uses: actions/upload-artifact@v3
         with:
@@ -45,7 +45,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        jdk-version: ['17']
+        jdk-version: ['21']
         os: [ubuntu-22.04, macos-latest, windows-latest]
     steps:
       - name: Download application package
