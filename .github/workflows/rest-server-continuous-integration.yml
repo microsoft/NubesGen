@@ -52,7 +52,6 @@ jobs:
         with:
           distribution: 'graalvm'
           java-version: '21'
-          components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: 'maven'
       - name: Build application with GraalVM
