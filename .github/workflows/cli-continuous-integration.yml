@@ -56,7 +56,6 @@ jobs:
         with:
           distribution: 'graalvm'
           java-version: ${{ matrix.jdk-version }}
-          components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build native image on Linux
         run: native-image --enable-url-protocols=https --static -jar nubesgen-cli-*.jar nubesgen-cli-linux
