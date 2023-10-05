@@ -15,6 +15,17 @@
         <java.version>17</java.version>
         <picocli.version>4.7.5</picocli.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.1.4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>info.picocli</groupId>
@@ -26,6 +37,16 @@
             <artifactId>picocli-jansi-graalvm</artifactId>
             <version>1.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -35,6 +56,7 @@
                 <!-- annotationProcessorPaths requires maven-compiler-plugin version 3.5 or higher -->
                 <version>3.11.0</version>
                 <configuration>
+                    <release>8</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>info.picocli</groupId>

@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.stream.Stream;
 
+import io.github.nubesgen.cli.util.FilesUtil;
 import io.github.nubesgen.cli.util.Output;
 
 @CommandLine.Command(name = "scan", description = "Scan the current project to find the technologies it uses")
@@ -59,7 +60,7 @@ public class ScanCommand implements Callable<Integer> {
         try {
             if (mavenFile.exists()) {
                 Output.printInfo("Maven detected");
-                testFile = Files.readString(mavenFile.toPath());
+                testFile = FilesUtil.readString(mavenFile.toPath());
                 if (testFile.contains("spring-cloud-starter-function") || testFile.contains("azure-functions-java-library")) {
                     Output.printInfo("Project type detected: Azure Functions");
                     getRequest = "?application=FUNCTION.consumption";
@@ -81,7 +82,7 @@ public class ScanCommand implements Callable<Integer> {
                 getRequest = JavaScanner.javaAddOnScanner(testFile, getRequest);
             } else if (gradleFile.exists()) {
                 Output.printInfo("Gradle project detected");
-                testFile = Files.readString(gradleFile.toPath());
+                testFile = FilesUtil.readString(gradleFile.toPath());
                 if (testFile.contains("spring-cloud-starter-function") || testFile.contains("azure-functions-java-library")) {
                     Output.printInfo("Project type detected: Azure Functions");
                     getRequest = "?application=FUNCTION.consumption";
@@ -100,19 +101,19 @@ public class ScanCommand implements Callable<Integer> {
                 getRequest = JavaScanner.javaAddOnScanner(testFile, getRequest);
             } else if (nodejsFile.exists()) {
                 Output.printInfo("NodeJS project detected");
-                testFile = Files.readString(nodejsFile.toPath());
+                testFile = FilesUtil.readString(nodejsFile.toPath());
                 getRequest += "&runtime=NODEJS";
                 getRequest = NodeJsScanner.nodejsDatabaseScanner(testFile, getRequest);
                 getRequest = NodeJsScanner.nodejsAddOnScanner(testFile, getRequest);
             } else if (dotnetFile.isPresent()) {
                 Output.printInfo(".NET project detected");
-                testFile = Files.readString(dotnetFile.get());
+                testFile = FilesUtil.readString(dotnetFile.get());
                 getRequest += "&runtime=DOTNET";
                 getRequest = DotNetScanner.dotnetDatabaseScanner(testFile, getRequest);
                 getRequest = DotNetScanner.dotnetAddOnScanner(testFile, getRequest);
             } else if (pythonFile.exists()) {
                 Output.printInfo("Python project detected");
-                testFile = Files.readString(pythonFile.toPath());
+                testFile = FilesUtil.readString(pythonFile.toPath());
                 getRequest += "&runtime=PYTHON";
                 getRequest = PythonScanner.pythonDatabaseScanner(testFile, getRequest);
                 getRequest = PythonScanner.pythonAddOnScanner(testFile, getRequest);
