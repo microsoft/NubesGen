@@ -46,6 +46,7 @@ To run the binary on Linux, you need to:
    To run the binary on a Mac OS, you need to:
 
    - Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-macos'`
+   - If on Apple Silicon, install Rosetta if it's not already installed: `/usr/sbin/softwareupdate --install-rosetta --agree-to-license`
    - Make the binary executable: `chmod +x nubesgen-cli-macos`
    - Allow Mac OS X to execute it: `xattr -d com.apple.quarantine nubesgen-cli-macos`
    - Run the binary: `./nubesgen-cli-macos -h`
