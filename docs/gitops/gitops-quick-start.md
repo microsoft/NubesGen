@@ -53,6 +53,7 @@ Full documentation for the NubesGen CLI is available [here](/getting-started/cli
    To run the binary on a Mac OS, you need to:
 
    - Download the latest release: `gh release download --repo microsoft/nubesgen --pattern='nubesgen-cli-macos'`
+   - If on Apple Silicon, install Rosetta if it's not already installed: `/usr/sbin/softwareupdate --install-rosetta --agree-to-license`
    - Make the binary executable: `chmod +x nubesgen-cli-macos`
    - Allow Mac OS X to execute it: `xattr -d com.apple.quarantine nubesgen-cli-macos`
    - Setup GitOps: `./nubesgen-cli-macos gitops`
