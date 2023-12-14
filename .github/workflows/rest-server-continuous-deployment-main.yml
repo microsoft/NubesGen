@@ -68,7 +68,7 @@ jobs:
           docker save application/application:${{ github.sha }} | gzip > /tmp/application.tar.gz
         shell: bash
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docker-image
           path: /tmp/application.tar.gz
