@@ -44,7 +44,7 @@ jobs:
             artifact_name: windows-binary
     steps:
       - name: Download application package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: java-binary
       - uses: graalvm/setup-graalvm@v1
@@ -91,7 +91,7 @@ jobs:
             file_glob: false
     steps:
       - name: Download binary
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
       - name: Upload binary to the GitHub release page
