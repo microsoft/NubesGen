@@ -41,6 +41,13 @@ jobs:
     name: Build and publish the native (Linux) Docker image
     needs: [ test ]
     runs-on: ubuntu-22.04
+    permissions:
+      actions: read
+      contents: read
+      deployments: read
+      packages: write
+      pull-requests: write
+      security-events: write
     env:
       DOCKER_IMAGE_NAME: 'ghcr.io/microsoft/nubesgen/nubesgen-native'
     steps:
@@ -65,12 +72,5 @@ jobs:
           file: ./rest-server/src/main/docker/Dockerfile.native
           context: ./rest-server/
       - name: Push to GitHub Packages
-        permissions:
-          actions: read
-          contents: read
-          deployments: read
-          packages: write
-          pull-requests: write
-          security-events: write
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:main
         if: ${{ github.repository == 'microsoft/nubesgen' && github.event_name != 'pull_request' }}
