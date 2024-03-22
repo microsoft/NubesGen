@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Apply Terraform configuration
         id: infrastructure-deployment
-        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.13.0
+        uses: microsoft/nubesgen-actions/gitops-apply-terraform@v0.14.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           tf_storage_account: ${{ secrets.TF_STORAGE_ACCOUNT }}
@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Build a Docker image
         id: build
-        uses: microsoft/nubesgen-actions/gitops-build-container-spring-maven@v0.13.0
+        uses: microsoft/nubesgen-actions/gitops-build-container-spring-maven@v0.14.0
         with:
           build_command: 'mvn -Pnative spring-boot:build-image -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.imageName=application/application:${{ github.sha }}'
   deploy:
@@ -40,7 +40,7 @@ jobs:
     steps:
       - name: Deploy a Docker image to Azure Container Apps
         id: deploy
-        uses: microsoft/nubesgen-actions/gitops-deploy-to-container-apps@v0.13.0
+        uses: microsoft/nubesgen-actions/gitops-deploy-to-container-apps@v0.14.0
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Display Azure infrastructure information
-        uses: microsoft/nubesgen-actions/gitops-display-information@v0.13.0
+        uses: microsoft/nubesgen-actions/gitops-display-information@v0.14.0
         with:
           application_name: ${{ needs.manage-infrastructure.outputs.application_name }}
           application_url: ${{ needs.deploy.outputs.application_url }}
