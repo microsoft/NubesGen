@@ -23,7 +23,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           distribution: 'oracle'
           java-version: '21'
@@ -46,11 +46,7 @@ jobs:
     strategy:
       matrix:
         jdk-version: ['21']
-        os:
-          - ubuntu-22.04
-          - macos-latest # Intel x64
-          - macos-latest-xlarge # Apple Silicon arm64
-          - windows-latest
+        os: [ubuntu-22.04, macos-latest, windows-latest]
     steps:
       - name: Download application package
         uses: actions/download-artifact@v3
@@ -64,12 +60,9 @@ jobs:
       - name: Build native image on Linux
         run: native-image --enable-url-protocols=https --static -jar nubesgen-cli-*.jar nubesgen-cli-linux
         if: runner.os == 'Linux'
-      - name: Build native image on Mac OS X (Intel x64)
+      - name: Build native image on Mac OS X
         run: native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-macos
-        if: runner.os == 'macOS' && runner.arch == 'X64'
-      - name: Build native image on Mac OS X (Apple Silicon arm64)
-        run: native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-macos-arm64
-        if: runner.os == 'macOS' && runner.arch == 'ARM64'
+        if: runner.os == 'macOS'
       - name: Build native image on Windows
         run: native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-windows
         if: runner.os == 'Windows'
