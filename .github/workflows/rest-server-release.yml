@@ -59,7 +59,7 @@ jobs:
       - name: Login to GitHub Packages
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
       - name: Build the native (GraalVM) Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: false
           tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_NAME }},${{ env.DOCKER_IMAGE_NAME }}:latest
