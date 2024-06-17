@@ -57,7 +57,7 @@ jobs:
         run: |
           cd rest-server && ./mvnw -Pnative native:compile
       - name: Build the native (GraalVM) Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: false
           tags: application/application:${{ github.sha }}
