@@ -40,6 +40,8 @@ jobs:
   build_docker_image_native:
     name: Build and publish Docker image to GitHub Packages
     runs-on: ubuntu-22.04
+    permissions:
+      packages: write
     env:
       DOCKER_IMAGE_NAME: 'docker.pkg.github.com/microsoft/nubesgen/nubesgen-native'
     steps:
