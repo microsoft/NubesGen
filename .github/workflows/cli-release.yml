@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'oracle'
-          java-version: '21'
+          java-version: '23'
           check-latest: false
           cache: 'maven'
       - name: Build with Maven
@@ -50,7 +50,7 @@ jobs:
       - uses: graalvm/setup-graalvm@v1
         with:
           distribution: 'graalvm'
-          java-version: '21'
+          java-version: '23'
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build native image on Linux
         run: native-image --enable-url-protocols=https --static -jar nubesgen-cli-*.jar nubesgen-cli-linux
