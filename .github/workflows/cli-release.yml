@@ -53,7 +53,7 @@ jobs:
           java-version: '23'
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build native image on Linux
-        run: native-image --enable-url-protocols=https --libc=musl -jar nubesgen-cli-*.jar nubesgen-cli-linux
+        run: native-image --enable-url-protocols=https  --static --libc=musl -jar nubesgen-cli-*.jar nubesgen-cli-linux
         if: runner.os == 'Linux'
       - name: Build native image on Mac OS X
         run: native-image --enable-url-protocols=https -jar nubesgen-cli-*.jar nubesgen-cli-macos
