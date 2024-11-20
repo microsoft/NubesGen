@@ -97,7 +97,7 @@ jobs:
       - name: Upload binary to the GitHub release page
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.REPO_TOKEN }}
           file: ${{ matrix.binary_name }}
           file_glob: ${{ matrix.file_glob }}
           tag: ${{ github.ref }}
