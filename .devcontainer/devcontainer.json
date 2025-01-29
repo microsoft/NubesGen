@@ -9,7 +9,8 @@
 		"azure-cli": "latest",
 		"docker-in-docker": "latest",
 		"github-cli": "latest",
-		"terraform": "latest"
+		"terraform": "latest",
+		"ghcr.io/devcontainers/features/node": "lts"
 	},
 
 	"customizations": {
