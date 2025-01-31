@@ -24,7 +24,7 @@ docker pull ghcr.io/microsoft/nubesgen/nubesgen:main
 docker run --name nubesgen -d -p 8080:8080 ghcr.io/microsoft/nubesgen/nubesgen:main
 ```
 
-You'll be able to use Nubesgen, both from the UI or from the commandline. 
+You'll be able to use Nubesgen, both from the UI or from the command line.
 
 Once you're done, you can tear down the container and delete it with the following command:
 
